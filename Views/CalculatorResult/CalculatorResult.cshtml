@@ -1,0 +1,100 @@
+﻿@model printing_calculator.ViewModels.Result;
+@using printing_calculator.ViewModels;
+@{
+	Layout = "_Layout";
+	string size = $"{Model.Height}x{Model.Whidth}";
+	string duplex = Model.Duplex ? "4+4" : "4+0";
+	int profit = Model.Price - Model.CostPrice;
+
+	string formaction = @$"Calculator?HistoryId={Model.HistoryId}";
+
+	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperName} - {Model.Price}";
+}
+
+@section Stail {
+<link rel="stylesheet" type="text/css" href="/result.css">
+<script>
+	function copu() {
+	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperName - @Model.Price руб.')
+	}
+</script>
+}
+<div class="tableFlex">
+	<div class="table">
+		<table>
+			<tr>
+				<td colspan="2">
+					<div class="meaning">@Model.PaperName</div>
+					<div class="signature">бумага</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="meaning">@Model.Amount шт.</div>
+					<div class="signature">тираж</div>
+				</td>
+				<td>
+					<div class="meaning">@Model.Kinds</div>
+					<div class="signature">видов</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="meaning">@size</div>
+					<div class="signature">размер</div>
+				</td>
+				<td>
+					<div class="meaning">@duplex</div>
+					<div class="signature">цветность</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="meaning">@Model.Sheets л.</div>
+					<div class="signature">печатных листов</div>
+				</td>
+				<td>
+					<div class="meaning">@Model.PiecesPerSheet шт.</div>
+					<div class="signature">штук на листе</div>
+				</td>
+
+			</tr>
+		</table>
+	</div>
+
+	<div class="table">
+		<table>
+			<tr>
+				<td colspan="2">
+					<div class="meaning">@Model.Price руб.</div>
+					<div class="signature">Стоимость</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="meaning">@Model.CostPrice руб.</div>
+					<div class="signature">себестоимость</div>
+				</td>
+				<td>
+					<div class="meaning">@profit руб</div>
+					<div class="signature">чистая прибль</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="meaning">@Model.Markup %</div>
+					<div class="signature">нацека</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<div class="button">
+	<form>
+		<input class="buttonNext" type="submit" formmethod="post" formaction="@formaction" value="пересчитать">
+		<input class="close" type="submit" formaction="result.html" value="сохранить как задачу">
+		<input class="buttonNext" type="button" onclick="copu();" value="в буфер обмена">
+	</form>
+</div>

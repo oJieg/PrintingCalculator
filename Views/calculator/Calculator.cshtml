@@ -1,0 +1,114 @@
+﻿@model printing_calculator.ViewModels.PaperAndHistoryInput
+@using printing_calculator.ViewModels;
+@using printing_calculator.DataBase;
+
+
+
+@{
+	Layout = "_Layout";
+	int sizeMinValue = 30;
+	int HightMaxValue = 320;
+	int WidthMaxValue = 450;
+
+	HistoryInput input;
+	if (Model.Input != null)
+	{
+		input = Model.Input;
+	}
+	else
+	{
+		input = new()
+				{
+					Height = 297,
+					Whidth = 420,
+					Amount = 1,
+					Duplex = true
+				};
+	}
+
+}
+
+@section Stail {
+<link rel="stylesheet" type="text/css" href="calculator.css">
+}
+
+<form name="my1" class="flex">
+
+	<div class="horizontalInput">
+
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">ширина макета</label>
+			<input class="inputNumber" type="number" name="Height" required value="@input.Height" min="@sizeMinValue" max="@HightMaxValue">
+		</div>
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">высота макета</label>
+			<input class="inputNumber" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue">
+		</div>
+	</div>
+
+	<div class="nameAndInput">
+		<label class="labletext" for="Height">бумагу выбери</label>
+		<select class="selectorMenu" name="Paper">
+			@foreach (PaperCatalog paper in @Model.Paper)
+			{
+				string selected = string.Empty;
+				if (paper == input.Paper)
+				{
+					selected = "selected";
+				}
+				<option value="@paper.Name" @selected>@paper.Name</option>
+			}
+		</select>
+	</div>
+
+	<div class="nameAndInput">
+		<label class="labletext" for="Height">тираж</label>
+		<input class="inputNumber" type="number" name="Amount" required value="@input.Amount" min="1">
+	</div>
+
+	@*	<div class="checkbox">
+		<label class="custom-checkbox">
+		<input type="checkbox" name="chec1" value="indigo">
+		<span>Чекбокс</span>
+		</label>
+		</div>
+		<div class="checkbox">
+		<label class="custom-checkbox">
+		<input type="checkbox" name="chec2" value="indigo">
+		<span>Чекбокс</span>
+		</label>
+		</div>*@
+
+	@{
+		string nonDuplex = string.Empty;
+		string duplex = string.Empty;
+		if (input.Duplex)
+		{
+			duplex = "checked";
+		}
+		else
+		{
+			nonDuplex = "checked";
+		}
+	}
+
+	<div class="horizontalInput">
+		<div class="radio">
+			<label class="custom-checkbox">
+				<input type="radio" name="Duplex" @nonDuplex value="false">
+				<span>4+0</span>
+			</label>
+		</div>
+		<div class="radio">
+			<label class="custom-checkbox">
+				<input type="radio" name="Duplex" @duplex value="true">
+				<span>4+4</span>
+			</label>
+		</div>
+	</div>
+
+
+	<div class="button">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="CalculatorResult" value="расчитать">
+	</div>
+</form>

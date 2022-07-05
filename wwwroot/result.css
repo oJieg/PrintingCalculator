@@ -1,0 +1,76 @@
+/* вид кнопок */
+.button input {
+    background-color: #8fbc8f;
+    border: none;
+    color: #F4F4F4;
+    padding: 10px 20px;
+    margin: 15px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+    border-radius: 10px;
+    -webkit-transition: box-shadow 0.5s;
+}
+
+input.buttonNext:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+input.buttonNext:active {
+    background-color: #92e4e8;
+}
+
+.button .close {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* настороки таблицы с результатом */
+.table {
+    margin: 20px;
+}
+
+.meaning {
+    font-size: 20px;
+}
+
+.signature {
+    font-size: 9px;
+}
+
+.tableFlex {
+    display: flex;
+}
+
+
+table {
+    border-spacing: 0;
+    text-align: center;
+}
+
+th,
+td {
+    width: 100px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0);
+}
+
+td {
+    padding: 5px 5px 3px 5px;
+
+}
+
+tr:last-child td {
+    border-radius: 0 0 20px 20px;
+    background-color: #8fbc8f;
+    color: white;
+}
+
+tr:first-child td {
+    background-color: #8fbc8f;
+    color: white;
+    border-radius: 20px 20px 0 0;
+}

@@ -1,0 +1,23 @@
+﻿@using printing_calculator.DataBase;
+@*@model List<PaperCatalog>*@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Title</title>
+</head>
+<body>
+	<div>
+		<h1>@ViewData["Massage"]</h1>
+@*		<select class="selectorMenu" name="namePaper">
+			@foreach (PaperCatalog paper in @Model)
+			{
+				<option value="@paper.Prices[0].Price">@paper.Prices[0].Price</option>
+			}
+		</select>*@
+		<h2>Ответ</h2>
+		@*<h3> @ViewBag.One</h3>*@
+	</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿@model List<printing_calculator.ViewModels.Result>;
+@using printing_calculator.ViewModels;
+
+@{
+    Layout = "_Layout";
+}
+@section Stail {
+    <link rel="stylesheet" type="text/css" href="history.css">
+}
+
+      <p>Итория</p>
+      <div class="tableFlex">
+        <div style="overflow-x:auto;">
+          <table>
+            <tr>
+              <th>
+                <div class="textTableHistory">N</div>
+              </th>
+              <th>
+                <div class="textTableHistory">размер</div>
+              </th>
+              <th>
+                <div class="textTableHistory">тираж</div>
+              </th>
+              <th>
+                <div class="textTableHistory">бумага</div>
+              </th>
+              <th>
+                <div class="textTableHistory">цена</div>
+              </th>
+            </tr>
+            
+                @foreach(Result result in Model)
+                {
+              <tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
+              <td>
+                <div class="textTableHistory">@result.HistoryId</div>
+              </td>
+              <td>
+                <div class="textTableHistory">@result.Height x @result.Whidth</div>
+              </td>
+              <td>
+                <div class="textTableHistory">@result.Amount</div>
+              </td>
+              <td>
+                <div class="textTableHistory">@result.PaperName</div>
+              </td>
+              <td>
+                <div class="textTableHistory">@result.Price</div>
+              </td>
+            </tr>
+                }
+            
+           
+
+            </tr>
+          </table>
+        </div>
+
+
+      </div>

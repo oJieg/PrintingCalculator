@@ -1,0 +1,46 @@
+
+/* настройки связанные с таблицей истории */
+.tableFlex {
+    display: flex;
+    
+}
+.tableHistory{
+    overflow-x:auto;
+}
+
+table {
+    border-spacing: 0;
+    text-align: center;
+}
+
+th,
+td {
+    width: 100%;
+    font-size: 23px;
+    border-bottom: 1px solid #ddd;
+    
+}
+
+td {
+    padding: 5px 5px 3px 5px;
+    cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+.textTableHistory {
+    padding: 0 2vw;
+}
+
+th {
+    background-color: #8fbc8f;
+    color: white;
+    padding: 15px 0;
+}

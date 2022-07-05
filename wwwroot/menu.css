@@ -1,0 +1,91 @@
+.downBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.main-body {
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.menu {
+    margin-right: 50px;
+    padding: 3px;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.imagMenu {
+    max-width: 20px;
+    margin: 5px;
+}
+
+@media (max-width: 750px) {
+    .menu {
+        margin-right: 5px;
+        font-size: 0;
+    }
+
+    .main-body {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+.NavigationBar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+li.li-margin a {
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content: flex-start;
+
+    color: rgb(26, 26, 26);
+    padding: 8px 16px;
+    text-decoration: none;
+
+    border-bottom: 2px solid #8fbc8f;
+    border-radius: 5px;
+}
+
+li.li-margin a:hover {
+    background-color: #92e4e8;
+    color: white;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.24);
+}
+
+.li-margin {
+    margin-top: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+
+    background-color: #ececec;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.rightElementOnHeder {
+    justify-content: right;
+    text-align: right;
+    flex-grow: 1;
+}
