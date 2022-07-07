@@ -22,7 +22,8 @@
 					Height = 297,
 					Whidth = 420,
 					Amount = 1,
-					Duplex = true
+					Duplex = true,
+					Kinds = 1					
 				};
 	}
 
@@ -60,10 +61,15 @@
 			}
 		</select>
 	</div>
-
-	<div class="nameAndInput">
-		<label class="labletext" for="Height">тираж</label>
-		<input class="inputNumber" type="number" name="Amount" required value="@input.Amount" min="1">
+	<div class="horizontalInput">
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">тираж</label>
+			<input class="inputNumber" type="number" name="Amount" required value="@input.Amount" min="1">
+		</div>
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">Видов</label>
+			<input class="inputNumber" type="number" name="Kinds" required value="@input.Kinds" min="1">
+		</div>
 	</div>
 
 	@*	<div class="checkbox">
@@ -105,6 +111,13 @@
 				<span>4+4</span>
 			</label>
 		</div>
+	</div>
+
+	<div class="radio">
+		<label class="custom-checkbox">
+			<input type="checkbox" name="SaveDB" value="true">
+			<span>не сохранять</span>
+		</label>
 	</div>
 
 

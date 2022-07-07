@@ -9,23 +9,28 @@ namespace printing_calculator.controllers
     public class CalculatorResultController : Controller
     {
         private ApplicationContext _BD;
+
         public CalculatorResultController(ApplicationContext DB)
         {
             _BD = DB;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Input input)
+        public async Task<IActionResult>  Index(Input input)
         {
             GeneratorHistory generatorHistory = new(input, _BD);
-            generatorHistory.Start();
-            _BD.HistoryInputs.Add(generatorHistory.GetHistoryInput());
-            _BD.Historys.Add(generatorHistory.GetHistory());
-
-            await _BD.SaveChangesAsync();
             GeneratorResult result = new();
-            result.Start(generatorHistory.GetHistory());
+            generatorHistory.Start();
 
+            if (!input.SaveDB)
+            {
+                _BD.HistoryInputs.Add(generatorHistory.GetHistoryInput());
+                _BD.Historys.Add(generatorHistory.GetHistory());
+
+                await _BD.SaveChangesAsync();
+            }
+
+            result.Start(generatorHistory.GetHistory());
             return View("CalculatorResult", result.GetResult());
         }
 
@@ -41,6 +46,20 @@ namespace printing_calculator.controllers
 
             return View("CalculatorResult", generatorResult.GetResult());
         }
+
+        //[NonAction]
+        //public virtual async Task OnActionExecutionAsync()
+        //{
+            
+        //    if (_saveDB)
+        //    {
+        //        _BD.HistoryInputs.Add(_historyInput);
+        //        _BD.Historys.Add(_history);
+
+        //        await _BD.SaveChangesAsync();
+        //    }
+        //    base.OnActionExecutionAsync();
+        //}
 
     }
 }

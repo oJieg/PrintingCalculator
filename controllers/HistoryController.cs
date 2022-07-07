@@ -18,16 +18,16 @@ namespace printing_calculator.controllers
         public IActionResult Index(int page, int countPage = 10)
         {
             List<Result> result = new();
-            FullIncludeHistory fullIncludeHistory = new ();
+            FullIncludeHistory fullIncludeHistory = new();
             List<History> histories = fullIncludeHistory.GetList(_BD, page, countPage);
 
             GeneratorResult generatorResult = new();
-            for (int i = 0; i < countPage; i++)
+            foreach (History history in histories)
             {
-                generatorResult.Start(histories[i]);
+                generatorResult.Start(history);
                 result.Add(generatorResult.GetResult());
             }
-            
+
             return View("History", result);
         }
     }

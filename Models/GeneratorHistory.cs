@@ -41,6 +41,7 @@ namespace printing_calculator.Models
             _historyInput.Amount = _input.Amount;
             _historyInput.Duplex = _input.Duplex;
             _historyInput.Paper = _DB.PaperCatalogs.Include(x=> x.Size).Where(p => p.Name == _input.Paper).FirstOrDefault();
+            _historyInput.Kinds = _input.Kinds;
         }
         public History GetHistory()
         {

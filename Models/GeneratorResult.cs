@@ -26,7 +26,7 @@ namespace printing_calculator.Models
             _result.HistoryId = history.Id;
             _result.PaperName = history.PricePaper.Catalog.Name;
             _result.Amount = history.Input.Amount;
-            _result.Kinds = 1;
+            _result.Kinds = history.Input.Kinds;
             _result.Height = history.Input.Height;
             _result.Whidth = history.Input.Whidth;
             _result.Duplex = history.Input.Duplex;
