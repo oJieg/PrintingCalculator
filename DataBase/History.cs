@@ -6,6 +6,11 @@
         public HistoryInput Input { get; set; }
         public PricePaper PricePaper { get; set; }
         public ConsumablePrice ConsumablePrice { get; set; }
-        public Markup Markup { get; set; }
+        public float MarkupPaper { get; set; }
+        public LaminationPrice? LaminationPrices { get; set; }
+        public float? LaminationMarkup { get; set; }
+        public float CreasingPrice { get; set; }
+        public float DrillingPrice { get; set; }
+        public float RoundingPrice { get; set; }
     }
 }

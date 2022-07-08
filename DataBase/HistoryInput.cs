@@ -9,5 +9,10 @@
         public int Amount { get; set; }
         public int Kinds { get; set; }
         public bool Duplex { get; set; }
+        public int? LaminationId { get; set; }
+        public Lamination? Lamination { get; set; }
+        public int CreasingAmount { get; set; }
+        public int DrillingAmount { get; set; }
+        public bool RoundingAmount { get; set; }
     }
 }

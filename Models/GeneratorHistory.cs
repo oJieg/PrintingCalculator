@@ -4,44 +4,50 @@ using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models
 {
-    public class GeneratorHistory : IStartGeneration
+    public class GeneratorHistory
     {
         private ApplicationContext _DB;
-        private Input _input;
+        // private Input _input;
         private History _history;
         private HistoryInput _historyInput;
 
-        public GeneratorHistory(Input inpyt, ApplicationContext Db)
+        public GeneratorHistory(ApplicationContext Db)
         {
-            _input = inpyt;
+            //  _input = inpyt;
             _DB = Db;
         }
 
-        public bool Start()
+        public bool Start(Result result)
         {
-            HistoryInput();
-            History();
+            HistoryInput(result);
+            History(result);
             return true;
         }
-        private void History()
+        private void History(Result result)
         {
             _history = new();
             _history.Input = _historyInput;
-            _history.PricePaper = _DB.PaperCatalogs.Include(x => x.Prices).Where(p => p.Name == _input.Paper).First().Prices.LastOrDefault();
+            _history.PricePaper = _DB.PaperCatalogs
+                .Include(x => x.Prices)
+                .Where(p => p.Name == result.PaperName)
+                .First().Prices.LastOrDefault();
             // .Input.Paper.Prices.Last();
             _history.ConsumablePrice = _DB.ConsumablePrices.FirstOrDefault();
-            _history.Markup = _DB.Markups.First();
+            _history.MarkupPaper = result.Markup;
         }
 
-        private void HistoryInput()
+        private void HistoryInput(Result result)
         {
             _historyInput = new();
-            _historyInput.Whidth = _input.Whidth;
-            _historyInput.Height = _input.Height;
-            _historyInput.Amount = _input.Amount;
-            _historyInput.Duplex = _input.Duplex;
-            _historyInput.Paper = _DB.PaperCatalogs.Include(x=> x.Size).Where(p => p.Name == _input.Paper).FirstOrDefault();
-            _historyInput.Kinds = _input.Kinds;
+            _historyInput.Whidth = result.Whidth;
+            _historyInput.Height = result.Height;
+            _historyInput.Amount = result.Amount;
+            _historyInput.Duplex = result.Duplex;
+            _historyInput.Paper = _DB.PaperCatalogs
+                .Include(x => x.Size)
+                .Where(p => p.Name == result.PaperName)
+                .FirstOrDefault();
+            _historyInput.Kinds = result.Kinds;
         }
         public History GetHistory()
         {
@@ -51,6 +57,6 @@ namespace printing_calculator.Models
         public HistoryInput GetHistoryInput()
         {
             return _historyInput;
-        }        
+        }
     }
 }

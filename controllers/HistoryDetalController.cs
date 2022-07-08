@@ -3,16 +3,19 @@ using printing_calculator.DataBase;
 using printing_calculator.Models;
 using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Options;
+using printing_calculator.Models.markup;
 
 namespace printing_calculator.controllers
 {
     public class HistoryDetalController : Controller
     {
         private ApplicationContext _BD;
-        public HistoryDetalController(ApplicationContext context)
+        private IOptions<Markup> _options;
+        public HistoryDetalController(ApplicationContext context, IOptions<Markup> options)
         {
             _BD = context;
+            _options = options;
         }
 
         public IActionResult Index(int id)
@@ -25,7 +28,7 @@ namespace printing_calculator.controllers
                .FirstOrDefault();
 
 
-            GeneratorResult generatorResult = new();
+            GeneratorResult generatorResult = new(_options);
             generatorResult.Start(histories);
             return View("CalculatorResult", generatorResult.GetResult());
         }

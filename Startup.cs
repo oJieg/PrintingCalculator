@@ -9,20 +9,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using printing_calculator.DataBase;
+using printing_calculator.Models.markup;
 
 namespace printing_calculator
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private IConfigurationBuilder _bulder;
         public Startup(IConfiguration config)
         {
             _configuration = config;
+            _bulder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+
         }
         public void ConfigureServices(IServiceCollection services)
         {
+           // services.Configure<Markup>(_bulder.Build().GetSection("Markup"));
+            services.Configure<Markup>(_bulder.Build().GetSection("Markup"));
             //services.AddControllersWithViews();
-            
+
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));

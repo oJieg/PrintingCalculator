@@ -11,7 +11,6 @@ namespace printing_calculator.Models
                 .Include(x => x.Input)
                 .Include(x => x.PricePaper.Catalog)
                 .Include(x => x.Input.Paper.Size)
-                .Include(x => x.Markup)
                 .Include(x => x.ConsumablePrice)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
@@ -22,7 +21,6 @@ namespace printing_calculator.Models
                 .Include(x => x.Input)
                 .Include(x => x.PricePaper.Catalog)
                 .Include(x => x.Input.Paper.Size)
-                .Include(x => x.Markup)
                 .Include(x => x.ConsumablePrice)
                 .OrderByDescending(x => x.Id)
                 .Take(countPage)

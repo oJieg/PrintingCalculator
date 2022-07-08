@@ -15,28 +15,28 @@ namespace printing_calculator.controllers
         public IActionResult Index(int one)
         {
             TetsAddPaper();
-            TestAddMarkup();
+           // TestAddMarkup();
             TestAddConsumablePrice();
             List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x=>x.Prices).ToList();
-            ViewData["Massage"] = DB.Markups.First().Id.ToString();
+           // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
         }
 
-        private void TestAddMarkup()
-        {
-            Markup markup = new Markup
-            {
-                Markup0 = 300,
-                Markup15 = 200,
-                Markup30 = 100,
-                Markup60 = 80,
-                Markup120 = 50,
-                Markup250 = 30,
-                MarkupMuch = 25
-            };
-            DB.Markups.Add(markup);
-            DB.SaveChanges();
-        }
+        //private void TestAddMarkup()
+        //{
+        //    Markup markup = new Markup
+        //    {
+        //        Markup0 = 300,
+        //        Markup15 = 200,
+        //        Markup30 = 100,
+        //        Markup60 = 80,
+        //        Markup120 = 50,
+        //        Markup250 = 30,
+        //        MarkupMuch = 25
+        //    };
+        //    DB.Markups.Add(markup);
+        //    DB.SaveChanges();
+        //}
 
         private void TestAddConsumablePrice()
         {
