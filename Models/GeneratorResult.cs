@@ -9,16 +9,16 @@ namespace printing_calculator.Models
     public class GeneratorResult
     {
         //private History history;
-        private Result _result;
+        private Result1 _result;
         SplittingPaper splittingPaper = new();
-        private IOptions<Markup> _options;
+        private IOptions<Settings> _options;
 
-        public GeneratorResult(IOptions<Markup> list)
+        public GeneratorResult(IOptions<Settings> list)
         {
             _options = list;
         }
 
-        public Result GetResult()
+        public Result1 GetResult()
         {
             return _result;
         }
@@ -57,14 +57,14 @@ namespace printing_calculator.Models
             _result.Whidth = history.Input.Whidth;
             _result.Duplex = history.Input.Duplex;
 
-            _result.PiecesPerSheet = splittingPaper.Splitting(history.Input.Paper.Size, history.Input.Height, history.Input.Whidth);
+            _result.PiecesPerSheet = splittingPaper.PiecesPerSheet(history.Input.Paper.Size, history.Input.Height, history.Input.Whidth);
 
             _result.Sheets = ((int)Math.Ceiling(((double)_result.Amount / (double)_result.PiecesPerSheet))) * _result.Kinds;
             CalculatingMarkup markup = new(_options.Value.MarkupPaper.MarkupList);
-            _result.Markup = markup.GetMarkup(_result.Sheets);
+            _result.MarkupPaper = markup.GetMarkup(_result.Sheets);
 
             _result.CostPrice = (int)(_result.Sheets * (history.PricePaper.Price + (float)5)); //временное
-            _result.Price = (int)(_result.CostPrice + (_result.CostPrice * (float)_result.Markup / 100)); //временное
+            _result.Price = (int)(_result.CostPrice + (_result.CostPrice * (float)_result.MarkupPaper / 100)); //временное
         }
 
         private HistoryInput HistoryInput(Input _input, ApplicationContext _BD) // повторяется в генераторе истории.........

@@ -5,15 +5,18 @@ using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using printing_calculator.Models.markup;
+using printing_calculator.ViewModels.Result;
+using printing_calculator.Models.Calculating;
+
 
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Markup> _options;
+        private IOptions<Settings> _options;
 
-        public CalculatorResultController(ApplicationContext DB, IOptions<Markup> options)
+        public CalculatorResultController(ApplicationContext DB, IOptions<Settings> options)
         {
             _BD = DB;
             _options = options;
@@ -22,23 +25,23 @@ namespace printing_calculator.controllers
         [HttpPost]
         public async Task<IActionResult> Index(Input input)
         {
+            FillingHistoryImpyt fillingHistory = new(_BD);
+            History history =  fillingHistory.GeneratorHistory(input);
 
-            GeneratorResult result = new(_options);
-            result.Start(input, _BD);
-
-            GeneratorHistory generatorHistory = new(_BD);
-            generatorHistory.Start(result.GetResult());
+            Result result = new();
+            ConveyorCalculator conveyor = new(_options);
+            conveyor.TryStartCalculation(ref history, out result);
 
             if (!input.SaveDB)
             {
-                _BD.HistoryInputs.Add(generatorHistory.GetHistoryInput());
-                _BD.Historys.Add(generatorHistory.GetHistory());
+                _BD.HistoryInputs.Add(history.Input);
+                _BD.Historys.Add(history);
 
                 await _BD.SaveChangesAsync();
+                
             }
 
-            result.Start(generatorHistory.GetHistory());
-            return View("CalculatorResult", result.GetResult());
+            return View("CalculatorResult", result);
         }
 
         [HttpGet]
@@ -48,10 +51,10 @@ namespace printing_calculator.controllers
             FullIncludeHistory fullIncludeHistory = new FullIncludeHistory();
             History histories = fullIncludeHistory.Get(_BD, id);
 
-            GeneratorResult generatorResult = new(_options);
-            generatorResult.Start(histories);
-
-            return View("CalculatorResult", generatorResult.GetResult());
+            ConveyorCalculator conveyor = new(_options);
+            conveyor.TryStartCalculation(ref histories, out result);
+            result.HistoryInputId = id;
+            return View("CalculatorResult", result);
         }
 
         //[NonAction]
@@ -67,6 +70,5 @@ namespace printing_calculator.controllers
         //    }
         //    base.OnActionExecutionAsync();
         //}
-
     }
 }

@@ -10,7 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using printing_calculator.DataBase;
-using printing_calculator.Models.markup;
+using printing_calculator.Models;
+
 
 namespace printing_calculator
 {
@@ -27,7 +28,7 @@ namespace printing_calculator
         public void ConfigureServices(IServiceCollection services)
         {
            // services.Configure<Markup>(_bulder.Build().GetSection("Markup"));
-            services.Configure<Markup>(_bulder.Build().GetSection("Markup"));
+            services.Configure<Settings>(_bulder.Build().GetSection("Settings"));
             //services.AddControllersWithViews();
 
             services.AddMvc();

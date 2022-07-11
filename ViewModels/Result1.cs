@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels
 {
-    public class Result
+    public class Result1
     {
         public int HistoryId { get; set; }
         public string PaperName { get; set; }
@@ -13,6 +13,6 @@
         public int PiecesPerSheet { get; set; }
         public int Price { get; set; }
         public int CostPrice { get; set; }
-        public float Markup { get; set; } 
+        public float MarkupPaper { get; set; } 
     }
 }

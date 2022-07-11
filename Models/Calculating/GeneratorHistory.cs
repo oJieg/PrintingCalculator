@@ -17,13 +17,13 @@ namespace printing_calculator.Models
             _DB = Db;
         }
 
-        public bool Start(Result result)
+        public bool Start(Result1 result)
         {
             HistoryInput(result);
             History(result);
             return true;
         }
-        private void History(Result result)
+        private void History(Result1 result)
         {
             _history = new();
             _history.Input = _historyInput;
@@ -33,10 +33,10 @@ namespace printing_calculator.Models
                 .First().Prices.LastOrDefault();
             // .Input.Paper.Prices.Last();
             _history.ConsumablePrice = _DB.ConsumablePrices.FirstOrDefault();
-            _history.MarkupPaper = result.Markup;
+            _history.MarkupPaper = (int)result.MarkupPaper;
         }
 
-        private void HistoryInput(Result result)
+        private void HistoryInput(Result1 result)
         {
             _historyInput = new();
             _historyInput.Whidth = result.Whidth;

@@ -11,8 +11,8 @@ namespace printing_calculator.controllers
     public class HistoryDetalController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Markup> _options;
-        public HistoryDetalController(ApplicationContext context, IOptions<Markup> options)
+        private IOptions<Settings> _options;
+        public HistoryDetalController(ApplicationContext context, IOptions<Settings> options)
         {
             _BD = context;
             _options = options;
@@ -20,7 +20,7 @@ namespace printing_calculator.controllers
 
         public IActionResult Index(int id)
         {
-            Result result = new();
+            Result1 result = new();
             History histories = _BD.Historys
                .Include(x => x.Input)
                .Include(x => x.PricePaper.Catalog)

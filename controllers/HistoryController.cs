@@ -5,15 +5,16 @@ using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.Extensions.Options;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Calculating;
+using printing_calculator.ViewModels.Result;
 
 namespace printing_calculator.controllers
 {
     public class HistoryController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Markup> _options;
-        public HistoryController(ApplicationContext context, IOptions<Markup> options)
+        private IOptions<Settings> _options;
+        public HistoryController(ApplicationContext context, IOptions<Settings> options)
         {
             _BD = context;
             _options = options;
@@ -25,11 +26,14 @@ namespace printing_calculator.controllers
             FullIncludeHistory fullIncludeHistory = new();
             List<History> histories = fullIncludeHistory.GetList(_BD, page, countPage);
 
-            GeneratorResult generatorResult = new(_options);
-            foreach (History history in histories)
+            ConveyorCalculator conveyor = new(_options);
+            foreach (History history in histories)  //наименование поменяй на человеческие!!!!
             {
-                generatorResult.Start(history);
-                result.Add(generatorResult.GetResult());
+                History history1 = history;
+                Result result1 = new();
+                conveyor.TryStartCalculation(ref history1, out result1);
+                
+                result.Add(result1);
             }
 
             return View("History", result);

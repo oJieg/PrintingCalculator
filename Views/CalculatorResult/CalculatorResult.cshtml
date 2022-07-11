@@ -1,21 +1,21 @@
-﻿@model printing_calculator.ViewModels.Result;
-@using printing_calculator.ViewModels;
+﻿@model printing_calculator.ViewModels.Result.Result
+@using printing_calculator.ViewModels.Result;
 @{
 	Layout = "_Layout";
 	string size = $"{Model.Height}x{Model.Whidth}";
-	string duplex = Model.Duplex ? "4+4" : "4+0";
-	int profit = Model.Price - Model.CostPrice;
+	string duplex = Model.ResultPaper.Duplex ? "4+4" : "4+0";
+	int profit = (int)(Model.ResultPaper.PrisePaper- Model.ResultPaper.CostPrise);
 
-	string formaction = @$"Calculator?HistoryId={Model.HistoryId}";
+	string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
 
-	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperName} - {Model.Price}";
+	string copyText = @$"Стоимость изготовления на бумаге {Model.ResultPaper.NamePaper} - {Model.ResultPaper.PrisePaper}";
 }
 
 @section Stail {
 <link rel="stylesheet" type="text/css" href="/result.css">
 <script>
 	function copu() {
-	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperName - @Model.Price руб.')
+	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.ResultPaper.NamePaper - @Model.ResultPaper.PrisePaper руб.')
 	}
 </script>
 }
@@ -24,7 +24,7 @@
 		<table>
 			<tr>
 				<td colspan="2">
-					<div class="meaning">@Model.PaperName</div>
+					<div class="meaning">@Model.ResultPaper.NamePaper</div>
 					<div class="signature">бумага</div>
 				</td>
 			</tr>
@@ -50,11 +50,11 @@
 			</tr>
 			<tr>
 				<td>
-					<div class="meaning">@Model.Sheets л.</div>
+					<div class="meaning">@Model.ResultPaper.Sheets л.</div>
 					<div class="signature">печатных листов</div>
 				</td>
 				<td>
-					<div class="meaning">@Model.PiecesPerSheet шт.</div>
+					<div class="meaning">@Model.ResultPaper.PiecesPerSheet шт.</div>
 					<div class="signature">штук на листе</div>
 				</td>
 
@@ -66,13 +66,13 @@
 		<table>
 			<tr>
 				<td colspan="2">
-					<div class="meaning">@Model.Price руб.</div>
+					<div class="meaning">@Model.ResultPaper.PrisePaper руб.</div>
 					<div class="signature">Стоимость</div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div class="meaning">@Model.CostPrice руб.</div>
+					<div class="meaning">@Model.ResultPaper.CostPrise руб.</div>
 					<div class="signature">себестоимость</div>
 				</td>
 				<td>
@@ -82,7 +82,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<div class="meaning">@Model.Markup %</div>
+					<div class="meaning">@Model.ResultPaper.MarkupPaper %</div>
 					<div class="signature">нацека</div>
 				</td>
 			</tr>

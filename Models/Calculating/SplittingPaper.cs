@@ -1,4 +1,5 @@
 ﻿using printing_calculator.DataBase;
+
 namespace printing_calculator.Models
 {
     public class SplittingPaper
@@ -11,13 +12,13 @@ namespace printing_calculator.Models
         {
 
         }
-        public int Splitting(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
+        public int PiecesPerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
             int SizePaperHeight = sizePaper.SizePaperHeight - _whiteFieldHeight;
             int SizePaperWidth = sizePaper.SizePaperWidth - _whiteFieldWidth;
 
-            int HorizontOrientation = PiecesPerSheet(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
-            int VerticalOrientation = PiecesPerSheet(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);
+            int HorizontOrientation = Splitting(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
+            int VerticalOrientation = Splitting(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);
 
             if(HorizontOrientation>VerticalOrientation)
             {
@@ -28,7 +29,7 @@ namespace printing_calculator.Models
                 return VerticalOrientation;
             }
         }
-        private int PiecesPerSheet(int sizePaperHorizontal, int sizePaperHVertical, float sizeProdyctionHeight, float sizeProdyctionWidth)
+        private int Splitting(int sizePaperHorizontal, int sizePaperHVertical, float sizeProdyctionHeight, float sizeProdyctionWidth)
         {
             sizeProdyctionHeight = sizeProdyctionHeight + _bleed;
             sizeProdyctionWidth = sizeProdyctionWidth + _bleed;
