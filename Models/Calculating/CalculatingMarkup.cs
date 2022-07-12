@@ -1,10 +1,10 @@
 ﻿using printing_calculator.DataBase;
 using Microsoft.Extensions.Options;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models
 {
-    public class CalculatingMarkup // переделать под хранения markup в json
+    public class CalculatingMarkup
     {
         private float stepMarkup;
         private float _maxMarkup;
@@ -32,9 +32,9 @@ namespace printing_calculator.Models
 
         private void MaxMin(int Shets)
         {
-            for(int i = 0; i < _markup.Count-2; i++)
+            for(int i = 0; i <= _markup.Count-2; i++)
             {
-                if (Shets >= _markup[i].Page || Shets < _markup[i+1].Page)
+                if (Shets >= _markup[i].Page && Shets < _markup[i+1].Page)
                 {
                     difference = _markup[i + 1].Page - _markup[i].Page;
                     stepMarkup = _markup[i].Markup-_markup[i+1].Markup;
@@ -43,47 +43,6 @@ namespace printing_calculator.Models
                     return;
                 }
             }
-
-            //последний
         }
-
-        //private void MaxMin(int Sheets)
-        //{
-        //    if (Sheets < 15)
-        //    {
-        //        difference = 15;
-        //        stepMarkup = _markup.Markup0 - _markup.Markup15;
-        //        _maxMarkup = _markup.Markup15;
-        //        _sheets = 1;
-        //    }
-        //    else if (Sheets < 30)
-        //    {
-        //        difference = 15;
-        //        stepMarkup = _markup.Markup15 - _markup.Markup30;
-        //        _maxMarkup = _markup.Markup30;
-        //        _sheets = 15;
-        //    }
-        //    else if (Sheets < 60)
-        //    {
-        //        difference = 30;
-        //        stepMarkup = _markup.Markup30 - _markup.Markup60;
-        //        _maxMarkup = _markup.Markup60;
-        //        _sheets = 30;
-        //    }
-        //    else if (Sheets < 120)
-        //    {
-        //        difference = 60;
-        //        stepMarkup = _markup.Markup60 - _markup.Markup120;
-        //        _maxMarkup = _markup.Markup120;
-        //        _sheets = 60;
-        //    }
-        //    else if (Sheets < 250)
-        //    {
-        //        difference = 130;
-        //        stepMarkup = _markup.Markup120 - _markup.Markup250;
-        //        _maxMarkup = _markup.Markup250;
-        //        _sheets = 120;
-        //    }
-        //}
     }
 }

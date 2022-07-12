@@ -14,7 +14,7 @@ namespace printing_calculator.controllers
         }
         public IActionResult Index(int one)
         {
-            TetsAddPaper();
+         //   TetsAddPaper();
            // TestAddMarkup();
             TestAddConsumablePrice();
             List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x=>x.Prices).ToList();
@@ -42,11 +42,11 @@ namespace printing_calculator.controllers
         {
             ConsumablePrice price = new ConsumablePrice
             {
-                TonerPrice = 35000,
-                DrumPrice1 = 20000,
-                DrumPrice2 = 21000,
-                DrumPrice3 = 24000,
-                DrumPrice4 = 23000
+                TonerPrice = 21300,
+                DrumPrice1 = 28700,
+                DrumPrice2 = 28700,
+                DrumPrice3 = 28700,
+                DrumPrice4 = 28700
             };
             DB.ConsumablePrices.Add(price);
             DB.SaveChanges();

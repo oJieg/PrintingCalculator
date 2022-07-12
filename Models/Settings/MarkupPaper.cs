@@ -1,4 +1,4 @@
-﻿namespace printing_calculator.Models.markup
+﻿namespace printing_calculator.Models.Settings
 {
     public class MarkupPaper
     {

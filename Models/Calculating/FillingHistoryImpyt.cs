@@ -38,7 +38,8 @@ namespace printing_calculator.Models.Calculating
                     .Where(x => x.Name == input.LaminationName)
                     .First();
             }
-
+            history.ConsumablePrice = _DB.ConsumablePrices
+                .First();
             history.Input.CreasingAmount = input.Creasing;
             history.Input.DrillingAmount = input.Drilling;
             history.Input.RoundingAmount= input.Rounding;

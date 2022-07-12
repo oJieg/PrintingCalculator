@@ -5,12 +5,13 @@ using printing_calculator.Models.ConveyorCalculating;
 using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 
+
 namespace printing_calculator.Models.Calculating
 {
     public class ConveyorCalculator
     {
-        private IOptions<Settings> _settings;
-        public ConveyorCalculator(IOptions<Settings> options)
+        private Setting _settings;
+        public ConveyorCalculator(Setting options)
         {
             _settings = options;
         }
@@ -21,10 +22,11 @@ namespace printing_calculator.Models.Calculating
             { 
                 new Info(),
                 new PaperInfo(),
-                new PaperSplitting(_settings), //json
-                new PaperCostPrice(_settings.Value),
-                new PaperMarkup(_settings.Value.MarkupPaper),
-                new PaperCupPrise(), //json
+                new PaperSplitting(_settings.SettingPrinter), 
+                new ConveyorCalculating.ConsumablePrice(_settings.Consumable),
+                new PaperCostPrice(_settings),
+                new PaperMarkup(_settings.MarkupPaper),
+                new PaperCupPrise(_settings.CutSetting), 
                 new PaperPrise()
             };
             result = new();

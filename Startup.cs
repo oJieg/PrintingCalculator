@@ -28,7 +28,7 @@ namespace printing_calculator
         public void ConfigureServices(IServiceCollection services)
         {
            // services.Configure<Markup>(_bulder.Build().GetSection("Markup"));
-            services.Configure<Settings>(_bulder.Build().GetSection("Settings"));
+            services.Configure<Setting>(_bulder.Build().GetSection("Settings"));
             //services.AddControllersWithViews();
 
             services.AddMvc();

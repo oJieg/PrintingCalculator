@@ -4,7 +4,7 @@ using printing_calculator.Models;
 using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Settings;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 
@@ -14,12 +14,12 @@ namespace printing_calculator.controllers
     public class CalculatorResultController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Settings> _options;
+        private Setting _options;
 
-        public CalculatorResultController(ApplicationContext DB, IOptions<Settings> options)
+        public CalculatorResultController(ApplicationContext DB, IOptions<Setting> options)
         {
             _BD = DB;
-            _options = options;
+            _options = options.Value;
         }
 
         [HttpPost]

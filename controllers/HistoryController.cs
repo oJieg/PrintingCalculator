@@ -13,8 +13,8 @@ namespace printing_calculator.controllers
     public class HistoryController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Settings> _options;
-        public HistoryController(ApplicationContext context, IOptions<Settings> options)
+        private IOptions<Setting> _options;
+        public HistoryController(ApplicationContext context, IOptions<Setting> options)
         {
             _BD = context;
             _options = options;
@@ -26,7 +26,7 @@ namespace printing_calculator.controllers
             FullIncludeHistory fullIncludeHistory = new();
             List<History> histories = fullIncludeHistory.GetList(_BD, page, countPage);
 
-            ConveyorCalculator conveyor = new(_options);
+            ConveyorCalculator conveyor = new(_options.Value);
             foreach (History history in histories)  //наименование поменяй на человеческие!!!!
             {
                 History history1 = history;

@@ -2,7 +2,7 @@
 using printing_calculator.ViewModels;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models
 {
@@ -11,9 +11,9 @@ namespace printing_calculator.Models
         //private History history;
         private Result1 _result;
         SplittingPaper splittingPaper = new();
-        private IOptions<Settings> _options;
+        private IOptions<Setting> _options;
 
-        public GeneratorResult(IOptions<Settings> list)
+        public GeneratorResult(IOptions<Setting> list)
         {
             _options = list;
         }

@@ -1,6 +1,6 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
@@ -11,6 +11,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _markup = markup;
         }
+
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             if (history.MarkupPaper == null)

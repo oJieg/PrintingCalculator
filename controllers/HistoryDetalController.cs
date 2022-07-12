@@ -4,15 +4,15 @@ using printing_calculator.Models;
 using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using printing_calculator.Models.markup;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.controllers
 {
     public class HistoryDetalController : Controller
     {
         private ApplicationContext _BD;
-        private IOptions<Settings> _options;
-        public HistoryDetalController(ApplicationContext context, IOptions<Settings> options)
+        private IOptions<Setting> _options;
+        public HistoryDetalController(ApplicationContext context, IOptions<Setting> options)
         {
             _BD = context;
             _options = options;
