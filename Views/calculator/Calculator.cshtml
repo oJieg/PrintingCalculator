@@ -23,7 +23,11 @@
 					Whidth = 420,
 					Amount = 1,
 					Duplex = true,
-					Kinds = 1					
+					Kinds = 1,
+					CreasingAmount = 0,
+					DrillingAmount = 0,
+					RoundingAmount = false,
+					Lamination = new Lamination()
 				};
 	}
 
@@ -111,6 +115,46 @@
 				<span>4+4</span>
 			</label>
 		</div>
+	</div>
+
+	<div class="nameAndInput">
+		<label class="labletext" for="Height">ламинация</label>
+		<select class="selectorMenu" name="LaminationName">
+			<option value="none" ">---</option>
+			@foreach (Lamination lamination in @Model.Lamination)
+			{
+			string selected = string.Empty;
+			if (lamination.Name == input.Lamination.Name)
+			{
+			selected = "selected";
+			}
+			<option value="@lamination.Name" @selected>@lamination.Name</option>
+			}
+		</select>
+	</div>
+
+	<div class="nameAndInput">
+		<label class="labletext" for="Height">Биговки</label>
+		<input class="inputNumber" type="number" name="Creasing" required value="@input.CreasingAmount">
+	</div>
+
+	<div class="nameAndInput">
+		<label class="labletext" for="Height">Сверление(дырок)</label>
+		<input class="inputNumber" type="number" name="Drilling" required value="@input.DrillingAmount">
+	</div>
+
+	@{
+	string selectedRounding = string.Empty;
+	if(input.RoundingAmount)
+	{
+	selectedRounding = "checked";
+	}
+	}
+	<div class="radio">
+		<label class="custom-checkbox">
+			<input type="checkbox" name="Rounding" @selectedRounding value="true">
+			<span>Скругление углов</span>
+		</label>
 	</div>
 
 	<div class="radio">

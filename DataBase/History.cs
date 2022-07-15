@@ -13,5 +13,6 @@
         public int? CreasingPrice { get; set; }
         public int? DrillingPrice { get; set; }
         public int? RoundingPrice { get; set; }
+        public int? Price { get; set; }
     }
 }

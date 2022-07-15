@@ -16,6 +16,8 @@ namespace printing_calculator.Models.Calculating
         {
             History history = new History();
             history.Input = new HistoryInput();
+            
+            //history.Input.Lamination.Price = new 
             history.Input.Height = input.Height;
             history.Input.Whidth = input.Whidth;
             history.Input.Amount = input.Amount;
@@ -31,13 +33,13 @@ namespace printing_calculator.Models.Calculating
                 .Where(p => p.Name == input.Paper)
                 .First();
 
-            if(input.LaminationName != null)
-            {
-                history.Input.Lamination = _DB.laminations
-                    .Include(x => x.Price)
-                    .Where(x => x.Name == input.LaminationName)
-                    .First();
-            }
+            //if(input.LaminationName != null)
+            //{
+            //    history.Input.Lamination = _DB.laminations
+            //        .Include(x => x.Price)
+            //        .Where(x => x.Name == input.LaminationName)
+            //        .First();
+            //}
             history.ConsumablePrice = _DB.ConsumablePrices
                 .First();
             history.Input.CreasingAmount = input.Creasing;
@@ -45,6 +47,23 @@ namespace printing_calculator.Models.Calculating
             history.Input.RoundingAmount= input.Rounding;
             history.PricePaper = history.Input.Paper.Prices.FirstOrDefault(); //тут как то странное... явно может взять не последнию цену
             history.ConsumablePrice = _DB.ConsumablePrices.FirstOrDefault();
+
+            //history.Input.Lamination = _DB.laminations
+            //    .Include(x => x.Price)
+            //    .Where(x => x.Name == input.LaminationName)
+            //    .First();
+            if(input.LaminationName != "none")
+            {
+                history.Input.Lamination = new Lamination();
+                history.Input.Lamination = _DB.laminations
+                    .Include(x => x.Price)
+                    .Where(x => x.Name == input.LaminationName)
+                    .First();
+                history.LaminationPrices = history.Input.Lamination.Price.First();
+            }
+            history.Input.CreasingAmount = input.Creasing;
+            history.Input.DrillingAmount= input.Drilling;
+            history.Input.RoundingAmount = input.Rounding;
 
             return history;
         }

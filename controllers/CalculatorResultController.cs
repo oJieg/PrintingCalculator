@@ -29,6 +29,7 @@ namespace printing_calculator.controllers
             History history =  fillingHistory.GeneratorHistory(input);
 
             Result result = new();
+          //  result.ResultPos = new ResultPos();
             ConveyorCalculator conveyor = new(_options);
             conveyor.TryStartCalculation(ref history, out result);
 

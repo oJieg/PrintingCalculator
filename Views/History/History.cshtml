@@ -1,5 +1,5 @@
-﻿@model List<printing_calculator.ViewModels.Result.Result>
-@using printing_calculator.ViewModels.Result;
+﻿@model List<SimplResult>
+@using printing_calculator.ViewModels;
 
 @{
     Layout = "_Layout";
@@ -30,11 +30,11 @@
               </th>
             </tr>
             
-                @foreach(Result result in Model)
+                @foreach(SimplResult result in Model)
                 {
-              <tr onclick="document.location='CalculatorResult?id=@result.HistoryInputId'">
+              <tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
               <td>
-                <div class="textTableHistory">@result.HistoryInputId</div>
+                <div class="textTableHistory">@result.HistoryId</div>
               </td>
               <td>
                 <div class="textTableHistory">@result.Height x @result.Whidth</div>
@@ -43,10 +43,10 @@
                 <div class="textTableHistory">@result.Amount</div>
               </td>
               <td>
-                <div class="textTableHistory">@result.ResultPaper.NamePaper</div>
+                <div class="textTableHistory">@result.PaperName</div>
               </td>
               <td>
-                <div class="textTableHistory">@result.ResultPaper.PrisePaper</div>
+                <div class="textTableHistory">@result.Price</div>
               </td>
             </tr>
                 }

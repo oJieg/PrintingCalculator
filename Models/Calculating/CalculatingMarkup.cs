@@ -22,11 +22,11 @@ namespace printing_calculator.Models
         {
             if (Sheets >=_markup[_markup.Count-1].Page)
             {
-                return _markup[_markup.Count - 1].Page;
+                return _markup[_markup.Count - 1].Markup;
             }
             MaxMin(Sheets);
 
-            float factor = 1 - ((Sheets - _sheets) / difference);
+            float factor = (float)1 - ((float)(Sheets - _sheets) / (float)difference);
             return (int)(stepMarkup * factor + _maxMarkup);
         }
 

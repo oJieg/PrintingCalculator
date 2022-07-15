@@ -2,10 +2,10 @@
 /* настройки связанные с таблицей истории */
 .tableFlex {
     display: flex;
-    
 }
-.tableHistory{
-    overflow-x:auto;
+
+.tableHistory {
+    overflow-x: auto;
 }
 
 table {
@@ -15,10 +15,9 @@ table {
 
 th,
 td {
-    width: 100%;
-    font-size: 23px;
+    /*width: 100%;*/
+    font-size: 18px;
     border-bottom: 1px solid #ddd;
-    
 }
 
 td {

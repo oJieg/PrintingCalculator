@@ -21,7 +21,8 @@ namespace printing_calculator.controllers
         {
             PaperAndHistoryInput paperAndInput = new() 
             { 
-                Paper = _BD.PaperCatalogs.ToList() 
+                Paper = _BD.PaperCatalogs.ToList(),
+                Lamination = _BD.laminations.ToList()
             };
             if(HistoryId!=0)
             {

@@ -14,29 +14,22 @@ namespace printing_calculator.controllers
         }
         public IActionResult Index(int one)
         {
-         //   TetsAddPaper();
-           // TestAddMarkup();
             TestAddConsumablePrice();
-            List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x=>x.Prices).ToList();
-           // ViewData["Massage"] = DB.Markups.First().Id.ToString();
+            TetsAddPaper("CC - 350", (float)17.2);
+            TetsAddPaper("CC - 400", (float)23.04);
+            TetsAddPaper("DNS - 200", (float)10.58);
+            TetsAddPaper("DNS - 160", (float)8.0);
+            TetsAddPaper("DNS - 90", (float)4.32);
+            TetsAddPaper("DP - 200", (float)8.6);
+            TetsAddPaper("DP - 170", (float)7.6);
+            TetsAddPaper("DP - 130", (float)2.56);
+
+
+            TestAddLamonation();
+            List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x => x.Prices).ToList();
+            // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
         }
-
-        //private void TestAddMarkup()
-        //{
-        //    Markup markup = new Markup
-        //    {
-        //        Markup0 = 300,
-        //        Markup15 = 200,
-        //        Markup30 = 100,
-        //        Markup60 = 80,
-        //        Markup120 = 50,
-        //        Markup250 = 30,
-        //        MarkupMuch = 25
-        //    };
-        //    DB.Markups.Add(markup);
-        //    DB.SaveChanges();
-        //}
 
         private void TestAddConsumablePrice()
         {
@@ -49,47 +42,59 @@ namespace printing_calculator.controllers
                 DrumPrice4 = 28700
             };
             DB.ConsumablePrices.Add(price);
-            DB.SaveChanges();
-        }
 
-        private void TetsAddPaper()
-        {
             SizePaper SRA3 = new SizePaper
             {
                 NameSizePaper = "SRA3",
                 SizePaperHeight = 320,
                 SizePaperWidth = 450
             };
+            DB.SizePapers.Add(SRA3);
+            DB.SaveChanges();
+        }
+        private void TestAddLamonation()
+        {
+            LaminationPrice price = new LaminationPrice
+            {
+                Price = (float)5.96
+            };
+            Lamination lamination = new Lamination
+            {
+                Name = "Матовая 35мкр",
+                Price = new List<LaminationPrice>() { price }
+            };
+
+            LaminationPrice price2 = new LaminationPrice
+            {
+                Price = (float)16.04
+            };
+            Lamination lamination2 = new Lamination
+            {
+                Name = "софт тач 35мкр",
+                Price = new List<LaminationPrice>() { price2 }
+            };
+
+            DB.LaminationPrices.Add(price);
+            DB.laminations.Add(lamination);
+            DB.LaminationPrices.Add(price2);
+            DB.laminations.Add(lamination2);
+            DB.SaveChanges();
+        }
+
+        private void TetsAddPaper(string namePaper, float Price)
+        {
             PricePaper pricePaper = new PricePaper
             {
-                Price = (float)17.7
+                Price = Price
             };
             PaperCatalog mondi350 = new PaperCatalog
             {
-                Name = "mondi350",
+                Name = namePaper,
                 Prices = new List<PricePaper>() { pricePaper },
-                Size = SRA3
+                Size = DB.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
             };
-            DB.SizePapers.Add(SRA3);
             DB.PricePapers.Add(pricePaper);
             DB.PaperCatalogs.Add(mondi350);
-            DB.SaveChanges();
-
-
-
-
-            PricePaper pricePaper2 = new PricePaper
-            {
-                Price = (float)9.7
-            };
-            PaperCatalog mondi200 = new PaperCatalog
-            {
-                Name = "mondi 200",
-                Prices = new List<PricePaper>() { pricePaper2 },
-                Size = DB.SizePapers.Where(p => p.NameSizePaper == "SRA3").FirstOrDefault()
-            };
-            DB.PricePapers.Add(pricePaper2);
-            DB.PaperCatalogs.Add(mondi200);
             DB.SaveChanges();
         }
     }

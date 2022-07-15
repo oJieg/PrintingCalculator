@@ -8,5 +8,7 @@ namespace printing_calculator.Models
         public SettingPrinter SettingPrinter { get; set; }
         public CutSetting CutSetting { get; set; }
         public Consumable Consumable { get; set; }
+        public Lamination Lamination { get; set; }
+        public Pos Pos { get; set; }
     }
 }

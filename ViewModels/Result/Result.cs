@@ -11,5 +11,6 @@
         public ResultLamination? ResultLamination { get; set; }
         public ResultPos? ResultPos { get; set; }
         public int Prise { get; set; }
+        public bool? TryTrice   { get; set; }
     }
 }

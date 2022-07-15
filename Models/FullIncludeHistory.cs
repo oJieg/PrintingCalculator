@@ -12,6 +12,8 @@ namespace printing_calculator.Models
                 .Include(x => x.PricePaper.Catalog)
                 .Include(x => x.Input.Paper.Size)
                 .Include(x => x.ConsumablePrice)
+                .Include(x => x.Input.Lamination)
+                .Include(x => x.Input.Lamination.Price)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
         }
@@ -20,8 +22,7 @@ namespace printing_calculator.Models
             return DB.Historys
                 .Include(x => x.Input)
                 .Include(x => x.PricePaper.Catalog)
-                .Include(x => x.Input.Paper.Size)
-                .Include(x => x.ConsumablePrice)
+                .Include(x => x.Input.Lamination)
                 .OrderByDescending(x => x.Id)
                 .Take(countPage)
                 .ToList();

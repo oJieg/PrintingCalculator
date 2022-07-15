@@ -4,11 +4,14 @@
 	Layout = "_Layout";
 	string size = $"{Model.Height}x{Model.Whidth}";
 	string duplex = Model.ResultPaper.Duplex ? "4+4" : "4+0";
-	int profit = (int)(Model.ResultPaper.PrisePaper- Model.ResultPaper.CostPrise);
+	int AllCostPrise = Model.ResultLamination.CostPrise + (int)Model.ResultPaper.CostPrise;
+	int profit = (int)(Model.Prise - AllCostPrise);
 
 	string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
 
 	string copyText = @$"Стоимость изготовления на бумаге {Model.ResultPaper.NamePaper} - {Model.ResultPaper.PrisePaper}";
+	float PriceForOne = Model.Prise / (Model.Amount * Model.Kinds);
+	float PriceForOneLamonation = Model.ResultLamination.Price / Model.ResultPaper.Sheets;
 }
 
 @section Stail {
@@ -66,13 +69,13 @@
 		<table>
 			<tr>
 				<td colspan="2">
-					<div class="meaning">@Model.ResultPaper.PrisePaper руб.</div>
+					<div class="meaning">@Model.Prise руб.</div>
 					<div class="signature">Стоимость</div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div class="meaning">@Model.ResultPaper.CostPrise руб.</div>
+					<div class="meaning">@AllCostPrise руб.</div>
 					<div class="signature">себестоимость</div>
 				</td>
 				<td>
@@ -82,13 +85,46 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<div class="meaning">@Model.ResultPaper.MarkupPaper %</div>
+					<div class="meaning">@PriceForOne шт/руб</div>
+					<div class="signature">цена за еденицу</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+@*	<div class="table">
+		<table>
+			<tr>
+				<td colspan="2">
+					<div class="meaning">@Model.ResultLamination.Price руб.</div>
+					<div class="signature">Стоимость</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="meaning">@Model.ResultLamination.CostPrise руб.</div>
+					<div class="signature">себестоимость</div>
+				</td>
+
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="meaning">@Model.ResultLamination.Markup %</div>
 					<div class="signature">нацека</div>
 				</td>
 			</tr>
 		</table>
 	</div>
+	<p>@Model.Prise цена</p>*@
+
 </div>
+<p>из них стоимость </p>
+<p> -печати - @Model.ResultPaper.PrisePaper </p>
+<p> -ламинация - @Model.ResultLamination.Price за еденицу @PriceForOneLamonation руб/лист - наценка @Model.ResultLamination.Markup % - себес @Model.ResultLamination.CostPrise руб.</p>
+<p> -биговка - @Model.ResultPos.CreasingPrice</p>
+<p> -сверление - @Model.ResultPos.DrillingPrice</p>
+<p> -скругление угло - @Model.ResultPos.RoundingPrice</p>
+
 
 
 <div class="button">
