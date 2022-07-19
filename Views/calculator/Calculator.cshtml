@@ -124,7 +124,7 @@
 			@foreach (Lamination lamination in @Model.Lamination)
 			{
 			string selected = string.Empty;
-			if (lamination.Name == input.Lamination.Name)
+			if (input.Lamination != null && lamination.Name == input.Lamination.Name)
 			{
 			selected = "selected";
 			}

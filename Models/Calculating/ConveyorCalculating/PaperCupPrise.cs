@@ -6,23 +6,30 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCupPrise : IConveyor
     {
-        private CutSetting _cutSetting;
+        private readonly CutSetting _cutSetting;
         public PaperCupPrise(CutSetting cutSetting)
         {
             _cutSetting = cutSetting;
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if (history.CutPrice == null)
+            try
             {
-                result.ResultPaper.CutPrics = (int)(result.ResultPaper.PiecesPerSheet * _cutSetting.OneCutPrice)+ _cutSetting.AdjustmentCutPrice; //брать из json 5-ку
-                history.CutPrice = result.ResultPaper.CutPrics;
-                return true;
+                if (history.CutPrice == null)
+                {
+                    result.PaperResult.CutPrics = (int)(result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice; 
+                    history.CutPrice = result.PaperResult.CutPrics;
+                    return true;
+                }
+                else
+                {
+                    result.PaperResult.CutPrics = history.CutPrice;
+                    return true;
+                }
             }
-            else
+            catch
             {
-                result.ResultPaper.CutPrics =history.CutPrice;
-                return true;
+                return false;
             }
         }
     }

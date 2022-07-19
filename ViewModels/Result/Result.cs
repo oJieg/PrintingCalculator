@@ -7,10 +7,10 @@
         public int Kinds { get; set; }
         public int Height { get; set; }
         public int Whidth { get; set; }
-        public ResultPaper? ResultPaper { get; set; }
-        public ResultLamination? ResultLamination { get; set; }
-        public ResultPos? ResultPos { get; set; }
-        public int Prise { get; set; }
+        public PaperResult? PaperResult { get; set; }
+        public LaminationResult? LaminationResult { get; set; }
+        public PosResult? PosResult { get; set; }
+        public int Price { get; set; }
         public bool? TryTrice   { get; set; }
     }
 }

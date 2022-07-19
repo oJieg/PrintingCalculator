@@ -6,38 +6,39 @@ namespace printing_calculator.Models
 {
     public class CalculatingMarkup
     {
-        private float stepMarkup;
+        private float _stepMarkup;
         private float _maxMarkup;
 
 
-        private int difference;
+        private int _difference;
         private int _sheets;
-        private List<MarkupList> _markup;
+        private readonly List<MarkupList> _markup;
 
         public CalculatingMarkup(List<MarkupList> list)
         {
             _markup = list;
         }
+
         public int GetMarkup(int Sheets)
         {
-            if (Sheets >=_markup[_markup.Count-1].Page)
+            if (Sheets >= _markup[^1].Page)
             {
-                return _markup[_markup.Count - 1].Markup;
+                return _markup[^1].Markup;
             }
             MaxMin(Sheets);
 
-            float factor = (float)1 - ((float)(Sheets - _sheets) / (float)difference);
-            return (int)(stepMarkup * factor + _maxMarkup);
+            float factor = (float)1 - ((float)(Sheets - _sheets) / (float)_difference);
+            return (int)(_stepMarkup * factor + _maxMarkup);
         }
 
         private void MaxMin(int Shets)
         {
-            for(int i = 0; i <= _markup.Count-2; i++)
+            for (int i = 0; i <= _markup.Count - 2; i++)
             {
-                if (Shets >= _markup[i].Page && Shets < _markup[i+1].Page)
+                if (Shets >= _markup[i].Page && Shets < _markup[i + 1].Page)
                 {
-                    difference = _markup[i + 1].Page - _markup[i].Page;
-                    stepMarkup = _markup[i].Markup-_markup[i+1].Markup;
+                    _difference = _markup[i + 1].Page - _markup[i].Page;
+                    _stepMarkup = _markup[i].Markup - _markup[i + 1].Markup;
                     _maxMarkup = _markup[i + 1].Markup;
                     _sheets = _markup[i].Page;
                     return;

@@ -6,7 +6,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosDrilling : IConveyor
     {
-        private Pos _setting;
+        private readonly Pos _setting;
         public PosDrilling(Pos setting)
         {
             _setting = setting;
@@ -15,14 +15,14 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             if (history.Input.DrillingAmount > 0)
             {
-                result.ResultPos.DrillingAmount = history.Input.DrillingAmount;
+                result.PosResult.DrillingAmount = history.Input.DrillingAmount;
                 float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
-                result.ResultPos.DrillingPrice = (int)((DrillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
+                result.PosResult.DrillingPrice = (int)((DrillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
             }
             else
             {
-                result.ResultPos.DrillingAmount = 0;
-                result.ResultPos.DrillingPrice = 0;
+                result.PosResult.DrillingAmount = 0;
+                result.PosResult.DrillingPrice = 0;
             }
             return true;
         }

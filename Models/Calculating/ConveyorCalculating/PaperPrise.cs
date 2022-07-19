@@ -7,7 +7,7 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            result.ResultPaper.PrisePaper = (int)(result.ResultPaper.CostPrise + (result.ResultPaper.CostPrise * (float)result.ResultPaper.MarkupPaper / 100))+result.ResultPaper.CutPrics; //временное
+            result.PaperResult.Price = (int)(result.PaperResult.CostPrise + (result.PaperResult.CostPrise * (float)result.PaperResult.MarkupPaper / (float)100)) + result.PaperResult.CutPrics; //временное?
             return true;
         }
     }

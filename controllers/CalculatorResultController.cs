@@ -2,9 +2,7 @@
 using printing_calculator.ViewModels;
 using printing_calculator.Models;
 using printing_calculator.DataBase;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using printing_calculator.Models.Settings;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 
@@ -13,33 +11,46 @@ namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
     {
-        private ApplicationContext _BD;
-        private Setting _options;
-
-        public CalculatorResultController(ApplicationContext DB, IOptions<Setting> options)
+        private readonly ApplicationContext _BD;
+        private readonly Setting _options;
+        private readonly ILogger<CalculatorResultController> _logger;
+        private readonly ILogger<ConveyorCalculator> _loggerConveyor;
+        public CalculatorResultController(ApplicationContext DB,
+            IOptions<Setting> options, ILoggerFactory loggerFactory)
         {
             _BD = DB;
             _options = options.Value;
+            _logger = loggerFactory.CreateLogger<CalculatorResultController>();
+            _loggerConveyor = loggerFactory.CreateLogger<ConveyorCalculator>();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(Input input)
         {
-            FillingHistoryImpyt fillingHistory = new(_BD);
-            History history =  fillingHistory.GeneratorHistory(input);
+            //валидация input
 
-            Result result = new();
-          //  result.ResultPos = new ResultPos();
-            ConveyorCalculator conveyor = new(_options);
-            conveyor.TryStartCalculation(ref history, out result);
+            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
 
-            if (!input.SaveDB)
+            bool tryCalculation = conveyor.TryStartCalculation(input, out History history, out Result result);
+            if (!tryCalculation)
             {
-                _BD.HistoryInputs.Add(history.Input);
-                _BD.Historys.Add(history);
+                _logger.LogError("не удался расчет для данных из Input");
+                return NotFound();
+            }
 
-                await _BD.SaveChangesAsync();
-                
+            if (!input.SaveDB) //не получилось вынести сохранение после рендера станицы( 
+            {
+                try
+                {
+                    _BD.HistoryInputs.Add(history.Input);
+                    _BD.Historys.Add(history);
+
+                    await _BD.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("не удалось сохранить просчет {ex}", ex);
+                }
             }
 
             return View("CalculatorResult", result);
@@ -48,28 +59,17 @@ namespace printing_calculator.controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            Result result = new();
-            FullIncludeHistory fullIncludeHistory = new FullIncludeHistory();
-            History histories = fullIncludeHistory.Get(_BD, id);
+            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
 
-            ConveyorCalculator conveyor = new(_options);
-            conveyor.TryStartCalculation(ref histories, out result);
+            bool TryCalculatoin = conveyor.TryStartCalculation(id, out Result result);
+            if (!TryCalculatoin)
+            {
+                _logger.LogError("не удался расчет, возможно не верный id");
+                return NotFound();
+            }
             result.HistoryInputId = id;
+
             return View("CalculatorResult", result);
         }
-
-        //[NonAction]
-        //public virtual async Task OnActionExecutionAsync()
-        //{
-
-        //    if (_saveDB)
-        //    {
-        //        _BD.HistoryInputs.Add(_historyInput);
-        //        _BD.Historys.Add(_history);
-
-        //        await _BD.SaveChangesAsync();
-        //    }
-        //    base.OnActionExecutionAsync();
-        //}
     }
 }

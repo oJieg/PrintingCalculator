@@ -8,7 +8,7 @@ namespace printing_calculator
         public DbSet<ConsumablePrice> ConsumablePrices { get; set; } = null!;
         //  public DbSet<Markup> Markups { get; set; } = null!;
         public DbSet<LaminationPrice> LaminationPrices { get; set; } = null!;
-        public DbSet<Lamination> laminations { get; set; } = null!;
+        public DbSet<Lamination> Laminations { get; set; } = null!;
         public DbSet<PricePaper> PricePapers { get; set; } = null!;
         public DbSet<SizePaper> SizePapers { get; set; } = null!;
         public DbSet<History> Historys { get; set; } = null!;

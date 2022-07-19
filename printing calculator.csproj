@@ -8,13 +8,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ValuesProcessing\**" />
+    <Content Remove="Views\ValuesProcessing\**" />
+    <EmbeddedResource Remove="Views\ValuesProcessing\**" />
+    <None Remove="Views\ValuesProcessing\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    <PackageReference Include="NLog" Version="5.0.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\ValuesProcessing\" />
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

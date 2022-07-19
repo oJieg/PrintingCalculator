@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels.Result
 {
-    public class ResultLamination
+    public class LaminationResult
     {
         public string Name { get; set; }
         public int Sheets { get; set; }

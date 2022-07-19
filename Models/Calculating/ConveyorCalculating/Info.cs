@@ -7,13 +7,20 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            result.HistoryInputId = history.Id;
-            result.Amount = history.Input.Amount;
-            result.Kinds = history.Input.Kinds;
-            result.Height = history.Input.Height;
-            result.Whidth = history.Input.Whidth;
+            try
+            {
+                result.HistoryInputId = history.Id;
+                result.Amount = history.Input.Amount;
+                result.Kinds = history.Input.Kinds;
+                result.Height = history.Input.Height;
+                result.Whidth = history.Input.Whidth;
 
-            return true;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

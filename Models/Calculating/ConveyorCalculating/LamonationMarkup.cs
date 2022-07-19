@@ -1,32 +1,38 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationMarkup : IConveyor
     {
-        private Settings.Lamination _markup;
+        private readonly Settings.Lamination _markup;
         public LamonationMarkup(Settings.Lamination markup)
         {
             _markup = markup;
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if(history.Input.Lamination == null)
+            if (history.Input.Lamination == null)
             {
                 return true;
             }
-            if(history.LaminationMarkup == null)
+            if (history.LaminationMarkup == null)
             {
-                CalculatingMarkup markup = new(_markup.MarkupList);
-                result.ResultLamination.Markup = (int)markup.GetMarkup(result.ResultPaper.Sheets);
-                history.LaminationMarkup = result.ResultLamination.Markup;
-                return true;
+                try
+                {
+                    CalculatingMarkup markup = new(_markup.MarkupList);
+                    result.LaminationResult.Markup = (int)markup.GetMarkup(result.PaperResult.Sheets);
+                    history.LaminationMarkup = result.LaminationResult.Markup;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
             else
             {
-                result.ResultLamination.Markup = (int)history.LaminationMarkup;
+                result.LaminationResult.Markup = (int)history.LaminationMarkup;
                 return true;
             }
         }

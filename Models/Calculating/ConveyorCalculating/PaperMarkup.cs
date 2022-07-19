@@ -6,7 +6,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperMarkup : IConveyor
     {
-        private MarkupPaper _markup;
+        private readonly MarkupPaper _markup;
         public PaperMarkup(MarkupPaper markup)
         {
             _markup = markup;
@@ -14,16 +14,23 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if (history.MarkupPaper == null)
+            try
             {
-                CalculatingMarkup markup = new(_markup.MarkupList);
-                result.ResultPaper.MarkupPaper =(int)markup.GetMarkup(result.ResultPaper.Sheets);
-                return true;
+                if (history.MarkupPaper == null)
+                {
+                    CalculatingMarkup markup = new(_markup.MarkupList);
+                    result.PaperResult.MarkupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
+                    return true;
+                }
+                else
+                {
+                    result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
+                    return true;
+                }
             }
-            else
+            catch
             {
-                result.ResultPaper.MarkupPaper =(int)history.MarkupPaper;
-                return true;
+                return false;
             }
         }
     }

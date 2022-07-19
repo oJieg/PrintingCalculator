@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels.Result
 {
-    public class ResultPos
+    public class PosResult
     {
         public int CreasingAmount { get; set; }
         public int CreasingPrice { get; set; }

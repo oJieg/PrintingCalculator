@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels.Result
 {
-    public class ResultPaper
+    public class PaperResult
     {
         public string? NamePaper { get; set; }
         public bool Duplex { get; set; }
@@ -10,6 +10,6 @@
         public int? CostPrise { get; set; }
         public int? MarkupPaper { get; set; }
         public int? CutPrics { get; set; }
-        public int? PrisePaper { get; set; }
+        public int? Price { get; set; }
     }
 }

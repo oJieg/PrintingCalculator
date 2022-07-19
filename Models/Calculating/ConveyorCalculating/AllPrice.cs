@@ -7,24 +7,31 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            result.Prise = (int)(result.ResultPaper.PrisePaper
-                    + result.ResultLamination.Price
-                    + result.ResultPos.CreasingPrice
-                    + result.ResultPos.DrillingPrice
-                    + result.ResultPos.RoundingPrice);
-
-            if (history.Price == null)
+            try
             {
-                result.TryTrice = true;
-                history.Price = result.Prise;
-                
-            }
+                result.Price = (int)(result.PaperResult.Price
+                                     + result.LaminationResult.Price
+                                     + result.PosResult.CreasingPrice
+                                     + result.PosResult.DrillingPrice
+                                     + result.PosResult.RoundingPrice);
 
-            if (history.Price != result.Prise)
-			{
-                result.TryTrice = false;
+                if (history.Price == null)
+                {
+                    result.TryTrice = true;
+                    history.Price = result.Price;
+
+                }
+
+                if (history.Price != result.Price)
+                {
+                    result.TryTrice = false;
+                }
+                return true;
             }
-            return true;
+            catch
+            {
+                return false;
+            }
         }
     }
 }

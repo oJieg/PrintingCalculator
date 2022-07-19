@@ -1,22 +1,31 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationCostPrise : IConveyor
     {
-        private Settings.Lamination _lamination1;
+        private readonly Settings.Lamination _lamination1;
         public LamonationCostPrise(Settings.Lamination lamination)
-		{
+        {
             _lamination1 = lamination;
-		}
+        }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if(history.Input.Lamination != null)
+
+            if (history.Input.Lamination != null)
             {
-                result.ResultLamination.CostPrise =(int)((history.LaminationPrices.Price+_lamination1.Job) * result.ResultPaper.Sheets);
-                return true;
+                if (_lamination1 == null)
+                    return false;
+                try
+                {
+                    result.LaminationResult.CostPrise = (int)((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
             return true;
         }

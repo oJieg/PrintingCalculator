@@ -1,6 +1,4 @@
-﻿
-
-namespace printing_calculator.ViewModels
+﻿namespace printing_calculator.ViewModels
 {
     public class Input
     {

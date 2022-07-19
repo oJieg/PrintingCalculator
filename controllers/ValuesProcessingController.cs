@@ -7,13 +7,16 @@ namespace printing_calculator.controllers
 {
     public class ValuesProcessingController : Controller
     {
-        private ApplicationContext DB;
-        public ValuesProcessingController(ApplicationContext context)
+        private readonly ApplicationContext _BD;
+        private readonly ILogger<HomesController> _logger;
+        public ValuesProcessingController(ApplicationContext context, ILogger<HomesController> logger)
         {
-            DB = context;
+            _BD = context;
+            _logger = logger;
         }
-        public IActionResult Index(int one)
+        public IActionResult Index()
         {
+            _logger.LogInformation("Run AddTest data");
             TestAddConsumablePrice();
             TetsAddPaper("CC - 350", (float)17.2);
             TetsAddPaper("CC - 400", (float)23.04);
@@ -23,79 +26,102 @@ namespace printing_calculator.controllers
             TetsAddPaper("DP - 200", (float)8.6);
             TetsAddPaper("DP - 170", (float)7.6);
             TetsAddPaper("DP - 130", (float)2.56);
+            TestAddLamonation("матовая 1+1", (float)5.96);
+            TestAddLamonation("софт тач 1+1", (float)16.04);
 
 
-            TestAddLamonation();
-            List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x => x.Prices).ToList();
+            List<PaperCatalog> catalog = _BD.PaperCatalogs.Include(x => x.Prices).ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
         }
 
         private void TestAddConsumablePrice()
         {
-            ConsumablePrice price = new ConsumablePrice
+            try
             {
-                TonerPrice = 21300,
-                DrumPrice1 = 28700,
-                DrumPrice2 = 28700,
-                DrumPrice3 = 28700,
-                DrumPrice4 = 28700
-            };
-            DB.ConsumablePrices.Add(price);
+                ConsumablePrice price = new()
+                {
+                    TonerPrice = 45000,
+                    DrumPrice1 = 28700,
+                    DrumPrice2 = 28700,
+                    DrumPrice3 = 28700,
+                    DrumPrice4 = 28700
+                };
+                _BD.ConsumablePrices.Add(price);
 
-            SizePaper SRA3 = new SizePaper
+                SizePaper SRA3 = new()
+                {
+                    NameSizePaper = "SRA3",
+                    SizePaperHeight = 320,
+                    SizePaperWidth = 450
+                };
+                _BD.SizePapers.Add(SRA3);
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
             {
-                NameSizePaper = "SRA3",
-                SizePaperHeight = 320,
-                SizePaperWidth = 450
-            };
-            DB.SizePapers.Add(SRA3);
-            DB.SaveChanges();
+                _logger.LogError("ошибка записи ConsumablePrice ошибка: {ex}", ex);
+            }
+			finally
+			{
+                _logger.LogInformation("add AddConsumablePrice");
+			}
         }
-        private void TestAddLamonation()
+        private void TestAddLamonation(string nameLamonation, float price)
         {
-            LaminationPrice price = new LaminationPrice
+            try
             {
-                Price = (float)5.96
-            };
-            Lamination lamination = new Lamination
-            {
-                Name = "Матовая 35мкр",
-                Price = new List<LaminationPrice>() { price }
-            };
+                LaminationPrice Prices = new()
+                {
+                    Price = price
+                };
+                Lamination lamination = new()
+                {
+                    Name = nameLamonation,
+                    Price = new List<LaminationPrice>() { Prices }
+                };
 
-            LaminationPrice price2 = new LaminationPrice
-            {
-                Price = (float)16.04
-            };
-            Lamination lamination2 = new Lamination
-            {
-                Name = "софт тач 35мкр",
-                Price = new List<LaminationPrice>() { price2 }
-            };
+                _BD.LaminationPrices.Add(Prices);
+                _BD.Laminations.Add(lamination);
 
-            DB.LaminationPrices.Add(price);
-            DB.laminations.Add(lamination);
-            DB.LaminationPrices.Add(price2);
-            DB.laminations.Add(lamination2);
-            DB.SaveChanges();
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ошибка записи AddLamonation ошибка: {ex}", ex);
+            }
+            finally
+            {
+                _logger.LogInformation("add Lamination {nameLamonation}: {price}", nameLamonation, price);
+            }
         }
 
-        private void TetsAddPaper(string namePaper, float Price)
+        private void TetsAddPaper(string namePaper, float price)
         {
-            PricePaper pricePaper = new PricePaper
+            try
             {
-                Price = Price
-            };
-            PaperCatalog mondi350 = new PaperCatalog
+                PricePaper pricePaper = new()
+                {
+                    Price = price
+                };
+                PaperCatalog mondi350 = new()
+                {
+                    Name = namePaper,
+                    Prices = new List<PricePaper>() { pricePaper },
+                    Size = _BD.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
+                };
+                _BD.PricePapers.Add(pricePaper);
+                _BD.PaperCatalogs.Add(mondi350);
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
             {
-                Name = namePaper,
-                Prices = new List<PricePaper>() { pricePaper },
-                Size = DB.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
-            };
-            DB.PricePapers.Add(pricePaper);
-            DB.PaperCatalogs.Add(mondi350);
-            DB.SaveChanges();
+                _logger.LogError("ошибка записи AddPaper ошибка: {ex}", ex);
+            }
+            finally
+            {
+                _logger.LogInformation("AddPaper {namePaper}: {price}", namePaper, price);
+            }
         }
     }
 }

@@ -6,21 +6,28 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationPrise : IConveyor
     {
-        private Settings.Lamination _setting;
+        private readonly Settings.Lamination _setting;
         public LamonationPrise(Settings.Lamination lamination)
         {
-            _setting= lamination;
+            _setting = lamination;
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if (history.Input.Lamination != null)
+            try
             {
-                result.ResultLamination.Price = (result.ResultLamination.CostPrise * ((result.ResultLamination.Markup+100)/100)) + _setting.Adjustment;
+                if (history.Input.Lamination != null)
+                {
+                    result.LaminationResult.Price = (int)(result.LaminationResult.CostPrise * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment;
+                    return true;
+                }
+                result.LaminationResult = new();
+                result.LaminationResult.Price = 0;
                 return true;
             }
-            result.ResultLamination = new ResultLamination();
-            result.ResultLamination.Price = 0;
-            return true;
+            catch
+            {
+                return false;
+            }
         }
     }
 }

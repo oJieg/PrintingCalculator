@@ -9,9 +9,16 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             if (history.Input.Lamination != null)
             {
-                result.ResultLamination = new ResultLamination();
-                result.ResultLamination.Name = history.Input.Lamination.Name;
-                return true;
+                try
+                {
+                    result.LaminationResult = new();
+                    result.LaminationResult.Name = history.Input.Lamination.Name;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
             return true;
         }
