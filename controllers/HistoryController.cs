@@ -50,7 +50,7 @@ namespace printing_calculator.controllers
             if (countPage <= 0)
                 return false;
 
-            if (page <= 0)
+            if (page < 0)
                 return false;
 
             return true;

@@ -237,3 +237,52 @@
 2022-07-19 15:50:16.9150 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
 2022-07-19 15:50:16.9325 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\ap\source\repos\oJieg\PrintingCalculator\NLog.config
 2022-07-19 15:50:16.9390 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:48:38.7476 Info Message Template Auto Format enabled
+2022-07-19 22:48:38.7476 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:48:38.8178 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:48:38.8178 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:48:38.8565 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:48:38.8835 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:48:38.8903 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:49:32.4916 Info Message Template Auto Format enabled
+2022-07-19 22:49:32.5069 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:49:32.5645 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:49:32.5645 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:49:32.5856 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:49:32.6073 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:49:32.6206 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:50:49.8807 Info Message Template Auto Format enabled
+2022-07-19 22:50:49.9062 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:50:49.9778 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:50:49.9778 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:50:50.0013 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:50:50.0270 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:50:50.0406 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:52:53.8430 Info Message Template Auto Format enabled
+2022-07-19 22:52:53.8430 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:52:53.9164 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:52:53.9179 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:52:53.9983 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:52:54.0272 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:52:54.0272 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:53:26.0193 Info Message Template Auto Format enabled
+2022-07-19 22:53:26.0311 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:53:26.0943 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:53:26.0943 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:53:26.1121 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:53:26.1320 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:53:26.1435 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 22:54:03.7160 Info Message Template Auto Format enabled
+2022-07-19 22:54:03.7345 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 22:54:03.8359 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 22:54:03.8396 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 22:54:03.9215 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 22:54:03.9635 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 22:54:03.9765 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2022-07-19 23:20:25.6309 Info Message Template Auto Format enabled
+2022-07-19 23:20:25.6459 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-19 23:20:25.7223 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-19 23:20:25.7223 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-19 23:20:25.7443 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-19 23:20:25.7703 Info Validating config: TargetNames=ownFile-web, ConfigItems=32, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-19 23:20:25.7837 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
