@@ -1,3 +1,7 @@
+.nameCalc {
+    text-align: center;
+}
+
 /* располежение форм */
 .flex {
     display: flex;

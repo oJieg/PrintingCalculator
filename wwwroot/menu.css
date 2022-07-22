@@ -1,3 +1,8 @@
+.logo {
+    width: 70px;
+    margin-left: 40px;
+}
+
 .downBody {
     display: flex;
     flex-direction: row;

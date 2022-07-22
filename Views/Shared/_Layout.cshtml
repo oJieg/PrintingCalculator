@@ -2,54 +2,55 @@
 
 *@
 @{
-    string srcIconCalculator = "/calk2.png";
-    string srcIconHistory = "/history.png";
+	string srcIconCalculator = "/calk2.png";
+	string srcIconHistory = "/history.png";
 
-    string adresCalcularot = "/Calculator";
-    string adresHistoru = "/History";
+	string adresCalcularot = "/Calculator";
+	string adresHistoru = "/History";
 }
 <!DOCTYPE HTML>
 <html>
 
 <head>
-  @RenderSection("Stail",false)
-  <link rel="stylesheet" type="text/css" href="/menu.css">
+	@RenderSection("Stail",false)
+	<link rel="stylesheet" type="text/css" href="/menu.css">
 </head>
 
 <body>
-  <div class="header">
-    <div class="logo">
-      <p>тут может быть ваше реклама</p>
-    </div>
-    <div class="rightElementOnHeder">
-      <p>что то еще</p>
-    </div>
-  </div>
-  <div class="downBody">
-    <div class="menu">
-      <ul class="NavigationBar">
-        <li class="li-margin">
-          <a href="@adresCalcularot">
-            <div><img class="imagMenu" src="@srcIconCalculator" /></div>
-            <div>КАЛЬКУЛЯТОР</div>
-          </a>
-        </li>
-        <li class="li-margin">
-          <a href="@adresHistoru">
-            <div><img class="imagMenu" src="@srcIconHistory" /></div>
-            <div>ИСТОРИЯ</div>
-          </a>
-        </li>
-        <li class="li-margin"><a href="хз что">хз что</a></li>
-        <li class="li-margin"><a href="и еще что то">и еще что то</a></li>
-      </ul>
-    </div>
+	<div class="header">
+		<div class="logo">
+			<img class="logo" src="/logo_PrintLife.svg" />
+		</div>
+        <div class="rightElementOnHeder">
+            <p class="rightHeader">bu ojiegko</p>
+            <p class="rightHeader">v0.11</p>
+        </div>
+	</div>
+	<div class="downBody">
+		<div class="menu">
+			<ul class="NavigationBar">
+				<li class="li-margin">
+					<a href="@adresCalcularot">
+						<div><img class="imagMenu" src="@srcIconCalculator" /></div>
+						<div>КАЛЬКУЛЯТОР</div>
+					</a>
+				</li>
+				<li class="li-margin">
+					<a href="@adresHistoru">
+						<div><img class="imagMenu" src="@srcIconHistory" /></div>
+						<div>ИСТОРИЯ</div>
+					</a>
+				</li>
+@*				<li class="li-margin"><a href="хз что">хз что</a></li>
+				<li class="li-margin"><a href="и еще что то">и еще что то</a></li>*@
+			</ul>
+		</div>
 
-    <div class="main-body">
-        @RenderBody()
-    </div>
+		<div class="main-body">
+			@RenderBody()
+		</div>
 
-  </div>
+	</div>
 
 </body>
 
