@@ -1,4 +1,4 @@
-﻿@model List<printing_calculator.ViewModels.Result>;
+﻿@model List<SimplResult>
 @using printing_calculator.ViewModels;
 
 @{
@@ -30,7 +30,7 @@
               </th>
             </tr>
             
-                @foreach(Result result in Model)
+                @foreach(SimplResult result in Model)
                 {
               <tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
               <td>
