@@ -1,6 +1,6 @@
 .logo {
     width: 70px;
-    margin-left: 40px;
+    /*margin-left: 40px;*/
 }
 
 .downBody {
@@ -83,14 +83,17 @@ body {
 .header {
     display: flex;
     flex-direction: row;
-
     background-color: #ececec;
     margin-bottom: 15px;
-    padding: 20px;
+    padding: 10px 40px;
 }
 
 .rightElementOnHeder {
     justify-content: right;
     text-align: right;
     flex-grow: 1;
+}
+.rightHeader {
+    color: #b1b1b1;
+    margin: 0;
 }

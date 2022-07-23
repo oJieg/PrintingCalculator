@@ -35,19 +35,33 @@
 
 @section Stail {
 <link rel="stylesheet" type="text/css" href="calculator.css">
+  <script>
+    function editSize(Height, Width) {
+      document.getElementById('Height').value = Height;
+      document.getElementById('Width').value = Width;
+    }
+  </script>
 }
 
 <form name="my1" class="flex">
 	<h2 class="nameCalc"> Калькулятор</h2>
+	 <form name="my1" class="flex">
+        <div class="FastSizeBlock">
+        <input class="FastSize" type="button" onclick="editSize(210,297);" value="А4">
+        <input class="FastSize" type="button" onclick="editSize(148.5,210);" value="А5">
+        <input class="FastSize" type="button" onclick="editSize(105,148,5);" value="А6">
+        <input class="FastSize" type="button" onclick="editSize(100,150);" value="10x15">
+        <input class="FastSize" type="button" onclick="editSize(90,50);" value="90x50">
+      </div>
 	<div class="horizontalInput">
 
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">ширина макета</label>
-			<input class="inputNumber" type="number" name="Height" required value="@input.Height" min="@sizeMinValue" max="@HightMaxValue">
+			<input class="inputNumber" id="Height" type="number" name="Height" required value="@input.Height" min="@sizeMinValue" max="@HightMaxValue">
 		</div>
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">высота макета</label>
-			<input class="inputNumber" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue">
+			<input class="inputNumber" id="Width" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue">
 		</div>
 	</div>
 
