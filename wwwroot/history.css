@@ -11,6 +11,7 @@
 table {
     border-spacing: 0;
     text-align: center;
+    font-family: "Cera Pro", Sans-serif;
 }
 
 th,
@@ -42,4 +43,7 @@ th {
     background-color: #8fbc8f;
     color: white;
     padding: 15px 0;
+}
+.imagPos {
+    height: 25px;
 }

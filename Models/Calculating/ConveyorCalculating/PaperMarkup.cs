@@ -16,15 +16,22 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             try
             {
+                CalculatingMarkup markup = new(_markup.MarkupList);
+                int MarkupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
+
                 if (history.MarkupPaper == null)
                 {
-                    CalculatingMarkup markup = new(_markup.MarkupList);
-                    result.PaperResult.MarkupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
+                    result.PaperResult.MarkupPaper = MarkupPaper;
+                    result.PaperResult.ActualMarkupPaper = true;
+                    history.MarkupPaper = MarkupPaper;
+                    
                     return true;
                 }
                 else
                 {
                     result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
+                    result.PaperResult.ActualMarkupPaper = ActualMarkup(history, MarkupPaper);
+
                     return true;
                 }
             }
@@ -32,6 +39,15 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return false;
             }
+        }
+
+        private bool ActualMarkup(History history, int markup)
+        {
+            if (history.MarkupPaper == markup)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

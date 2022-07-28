@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 
-
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
@@ -46,6 +45,7 @@ namespace printing_calculator.controllers
                     _BD.Historys.Add(history);
 
                     await _BD.SaveChangesAsync();
+                    result.HistoryInputId = history.Id;
                 }
                 catch (Exception ex)
                 {

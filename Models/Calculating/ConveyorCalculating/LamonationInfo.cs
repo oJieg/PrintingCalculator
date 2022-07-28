@@ -7,11 +7,11 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         public bool TryConveyorStart(ref History history, ref Result result)
         {
+            result.LaminationResult = new();
             if (history.Input.Lamination != null)
             {
                 try
                 {
-                    result.LaminationResult = new();
                     result.LaminationResult.Name = history.Input.Lamination.Name;
                     return true;
                 }

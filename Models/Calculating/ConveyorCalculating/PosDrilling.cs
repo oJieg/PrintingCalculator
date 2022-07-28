@@ -13,17 +13,34 @@ namespace printing_calculator.Models.ConveyorCalculating
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-            if (history.Input.DrillingAmount > 0)
+            result.PosResult.DrillingAmount = history.Input.DrillingAmount;
+            if (history.Input.DrillingAmount == 0)
             {
-                result.PosResult.DrillingAmount = history.Input.DrillingAmount;
-                float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
-                result.PosResult.DrillingPrice = (int)((DrillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
-            }
-            else
-            {
-                result.PosResult.DrillingAmount = 0;
+                result.PosResult.ActualDrillingPrice = true;
                 result.PosResult.DrillingPrice = 0;
+                return true;
             }
+
+            float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
+            int actualPrice = (int)((DrillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
+            int? Price = history.DrillingPrice;
+
+            if (Price == null)
+            {
+                history.DrillingPrice = actualPrice;
+                result.PosResult.DrillingPrice = actualPrice;
+                result.PosResult.ActualDrillingPrice = true;
+                return true;
+            }
+
+            result.PosResult.DrillingPrice = (int)Price;
+            if (actualPrice == Price)
+            {
+                result.PosResult.ActualDrillingPrice = true;
+                return true;
+            }
+
+            result.PosResult.ActualDrillingPrice = true;
             return true;
         }
     }

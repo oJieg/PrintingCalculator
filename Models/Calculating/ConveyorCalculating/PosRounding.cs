@@ -15,13 +15,34 @@ namespace printing_calculator.Models.ConveyorCalculating
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             result.PosResult.Rounding = history.Input.RoundingAmount;
-
-            if (history.Input.RoundingAmount)
+            if(!result.PosResult.Rounding)
             {
-                result.PosResult.RoundingPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
+                result.PosResult.ActualRoundingPrice = true;
+                result.PosResult.RoundingPrice = 0;
+                return true;
+            }
+            int ActualPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
+            int? Price = history.RoundingPrice;
+
+            if (Price == null )
+            {
+                result.PosResult.RoundingPrice= ActualPrice;
+                result.PosResult.ActualRoundingPrice = true;
+                history.RoundingPrice = ActualPrice;
+                return true; 
             }
 
+            if(ActualPrice == Price)
+            {
+                result.PosResult.RoundingPrice = Price.Value;
+                result.PosResult.ActualRoundingPrice = true;
+                return true;
+            }
+
+            result.PosResult.RoundingPrice = (int)Price;
+            result.PosResult.ActualRoundingPrice = false;
             return true;
+
         }
     }
 }

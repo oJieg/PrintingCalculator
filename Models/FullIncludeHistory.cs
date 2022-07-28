@@ -10,6 +10,8 @@ namespace printing_calculator.Models
             return DB.Historys
                 .Include(x => x.Input)
                 .Include(x => x.Input.Paper)
+               // .Include(x => x.Input.CreasingAmount)
+                .Include(x => x.Input.Lamination)
                 .OrderByDescending(x => x.Id)
                 .Take(countPage)
                 .ToList();

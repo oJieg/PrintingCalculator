@@ -22,10 +22,23 @@ namespace printing_calculator.Models.ConveyorCalculating
 
                 }
 
-                if (history.Price != result.Price)
+                if (result.PaperResult.ActualConsumablePrice &&
+                    result.PaperResult.ActualMarkupPaper &&
+                    result.PaperResult.ActualCostPrise &&
+                    result.PaperResult.ActualCutPrics &&
+                    result.LaminationResult.ActualCostPrics &&
+                    result.LaminationResult.ActualMarkup &&
+                    result.PosResult.ActualRoundingPrice &&
+                    result.PosResult.ActualCreasingPrice &&
+                    result.PosResult.ActualDrillingPrice)
+                {
+                    result.TryTrice = true;
+                }
+                else
                 {
                     result.TryTrice = false;
                 }
+
                 return true;
             }
             catch

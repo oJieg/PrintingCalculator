@@ -5,14 +5,14 @@
 	string size = $"{Model.Height}x{Model.Whidth}";
 	string amoutKids = $"{Model.Amount}x{Model.Kinds}";
 	string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
-	int AllCostPrise = Model.LaminationResult.CostPrise + (int)Model.PaperResult.CostPrise;
+	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostPrise;
 	int profit = (int)(Model.Price - AllCostPrise);
 	int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
 
 	string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
 
 	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperResult.NamePaper} - {Model.PaperResult.Price}";
-	float PriceForOne = Model.Price / (Model.Amount * Model.Kinds);
+	double PriceForOne = Math.Round((double)Model.Price / (double)(Model.Amount * Model.Kinds), 2); //округлить до 3х знаков
 	float PriceForOneLamonation = Model.LaminationResult.Price / Model.PaperResult.Sheets;
 }
 
@@ -24,6 +24,12 @@
 	}
 </script>
 }
+	@if (!Model.TryTrice)
+	{
+		<div class="errorePrice">
+			<p>Цена не актуальная</p>
+		</div>
+	}
 <div class="twoColumnsFlex">
 
 	<div class="priceFlex">
@@ -70,8 +76,8 @@
 			<div class="detal">
 				<details>
 					<summary class="detal">подробнее</summary>
-					<p class="detal">биговка - @Model.PosResult.CreasingPrice руб.</p>
-					<p class="detal">сверление - @Model.PosResult.DrillingPrice руб.</p>
+					<p class="detal">биговка - @Model.PosResult.CreasingPrice руб.(@Model.PosResult.CreasingAmount шт.)</p>
+					<p class="detal">сверление - @Model.PosResult.DrillingPrice руб. (@Model.PosResult.DrillingAmount шт.)</p>
 					<p class="detal">скругление углов - @Model.PosResult.RoundingPrice руб.</p>
 				</details>
 			</div>
@@ -94,7 +100,7 @@
 
 				<div class="smallInput">
 					<div class="green">
-						<p class="margin"><b>Размер изделия</b></p>
+						<p class="margin">Размер изделия</p>
 					</div>
 					<div class="grey">
 						<p class="margin">@size</p>
@@ -102,7 +108,7 @@
 				</div>
 				<div class="smallInput">
 					<div class="green">
-						<p class="margin"><b>Кол-во/Видов</b></p>
+						<p class="margin">Кол-во/Видов</p>
 					</div>
 					<div class="grey">
 						<p class="margin">@amoutKids шт.</p>
@@ -114,7 +120,7 @@
 
 				<div class="smallInput">
 					<div class="green">
-						<p class="margin"><b>Цветность</b></p>
+						<p class="margin">Цветность</p>
 					</div>
 					<div class="grey">
 						<p class="margin">@duplex</p>
@@ -122,7 +128,7 @@
 				</div>
 				<div class="smallInput">
 					<div class="green">
-						<p class="margin"><b>Листов:шт/лист</b></p>
+						<p class="margin">Листов:шт/лист</p>
 					</div>
 					<div class="grey">
 						<p class="margin">@Model.PaperResult.PiecesPerSheet л.:@Model.PaperResult.Sheets шт/л</p>
@@ -139,9 +145,9 @@
 
 <div class="button">
 	<form>
-		<input class="buttonNext" type="submit" formaction="sdf.html" value="Пересчитать">
+		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
 		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
-		<input class="buttonNext" type="button" onclick="copu();" value="скопировать">
+		<input class="buttonNext" type="button" onclick="copu();" value="Cкопировать">
 
 	</form>
 </div>

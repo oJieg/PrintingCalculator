@@ -94,11 +94,11 @@ namespace printing_calculator.controllers
 
             if (history.RoundingPrice > 0)
             {
-                result.Drilling = true;
+                result.Rounding = true;
             }
             else
             {
-                result.Drilling = false;
+                result.Rounding = false;
             }
 
             result.Price = (int)history.Price;

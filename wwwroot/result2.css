@@ -1,3 +1,12 @@
+.errorePrice {
+    background-color: red;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 6px;
+    border-radius: 5px;
+}
+
 /* вид кнопок */
 .button input {
     background-color: #68a568;
