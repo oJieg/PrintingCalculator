@@ -1,0 +1,7 @@
+2022-07-29 21:26:09.2370 Info Message Template Auto Format enabled
+2022-07-29 21:26:09.2641 Info Loading assembly: NLog.Web.AspNetCore
+2022-07-29 21:26:09.4068 Info Adding target FileTarget(Name=ownFile-web)
+2022-07-29 21:26:09.4068 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2022-07-29 21:26:09.4699 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Target 'allfile' not found for logging rule: *.
+2022-07-29 21:26:09.5142 Info Validating config: TargetNames=ownFile-web, ConfigItems=34, FilePath=C:\Users\Oleg\source\repos\printing calculator\NLog.config
+2022-07-29 21:26:09.5267 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
