@@ -1,3 +1,27 @@
+.FastSize {
+    background-color: white;
+    color: black;
+    border: 2px solid #8fbc8f;
+    border-radius: 4px;
+    width: 100px;
+    height: 30px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+    .FastSize:hover {
+        background-color: #8fbc8f; /* Green */
+        color: white;
+    }
+
+.FastSizeBlock {
+    float: left;
+}
+
+.nameCalc {
+    text-align: center;
+}
+
 /* располежение форм */
 .flex {
     display: flex;

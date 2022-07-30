@@ -2,23 +2,23 @@
 /* настройки связанные с таблицей истории */
 .tableFlex {
     display: flex;
-    
 }
-.tableHistory{
-    overflow-x:auto;
+
+.tableHistory {
+    overflow-x: auto;
 }
 
 table {
     border-spacing: 0;
     text-align: center;
+    font-family: "Cera Pro", Sans-serif;
 }
 
 th,
 td {
-    width: 100%;
-    font-size: 23px;
+    /*width: 100%;*/
+    font-size: 18px;
     border-bottom: 1px solid #ddd;
-    
 }
 
 td {
@@ -43,4 +43,7 @@ th {
     background-color: #8fbc8f;
     color: white;
     padding: 15px 0;
+}
+.imagPos {
+    height: 25px;
 }

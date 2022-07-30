@@ -7,90 +7,126 @@ namespace printing_calculator.controllers
 {
     public class ValuesProcessingController : Controller
     {
-        private ApplicationContext DB;
-        public ValuesProcessingController(ApplicationContext context)
+        private readonly ApplicationContext _BD;
+        private readonly ILogger<HomesController> _logger;
+        public ValuesProcessingController(ApplicationContext context, ILogger<HomesController> logger)
         {
-            DB = context;
+            _BD = context;
+            _logger = logger;
         }
-        public IActionResult Index(int one)
+        public IActionResult Index()
         {
-            TetsAddPaper();
-            TestAddMarkup();
+            _logger.LogInformation("Run AddTest data");
             TestAddConsumablePrice();
-            List<PaperCatalog> catalog = DB.PaperCatalogs.Include(x=>x.Prices).ToList();
-            ViewData["Massage"] = DB.Markups.First().Id.ToString();
-            return View("PageOtvet", catalog);
-        }
+            //TetsAddPaper("CC - 350", (float)17.2);
+            //TetsAddPaper("CC - 400", (float)23.04);
+            //TetsAddPaper("DNS - 200", (float)10.58);
+            //TetsAddPaper("DNS - 160", (float)8.0);
+            //TetsAddPaper("DNS - 90", (float)4.32);
+            //TetsAddPaper("DP - 200", (float)8.6);
+            //TetsAddPaper("DP - 170", (float)7.6);
+            //TetsAddPaper("DP - 130", (float)2.56);
+            //TestAddLamonation("матовая 1+1", (float)5.96);
+            //TestAddLamonation("софт тач 1+1", (float)16.04);
 
-        private void TestAddMarkup()
-        {
-            Markup markup = new Markup
-            {
-                Markup0 = 300,
-                Markup15 = 200,
-                Markup30 = 100,
-                Markup60 = 80,
-                Markup120 = 50,
-                Markup250 = 30,
-                MarkupMuch = 25
-            };
-            DB.Markups.Add(markup);
-            DB.SaveChanges();
+
+            List<PaperCatalog> catalog = _BD.PaperCatalogs.Include(x => x.Prices).ToList();
+            // ViewData["Massage"] = DB.Markups.First().Id.ToString();
+            return View("PageOtvet", catalog);
         }
 
         private void TestAddConsumablePrice()
         {
-            ConsumablePrice price = new ConsumablePrice
+            try
             {
-                TonerPrice = 35000,
-                DrumPrice1 = 20000,
-                DrumPrice2 = 21000,
-                DrumPrice3 = 24000,
-                DrumPrice4 = 23000
-            };
-            DB.ConsumablePrices.Add(price);
-            DB.SaveChanges();
+                ConsumablePrice price = new()
+                {
+                    //TonerPrice = 45000,
+                    //DrumPrice1 = 28700,
+                    //DrumPrice2 = 28700,
+                    //DrumPrice3 = 28700,
+                    //DrumPrice4 = 28700
+                    TonerPrice = 45100,
+                    DrumPrice1 = 28100,
+                    DrumPrice2 = 28100,
+                    DrumPrice3 = 28100,
+                    DrumPrice4 = 28100
+                };
+                _BD.ConsumablePrices.Add(price);
+
+                SizePaper SRA3 = new()
+                {
+                    NameSizePaper = "SRA3",
+                    SizePaperHeight = 320,
+                    SizePaperWidth = 450
+                };
+                _BD.SizePapers.Add(SRA3);
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ошибка записи ConsumablePrice ошибка: {ex}", ex);
+            }
+			finally
+			{
+                _logger.LogInformation("add AddConsumablePrice");
+			}
+        }
+        private void TestAddLamonation(string nameLamonation, float price)
+        {
+            try
+            {
+                LaminationPrice Prices = new()
+                {
+                    Price = price
+                };
+                Lamination lamination = new()
+                {
+                    Name = nameLamonation,
+                    Price = new List<LaminationPrice>() { Prices }
+                };
+
+                _BD.LaminationPrices.Add(Prices);
+                _BD.Laminations.Add(lamination);
+
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ошибка записи AddLamonation ошибка: {ex}", ex);
+            }
+            finally
+            {
+                _logger.LogInformation("add Lamination {nameLamonation}: {price}", nameLamonation, price);
+            }
         }
 
-        private void TetsAddPaper()
+        private void TetsAddPaper(string namePaper, float price)
         {
-            SizePaper SRA3 = new SizePaper
+            try
             {
-                NameSizePaper = "SRA3",
-                SizePaperHeight = 320,
-                SizePaperWidth = 450
-            };
-            PricePaper pricePaper = new PricePaper
+                PricePaper pricePaper = new()
+                {
+                    Price = price
+                };
+                PaperCatalog mondi350 = new()
+                {
+                    Name = namePaper,
+                    Prices = new List<PricePaper>() { pricePaper },
+                    Size = _BD.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
+                };
+                _BD.PricePapers.Add(pricePaper);
+                _BD.PaperCatalogs.Add(mondi350);
+                _BD.SaveChanges();
+            }
+            catch (Exception ex)
             {
-                Price = (float)17.7
-            };
-            PaperCatalog mondi350 = new PaperCatalog
+                _logger.LogError("ошибка записи AddPaper ошибка: {ex}", ex);
+            }
+            finally
             {
-                Name = "mondi350",
-                Prices = new List<PricePaper>() { pricePaper },
-                Size = SRA3
-            };
-            DB.SizePapers.Add(SRA3);
-            DB.PricePapers.Add(pricePaper);
-            DB.PaperCatalogs.Add(mondi350);
-            DB.SaveChanges();
-
-
-
-
-            PricePaper pricePaper2 = new PricePaper
-            {
-                Price = (float)9.7
-            };
-            PaperCatalog mondi200 = new PaperCatalog
-            {
-                Name = "mondi 200",
-                Prices = new List<PricePaper>() { pricePaper2 },
-                Size = DB.SizePapers.Where(p => p.NameSizePaper == "SRA3").FirstOrDefault()
-            };
-            DB.PricePapers.Add(pricePaper2);
-            DB.PaperCatalogs.Add(mondi200);
-            DB.SaveChanges();
+                _logger.LogInformation("AddPaper {namePaper}: {price}", namePaper, price);
+            }
         }
     }
 }

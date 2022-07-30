@@ -1,100 +1,153 @@
-﻿@model printing_calculator.ViewModels.Result;
-@using printing_calculator.ViewModels;
+﻿@model printing_calculator.ViewModels.Result.Result
+@using printing_calculator.ViewModels.Result;
 @{
 	Layout = "_Layout";
 	string size = $"{Model.Height}x{Model.Whidth}";
-	string duplex = Model.Duplex ? "4+4" : "4+0";
-	int profit = Model.Price - Model.CostPrice;
+	string amoutKids = $"{Model.Amount}x{Model.Kinds}";
+	string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
+	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostPrise;
+	int profit = (int)(Model.Price - AllCostPrise);
+	int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
 
-	string formaction = @$"Calculator?HistoryId={Model.HistoryId}";
+	string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
 
-	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperName} - {Model.Price}";
+	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperResult.NamePaper} - {Model.PaperResult.Price}";
+	double PriceForOne = Math.Round((double)Model.Price / (double)(Model.Amount * Model.Kinds), 2); //округлить до 3х знаков
+	float PriceForOneLamonation = Model.LaminationResult.Price / Model.PaperResult.Sheets;
 }
 
 @section Stail {
-<link rel="stylesheet" type="text/css" href="/result.css">
+<link rel="stylesheet" type="text/css" href="/result2.css">
 <script>
 	function copu() {
-	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperName - @Model.Price руб.')
+	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperResult.NamePaper - @Model.PaperResult.Price руб.')
 	}
 </script>
 }
-<div class="tableFlex">
-	<div class="table">
-		<table>
-			<tr>
-				<td colspan="2">
-					<div class="meaning">@Model.PaperName</div>
-					<div class="signature">бумага</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="meaning">@Model.Amount шт.</div>
-					<div class="signature">тираж</div>
-				</td>
-				<td>
-					<div class="meaning">@Model.Kinds</div>
-					<div class="signature">видов</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="meaning">@size</div>
-					<div class="signature">размер</div>
-				</td>
-				<td>
-					<div class="meaning">@duplex</div>
-					<div class="signature">цветность</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="meaning">@Model.Sheets л.</div>
-					<div class="signature">печатных листов</div>
-				</td>
-				<td>
-					<div class="meaning">@Model.PiecesPerSheet шт.</div>
-					<div class="signature">штук на листе</div>
-				</td>
+	@if (!Model.TryTrice)
+	{
+		<div class="errorePrice">
+			<p>Цена не актуальная</p>
+		</div>
+	}
+<div class="twoColumnsFlex">
 
-			</tr>
-		</table>
+	<div class="priceFlex">
+
+		<div class="totalPrice">
+			<p class="totalPrice">Итого</p>
+			<h1 class="totalPrice">@Model.Price руб.</h1>
+			<h2 class="totalPrice">@PriceForOne руб/шт</h2>
+		</div>
+
+		<div class="detalPriceBox">
+			<div class="grayBackground">
+				<p class="leftTextDetalPrice">Бумага</p>
+				<p class="rightTextDetalPrice">@Model.PaperResult.Price руб.</p>
+			</div>
+			<div class="detal">
+				<details>
+					<summary class="detal">подробнее</summary>
+					<p class="detal">себестоимость - @Model.PaperResult.CostPrise руб.</p>
+					<p class="detal">чистая прибыль - @profit руб.</p>
+					<p class="detal">цена резки - @Model.PaperResult.CutPrics руб.</p>
+				</details>
+			</div>
+		</div>
+
+		<div class="detalPriceBox">
+			<div class="grayBackground">
+				<p class="leftTextDetalPrice">Ламинация</p>
+				<p class="rightTextDetalPrice">@Model.LaminationResult.Price руб.</p>
+			</div>
+			<div class="detal">
+				<details>
+					<summary class="detal">подробнее</summary>
+					<p class="detal">@Model.LaminationResult.Name</p>
+				</details>
+			</div>
+		</div>
+
+		<div class="detalPriceBox">
+			<div class="grayBackground">
+				<p class="leftTextDetalPrice">Постпечатная</p>
+				<p class="rightTextDetalPrice">@pricePos руб.</p>
+			</div>
+			<div class="detal">
+				<details>
+					<summary class="detal">подробнее</summary>
+					<p class="detal">биговка - @Model.PosResult.CreasingPrice руб.(@Model.PosResult.CreasingAmount шт.)</p>
+					<p class="detal">сверление - @Model.PosResult.DrillingPrice руб. (@Model.PosResult.DrillingAmount шт.)</p>
+					<p class="detal">скругление углов - @Model.PosResult.RoundingPrice руб.</p>
+				</details>
+			</div>
+		</div>
+
 	</div>
 
-	<div class="table">
-		<table>
-			<tr>
-				<td colspan="2">
-					<div class="meaning">@Model.Price руб.</div>
-					<div class="signature">Стоимость</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="meaning">@Model.CostPrice руб.</div>
-					<div class="signature">себестоимость</div>
-				</td>
-				<td>
-					<div class="meaning">@profit руб</div>
-					<div class="signature">чистая прибль</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="meaning">@Model.Markup %</div>
-					<div class="signature">нацека</div>
-				</td>
-			</tr>
-		</table>
+	<div class="rowInputFlex">
+		<div class="paperInput">
+			<div class="green">
+				<p class="margin2"><b>Бумага</b></p>
+			</div>
+			<div class="grey">
+				<p class="margin">@Model.PaperResult.NamePaper</p>
+			</div>
+		</div>
+
+		<div class="columnInputFlex">
+			<div class="rowInputLitleFlex">
+
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">Размер изделия</p>
+					</div>
+					<div class="grey">
+						<p class="margin">@size</p>
+					</div>
+				</div>
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">Кол-во/Видов</p>
+					</div>
+					<div class="grey">
+						<p class="margin">@amoutKids шт.</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="rowInputLitleFlex">
+
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">Цветность</p>
+					</div>
+					<div class="grey">
+						<p class="margin">@duplex</p>
+					</div>
+				</div>
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">Листов:шт/лист</p>
+					</div>
+					<div class="grey">
+						<p class="margin">@Model.PaperResult.PiecesPerSheet л.:@Model.PaperResult.Sheets шт/л</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
 </div>
 
 
+
+
 <div class="button">
 	<form>
-		<input class="buttonNext" type="submit" formmethod="post" formaction="@formaction" value="пересчитать">
-		<input class="close" type="submit" formaction="result.html" value="сохранить как задачу">
-		<input class="buttonNext" type="button" onclick="copu();" value="в буфер обмена">
+		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
+		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
+		<input class="buttonNext" type="button" onclick="copu();" value="Cкопировать">
+
 	</form>
 </div>
