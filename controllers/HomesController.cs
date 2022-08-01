@@ -15,5 +15,9 @@ namespace printing_calculator.controllers
             _logger.LogTrace("Home");
             return View("Page");
         }
+        public IActionResult Changelog()
+        {
+            return View("Chengelog");
+        }
     }
 }
