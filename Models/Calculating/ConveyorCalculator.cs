@@ -3,6 +3,7 @@ using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace printing_calculator.Models.Calculating
 {
@@ -11,9 +12,9 @@ namespace printing_calculator.Models.Calculating
         private readonly Setting _settings;
         private readonly ApplicationContext _DB;
         private readonly ILogger<ConveyorCalculator> _logger;
-        public ConveyorCalculator(Setting options, ApplicationContext DB, ILogger<ConveyorCalculator> logger)
+        public ConveyorCalculator(IOptions<Setting> options, ApplicationContext DB, ILogger<ConveyorCalculator> logger)
         {
-            _settings = options;
+            _settings = options.Value;
             _DB = DB;
             _logger = logger;
         }
@@ -40,7 +41,7 @@ namespace printing_calculator.Models.Calculating
                 new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _DB), 
                 new PaperCostPrice( _DB), 
                 new PaperMarkup(_settings.MarkupPaper), 
-                new PaperCupPrise(_settings.CutSetting), 
+                new PaperCutPrise(_settings.CutSetting), 
                 new PaperPrise(),
                 new LamonationInfo(),
                 new LamonationMarkup(_settings.Lamination), 

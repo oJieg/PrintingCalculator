@@ -4,10 +4,12 @@ using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
-    public class PaperCupPrise : IConveyor
+    public class PaperCutPrise : IConveyor
     {
         private readonly CutSetting _cutSetting;
-        public PaperCupPrise(CutSetting cutSetting)
+        private const int AdjustmentCutOne = 30; //количество листов в одной привертке при резке
+
+        public PaperCutPrise(CutSetting cutSetting)
         {
             _cutSetting = cutSetting;
         }
@@ -15,7 +17,8 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             try
             {
-                int CutPrice = (int)(result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice;
+                int CutOneAdjustmentPrice = (int)(result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice;
+                int CutPrice = CutOneAdjustmentPrice * (int)Math.Ceiling((double)result.PaperResult.Sheets / (double)AdjustmentCutOne);
                 if (history.CutPrice == null)
                 {
                     result.PaperResult.CutPrics = CutPrice;

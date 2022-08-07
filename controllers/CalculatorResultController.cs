@@ -5,6 +5,7 @@ using printing_calculator.DataBase;
 using Microsoft.Extensions.Options;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace printing_calculator.controllers
 {
@@ -13,22 +14,24 @@ namespace printing_calculator.controllers
         private readonly ApplicationContext _BD;
         private readonly Setting _options;
         private readonly ILogger<CalculatorResultController> _logger;
-        private readonly ILogger<ConveyorCalculator> _loggerConveyor;
+        private readonly ConveyorCalculator _calculator;
+
         public CalculatorResultController(ApplicationContext DB,
-            IOptions<Setting> options, ILoggerFactory loggerFactory)
+            IOptions<Setting> options, 
+            ILogger<CalculatorResultController> loggerFactory,
+            ConveyorCalculator conveyorCalculator)
         {
             _BD = DB;
             _options = options.Value;
-            _logger = loggerFactory.CreateLogger<CalculatorResultController>();
-            _loggerConveyor = loggerFactory.CreateLogger<ConveyorCalculator>();
+            _logger = loggerFactory;
+            _calculator= conveyorCalculator;
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(Input input)
         {
             //валидация input
-
-            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
+            ConveyorCalculator conveyor = _calculator;
 
             bool tryCalculation = conveyor.TryStartCalculation(input, out History history, out Result result);
             if (!tryCalculation)
@@ -59,7 +62,7 @@ namespace printing_calculator.controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
+            ConveyorCalculator conveyor = _calculator;
 
             bool TryCalculatoin = conveyor.TryStartCalculation(id, out Result result);
             if (!TryCalculatoin)
