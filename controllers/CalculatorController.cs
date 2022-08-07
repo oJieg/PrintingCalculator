@@ -7,20 +7,20 @@ namespace printing_calculator.controllers
     public class CalculatorController : Controller
     {
         private readonly ApplicationContext _BD;
-        private readonly ILogger<HomesController> _logger;
-        public CalculatorController(ApplicationContext DB, ILogger<HomesController> logger)
+        private readonly ILogger<CalculatorController> _logger;
+        public CalculatorController(ApplicationContext DB, ILogger<CalculatorController> logger)
         {
             _logger = logger;
             _BD = DB;
         }
 
-        public ActionResult Index(int HistoryId)
+        public async Task<ActionResult> Index(int HistoryId)
         {
-            PaperAndHistoryInput paperAndInput = new();
+            PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                paperAndInput.Paper = _BD.PaperCatalogs.ToList();
-                paperAndInput.Lamination = _BD.Laminations.ToList();
+                 PaperAndHistoryInput.Paper = await _BD.PaperCatalogs.ToListAsync();
+                PaperAndHistoryInput.Lamination = await _BD.Laminations.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -31,7 +31,8 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    paperAndInput.Input = _BD.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).First().Input;
+
+                    PaperAndHistoryInput.Input = (await _BD.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).FirstAsync()).Input;
                 }
                 catch (Exception ex)
                 {
@@ -39,7 +40,7 @@ namespace printing_calculator.controllers
                 }
             }
 
-            return View("Calculator", paperAndInput);
+            return View("Calculator", PaperAndHistoryInput);
         }
     }
 }

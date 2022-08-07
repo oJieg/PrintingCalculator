@@ -5,16 +5,15 @@ namespace printing_calculator.Models
 {
     public class FullIncludeHistory 
     {
-        public List<History> GetList(ApplicationContext DB, int page, int countPage)
+        public async Task<List<History>> GetList(ApplicationContext DB, int page, int countPage)
         {
-            return DB.Historys
+            return await DB.Historys
                 .Include(x => x.Input)
                 .Include(x => x.Input.Paper)
-               // .Include(x => x.Input.CreasingAmount)
                 .Include(x => x.Input.Lamination)
                 .OrderByDescending(x => x.Id)
                 .Take(countPage)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace printing_calculator.controllers
             _logger = logger;
         }
 
-        public IActionResult Index(int page, int countPage = 10)
+        public async Task<IActionResult> Index(int page, int countPage = 10)
         {
             if (!ValidationPage(page, countPage))
             {
@@ -29,11 +29,11 @@ namespace printing_calculator.controllers
 
             try
             {
-                List<History> histories = fullIncludeHistory.GetList(_BD, page, countPage);
+                List<History> histories = await fullIncludeHistory.GetList(_BD, page, countPage);
 
                 foreach (History history in histories)
                 {
-                    result.Add(HistoryToSimplResult(history));
+                    result.Add(Converter.HistoryToSimplResult(history));
                 }
             }
             catch (Exception ex)
@@ -56,53 +56,6 @@ namespace printing_calculator.controllers
             return true;
         }
 
-        private static SimplResult HistoryToSimplResult(History history)
-        {
-            SimplResult result = new();
-            result.HistoryId = history.Id;
-            result.Whidth = history.Input.Whidth;
-            result.Height = history.Input.Height;
-            result.Amount = history.Input.Amount;
-            result.Kinds = history.Input.Kinds;
-            result.PaperName = history.Input.Paper.Name;
-            if (history.Input.Lamination == null)
-            {
-                result.Lamination = false;
-            }
-            else
-            {
-                result.Lamination = true;
-            }
 
-            if (history.CreasingPrice > 0)
-            {
-                result.Creasing = true;
-            }
-            else
-            {
-                result.Creasing = false;
-            }
-
-            if (history.DrillingPrice > 0)
-            {
-                result.Drilling = true;
-            }
-            else
-            {
-                result.Drilling = false;
-            }
-
-            if (history.RoundingPrice > 0)
-            {
-                result.Rounding = true;
-            }
-            else
-            {
-                result.Rounding = false;
-            }
-
-            result.Price = (int)history.Price;
-            return result;
-        }
     }
 }
