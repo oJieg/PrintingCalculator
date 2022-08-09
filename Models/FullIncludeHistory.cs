@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models
 {
-    public class FullIncludeHistory 
+    public class FullIncludeHistory
     {
         public async Task<List<History>> GetList(ApplicationContext DB, int page, int countPage)
         {

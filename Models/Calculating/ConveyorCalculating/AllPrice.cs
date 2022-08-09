@@ -9,11 +9,11 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             try
             {
-               int Price = (int)(result.PaperResult.Price
-                                     + result.LaminationResult.Price
-                                     + result.PosResult.CreasingPrice
-                                     + result.PosResult.DrillingPrice
-                                     + result.PosResult.RoundingPrice);
+                int Price = (int)(result.PaperResult.Price
+                                      + result.LaminationResult.Price
+                                      + result.PosResult.CreasingPrice
+                                      + result.PosResult.DrillingPrice
+                                      + result.PosResult.RoundingPrice);
                 result.Price = (int)Math.Round((double)Price / 10, 1) * 10; //округеление
 
                 if (history.Price == null)

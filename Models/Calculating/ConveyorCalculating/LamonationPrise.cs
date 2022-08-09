@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.LaminationResult.Price = (int)(result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment;
                     return true;
                 }
-               // result.LaminationResult = new();
+                // result.LaminationResult = new();
                 result.LaminationResult.Price = 0;
                 return true;
             }

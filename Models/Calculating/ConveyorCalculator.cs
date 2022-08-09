@@ -38,15 +38,15 @@ namespace printing_calculator.Models.Calculating
                 new Info(),
                 new PaperInfo(),
                 new PaperSplitting(_settings.SettingPrinter),
-                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _DB), 
-                new PaperCostPrice( _DB), 
-                new PaperMarkup(_settings.MarkupPaper), 
-                new PaperCutPrise(_settings.CutSetting), 
+                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _DB),
+                new PaperCostPrice(_DB),
+                new PaperMarkup(_settings.MarkupPaper),
+                new PaperCutPrise(_settings.CutSetting),
                 new PaperPrise(),
                 new LamonationInfo(),
-                new LamonationMarkup(_settings.Lamination), 
+                new LamonationMarkup(_settings.Lamination),
                 new LamonationCostPrise(_settings.Lamination, _DB),
-                new LamonationPrise(_settings.Lamination), 
+                new LamonationPrise(_settings.Lamination),
                 new PosCreasing(_settings.Pos),
                 new PosDrilling(_settings.Pos),
                 new PosRounding(_settings.Pos),
@@ -60,18 +60,16 @@ namespace printing_calculator.Models.Calculating
         {
             try
             {
-
-               return _DB.Historys
-                    .Include(x => x.Input)
-                    .Include(x => x.PricePaper.Catalog)
-                    .Include(x => x.Input.Paper.Size)
-                    .Include(x => x.ConsumablePrice)
-                    .Include(x => x.Input.Lamination)
-                    .Include(x => x.LaminationPrices)
-                    .Include(x => x.Input.Lamination.Price)
-                    .Where(x => x.Id == id)
-                    .First();
-
+                return _DB.Historys
+                     .Include(x => x.Input)
+                     .Include(x => x.PricePaper.Catalog)
+                     .Include(x => x.Input.Paper.Size)
+                     .Include(x => x.ConsumablePrice)
+                     .Include(x => x.Input.Lamination)
+                     .Include(x => x.LaminationPrices)
+                     .Include(x => x.Input.Lamination.Price)
+                     .Where(x => x.Id == id)
+                     .First();
             }
             catch (Exception ex)
             {
@@ -83,7 +81,7 @@ namespace printing_calculator.Models.Calculating
         //изначально были отдельно, но перенес сюда, что бы в одном месте сразу все добавлять.
         private History GeneratorHistory(Input input)
         {
-            History history = new ();
+            History history = new();
             history.Input = new HistoryInput();
             try
             {

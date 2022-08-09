@@ -1,9 +1,6 @@
 ﻿@model printing_calculator.ViewModels.PaperAndHistoryInput
 @using printing_calculator.ViewModels;
 @using printing_calculator.DataBase;
-
-
-
 @{
 	Layout = "_Layout";
 	int sizeMinValue = 30;
@@ -30,7 +27,6 @@
 					Lamination = new Lamination()
 				};
 	}
-
 }
 
 @section Stail {
@@ -178,7 +174,6 @@
 			<span>не сохранять</span>
 		</label>
 	</div>
-
 
 	<div class="button">
 		<input class="buttonNext" type="submit" formmethod="post" formaction="CalculatorResult" value="Расчитать">

@@ -26,6 +26,5 @@ namespace printing_calculator.Models
 
             return result;
         }
-
     }
 }

@@ -11,6 +11,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _setting = setting;
         }
+
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;

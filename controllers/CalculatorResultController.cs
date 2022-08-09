@@ -17,14 +17,14 @@ namespace printing_calculator.controllers
         private readonly ConveyorCalculator _calculator;
 
         public CalculatorResultController(ApplicationContext DB,
-            IOptions<Setting> options, 
+            IOptions<Setting> options,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator)
         {
             _BD = DB;
             _options = options.Value;
             _logger = loggerFactory;
-            _calculator= conveyorCalculator;
+            _calculator = conveyorCalculator;
         }
 
         [HttpPost]

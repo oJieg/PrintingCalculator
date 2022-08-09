@@ -29,7 +29,6 @@ namespace printing_calculator.controllers
             //TestAddLamonation("матовая 1+1", (float)5.96);
             //TestAddLamonation("софт тач 1+1", (float)16.04);
 
-
             List<PaperCatalog> catalog = _BD.PaperCatalogs.Include(x => x.Prices).ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
@@ -67,10 +66,10 @@ namespace printing_calculator.controllers
             {
                 _logger.LogError("ошибка записи ConsumablePrice ошибка: {ex}", ex);
             }
-			finally
-			{
+            finally
+            {
                 _logger.LogInformation("add AddConsumablePrice");
-			}
+            }
         }
         private void TestAddLamonation(string nameLamonation, float price)
         {

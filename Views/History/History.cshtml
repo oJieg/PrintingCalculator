@@ -4,7 +4,7 @@
 
 @{
 	Layout = "_Layout";
-	HtmlString  Pos(SimplResult result)
+	HtmlString Pos(SimplResult result)
 	{
 		string PosLogo = string.Empty;
 		if (result.Lamination)
@@ -27,10 +27,10 @@
 		{
 			PosLogo = "-";
 		}
-
 		return new HtmlString(PosLogo);
 	}
 }
+
 @section Stail {
 <link rel="stylesheet" type="text/css" href="history.css">
 }
@@ -85,12 +85,7 @@
 					</td>
 				</tr>
 			}
-
-
-
 			</tr>
 		</table>
 	</div>
-
-
 </div>

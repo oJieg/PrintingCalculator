@@ -18,15 +18,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 //проверка на актуальность цен
                 int ActualConsumableId = _DB.ConsumablePrices.OrderByDescending(x => x.Id).FirstOrDefault().Id;
-                if(ActualConsumableId != history.ConsumablePrice.Id)
+                if (ActualConsumableId != history.ConsumablePrice.Id)
                 {
-                    result.PaperResult.ActualConsumablePrice = false;  
+                    result.PaperResult.ActualConsumablePrice = false;
                 }
                 else
                 {
                     result.PaperResult.ActualConsumablePrice = true;
                 }
-
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2

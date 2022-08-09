@@ -11,6 +11,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _DB = DB;
         }
+
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             try

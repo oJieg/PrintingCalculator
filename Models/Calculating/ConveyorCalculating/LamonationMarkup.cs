@@ -10,6 +10,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _markup = markup;
         }
+
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             if (history.Input.Lamination == null)
@@ -45,7 +46,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private bool ActualMarkup(History history, int markup)
         {
-            if(history.LaminationMarkup == markup)
+            if (history.LaminationMarkup == markup)
             {
                 return true;
             }

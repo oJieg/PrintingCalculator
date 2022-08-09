@@ -17,8 +17,7 @@ namespace printing_calculator
                 })
              .ConfigureLogging(logging =>
              {
-                logging.ClearProviders();
-
+                 logging.ClearProviders();
              })
             .UseNLog();
     }

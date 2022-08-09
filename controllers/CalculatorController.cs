@@ -19,7 +19,7 @@ namespace printing_calculator.controllers
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                 PaperAndHistoryInput.Paper = await _BD.PaperCatalogs.ToListAsync();
+                PaperAndHistoryInput.Paper = await _BD.PaperCatalogs.ToListAsync();
                 PaperAndHistoryInput.Lamination = await _BD.Laminations.ToListAsync();
             }
             catch (Exception ex)
@@ -31,7 +31,6 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-
                     PaperAndHistoryInput.Input = (await _BD.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).FirstAsync()).Input;
                 }
                 catch (Exception ex)

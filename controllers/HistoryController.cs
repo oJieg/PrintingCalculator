@@ -55,7 +55,5 @@ namespace printing_calculator.controllers
 
             return true;
         }
-
-
     }
 }

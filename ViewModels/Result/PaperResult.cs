@@ -6,7 +6,7 @@
         public bool Duplex { get; set; }
         public int Sheets { get; set; } //листов необхзодимо
         public int? PiecesPerSheet { get; set; } //штук на листе
-        public float  ConsumablePrice { get; set; }
+        public float ConsumablePrice { get; set; }
         public bool ActualConsumablePrice { get; set; }
         public int? CostPrise { get; set; }
         public bool ActualCostPrise { get; set; }
