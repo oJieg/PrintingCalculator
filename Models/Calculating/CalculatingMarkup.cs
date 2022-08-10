@@ -9,7 +9,6 @@ namespace printing_calculator.Models
         private float _stepMarkup;
         private float _maxMarkup;
 
-
         private int _difference;
         private int _sheets;
         private readonly List<MarkupList> _markup;

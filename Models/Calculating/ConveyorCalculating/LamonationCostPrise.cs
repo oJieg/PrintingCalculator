@@ -34,7 +34,6 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return false;
             }
-
         }
 
         private bool ActualCostPrice(History history)

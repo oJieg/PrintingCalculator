@@ -13,6 +13,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _cutSetting = cutSetting;
         }
+
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             try
@@ -41,7 +42,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private bool ActualCutPrice(int? historyPrice, int cutPrice)
         {
-            if(historyPrice == cutPrice)
+            if (historyPrice == cutPrice)
             {
                 return true;
             }

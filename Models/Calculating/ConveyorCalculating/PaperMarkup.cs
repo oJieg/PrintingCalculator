@@ -24,7 +24,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PaperResult.MarkupPaper = MarkupPaper;
                     result.PaperResult.ActualMarkupPaper = true;
                     history.MarkupPaper = MarkupPaper;
-                    
+
                     return true;
                 }
                 else

@@ -14,7 +14,6 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         public bool TryConveyorStart(ref History history, ref Result result)
         {
-
             result.PaperResult.PiecesPerSheet = PiecesPerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
             result.PaperResult.Sheets = ((int)
                 Math.Ceiling(((double)result.Amount / (double)result.PaperResult.PiecesPerSheet)))
@@ -25,7 +24,6 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private int PiecesPerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
-
             int SizePaperHeight = sizePaper.SizePaperHeight - _settings.WhiteFieldHeight;
             int SizePaperWidth = sizePaper.SizePaperWidth - _settings.WhiteFieldWidth;
 

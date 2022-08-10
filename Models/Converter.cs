@@ -18,7 +18,6 @@ namespace printing_calculator.Models
 
                 Price = (int)history.Price
             };
-
             result.Lamination = history.Input.Lamination != null;
             result.Creasing = history.CreasingPrice > 0;
             result.Drilling = history.DrillingPrice > 0;
