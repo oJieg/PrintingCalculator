@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
 
 namespace printing_calculator.controllers
 {
+    //это временная заглушка
     public class ValuesProcessingController : Controller
     {
         private readonly ApplicationContext _BD;
@@ -17,7 +17,7 @@ namespace printing_calculator.controllers
         public IActionResult Index()
         {
             _logger.LogInformation("Run AddTest data");
-            TestAddConsumablePrice();
+           // TestAddConsumablePrice();
             //TetsAddPaper("CC - 350", (float)17.2);
             //TetsAddPaper("CC - 400", (float)23.04);
             //TetsAddPaper("DNS - 200", (float)10.58);
@@ -34,7 +34,7 @@ namespace printing_calculator.controllers
             return View("PageOtvet", catalog);
         }
 
-        private void TestAddConsumablePrice()
+        private async void TestAddConsumablePrice()
         {
             try
             {
@@ -60,7 +60,7 @@ namespace printing_calculator.controllers
                     SizePaperWidth = 450
                 };
                 _BD.SizePapers.Add(SRA3);
-                _BD.SaveChanges();
+                await _BD.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace printing_calculator.controllers
                 _logger.LogInformation("add AddConsumablePrice");
             }
         }
-        private void TestAddLamonation(string nameLamonation, float price)
+        private async void TestAddLamonation(string nameLamonation, float price)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace printing_calculator.controllers
                 _BD.LaminationPrices.Add(Prices);
                 _BD.Laminations.Add(lamination);
 
-                _BD.SaveChanges();
+                await _BD.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace printing_calculator.controllers
             }
         }
 
-        private void TetsAddPaper(string namePaper, float price)
+        private async void TetsAddPaper(string namePaper, float price)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace printing_calculator.controllers
                 };
                 _BD.PricePapers.Add(pricePaper);
                 _BD.PaperCatalogs.Add(mondi350);
-                _BD.SaveChanges();
+                await _BD.SaveChangesAsync();
             }
             catch (Exception ex)
             {

@@ -2,18 +2,20 @@
 using printing_calculator.ViewModels;
 using printing_calculator.Models;
 using printing_calculator.DataBase;
-using Microsoft.Extensions.Options;
+using printing_calculator.Models.Calculating;
 
 namespace printing_calculator.controllers
 {
     public class HistoryController : Controller
     {
-        private readonly ApplicationContext _BD;
         private readonly ILogger<HistoryController> _logger;
-        public HistoryController(ApplicationContext context, ILogger<HistoryController> logger)
+        private readonly GeneratorHistory _generatorHistory;
+
+        public HistoryController(ILogger<HistoryController> logger,
+            GeneratorHistory generatorHistory)
         {
-            _BD = context;
             _logger = logger;
+            _generatorHistory = generatorHistory;
         }
 
         public async Task<IActionResult> Index(int page, int countPage = 10)
@@ -25,11 +27,10 @@ namespace printing_calculator.controllers
                 return NotFound();
             }
             List<SimplResult> result = new();
-            FullIncludeHistory fullIncludeHistory = new();
 
             try
             {
-                List<History> histories = await fullIncludeHistory.GetList(_BD, page, countPage);
+                List<History> histories = await _generatorHistory.GetList(page, countPage);
 
                 foreach (History history in histories)
                 {
