@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using printing_calculator.ViewModels;
-using printing_calculator.Models;
 using printing_calculator.DataBase;
-using Microsoft.Extensions.Options;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
+using printing_calculator.Models;
 
 namespace printing_calculator.controllers
 {
@@ -14,24 +13,32 @@ namespace printing_calculator.controllers
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
+        private readonly Validstion _validstion;
 
         public CalculatorResultController(ApplicationContext DB,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator,
-            GeneratorHistory generatorHistory)
+            GeneratorHistory generatorHistory,
+            Validstion validstion)
         {
             _BD = DB;
             _logger = loggerFactory;
             _calculator = conveyorCalculator;
             _generatorHistory = generatorHistory;
+            _validstion = validstion;
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(Input input)
         {
-            //валидация input
+            if(!(await _validstion.TryValidationInpytAsync(input)))
+            {
+                _logger.LogError("input не прошел валидацию input:{input}", input);
+                return BadRequest();
+            }
+
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistory(input);
+            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
@@ -65,7 +72,7 @@ namespace printing_calculator.controllers
         public async Task<IActionResult> Index(int id)
         {
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistory(id);
+            History? history = await _generatorHistory.GetFullIncludeHistoryAcync(id);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 

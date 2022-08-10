@@ -45,7 +45,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 .First()
                 .Price;
 
-            if (PriceId == ActualPriceId[ActualPriceId.Count - 1].Id)
+            if (PriceId == ActualPriceId[^1].Id)
             {
                 return true;
             }

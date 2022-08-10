@@ -34,7 +34,7 @@ namespace printing_calculator.controllers
             return View("PageOtvet", catalog);
         }
 
-        private async void TestAddConsumablePrice()
+        private async void TestAddConsumablePriceAsync()
         {
             try
             {
@@ -71,7 +71,7 @@ namespace printing_calculator.controllers
                 _logger.LogInformation("add AddConsumablePrice");
             }
         }
-        private async void TestAddLamonation(string nameLamonation, float price)
+        private async void TestAddLamonationAsync(string nameLamonation, float price)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace printing_calculator.controllers
             }
         }
 
-        private async void TetsAddPaper(string namePaper, float price)
+        private async void TetsAddPaperAsync(string namePaper, float price)
         {
             try
             {

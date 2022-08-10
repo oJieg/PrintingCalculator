@@ -17,6 +17,7 @@ namespace printing_calculator
         {
             services.AddTransient<ConveyorCalculator>();
             services.AddTransient<GeneratorHistory>();
+            services.AddTransient<Validstion>();
             services.Configure<Setting>(_configuration.GetSection("Settings"));
 
             services.AddMvc();

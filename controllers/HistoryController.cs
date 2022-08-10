@@ -30,7 +30,7 @@ namespace printing_calculator.controllers
 
             try
             {
-                List<History> histories = await _generatorHistory.GetList(page, countPage);
+                List<History> histories = await _generatorHistory.GetListAsync(page, countPage);
 
                 foreach (History history in histories)
                 {

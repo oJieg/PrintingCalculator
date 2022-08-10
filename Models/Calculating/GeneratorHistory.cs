@@ -14,7 +14,7 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<History?> GetFullIncludeHistory(int id)
+        public async Task<History?> GetFullIncludeHistoryAcync(int id)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace printing_calculator.Models.Calculating
             }
         }
 
-        public async Task<History?> GetFullIncludeHistory(Input input)
+        public async Task<History?> GetFullIncludeHistoryAsync(Input input)
         {
             History history = new();
             history.Input = new HistoryInput();
@@ -89,7 +89,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<List<History>> GetList(int page, int countPage)
+        public async Task<List<History>> GetListAsync(int page, int countPage)
         {
             try
             {

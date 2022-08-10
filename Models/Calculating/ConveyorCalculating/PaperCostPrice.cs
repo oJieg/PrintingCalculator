@@ -1,12 +1,11 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.DataBase;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCostPrice : IConveyor
     {
-        private ApplicationContext _DB;
+        private readonly ApplicationContext _DB;
         public PaperCostPrice(ApplicationContext DB)
         {
             _DB = DB;
@@ -36,7 +35,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 .First()
                 .Prices;
 
-            if (PriceId == ActualPriceId[ActualPriceId.Count - 1].Id)
+            if (PriceId == ActualPriceId[^1].Id)
             {
                 return true;
             }

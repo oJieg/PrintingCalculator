@@ -15,9 +15,10 @@ namespace printing_calculator.Models.ConveyorCalculating
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             //мб валидацию добавить? 
-            result.PosResult = new PosResult();
-
-            result.PosResult.CreasingAmount = history.Input.CreasingAmount;
+            result.PosResult = new PosResult
+            {
+                CreasingAmount = history.Input.CreasingAmount
+            };
             if (history.Input.CreasingAmount == 0)
             {
                 result.PosResult.CreasingPrice = 0;
