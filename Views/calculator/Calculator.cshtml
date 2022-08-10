@@ -30,35 +30,30 @@
 }
 
 @section Stail {
-<link rel="stylesheet" type="text/css" href="calculator.css">
-<script>
-	function editSize(Height, Width) {
-	  document.getElementById('Height').value = Height;
-	  document.getElementById('Width').value = Width;
-	}
-</script>
+<link rel="stylesheet" type="text/css" href="/calculator.css">
+<script src="/ActiveSize.js"></script>
 }
 
 <form name="my1" class="flex">
 	<h2 class="nameCalc"> Калькулятор</h2>
 
 	<div class="FastSizeBlock">
-		<input class="FastSize" type="button" onclick="editSize(420,297);" value="А3">
-		<input class="FastSize" type="button" onclick="editSize(210,297);" value="А4">
-		<input class="FastSize" type="button" onclick="editSize(148,210);" value="А5">
-		<input class="FastSize" type="button" onclick="editSize(105,148);" value="А6">
-		<input class="FastSize" type="button" onclick="editSize(100,150);" value="10x15">
-		<input class="FastSize" type="button" onclick="editSize(90,50);" value="9x5">
+		<input class="FastSize" id="297420" type="button" onclick="editSize(420,297);" value="А3">
+		<input class="FastSize" id="210297" type="button" onclick="editSize(210,297);" value="А4">
+		<input class="FastSize" id="148210" type="button" onclick="editSize(148,210);" value="А5">
+		<input class="FastSize" id="105148" type="button" onclick="editSize(105,148);" value="А6">
+		<input class="FastSize" id="100150" type="button" onclick="editSize(100,150);" value="10x15">
+		<input class="FastSize" id="5090" type="button" onclick="editSize(90,50);" value="9x5">
 	</div>
 	<div class="horizontalInput">
 
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">ширина макета</label>
-			<input class="inputNumber" id="Height" type="number" name="Height" required value="@input.Height" min="@sizeMinValue" max="@HightMaxValue">
+			<input class="inputNumber" id="Height" type="number" name="Height" required value="@input.Height" min="@sizeMinValue" max="@HightMaxValue" onchange="NewSize(this.value, 'Height')">
 		</div>
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">высота макета</label>
-			<input class="inputNumber" id="Width" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue">
+			<input class="inputNumber" id="Width" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue" onchange="NewSize(this.value, 'Width')">
 		</div>
 	</div>
 
