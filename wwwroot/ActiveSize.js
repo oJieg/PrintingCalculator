@@ -33,11 +33,13 @@ function activeButtonSize() {
     }
 
     for (let item of elementFastSize) {
-        if (item.id == idSize){
+        if (item.id == idSize) {
             item.className = "FastHover";
         }
-        else{
-            item.className = "FastSize";
+        else {
+            if (item.className != "FastSize") {
+                item.className = "FastSize";
+            }
         }
-   }
+    }
 }
