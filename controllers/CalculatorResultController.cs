@@ -61,7 +61,7 @@ namespace printing_calculator.controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError("не удалось сохранить просчет {ex}", ex);
+                    _logger.LogError(ex, "не удалось сохранить просчет");
                 }
             }
 
@@ -79,7 +79,7 @@ namespace printing_calculator.controllers
             bool TryCalculatoin = conveyor.TryStartCalculation(ref history, out Result result);
             if (!TryCalculatoin)
             {
-                _logger.LogError("не удался расчет, возможно не верный id");
+                _logger.LogError("не удался расчет на конвеере");
                 return NotFound();
             }
             result.HistoryInputId = id;

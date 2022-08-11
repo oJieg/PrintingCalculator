@@ -39,7 +39,7 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка получения данных для  HistoryController, {ex}", ex);
+                _logger.LogError(ex, "ошибка получения данных для  HistoryController}");
                 return NotFound();
             }
 

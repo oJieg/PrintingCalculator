@@ -31,7 +31,7 @@ namespace printing_calculator.Models.Calculating
             }
             catch (Exception ex)
             {
-                _logger.LogError("Произошло обрашение к не верному ID, {ex}", ex);
+                _logger.LogError(ex, "Неудалось получить из базы history по id");
                 return null;
             }
         }
@@ -84,7 +84,7 @@ namespace printing_calculator.Models.Calculating
             }
             catch (Exception ex)
             {
-                _logger.LogError("Пришел не верный Imput, {ex}", ex);
+                _logger.LogError(ex, "Неудалось преобразовать input в history");
             }
             return history;
         }
@@ -103,7 +103,7 @@ namespace printing_calculator.Models.Calculating
             }
             catch(Exception ex)
             {
-                _logger.LogError("Не вышло получить список истории, {ex}", ex);
+                _logger.LogError(ex, "Не вышло получить список истории");
                 return new List<History>();
             }
         }

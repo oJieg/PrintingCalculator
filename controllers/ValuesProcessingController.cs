@@ -64,7 +64,7 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи ConsumablePrice ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи ConsumablePrice");
             }
             finally
             {
@@ -92,7 +92,7 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи AddLamonation ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи AddLamonation");
             }
             finally
             {
@@ -120,7 +120,7 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи AddPaper ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи AddPaper");
             }
             finally
             {

@@ -24,7 +24,7 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("не вышло получить из базы PaperCatalogs и laminations, {ex}", ex);
+                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs и laminations");
             }
 
             if (HistoryId != 0)
@@ -35,7 +35,7 @@ namespace printing_calculator.controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError("error add DataBase historyID = {HistoryId}, {ex}", HistoryId, ex);
+                    _logger.LogError(ex, "error add DataBase historyID = {HistoryId}", HistoryId);
                 }
             }
 
