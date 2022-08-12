@@ -6,26 +6,22 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class ConsumablePrice : IConveyor
     {
         private readonly Consumable _Consumable;
-        private readonly ApplicationContext _DB;
+        private readonly ApplicationContext _applicationContext;
         public ConsumablePrice(Consumable consumable, ApplicationContext DB)
         {
             _Consumable = consumable;
-            _DB = DB;
+            _applicationContext = DB;
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
             try
             {
                 //проверка на актуальность цен
-                int ActualConsumableId = _DB.ConsumablePrices.OrderByDescending(x => x.Id).FirstOrDefault().Id;
-                if (ActualConsumableId != history.ConsumablePrice.Id)
-                {
-                    result.PaperResult.ActualConsumablePrice = false;
-                }
-                else
-                {
-                    result.PaperResult.ActualConsumablePrice = true;
-                }
+                int ActualConsumableId = _applicationContext.ConsumablePrices
+                   // .AsNoTracking()
+                    .OrderByDescending(x => x.Id)
+                    .FirstOrDefault().Id;
+                result.PaperResult.ActualConsumablePrice = ActualConsumableId == history.ConsumablePrice.Id;
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2

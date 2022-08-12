@@ -1,14 +1,15 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCostPrice : IConveyor
     {
-        private readonly ApplicationContext _DB;
+        private readonly ApplicationContext _applicationContext;
         public PaperCostPrice(ApplicationContext DB)
         {
-            _DB = DB;
+            _applicationContext = DB;
         }
 
         public bool TryConveyorStart(ref History history, ref Result result)
@@ -30,9 +31,11 @@ namespace printing_calculator.Models.ConveyorCalculating
         private bool ActualData(History history)
         {
             int PriceId = history.PricePaper.Id;
-            List<PricePaper> ActualPriceId = _DB.PaperCatalogs
+            List<PricePaper> ActualPriceId = _applicationContext.PaperCatalogs
                 .Where(x => x.Name == history.Input.Paper.Name)
+                .Include(x => x.Prices)
                 .First()
+               // .AsNoTracking()
                 .Prices;
 
             if (PriceId == ActualPriceId[^1].Id)

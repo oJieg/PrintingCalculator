@@ -13,7 +13,7 @@
         public int? MarkupPaper { get; set; }
         public bool ActualMarkupPaper { get; set; }
         public int? CutPrics { get; set; }
-        public bool ActualCutPrics { get; set; }
+        public bool ActualCutPrice { get; set; }
         public int? Price { get; set; }
     }
 }

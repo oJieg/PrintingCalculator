@@ -14,7 +14,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                                       + result.PosResult.CreasingPrice
                                       + result.PosResult.DrillingPrice
                                       + result.PosResult.RoundingPrice);
-                result.Price = (int)Math.Round((double)Price / 10, 1) * 10; //округеление
+                result.Price = (int)Math.Round((double)Price / 10, 1) * 10; //округление
 
                 if (history.Price == null)
                 {
@@ -26,7 +26,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 if (result.PaperResult.ActualConsumablePrice &&
                     result.PaperResult.ActualMarkupPaper &&
                     result.PaperResult.ActualCostPrise &&
-                    result.PaperResult.ActualCutPrics &&
+                    result.PaperResult.ActualCutPrice &&
                     result.LaminationResult.ActualCostPrics &&
                     result.LaminationResult.ActualMarkup &&
                     result.PosResult.ActualRoundingPrice &&

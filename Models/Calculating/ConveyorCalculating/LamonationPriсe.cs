@@ -4,10 +4,10 @@ using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
-    public class LamonationPrise : IConveyor
+    public class LamonationPriсe : IConveyor
     {
         private readonly Settings.Lamination _setting;
-        public LamonationPrise(Settings.Lamination lamination)
+        public LamonationPriсe(Settings.Lamination lamination)
         {
             _setting = lamination;
         }
@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.LaminationResult.Price = (int)(result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment;
                     return true;
                 }
-                // result.LaminationResult = new();
+
                 result.LaminationResult.Price = 0;
                 return true;
             }

@@ -8,13 +8,13 @@ namespace printing_calculator.Models.Calculating
     public class ConveyorCalculator
     {
         private readonly Setting _settings;
-        private readonly ApplicationContext _DB;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<ConveyorCalculator> _logger;
 
         public ConveyorCalculator(IOptions<Setting> options, ApplicationContext DB, ILogger<ConveyorCalculator> logger)
         {
             _settings = options.Value;
-            _DB = DB;
+            _applicationContext = DB;
             _logger = logger;
         }
 
@@ -30,15 +30,15 @@ namespace printing_calculator.Models.Calculating
                 new Info(),
                 new PaperInfo(),
                 new PaperSplitting(_settings.SettingPrinter),
-                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _DB),
-                new PaperCostPrice(_DB),
+                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext),
+                new PaperCostPrice(_applicationContext),
                 new PaperMarkup(_settings.MarkupPaper),
-                new PaperCutPrise(_settings.CutSetting),
-                new PaperPrise(),
+                new PaperCutPriсe(_settings.CutSetting),
+                new PaperPriсe(),
                 new LamonationInfo(),
                 new LamonationMarkup(_settings.Lamination),
-                new LamonationCostPrise(_settings.Lamination, _DB),
-                new LamonationPrise(_settings.Lamination),
+                new LamonationCostPriсe(_settings.Lamination, _applicationContext),
+                new LamonationPriсe(_settings.Lamination),
                 new PosCreasing(_settings.Pos),
                 new PosDrilling(_settings.Pos),
                 new PosRounding(_settings.Pos),

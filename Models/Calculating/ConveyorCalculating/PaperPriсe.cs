@@ -3,7 +3,7 @@ using printing_calculator.ViewModels.Result;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
-    public class PaperPrise : IConveyor
+    public class PaperPriсe : IConveyor
     {
         public bool TryConveyorStart(ref History history, ref Result result)
         {

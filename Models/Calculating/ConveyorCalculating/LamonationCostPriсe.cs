@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
-    public class LamonationCostPrise : IConveyor
+    public class LamonationCostPriсe : IConveyor
     {
         private readonly Settings.Lamination _lamination1;
-        private readonly ApplicationContext _DB;
-        public LamonationCostPrise(Settings.Lamination lamination, ApplicationContext Db)
+        private readonly ApplicationContext _applicationContext;
+        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext Db)
         {
             _lamination1 = lamination;
-            _DB = Db;
+            _applicationContext = Db;
         }
         public bool TryConveyorStart(ref History history, ref Result result)
         {
@@ -39,7 +39,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         private bool ActualCostPrice(History history)
         {
             int PriceId = history.LaminationPrices.Id;
-            List<LaminationPrice> ActualPriceId = _DB.Laminations
+            List<LaminationPrice> ActualPriceId = _applicationContext.Laminations
                 .Include(x => x.Price)
                 .Where(x => x.Name == history.Input.Lamination.Name)
                 .First()

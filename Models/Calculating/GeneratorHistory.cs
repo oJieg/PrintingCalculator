@@ -6,19 +6,20 @@ namespace printing_calculator.Models.Calculating
 {
     public class GeneratorHistory
     {
-        private readonly ApplicationContext _DB;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<GeneratorHistory> _logger;
         public GeneratorHistory(ApplicationContext DB, ILogger<GeneratorHistory> logger)
         {
-            _DB = DB;
+            _applicationContext = DB;
             _logger = logger;
         }
 
-        public async Task<History?> GetFullIncludeHistoryAcync(int id)
+        public async Task<History?> GetFullIncludeHistoryAsync(int id)
         {
             try
             {
-                return await _DB.Historys
+                return await _applicationContext.Historys
+                     .AsNoTracking()
                      .Include(x => x.Input)
                      .Include(x => x.PricePaper.Catalog)
                      .Include(x => x.Input.Paper.Size)
@@ -28,6 +29,7 @@ namespace printing_calculator.Models.Calculating
                      .Include(x => x.Input.Lamination.Price)
                      .Where(x => x.Id == id)
                      .FirstAsync();
+
             }
             catch (Exception ex)
             {
@@ -51,31 +53,34 @@ namespace printing_calculator.Models.Calculating
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
 
-                history.Input.Paper = await _DB.PaperCatalogs
+                history.Input.Paper = await _applicationContext.PaperCatalogs
+                    .AsNoTracking()
                     .Include(x => x.Prices)
                     .Include(x => x.Size)
                     .Where(p => p.Name == input.Paper)
                     .FirstAsync();
 
-                history.ConsumablePrice = await _DB.ConsumablePrices
+                history.ConsumablePrice = await _applicationContext.ConsumablePrices
+                    .AsNoTracking()
                     .OrderByDescending(x => x.Id)
                     .FirstAsync();
                 history.Input.CreasingAmount = input.Creasing;
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
                 history.PricePaper = history.Input.Paper.Prices
-                    .OrderByDescending(_ => _.Id)
+                    .OrderByDescending(x => x.Id)
                     .First();
 
                 if (input.LaminationName != "none")
                 {
                     history.Input.Lamination = new Lamination();
-                    history.Input.Lamination = await _DB.Laminations
+                    history.Input.Lamination = await _applicationContext.Laminations
+                        .AsNoTracking()
                         .Include(x => x.Price)
                         .Where(x => x.Name == input.LaminationName)
                         .FirstAsync();
                     history.LaminationPrices = history.Input.Lamination.Price
-                        .OrderByDescending(_ => _.Id)
+                        .OrderByDescending(x => x.Id)
                         .First();
                 }
                 history.Input.CreasingAmount = input.Creasing;
@@ -93,7 +98,8 @@ namespace printing_calculator.Models.Calculating
         {
             try
             {
-                return await _DB.Historys
+                return await _applicationContext.Historys
+                    .AsNoTracking()
                     .Include(x => x.Input)
                     .Include(x => x.Input.Paper)
                     .Include(x => x.Input.Lamination)
@@ -101,9 +107,9 @@ namespace printing_calculator.Models.Calculating
                     .Take(countPage)
                     .ToListAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex, "Не вышло получить список истории");
+                _logger.LogError(ex, "Не вышло получить список истории,");
                 return new List<History>();
             }
         }

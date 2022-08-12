@@ -39,13 +39,8 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
 
             result.PosResult.CreasingPrice = (int)Price;
-            if (Price == ActualPrice)
-            {
-                result.PosResult.ActualCreasingPrice = true;
-                return true;
-            }
 
-            result.PosResult.ActualCreasingPrice = false;
+            result.PosResult.ActualCreasingPrice = Price == ActualPrice;
             return true;
         }
     }

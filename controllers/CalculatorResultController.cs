@@ -13,13 +13,13 @@ namespace printing_calculator.controllers
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
-        private readonly Validstion _validstion;
+        private readonly Validation _validstion;
 
         public CalculatorResultController(ApplicationContext DB,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator,
             GeneratorHistory generatorHistory,
-            Validstion validstion)
+            Validation validstion)
         {
             _BD = DB;
             _logger = loggerFactory;
@@ -72,7 +72,7 @@ namespace printing_calculator.controllers
         public async Task<IActionResult> Index(int id)
         {
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistoryAcync(id);
+            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(id);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
