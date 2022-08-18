@@ -5,7 +5,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class AllPrice : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
@@ -40,11 +40,11 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.TryTrice = false;
                 }
 
-                return true;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
     }

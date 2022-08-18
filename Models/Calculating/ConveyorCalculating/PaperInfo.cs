@@ -5,18 +5,18 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperInfo : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
                 result.PaperResult.NamePaper = history.Input.Paper.Name;
                 result.PaperResult.Duplex = history.Input.Duplex;
 
-                return true;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
     }

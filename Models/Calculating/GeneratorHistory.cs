@@ -28,8 +28,7 @@ namespace printing_calculator.Models.Calculating
                      .Include(x => x.LaminationPrices)
                      .Include(x => x.Input.Lamination.Price)
                      .Where(x => x.Id == id)
-                     .FirstAsync();
-
+                     .FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -109,7 +108,7 @@ namespace printing_calculator.Models.Calculating
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Не вышло получить список истории,");
+                _logger.LogError(ex, "Не вышло получить список истории");
                 return new List<History>();
             }
         }

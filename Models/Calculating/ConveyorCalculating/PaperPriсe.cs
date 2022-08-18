@@ -5,10 +5,10 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperPriсe : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             result.PaperResult.Price = (int)(result.PaperResult.CostPrise + (result.PaperResult.CostPrise * (float)result.PaperResult.MarkupPaper / (float)100)) + result.PaperResult.CutPrics; //временное?
-            return true;
+            return (history, result, true);
         }
     }
 }

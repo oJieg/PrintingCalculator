@@ -14,7 +14,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _cutSetting = cutSetting;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
@@ -25,18 +25,18 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PaperResult.CutPrics = CutPrice;
                     result.PaperResult.ActualCutPrice = true;
                     history.CutPrice = CutPrice;
-                    return true;
+                    return (history, result, true);
                 }
                 else
                 {
                     result.PaperResult.ActualCutPrice = ActualCutPrice(history.CutPrice, CutPrice);
                     result.PaperResult.CutPrics = history.CutPrice;
-                    return true;
+                    return (history, result, true);
                 }
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
 

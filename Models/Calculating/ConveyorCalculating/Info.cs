@@ -5,7 +5,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class Info : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
@@ -15,11 +15,11 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.Height = history.Input.Height;
                 result.Whidth = history.Input.Whidth;
 
-                return true;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false); ;
             }
         }
     }

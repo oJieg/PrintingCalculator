@@ -1,5 +1,6 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
@@ -12,15 +13,17 @@ namespace printing_calculator.Models.ConveyorCalculating
             _Consumable = consumable;
             _applicationContext = DB;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
                 //проверка на актуальность цен
-                int ActualConsumableId = _applicationContext.ConsumablePrices
-                   // .AsNoTracking()
+                DataBase.ConsumablePrice consumablePrice = await _applicationContext.ConsumablePrices
+                    .AsNoTracking()
                     .OrderByDescending(x => x.Id)
-                    .FirstOrDefault().Id;
+                    .FirstOrDefaultAsync();
+                int ActualConsumableId = consumablePrice.Id;
+
                 result.PaperResult.ActualConsumablePrice = ActualConsumableId == history.ConsumablePrice.Id;
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
@@ -34,11 +37,11 @@ namespace printing_calculator.Models.ConveyorCalculating
                     price *= 2;
                 }
                 result.PaperResult.ConsumablePrice = price;
-                return true;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
     }

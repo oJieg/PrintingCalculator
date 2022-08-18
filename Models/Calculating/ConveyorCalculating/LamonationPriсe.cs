@@ -11,22 +11,22 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             _setting = lamination;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
                 if (history.Input.Lamination != null)
                 {
                     result.LaminationResult.Price = (int)(result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment;
-                    return true;
+                    return (history, result, true);
                 }
 
                 result.LaminationResult.Price = 0;
-                return true;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
     }

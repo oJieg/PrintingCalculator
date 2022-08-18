@@ -13,13 +13,13 @@ namespace printing_calculator.Models.ConveyorCalculating
             _lamination1 = lamination;
             _applicationContext = Db;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
 
             if (history.Input.Lamination == null)
             {
                 result.LaminationResult.ActualCostPrics = true;
-                return true;
+                return (history, result, true);
             }
 
             try
@@ -27,23 +27,24 @@ namespace printing_calculator.Models.ConveyorCalculating
                 int CostPrice = (int)((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = CostPrice;
 
-                result.LaminationResult.ActualCostPrics = ActualCostPrice(history);
-                return true;
+                result.LaminationResult.ActualCostPrics = await ActualCostPrice(history);
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
 
-        private bool ActualCostPrice(History history)
+        private async Task<bool> ActualCostPrice(History history)
         {
             int PriceId = history.LaminationPrices.Id;
-            List<LaminationPrice> ActualPriceId = _applicationContext.Laminations
+            Lamination lamination = await _applicationContext.Laminations
+                .AsNoTracking()
                 .Include(x => x.Price)
                 .Where(x => x.Name == history.Input.Lamination.Name)
-                .First()
-                .Price;
+                .FirstAsync();
+            List<LaminationPrice> ActualPriceId = lamination.Price;
 
             if (PriceId == ActualPriceId[^1].Id)
             {

@@ -12,37 +12,45 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = DB;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
-                result.PaperResult.ActualCostPrise = ActualData(history);
+                result.PaperResult.ActualCostPrise = await ActualData(history);
 
                 result.PaperResult.CostPrise = (int)(result.PaperResult.Sheets
                     * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
-                return true;
+                return (history, result, true);
+            }
+            catch
+            {
+                return (history, result, false);
+            }
+        }
+
+        private async Task<bool> ActualData(History history)
+        {
+            try
+            {
+                int PriceId = history.PricePaper.Id;
+                PaperCatalog ThisPaper = await _applicationContext.PaperCatalogs
+                     .AsNoTracking()
+                     .Where(x => x.Name == history.Input.Paper.Name)
+                     .Include(x => x.Prices)
+                     .FirstAsync();
+                List<PricePaper> ActualPriceId = ThisPaper.Prices;
+
+                if (PriceId == ActualPriceId[^1].Id)
+                {
+                    return true;
+                }
+                return false;
             }
             catch
             {
                 return false;
             }
-        }
 
-        private bool ActualData(History history)
-        {
-            int PriceId = history.PricePaper.Id;
-            List<PricePaper> ActualPriceId = _applicationContext.PaperCatalogs
-                .Where(x => x.Name == history.Input.Paper.Name)
-                .Include(x => x.Prices)
-                .First()
-               // .AsNoTracking()
-                .Prices;
-
-            if (PriceId == ActualPriceId[^1].Id)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace printing_calculator.controllers
         [HttpPost]
         public async Task<IActionResult> Index(Input input)
         {
-            if(!(await _validstion.TryValidationInpytAsync(input)))
+            if (!(await _validstion.TryValidationInpytAsync(input)))
             {
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();
@@ -42,8 +42,12 @@ namespace printing_calculator.controllers
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
-            bool tryCalculation = conveyor.TryStartCalculation(ref history, out Result result);
-            if (!tryCalculation)
+            Result result = new();
+            var answer = await conveyor.TryStartCalculation(history, result); //как то странно выглядит но все же
+            result = answer.Item2;
+            history = answer.Item1;
+
+            if (!answer.Item3)
             {
                 _logger.LogError("не удался расчет для данных из Input");
                 return NotFound();
@@ -76,8 +80,12 @@ namespace printing_calculator.controllers
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
-            bool TryCalculatoin = conveyor.TryStartCalculation(ref history, out Result result);
-            if (!TryCalculatoin)
+            Result result = new();
+            var answer = await conveyor.TryStartCalculation(history, result);
+            result = answer.Item2;
+            history = answer.Item1;
+
+            if (!answer.Item3)
             {
                 _logger.LogError("не удался расчет на конвеере");
                 return NotFound();

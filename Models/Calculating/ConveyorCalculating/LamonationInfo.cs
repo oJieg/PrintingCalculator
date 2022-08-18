@@ -5,7 +5,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationInfo : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             result.LaminationResult = new();
             if (history.Input.Lamination != null)
@@ -13,14 +13,14 @@ namespace printing_calculator.Models.ConveyorCalculating
                 try
                 {
                     result.LaminationResult.Name = history.Input.Lamination.Name;
-                    return true;
+                    return (history, result, true);
                 }
                 catch
                 {
-                    return false;
+                    return (history, result, false);
                 }
             }
-            return true;
+            return (history, result, true);
         }
     }
 }

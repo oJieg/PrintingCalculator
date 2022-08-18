@@ -1,5 +1,9 @@
-let Height = "297";
-let Width = "420";
+let Height = 297;
+let Width = 420;
+
+const ClassFastHover = "FastHover";
+const ClassDefaultHover = "FastSize";
+
 function NewSize(size, side) {
     if (side == "Height") {
         Height = size;
@@ -10,7 +14,6 @@ function NewSize(size, side) {
     }
 
     activeButtonSize()
-    alert(fullSize);
 }
 
 function editSize(HeightPaper, WidthPaper) {
@@ -34,11 +37,11 @@ function activeButtonSize() {
 
     for (let item of elementFastSize) {
         if (item.id == idSize) {
-            item.className = "FastHover";
+            item.className = ClassFastHover;
         }
         else {
-            if (item.className != "FastSize") {
-                item.className = "FastSize";
+            if (item.className != ClassDefaultHover) {
+                item.className = ClassDefaultHover;
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using printing_calculator.ViewModels;
-using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models
@@ -39,9 +38,13 @@ namespace printing_calculator.Models
 
         private async Task<bool> TryValidationLaminationName(string nameLamination)
         {
-            return await _applicationContext.Laminations
-                .AsNoTracking()
-                .AnyAsync(x => x.Name == nameLamination);
+            if (nameLamination != "none")
+            {
+                return await _applicationContext.Laminations
+                    .AsNoTracking()
+                    .AnyAsync(x => x.Name == nameLamination);
+            }
+            return true;
         }
 
         private bool TryPositiveNumber(int number)
@@ -50,9 +53,9 @@ namespace printing_calculator.Models
         }
         private bool TryValidationPos(int countPos)
         {
-            if (countPos == null)
+            if (countPos == 0)
                 return true;
-            return countPos > 0 & countPos < 50; //не больше 50 биговок и дырок)) 
+            return countPos > 0 && countPos < 50; //не больше 50 биговок и дырок)) 
         }
     }
 }

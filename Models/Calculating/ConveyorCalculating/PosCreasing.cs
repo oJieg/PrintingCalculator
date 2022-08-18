@@ -12,7 +12,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = setting;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             //мб валидацию добавить? 
             result.PosResult = new PosResult
@@ -23,7 +23,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PosResult.CreasingPrice = 0;
                 result.PosResult.ActualCreasingPrice = true;
-                return true;
+                return (history, result, true);
             }
 
             float CreasingPriceOneProduct = (int)((history.Input.CreasingAmount - 1) * _setting.CreasingAddHit) + _setting.CreasingOneProduct;
@@ -35,13 +35,13 @@ namespace printing_calculator.Models.ConveyorCalculating
                 history.CreasingPrice = ActualPrice;
                 result.PosResult.CreasingPrice = ActualPrice;
                 result.PosResult.ActualCreasingPrice = true;
-                return true;
+                return (history, result, true);
             }
 
             result.PosResult.CreasingPrice = (int)Price;
 
             result.PosResult.ActualCreasingPrice = Price == ActualPrice;
-            return true;
+            return (history, result, true);
         }
     }
 }

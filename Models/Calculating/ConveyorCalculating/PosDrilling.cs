@@ -12,14 +12,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = setting;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;
             if (history.Input.DrillingAmount == 0)
             {
                 result.PosResult.ActualDrillingPrice = true;
                 result.PosResult.DrillingPrice = 0;
-                return true;
+                return (history, result, true);
             }
 
             float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
@@ -31,18 +31,18 @@ namespace printing_calculator.Models.ConveyorCalculating
                 history.DrillingPrice = actualPrice;
                 result.PosResult.DrillingPrice = actualPrice;
                 result.PosResult.ActualDrillingPrice = true;
-                return true;
+                return (history, result, true);
             }
 
             result.PosResult.DrillingPrice = (int)Price;
             if (actualPrice == Price)
             {
                 result.PosResult.ActualDrillingPrice = true;
-                return true;
+                return (history, result, true);
             }
 
             result.PosResult.ActualDrillingPrice = true;
-            return true;
+            return (history, result, true);
         }
     }
 }

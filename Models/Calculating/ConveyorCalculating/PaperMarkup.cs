@@ -12,7 +12,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _markup = markup;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
             try
             {
@@ -25,19 +25,19 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PaperResult.ActualMarkupPaper = true;
                     history.MarkupPaper = MarkupPaper;
 
-                    return true;
+                    return (history, result, true);
                 }
                 else
                 {
                     result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
                     result.PaperResult.ActualMarkupPaper = ActualMarkup(history, MarkupPaper);
 
-                    return true;
+                    return (history, result, true);
                 }
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
 

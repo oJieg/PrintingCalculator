@@ -18,9 +18,9 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public bool TryStartCalculation(ref History history, out Result result)
+        public async Task<(History?, Result, bool)> TryStartCalculation(History history, Result? result)
         {
-            return TryRun(ref history, out result, AddConveyor());
+            return await TryRun(history, result, AddConveyor());
         }
 
         private List<IConveyor> AddConveyor()
@@ -31,7 +31,7 @@ namespace printing_calculator.Models.Calculating
                 new PaperInfo(),
                 new PaperSplitting(_settings.SettingPrinter),
                 new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext),
-                new PaperCostPrice(_applicationContext),
+                new PaperCostPrice(_applicationContext), 
                 new PaperMarkup(_settings.MarkupPaper),
                 new PaperCutPriсe(_settings.CutSetting),
                 new PaperPriсe(),
@@ -47,24 +47,27 @@ namespace printing_calculator.Models.Calculating
             return conveyors;
         }
 
-        private bool TryRun(ref History history, out Result result, List<IConveyor> conveyors)
+        private async Task<(History?, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors)
         {
             result = new();
             result.PaperResult = new PaperResult();
             if (history == null)
             {
-                return false;
+                return (history, result, false);
             }
 
             foreach (var conveyor in conveyors)
             {
-                if (!conveyor.TryConveyorStart(ref history, ref result))
+                var answer = await conveyor.TryConveyorStartAsync(history, result);
+                if (!answer.Item3)
                 {
                     _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);
-                    return false;
+                    return (history, result, false);
                 }
+                result = answer.Item2;
+                history = answer.Item1;
             }
-            return true;
+            return (history, result, true);
         }
     }
 }
