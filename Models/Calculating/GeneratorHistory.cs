@@ -8,13 +8,14 @@ namespace printing_calculator.Models.Calculating
     {
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<GeneratorHistory> _logger;
+
         public GeneratorHistory(ApplicationContext DB, ILogger<GeneratorHistory> logger)
         {
             _applicationContext = DB;
             _logger = logger;
         }
 
-        public async Task<History?> GetFullIncludeHistoryAsync(int id)
+        public async Task<History?> GetFullIncludeHistoryAsync(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,16 +29,22 @@ namespace printing_calculator.Models.Calculating
                      .Include(x => x.LaminationPrices)
                      .Include(x => x.Input.Lamination.Price)
                      .Where(x => x.Id == id)
-                     .FirstOrDefaultAsync();
+                     .FirstOrDefaultAsync(cancellationToken);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation("пользователь отменил запрос");
+                return null;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Неудалось получить из базы history по id");
                 return null;
             }
+
         }
 
-        public async Task<History?> GetFullIncludeHistoryAsync(Input input)
+        public async Task<History?> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
         {
             History history = new();
             history.Input = new HistoryInput();
@@ -57,12 +64,12 @@ namespace printing_calculator.Models.Calculating
                     .Include(x => x.Prices)
                     .Include(x => x.Size)
                     .Where(p => p.Name == input.Paper)
-                    .FirstAsync();
+                    .FirstAsync(cancellationToken);
 
                 history.ConsumablePrice = await _applicationContext.ConsumablePrices
                     .AsNoTracking()
                     .OrderByDescending(x => x.Id)
-                    .FirstAsync();
+                    .FirstAsync(cancellationToken);
                 history.Input.CreasingAmount = input.Creasing;
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
@@ -77,7 +84,7 @@ namespace printing_calculator.Models.Calculating
                         .AsNoTracking()
                         .Include(x => x.Price)
                         .Where(x => x.Name == input.LaminationName)
-                        .FirstAsync();
+                        .FirstAsync(cancellationToken);
                     history.LaminationPrices = history.Input.Lamination.Price
                         .OrderByDescending(x => x.Id)
                         .First();

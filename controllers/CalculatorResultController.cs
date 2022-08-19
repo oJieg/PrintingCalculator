@@ -29,16 +29,16 @@ namespace printing_calculator.controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Input input)
+        public async Task<IActionResult> Index(Input input, CancellationToken cancellationToken)
         {
-            if (!(await _validstion.TryValidationInpytAsync(input)))
+            if (!(await _validstion.TryValidationInpytAsync(input, cancellationToken)))
             {
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();
             }
 
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input);
+            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
@@ -60,7 +60,7 @@ namespace printing_calculator.controllers
                     _BD.HistoryInputs.Add(history.Input);
                     _BD.Historys.Add(history);
 
-                    await _BD.SaveChangesAsync();
+                    await _BD.SaveChangesAsync(cancellationToken);
                     result.HistoryInputId = history.Id;
                 }
                 catch (Exception ex)
@@ -73,10 +73,10 @@ namespace printing_calculator.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(id);
+            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 

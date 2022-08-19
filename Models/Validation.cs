@@ -11,7 +11,7 @@ namespace printing_calculator.Models
             _applicationContext = DB;
         }
 
-        public async Task<bool> TryValidationInpytAsync(Input input)
+        public async Task<bool> TryValidationInpytAsync(Input input, CancellationToken cancellationToken)
         {
             return input != null &
                 TryValidationSize(input.Whidth) &&
@@ -19,7 +19,7 @@ namespace printing_calculator.Models
                 await TryValidationNamePaperAsync(input.Paper) &&
                 TryPositiveNumber(input.Amount) &&
                 TryPositiveNumber(input.Kinds) &&
-                await TryValidationLaminationName(input.LaminationName) &&
+                await TryValidationLaminationName(input.LaminationName, cancellationToken) &&
                 TryValidationPos(input.Creasing) &&
                 TryValidationPos(input.Drilling);
         }
@@ -36,13 +36,20 @@ namespace printing_calculator.Models
                 .AnyAsync(x => x.Name == namePaper);
         }
 
-        private async Task<bool> TryValidationLaminationName(string nameLamination)
+        private async Task<bool> TryValidationLaminationName(string nameLamination, CancellationToken cancellationToken)
         {
             if (nameLamination != "none")
             {
-                return await _applicationContext.Laminations
-                    .AsNoTracking()
-                    .AnyAsync(x => x.Name == nameLamination);
+                try
+                {
+                    return await _applicationContext.Laminations
+                        .AsNoTracking()
+                        .AnyAsync(x => x.Name == nameLamination, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
             }
             return true;
         }
