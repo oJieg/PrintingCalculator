@@ -8,10 +8,12 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         private readonly Settings.Lamination _lamination1;
         private readonly ApplicationContext _applicationContext;
-        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext Db)
+        private readonly CancellationToken _cancellationToken;
+        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext applicationContext, CancellationToken cancellationToken)
         {
             _lamination1 = lamination;
-            _applicationContext = Db;
+            _applicationContext = applicationContext;
+            _cancellationToken = cancellationToken;
         }
         public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
@@ -43,7 +45,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 .AsNoTracking()
                 .Include(x => x.Price)
                 .Where(x => x.Name == history.Input.Lamination.Name)
-                .FirstAsync();
+                .FirstAsync(_cancellationToken);
             List<LaminationPrice> ActualPriceId = lamination.Price;
 
             if (PriceId == ActualPriceId[^1].Id)

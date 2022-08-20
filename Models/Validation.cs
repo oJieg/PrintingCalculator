@@ -6,9 +6,9 @@ namespace printing_calculator.Models
     public class Validation
     {
         private readonly ApplicationContext _applicationContext;
-        public Validation(ApplicationContext DB)
+        public Validation(ApplicationContext applicationContext)
         {
-            _applicationContext = DB;
+            _applicationContext = applicationContext;
         }
 
         public async Task<bool> TryValidationInpytAsync(Input input, CancellationToken cancellationToken)
@@ -16,7 +16,7 @@ namespace printing_calculator.Models
             return input != null &
                 TryValidationSize(input.Whidth) &&
                 TryValidationSize(input.Height) &&
-                await TryValidationNamePaperAsync(input.Paper) &&
+                await TryValidationNamePaperAsync(input.Paper, cancellationToken) &&
                 TryPositiveNumber(input.Amount) &&
                 TryPositiveNumber(input.Kinds) &&
                 await TryValidationLaminationName(input.LaminationName, cancellationToken) &&
@@ -29,11 +29,11 @@ namespace printing_calculator.Models
             return size != null && size > 0 && size < 2000;
         }
 
-        private async Task<bool> TryValidationNamePaperAsync(string namePaper)
+        private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
         {
             return await _applicationContext.PaperCatalogs
                 .AsNoTracking()
-                .AnyAsync(x => x.Name == namePaper);
+                .AnyAsync(x => x.Name == namePaper, cancellationToken);
         }
 
         private async Task<bool> TryValidationLaminationName(string nameLamination, CancellationToken cancellationToken)
@@ -56,7 +56,7 @@ namespace printing_calculator.Models
 
         private bool TryPositiveNumber(int number)
         {
-            return number > 0 && number < int.MaxValue;
+            return number > 0;
         }
         private bool TryValidationPos(int countPos)
         {

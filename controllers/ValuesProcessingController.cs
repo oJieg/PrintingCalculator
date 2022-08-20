@@ -7,11 +7,11 @@ namespace printing_calculator.controllers
     //это временная заглушка
     public class ValuesProcessingController : Controller
     {
-        private readonly ApplicationContext _BD;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<HomesController> _logger;
-        public ValuesProcessingController(ApplicationContext context, ILogger<HomesController> logger)
+        public ValuesProcessingController(ApplicationContext applicationContext, ILogger<HomesController> logger)
         {
-            _BD = context;
+            _applicationContext = applicationContext;
             _logger = logger;
         }
         public IActionResult Index()
@@ -29,7 +29,7 @@ namespace printing_calculator.controllers
             //TestAddLamonation("матовая 1+1", (float)5.96);
             //TestAddLamonation("софт тач 1+1", (float)16.04);
 
-            List<PaperCatalog> catalog = _BD.PaperCatalogs.Include(x => x.Prices).ToList();
+            List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.Include(x => x.Prices).ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
         }
@@ -51,7 +51,7 @@ namespace printing_calculator.controllers
                     DrumPrice3 = 28100,
                     DrumPrice4 = 28100
                 };
-                _BD.ConsumablePrices.Add(price);
+                _applicationContext.ConsumablePrices.Add(price);
 
                 SizePaper SRA3 = new()
                 {
@@ -59,8 +59,8 @@ namespace printing_calculator.controllers
                     SizePaperHeight = 320,
                     SizePaperWidth = 450
                 };
-                _BD.SizePapers.Add(SRA3);
-                await _BD.SaveChangesAsync();
+                _applicationContext.SizePapers.Add(SRA3);
+                await _applicationContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -85,10 +85,10 @@ namespace printing_calculator.controllers
                     Price = new List<LaminationPrice>() { Prices }
                 };
 
-                _BD.LaminationPrices.Add(Prices);
-                _BD.Laminations.Add(lamination);
+                _applicationContext.LaminationPrices.Add(Prices);
+                _applicationContext.Laminations.Add(lamination);
 
-                await _BD.SaveChangesAsync();
+                await _applicationContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace printing_calculator.controllers
                 {
                     Name = namePaper,
                     Prices = new List<PricePaper>() { pricePaper },
-                    Size = _BD.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
+                    Size = _applicationContext.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
                 };
-                _BD.PricePapers.Add(pricePaper);
-                _BD.PaperCatalogs.Add(mondi350);
-                await _BD.SaveChangesAsync();
+                _applicationContext.PricePapers.Add(pricePaper);
+                _applicationContext.PaperCatalogs.Add(mondi350);
+                await _applicationContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

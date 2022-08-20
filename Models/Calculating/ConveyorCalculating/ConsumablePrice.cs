@@ -8,10 +8,12 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         private readonly Consumable _Consumable;
         private readonly ApplicationContext _applicationContext;
-        public ConsumablePrice(Consumable consumable, ApplicationContext DB)
+        private readonly CancellationToken _cancellationToken;
+        public ConsumablePrice(Consumable consumable, ApplicationContext applicationContext, CancellationToken cancellationToken)
         {
             _Consumable = consumable;
-            _applicationContext = DB;
+            _applicationContext = applicationContext;
+            _cancellationToken = cancellationToken;
         }
         public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
         {
@@ -21,7 +23,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 DataBase.ConsumablePrice consumablePrice = await _applicationContext.ConsumablePrices
                     .AsNoTracking()
                     .OrderByDescending(x => x.Id)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(_cancellationToken);
                 int ActualConsumableId = consumablePrice.Id;
 
                 result.PaperResult.ActualConsumablePrice = ActualConsumableId == history.ConsumablePrice.Id;

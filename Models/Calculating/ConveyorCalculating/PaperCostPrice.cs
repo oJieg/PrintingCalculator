@@ -7,9 +7,11 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PaperCostPrice : IConveyor
     {
         private readonly ApplicationContext _applicationContext;
-        public PaperCostPrice(ApplicationContext DB)
+        private readonly CancellationToken _cancellationToken;
+        public PaperCostPrice(ApplicationContext applicationContext, CancellationToken cancellationToken)
         {
-            _applicationContext = DB;
+            _applicationContext = applicationContext;
+            _cancellationToken = cancellationToken;
         }
 
         public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
@@ -37,7 +39,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                      .AsNoTracking()
                      .Where(x => x.Name == history.Input.Paper.Name)
                      .Include(x => x.Prices)
-                     .FirstAsync();
+                     .FirstAsync(_cancellationToken);
                 List<PricePaper> ActualPriceId = ThisPaper.Prices;
 
                 if (PriceId == ActualPriceId[^1].Id)

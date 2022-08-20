@@ -9,9 +9,9 @@ namespace printing_calculator.Models.Calculating
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<GeneratorHistory> _logger;
 
-        public GeneratorHistory(ApplicationContext DB, ILogger<GeneratorHistory> logger)
+        public GeneratorHistory(ApplicationContext applicationContext, ILogger<GeneratorHistory> logger)
         {
-            _applicationContext = DB;
+            _applicationContext = applicationContext;
             _logger = logger;
         }
 
@@ -100,7 +100,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<List<History>> GetListAsync(int page, int countPage)
+        public async Task<List<History>> GetListAsync(int page, int countPage, CancellationToken cancellationToken)
         {
             try
             {
@@ -111,7 +111,11 @@ namespace printing_calculator.Models.Calculating
                     .Include(x => x.Input.Lamination)
                     .OrderByDescending(x => x.Id)
                     .Take(countPage)
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return null;
             }
             catch (Exception ex)
             {

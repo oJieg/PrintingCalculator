@@ -9,19 +9,19 @@ namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
     {
-        private readonly ApplicationContext _BD;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
         private readonly Validation _validstion;
 
-        public CalculatorResultController(ApplicationContext DB,
+        public CalculatorResultController(ApplicationContext applicationContext,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator,
             GeneratorHistory generatorHistory,
             Validation validstion)
         {
-            _BD = DB;
+            _applicationContext = applicationContext;
             _logger = loggerFactory;
             _calculator = conveyorCalculator;
             _generatorHistory = generatorHistory;
@@ -43,7 +43,7 @@ namespace printing_calculator.controllers
                 return NotFound(); //или другой код ошибки
 
             Result result = new();
-            var answer = await conveyor.TryStartCalculation(history, result); //как то странно выглядит но все же
+            var answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
             result = answer.Item2;
             history = answer.Item1;
 
@@ -57,10 +57,10 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    _BD.HistoryInputs.Add(history.Input);
-                    _BD.Historys.Add(history);
+                    _applicationContext.HistoryInputs.Add(history.Input);
+                    _applicationContext.Historys.Add(history);
 
-                    await _BD.SaveChangesAsync(cancellationToken);
+                    await _applicationContext.SaveChangesAsync(cancellationToken);
                     result.HistoryInputId = history.Id;
                 }
                 catch (Exception ex)
@@ -81,7 +81,7 @@ namespace printing_calculator.controllers
                 return NotFound(); //или другой код ошибки
 
             Result result = new();
-            var answer = await conveyor.TryStartCalculation(history, result);
+            var answer = await conveyor.TryStartCalculation(history, result, cancellationToken);
             result = answer.Item2;
             history = answer.Item1;
 

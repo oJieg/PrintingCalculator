@@ -9,16 +9,15 @@ function NewSize(size, side) {
         Height = size;
     }
 
-    if (side == 'Width') {
+    if (side == "Width") {
         Width = size;
     }
-
     activeButtonSize()
 }
 
 function editSize(HeightPaper, WidthPaper) {
-    document.getElementById('Height').value = HeightPaper;
-    document.getElementById('Width').value = WidthPaper;
+    document.getElementById("Height").value = HeightPaper;
+    document.getElementById("Width").value = WidthPaper;
     Height = HeightPaper;
     Width = WidthPaper;
     activeButtonSize()

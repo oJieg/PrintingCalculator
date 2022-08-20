@@ -18,7 +18,7 @@ namespace printing_calculator.controllers
             _generatorHistory = generatorHistory;
         }
 
-        public async Task<IActionResult> Index(int page, int countPage = 10)
+        public async Task<IActionResult> Index(int page, CancellationToken cancellationToken, int countPage = 10)
         {
             if (!ValidationPage(page, countPage))
             {
@@ -30,7 +30,7 @@ namespace printing_calculator.controllers
 
             try
             {
-                List<History> histories = await _generatorHistory.GetListAsync(page, countPage);
+                List<History> histories = await _generatorHistory.GetListAsync(page, countPage, cancellationToken);
 
                 foreach (History history in histories)
                 {

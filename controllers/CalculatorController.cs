@@ -6,21 +6,25 @@ namespace printing_calculator.controllers
 {
     public class CalculatorController : Controller
     {
-        private readonly ApplicationContext _BD;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorController> _logger;
-        public CalculatorController(ApplicationContext DB, ILogger<CalculatorController> logger)
+        public CalculatorController(ApplicationContext applicationContext, ILogger<CalculatorController> logger)
         {
             _logger = logger;
-            _BD = DB;
+            _applicationContext = applicationContext;
         }
 
-        public async Task<ActionResult> Index(int HistoryId)
+        public async Task<ActionResult> Index(int HistoryId, CancellationToken cancellationToken)
         {
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                PaperAndHistoryInput.Paper = await _BD.PaperCatalogs.ToListAsync();
-                PaperAndHistoryInput.Lamination = await _BD.Laminations.ToListAsync();
+                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs.ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
+            }
+            catch(OperationCanceledException)
+            {
+                return BadRequest();
             }
             catch (Exception ex)
             {
@@ -31,7 +35,11 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    PaperAndHistoryInput.Input = (await _BD.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).FirstAsync()).Input;
+                    PaperAndHistoryInput.Input = (await _applicationContext.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).FirstAsync(cancellationToken)).Input;
+                }
+                catch(OperationCanceledException)
+                {
+                    return BadRequest();
                 }
                 catch (Exception ex)
                 {

@@ -10,16 +10,18 @@ namespace printing_calculator.Models.Calculating
         private readonly Setting _settings;
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<ConveyorCalculator> _logger;
+        private CancellationToken _cancellationToken;
 
-        public ConveyorCalculator(IOptions<Setting> options, ApplicationContext DB, ILogger<ConveyorCalculator> logger)
+        public ConveyorCalculator(IOptions<Setting> options, ApplicationContext applicationContext, ILogger<ConveyorCalculator> logger)
         {
             _settings = options.Value;
-            _applicationContext = DB;
+            _applicationContext = applicationContext;
             _logger = logger;
         }
 
-        public async Task<(History?, Result, bool)> TryStartCalculation(History history, Result? result)
+        public async Task<(History?, Result, bool)> TryStartCalculation(History history, Result? result, CancellationToken cancellationToken)
         {
+            _cancellationToken = cancellationToken;
             return await TryRun(history, result, AddConveyor());
         }
 
@@ -30,14 +32,14 @@ namespace printing_calculator.Models.Calculating
                 new Info(),
                 new PaperInfo(),
                 new PaperSplitting(_settings.SettingPrinter),
-                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext),
-                new PaperCostPrice(_applicationContext), 
+                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext, _cancellationToken),
+                new PaperCostPrice(_applicationContext, _cancellationToken),
                 new PaperMarkup(_settings.MarkupPaper),
                 new PaperCutPriсe(_settings.CutSetting),
                 new PaperPriсe(),
                 new LamonationInfo(),
                 new LamonationMarkup(_settings.Lamination),
-                new LamonationCostPriсe(_settings.Lamination, _applicationContext),
+                new LamonationCostPriсe(_settings.Lamination, _applicationContext, _cancellationToken),
                 new LamonationPriсe(_settings.Lamination),
                 new PosCreasing(_settings.Pos),
                 new PosDrilling(_settings.Pos),
