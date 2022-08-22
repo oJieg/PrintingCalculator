@@ -10,7 +10,6 @@ namespace printing_calculator.Models.Calculating
         private readonly Setting _settings;
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<ConveyorCalculator> _logger;
-        private CancellationToken _cancellationToken;
 
         public ConveyorCalculator(IOptions<Setting> options, ApplicationContext applicationContext, ILogger<ConveyorCalculator> logger)
         {
@@ -21,8 +20,7 @@ namespace printing_calculator.Models.Calculating
 
         public async Task<(History?, Result, bool)> TryStartCalculation(History history, Result? result, CancellationToken cancellationToken)
         {
-            _cancellationToken = cancellationToken;
-            return await TryRun(history, result, AddConveyor());
+            return await TryRun(history, result, AddConveyor(), cancellationToken);
         }
 
         private List<IConveyor> AddConveyor()
@@ -32,14 +30,14 @@ namespace printing_calculator.Models.Calculating
                 new Info(),
                 new PaperInfo(),
                 new PaperSplitting(_settings.SettingPrinter),
-                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext, _cancellationToken),
-                new PaperCostPrice(_applicationContext, _cancellationToken),
+                new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext),
+                new PaperCostPrice(_applicationContext),
                 new PaperMarkup(_settings.MarkupPaper),
                 new PaperCutPriсe(_settings.CutSetting),
                 new PaperPriсe(),
                 new LamonationInfo(),
                 new LamonationMarkup(_settings.Lamination),
-                new LamonationCostPriсe(_settings.Lamination, _applicationContext, _cancellationToken),
+                new LamonationCostPriсe(_settings.Lamination, _applicationContext),
                 new LamonationPriсe(_settings.Lamination),
                 new PosCreasing(_settings.Pos),
                 new PosDrilling(_settings.Pos),
@@ -49,7 +47,7 @@ namespace printing_calculator.Models.Calculating
             return conveyors;
         }
 
-        private async Task<(History?, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors)
+        private async Task<(History?, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors, CancellationToken cancellationToken)
         {
             result = new();
             result.PaperResult = new PaperResult();
@@ -60,7 +58,7 @@ namespace printing_calculator.Models.Calculating
 
             foreach (var conveyor in conveyors)
             {
-                var answer = await conveyor.TryConveyorStartAsync(history, result);
+                var answer = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
                 if (!answer.Item3)
                 {
                     _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);

@@ -6,13 +6,19 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class LamonationMarkup : IConveyor
     {
         private readonly Settings.Lamination _markup;
+
         public LamonationMarkup(Settings.Lamination markup)
         {
             _markup = markup;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             if (history.Input.Lamination == null)
             {
                 result.LaminationResult.ActualMarkup = true;
@@ -24,17 +30,10 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             if (history.LaminationMarkup == null)
             {
-                try
-                {
                     result.LaminationResult.Markup = Markup;
                     result.LaminationResult.ActualMarkup = true;
                     history.LaminationMarkup = Markup;
                     return (history, result, true);
-                }
-                catch
-                {
-                    return (history, result, false);
-                }
             }
             else
             {

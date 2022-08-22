@@ -7,12 +7,19 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class LamonationPriсe : IConveyor
     {
         private readonly Settings.Lamination _setting;
+
         public LamonationPriсe(Settings.Lamination lamination)
         {
             _setting = lamination;
         }
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             try
             {
                 if (history.Input.Lamination != null)

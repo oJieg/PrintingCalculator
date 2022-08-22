@@ -7,18 +7,17 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PaperCostPrice : IConveyor
     {
         private readonly ApplicationContext _applicationContext;
-        private readonly CancellationToken _cancellationToken;
-        public PaperCostPrice(ApplicationContext applicationContext, CancellationToken cancellationToken)
+
+        public PaperCostPrice(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _cancellationToken = cancellationToken;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             try
             {
-                result.PaperResult.ActualCostPrise = await ActualData(history);
+                result.PaperResult.ActualCostPrise = await ActualData(history, cancellationToken);
 
                 result.PaperResult.CostPrise = (int)(result.PaperResult.Sheets
                     * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
@@ -30,7 +29,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
         }
 
-        private async Task<bool> ActualData(History history)
+        private async Task<bool> ActualData(History history, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,7 +38,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                      .AsNoTracking()
                      .Where(x => x.Name == history.Input.Paper.Name)
                      .Include(x => x.Prices)
-                     .FirstAsync(_cancellationToken);
+                     .FirstAsync(cancellationToken);
                 List<PricePaper> ActualPriceId = ThisPaper.Prices;
 
                 if (PriceId == ActualPriceId[^1].Id)
@@ -52,7 +51,6 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return false;
             }
-
         }
     }
 }

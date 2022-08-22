@@ -41,7 +41,6 @@ namespace printing_calculator.Models.Calculating
                 _logger.LogError(ex, "Неудалось получить из базы history по id");
                 return null;
             }
-
         }
 
         public async Task<History?> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
@@ -79,7 +78,6 @@ namespace printing_calculator.Models.Calculating
 
                 if (input.LaminationName != "none")
                 {
-                    history.Input.Lamination = new Lamination();
                     history.Input.Lamination = await _applicationContext.Laminations
                         .AsNoTracking()
                         .Include(x => x.Price)
@@ -115,7 +113,7 @@ namespace printing_calculator.Models.Calculating
             }
             catch (OperationCanceledException)
             {
-                return null;
+                return new List<History>();
             }
             catch (Exception ex)
             {

@@ -43,7 +43,7 @@ namespace printing_calculator.controllers
                 return NotFound(); //или другой код ошибки
 
             Result result = new();
-            var answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
+            (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
             result = answer.Item2;
             history = answer.Item1;
 
@@ -87,7 +87,7 @@ namespace printing_calculator.controllers
 
             if (!answer.Item3)
             {
-                _logger.LogError("не удался расчет на конвеере");
+                _logger.LogError("не удался расчет на конвейере");
                 return NotFound();
             }
             result.HistoryInputId = id;

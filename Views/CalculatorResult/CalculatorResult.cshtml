@@ -24,7 +24,7 @@
 @section JS
 {
 <script>
-	function copu() {
+	function CopyСlipboard() {
 	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperResult.NamePaper - @Model.PaperResult.Price руб.')
 	}
 </script>
@@ -150,7 +150,7 @@
 	<form>
 		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
 		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
-		<input class="buttonNext" type="button" onclick="copu();" value="Cкопировать">
+		<input class="buttonNext" type="button" onclick="CopyСlipboard();" value="Cкопировать">
 
 	</form>
 </div>

@@ -5,8 +5,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperInfo : IConveyor
     {
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             try
             {
                 result.PaperResult.NamePaper = history.Input.Paper.Name;

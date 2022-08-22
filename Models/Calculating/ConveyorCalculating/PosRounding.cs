@@ -7,13 +7,19 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PosRounding : IConveyor
     {
         private readonly Pos _setting;
+
         public PosRounding(Pos setting)
         {
             _setting = setting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             result.PosResult.Rounding = history.Input.RoundingAmount;
             if (!result.PosResult.Rounding)
             {
@@ -32,14 +38,13 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return (history, result, true);
             }
 
+            result.PosResult.RoundingPrice = (int)Price;
             if (ActualPrice == Price)
             {
-                result.PosResult.RoundingPrice = Price.Value;
                 result.PosResult.ActualRoundingPrice = true;
                 return (history, result, true);
             }
 
-            result.PosResult.RoundingPrice = (int)Price;
             result.PosResult.ActualRoundingPrice = false;
             return (history, result, true);
         }

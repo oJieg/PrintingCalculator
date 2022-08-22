@@ -8,16 +8,15 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         private readonly Settings.Lamination _lamination1;
         private readonly ApplicationContext _applicationContext;
-        private readonly CancellationToken _cancellationToken;
-        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext applicationContext, CancellationToken cancellationToken)
+
+        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext applicationContext)
         {
             _lamination1 = lamination;
             _applicationContext = applicationContext;
-            _cancellationToken = cancellationToken;
         }
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
-        {
 
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        {
             if (history.Input.Lamination == null)
             {
                 result.LaminationResult.ActualCostPrics = true;
@@ -26,10 +25,10 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int CostPrice = (int)((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
-                result.LaminationResult.CostPrice = CostPrice;
+                int сostPrice = (int)((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
+                result.LaminationResult.CostPrice = сostPrice;
 
-                result.LaminationResult.ActualCostPrics = await ActualCostPrice(history);
+                result.LaminationResult.ActualCostPrics = await ActualCostPrice(history, cancellationToken);
                 return (history, result, true);
             }
             catch
@@ -38,14 +37,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
         }
 
-        private async Task<bool> ActualCostPrice(History history)
+        private async Task<bool> ActualCostPrice(History history, CancellationToken cancellationToken)
         {
             int PriceId = history.LaminationPrices.Id;
             Lamination lamination = await _applicationContext.Laminations
                 .AsNoTracking()
                 .Include(x => x.Price)
                 .Where(x => x.Name == history.Input.Lamination.Name)
-                .FirstAsync(_cancellationToken);
+                .FirstAsync(cancellationToken);
             List<LaminationPrice> ActualPriceId = lamination.Price;
 
             if (PriceId == ActualPriceId[^1].Id)

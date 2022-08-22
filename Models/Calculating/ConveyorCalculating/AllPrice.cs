@@ -5,8 +5,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class AllPrice : IConveyor
     {
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if(cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }    
+
             try
             {
                 int Price = (int)(result.PaperResult.Price

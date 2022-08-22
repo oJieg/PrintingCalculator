@@ -7,13 +7,19 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PosDrilling : IConveyor
     {
         private readonly Pos _setting;
+
         public PosDrilling(Pos setting)
         {
             _setting = setting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;
             if (history.Input.DrillingAmount == 0)
             {
@@ -41,7 +47,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return (history, result, true);
             }
 
-            result.PosResult.ActualDrillingPrice = true;
+            result.PosResult.ActualDrillingPrice = false;
             return (history, result, true);
         }
     }

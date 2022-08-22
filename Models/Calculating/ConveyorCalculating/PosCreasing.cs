@@ -7,14 +7,19 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PosCreasing : IConveyor
     {
         private readonly Pos _setting;
+
         public PosCreasing(Pos setting)
         {
             _setting = setting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result)
+        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
-            //мб валидацию добавить? 
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return (history, result, false);
+            }
+
             result.PosResult = new PosResult
             {
                 CreasingAmount = history.Input.CreasingAmount

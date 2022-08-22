@@ -24,7 +24,7 @@ namespace printing_calculator.controllers
             }
             catch(OperationCanceledException)
             {
-                return BadRequest();
+                return new EmptyResult();
             }
             catch (Exception ex)
             {
@@ -35,7 +35,11 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    PaperAndHistoryInput.Input = (await _applicationContext.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).FirstAsync(cancellationToken)).Input;
+                    PaperAndHistoryInput.Input = (await _applicationContext.Historys
+                        .Where(s => s.Id == HistoryId)
+                        .Include(x => x.Input)
+                        .FirstAsync(cancellationToken))
+                        .Input;
                 }
                 catch(OperationCanceledException)
                 {
