@@ -33,18 +33,18 @@ namespace printing_calculator.Models
         {
             return await _applicationContext.PaperCatalogs
                 .AsNoTracking()
-                .AnyAsync(x => x.Name == namePaper, cancellationToken);
+                .AnyAsync(paperCatalogs => paperCatalogs.Name == namePaper, cancellationToken);
         }
 
         private async Task<bool> TryValidationLaminationName(string nameLamination, CancellationToken cancellationToken)
         {
-            if (nameLamination != "none")
+            if (nameLamination != Constants.ReturnEmptyOutputHttp)
             {
                 try
                 {
                     return await _applicationContext.Laminations
                         .AsNoTracking()
-                        .AnyAsync(x => x.Name == nameLamination, cancellationToken);
+                        .AnyAsync(laminations => laminations.Name == nameLamination, cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {

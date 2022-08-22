@@ -42,8 +42,8 @@ namespace printing_calculator.Models.ConveyorCalculating
             int PriceId = history.LaminationPrices.Id;
             Lamination lamination = await _applicationContext.Laminations
                 .AsNoTracking()
-                .Include(x => x.Price)
-                .Where(x => x.Name == history.Input.Lamination.Name)
+                .Include(laminations => laminations.Price)
+                .Where(laminations => laminations.Name == history.Input.Lamination.Name)
                 .FirstAsync(cancellationToken);
             List<LaminationPrice> ActualPriceId = lamination.Price;
 

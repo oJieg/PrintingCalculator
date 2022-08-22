@@ -21,14 +21,15 @@ namespace printing_calculator.Models.Calculating
             {
                 return await _applicationContext.Historys
                      .AsNoTracking()
-                     .Include(x => x.Input)
-                     .Include(x => x.PricePaper.Catalog)
-                     .Include(x => x.Input.Paper.Size)
-                     .Include(x => x.ConsumablePrice)
-                     .Include(x => x.Input.Lamination)
-                     .Include(x => x.LaminationPrices)
-                     .Include(x => x.Input.Lamination.Price)
-                     .Where(x => x.Id == id)
+                     .Include(historys => historys.Input)
+                        .ThenInclude(input => input.Paper.Size)
+                     .Include(historys => historys.Input)
+                        .ThenInclude(input => input.Lamination)
+                        .ThenInclude(lamination => lamination.Price)
+                     .Include(historys => historys.PricePaper.Catalog)
+                     .Include(historys => historys.ConsumablePrice)
+                     .Include(historys => historys.LaminationPrices)
+                     .Where(historys => historys.Id == id)
                      .FirstOrDefaultAsync(cancellationToken);
             }
             catch (OperationCanceledException ex)
@@ -60,31 +61,31 @@ namespace printing_calculator.Models.Calculating
 
                 history.Input.Paper = await _applicationContext.PaperCatalogs
                     .AsNoTracking()
-                    .Include(x => x.Prices)
-                    .Include(x => x.Size)
-                    .Where(p => p.Name == input.Paper)
+                    .Include(paperCatalogs => paperCatalogs.Prices)
+                    .Include(paperCatalogs => paperCatalogs.Size)
+                    .Where(paperCatalogs => paperCatalogs.Name == input.Paper)
                     .FirstAsync(cancellationToken);
 
                 history.ConsumablePrice = await _applicationContext.ConsumablePrices
                     .AsNoTracking()
-                    .OrderByDescending(x => x.Id)
+                    .OrderByDescending(consumablePrices => consumablePrices.Id)
                     .FirstAsync(cancellationToken);
                 history.Input.CreasingAmount = input.Creasing;
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
                 history.PricePaper = history.Input.Paper.Prices
-                    .OrderByDescending(x => x.Id)
+                    .OrderByDescending(prices => prices.Id)
                     .First();
 
-                if (input.LaminationName != "none")
+                if (input.LaminationName != Constants.ReturnEmptyOutputHttp)
                 {
                     history.Input.Lamination = await _applicationContext.Laminations
                         .AsNoTracking()
-                        .Include(x => x.Price)
-                        .Where(x => x.Name == input.LaminationName)
+                        .Include(laminations => laminations.Price)
+                        .Where(laminations => laminations.Name == input.LaminationName)
                         .FirstAsync(cancellationToken);
                     history.LaminationPrices = history.Input.Lamination.Price
-                        .OrderByDescending(x => x.Id)
+                        .OrderByDescending(price => price.Id)
                         .First();
                 }
                 history.Input.CreasingAmount = input.Creasing;
@@ -104,10 +105,11 @@ namespace printing_calculator.Models.Calculating
             {
                 return await _applicationContext.Historys
                     .AsNoTracking()
-                    .Include(x => x.Input)
-                    .Include(x => x.Input.Paper)
-                    .Include(x => x.Input.Lamination)
-                    .OrderByDescending(x => x.Id)
+                    .Include(historys => historys.Input)
+                        .ThenInclude(Input => Input.Paper)
+                    .Include(historys => historys.Input)
+                        .ThenInclude(Input => Input.Lamination)
+                    .OrderByDescending(historys => historys.Id)
                     .Take(countPage)
                     .ToListAsync(cancellationToken);
             }

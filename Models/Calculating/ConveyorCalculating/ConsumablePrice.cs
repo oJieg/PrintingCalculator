@@ -22,7 +22,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 //проверка на актуальность цен
                 DataBase.ConsumablePrice consumablePrice = await _applicationContext.ConsumablePrices
                     .AsNoTracking()
-                    .OrderByDescending(x => x.Id)
+                    .OrderByDescending(сonsumablePrices => сonsumablePrices.Id)
                     .FirstOrDefaultAsync(cancellationToken);
                 int ActualConsumableId = consumablePrice.Id;
 

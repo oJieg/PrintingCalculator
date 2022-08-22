@@ -1,16 +1,16 @@
-let Height = 297;
-let Width = 420;
+let height = 297;
+let width = 420;
 
-const ClassFastHover = "FastHover";
-const ClassDefaultHover = "FastSize";
+const ñlassFastHover = "FastHover";
+const ñlassDefaultHover = "FastSize";
 
-function NewSize(size, side) {
+function newSize(size, side) {
     if (side == "Height") {
-        Height = size;
+        height = size;
     }
 
     if (side == "Width") {
-        Width = size;
+        width = size;
     }
     activeButtonSize()
 }
@@ -18,8 +18,8 @@ function NewSize(size, side) {
 function editSize(HeightPaper, WidthPaper) {
     document.getElementById("Height").value = HeightPaper;
     document.getElementById("Width").value = WidthPaper;
-    Height = HeightPaper;
-    Width = WidthPaper;
+    height = HeightPaper;
+    width = WidthPaper;
     activeButtonSize()
 }
 
@@ -27,20 +27,20 @@ function activeButtonSize() {
     let elementFastSize = document.querySelectorAll("div.FastSizeBlock > input");
 
     let idSize;
-    if (Height > Width) {
-        idSize = `${Width}${Height}`;
+    if (height > width) {
+        idSize = `${width}${height}`;
     }
     else {
-        idSize = `${Height}${Width}`;
+        idSize = `${height}${width}`;
     }
 
     for (let item of elementFastSize) {
         if (item.id == idSize) {
-            item.className = ClassFastHover;
+            item.className = ñlassFastHover;
         }
         else {
-            if (item.className != ClassDefaultHover) {
-                item.className = ClassDefaultHover;
+            if (item.className != ñlassDefaultHover) {
+                item.className = ñlassDefaultHover;
             }
         }
     }

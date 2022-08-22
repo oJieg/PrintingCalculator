@@ -36,8 +36,8 @@ namespace printing_calculator.Models.ConveyorCalculating
                 int PriceId = history.PricePaper.Id;
                 PaperCatalog ThisPaper = await _applicationContext.PaperCatalogs
                      .AsNoTracking()
-                     .Where(x => x.Name == history.Input.Paper.Name)
-                     .Include(x => x.Prices)
+                     .Where(paperCatalogs => paperCatalogs.Name == history.Input.Paper.Name)
+                     .Include(paperCatalogs => paperCatalogs.Prices)
                      .FirstAsync(cancellationToken);
                 List<PricePaper> ActualPriceId = ThisPaper.Prices;
 
