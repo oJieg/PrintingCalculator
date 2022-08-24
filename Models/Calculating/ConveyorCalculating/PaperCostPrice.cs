@@ -41,11 +41,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                      .FirstAsync(cancellationToken);
                 List<PricePaper> ActualPriceId = ThisPaper.Prices;
 
-                if (PriceId == ActualPriceId[^1].Id)
-                {
-                    return true;
-                }
-                return false;
+                return PriceId == ActualPriceId[^1].Id;
             }
             catch
             {

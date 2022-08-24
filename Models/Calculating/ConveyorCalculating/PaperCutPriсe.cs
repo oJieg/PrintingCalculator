@@ -34,7 +34,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 }
                 else
                 {
-                    result.PaperResult.ActualCutPrice = ActualCutPrice(history.CutPrice, CutPrice);
+                    result.PaperResult.ActualCutPrice = (history.CutPrice == CutPrice);
                     result.PaperResult.CutPrics = history.CutPrice;
                     return (history, result, true);
                 }
@@ -42,18 +42,6 @@ namespace printing_calculator.Models.ConveyorCalculating
             catch
             {
                 return (history, result, false);
-            }
-        }
-
-        private bool ActualCutPrice(int? historyPrice, int cutPrice)
-        {
-            if (historyPrice == cutPrice)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

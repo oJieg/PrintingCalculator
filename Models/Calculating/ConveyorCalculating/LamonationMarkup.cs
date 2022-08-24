@@ -38,18 +38,9 @@ namespace printing_calculator.Models.ConveyorCalculating
             else
             {
                 result.LaminationResult.Markup = (int)history.LaminationMarkup;
-                result.LaminationResult.ActualMarkup = ActualMarkup(history, Markup);
+                result.LaminationResult.ActualMarkup = (history.LaminationMarkup == Markup);
                 return (history, result, true);
             }
-        }
-
-        private bool ActualMarkup(History history, int markup)
-        {
-            if (history.LaminationMarkup == markup)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

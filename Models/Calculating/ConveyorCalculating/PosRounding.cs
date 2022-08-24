@@ -27,19 +27,19 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.PosResult.RoundingPrice = 0;
                 return (history, result, true);
             }
-            int ActualPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
-            int? Price = history.RoundingPrice;
+            int actualPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
+            int? price = history.RoundingPrice;
 
-            if (Price == null)
+            if (price == null)
             {
-                result.PosResult.RoundingPrice = ActualPrice;
+                result.PosResult.RoundingPrice = actualPrice;
                 result.PosResult.ActualRoundingPrice = true;
-                history.RoundingPrice = ActualPrice;
+                history.RoundingPrice = actualPrice;
                 return (history, result, true);
             }
 
-            result.PosResult.RoundingPrice = (int)Price;
-            if (ActualPrice == Price)
+            result.PosResult.RoundingPrice = (int)price;
+            if (actualPrice == price)
             {
                 result.PosResult.ActualRoundingPrice = true;
                 return (history, result, true);

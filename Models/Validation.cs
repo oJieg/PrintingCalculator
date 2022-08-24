@@ -1,14 +1,18 @@
 ﻿using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace printing_calculator.Models
 {
     public class Validation
     {
         private readonly ApplicationContext _applicationContext;
-        public Validation(ApplicationContext applicationContext)
+        private readonly Setting _settings;
+
+        public Validation(ApplicationContext applicationContext, IOptions<Setting> options)
         {
             _applicationContext = applicationContext;
+            _settings = options.Value;
         }
 
         public async Task<bool> TryValidationInpytAsync(Input input, CancellationToken cancellationToken)
@@ -24,9 +28,9 @@ namespace printing_calculator.Models
                 TryValidationPos(input.Drilling);
         }
 
-        private static bool TryValidationSize(int? size)
+        private  bool TryValidationSize(int? size)
         {
-            return size != null && size > 0 && size < 2000;
+            return size != null && size > 0 && size < _settings.SettingPrinter.MaximumSize;
         }
 
         private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
@@ -58,11 +62,12 @@ namespace printing_calculator.Models
         {
             return number > 0;
         }
+
         private bool TryValidationPos(int countPos)
         {
             if (countPos == 0)
                 return true;
-            return countPos > 0 && countPos < 50; //не больше 50 биговок и дырок)) 
+            return countPos > 0 && countPos < _settings.Pos.MaximumAmount; //не больше 50 биговок и дырок)) 
         }
     }
 }

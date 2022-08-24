@@ -1,8 +1,8 @@
 let height = 297;
 let width = 420;
 
-const ñlassFastHover = "FastHover";
-const ñlassDefaultHover = "FastSize";
+const classFastHover = "FastHover";
+const classDefaultHover = "FastSize";
 
 function newSize(size, side) {
     if (side == "Height") {
@@ -36,11 +36,11 @@ function activeButtonSize() {
 
     for (let item of elementFastSize) {
         if (item.id == idSize) {
-            item.className = ñlassFastHover;
+            item.className = classFastHover;
         }
         else {
-            if (item.className != ñlassDefaultHover) {
-                item.className = ñlassDefaultHover;
+            if (item.className != classDefaultHover) {
+                item.className = classDefaultHover;
             }
         }
     }

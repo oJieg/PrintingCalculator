@@ -12,17 +12,10 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return (history, result, false);
             }
 
-            try
-            {
-                result.PaperResult.NamePaper = history.Input.Paper.Name;
-                result.PaperResult.Duplex = history.Input.Duplex;
+            result.PaperResult.NamePaper = history.Input.Paper.Name;
+            result.PaperResult.Duplex = history.Input.Duplex;
 
-                return (history, result, true);
-            }
-            catch
-            {
-                return (history, result, false);
-            }
+            return (history, result, true);
         }
     }
 }

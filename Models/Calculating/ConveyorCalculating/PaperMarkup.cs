@@ -34,21 +34,12 @@ namespace printing_calculator.Models.ConveyorCalculating
             else
             {
                 result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
-                result.PaperResult.ActualMarkupPaper = ActualMarkup(history, MarkupPaper);
+                result.PaperResult.ActualMarkupPaper = history.MarkupPaper == MarkupPaper;
 
                 return (history, result, true);
             }
 
             return (history, result, false); 
-        }
-
-        private bool ActualMarkup(History history, int markup)
-        {
-            if (history.MarkupPaper == markup)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

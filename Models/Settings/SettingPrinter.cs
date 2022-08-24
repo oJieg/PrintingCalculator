@@ -6,5 +6,6 @@
         public int WhiteFieldHeight { get; set; }
         public int FieldForLabels { get; set; }
         public float Bleed { get; set; }
+        public int MaximumSize { get; set; }
     }
 }

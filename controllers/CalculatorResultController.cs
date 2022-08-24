@@ -13,25 +13,25 @@ namespace printing_calculator.controllers
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
-        private readonly Validation _validstion;
+        private readonly Validation _validation;
 
         public CalculatorResultController(ApplicationContext applicationContext,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator,
             GeneratorHistory generatorHistory,
-            Validation validstion)
+            Validation validation)
         {
             _applicationContext = applicationContext;
             _logger = loggerFactory;
             _calculator = conveyorCalculator;
             _generatorHistory = generatorHistory;
-            _validstion = validstion;
+            _validation = validation;
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(Input input, CancellationToken cancellationToken)
         {
-            if (!(await _validstion.TryValidationInpytAsync(input, cancellationToken)))
+            if (!(await _validation.TryValidationInpytAsync(input, cancellationToken)))
             {
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();

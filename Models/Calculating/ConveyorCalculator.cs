@@ -58,7 +58,7 @@ namespace printing_calculator.Models.Calculating
 
             foreach (var conveyor in conveyors)
             {
-                var answer = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
+                (History, Result, bool) answer = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
                 if (!answer.Item3)
                 {
                     _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);

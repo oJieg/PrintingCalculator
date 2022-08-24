@@ -4,7 +4,7 @@ using printing_calculator.DataBase;
 
 namespace printing_calculator.controllers
 {
-    //DOTO: Веременная заглушка. Удалить в след патче, после добавления функционала изменения каталога бумаги и цен расходников.
+    //TODO: Веременная заглушка. Удалить в след патче, после добавления функционала изменения каталога бумаги и цен расходников.
     public class ValuesProcessingController : Controller
     {
         private readonly ApplicationContext _applicationContext;
