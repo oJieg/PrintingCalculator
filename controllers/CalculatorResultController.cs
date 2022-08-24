@@ -36,21 +36,27 @@ namespace printing_calculator.controllers
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();
             }
-
-            ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
-            if (history == null)
-                return NotFound(); //или другой код ошибки
-
-            Result result = new();
-            (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
-            result = answer.Item2;
-            history = answer.Item1;
-
-            if (!answer.Item3)
+            try
             {
-                _logger.LogError("не удался расчет для данных из Input");
-                return NotFound();
+                ConveyorCalculator conveyor = _calculator;
+                History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+                if (history == null)
+                    return NotFound(); //или другой код ошибки
+
+                Result result = new();
+                (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
+                result = answer.Item2;
+                history = answer.Item1;
+
+                if (!answer.Item3)
+                {
+                    _logger.LogError("не удался расчет для данных из Input");
+                    return NotFound();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
             }
 
             if (!input.SaveDB) //не получилось вынести сохранение после рендера станицы( 
@@ -81,15 +87,23 @@ namespace printing_calculator.controllers
                 return NotFound(); //или другой код ошибки
 
             Result result = new();
-            var answer = await conveyor.TryStartCalculation(history, result, cancellationToken);
-            result = answer.Item2;
-            history = answer.Item1;
-
-            if (!answer.Item3)
+            try
             {
-                _logger.LogError("не удался расчет на конвейере");
-                return NotFound();
+                (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken);
+                result = answer.Item2;
+                history = answer.Item1;
+
+                if (!answer.Item3)
+                {
+                    _logger.LogError("не удался расчет на конвейере");
+                    return NotFound();
+                }
             }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
+            }
+
             result.HistoryInputId = id;
 
             return View("CalculatorResult", result);

@@ -37,6 +37,10 @@ namespace printing_calculator.controllers
                     result.Add(Converter.HistoryToSimplResult(history));
                 }
             }
+            catch(OperationCanceledException)
+            {
+                return new EmptyResult();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ошибка получения данных для  HistoryController}");

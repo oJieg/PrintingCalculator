@@ -43,7 +43,7 @@ namespace printing_calculator.controllers
                 }
                 catch(OperationCanceledException)
                 {
-                    return BadRequest();
+                    return new EmptyResult();
                 }
                 catch (Exception ex)
                 {
