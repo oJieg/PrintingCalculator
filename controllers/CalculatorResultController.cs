@@ -36,19 +36,20 @@ namespace printing_calculator.controllers
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();
             }
+
+            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+            if (history == null)
+                return NotFound(); //или другой код ошибки
+
+            Result result = new();
+
             try
             {
                 ConveyorCalculator conveyor = _calculator;
-                History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
-                if (history == null)
-                    return NotFound(); //или другой код ошибки
 
-                Result result = new();
-                (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
-                result = answer.Item2;
-                history = answer.Item1;
+                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
 
-                if (!answer.Item3)
+                if (!tryAnswer)
                 {
                     _logger.LogError("не удался расчет для данных из Input");
                     return NotFound();

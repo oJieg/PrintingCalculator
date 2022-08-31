@@ -25,13 +25,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int сostPrice = (int)((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
+                int сostPrice = Convert.ToInt32((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = сostPrice;
 
                 result.LaminationResult.ActualCostPrics = await ActualCostPrice(history, cancellationToken);
                 return (history, result, true);
             }
-            catch
+            catch(OverflowException)
             {
                 return (history, result, false);
             }

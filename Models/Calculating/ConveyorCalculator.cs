@@ -18,7 +18,7 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<(History?, Result, bool)> TryStartCalculation(History history, Result? result, CancellationToken cancellationToken)
+        public async Task<(History, Result, bool)> TryStartCalculation(History history, Result? result, CancellationToken cancellationToken)
         {
             return await TryRun(history, result, AddConveyor(), cancellationToken);
         }

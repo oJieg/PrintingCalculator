@@ -58,7 +58,7 @@ namespace printing_calculator.Models
             return true;
         }
 
-        private bool TryPositiveNumber(int number)
+        private static bool TryPositiveNumber(int number)
         {
             return number > 0;
         }

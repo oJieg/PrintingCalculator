@@ -12,17 +12,17 @@ namespace printing_calculator.Models.ConveyorCalculating
             _markup = markup;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
 
             if (history.Input.Lamination == null)
             {
                 result.LaminationResult.ActualMarkup = true;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             CalculatingMarkup markups = new(_markup.MarkupList);
@@ -33,13 +33,13 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.LaminationResult.Markup = Markup;
                     result.LaminationResult.ActualMarkup = true;
                     history.LaminationMarkup = Markup;
-                    return (history, result, true);
+                    return Task.FromResult((history, result, true));
             }
             else
             {
                 result.LaminationResult.Markup = (int)history.LaminationMarkup;
                 result.LaminationResult.ActualMarkup = (history.LaminationMarkup == Markup);
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
         }
     }

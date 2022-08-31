@@ -13,27 +13,27 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = lamination;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
 
             try
             {
                 if (history.Input.Lamination != null)
                 {
-                    result.LaminationResult.Price = (int)(result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment;
-                    return (history, result, true);
+                    result.LaminationResult.Price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment);
+                    return Task.FromResult((history, result, true));
                 }
 
                 result.LaminationResult.Price = 0;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
-            catch
+            catch(OverflowException)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
         }
     }

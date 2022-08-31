@@ -32,7 +32,7 @@ namespace printing_calculator.Models.Calculating
                      .Where(historys => historys.Id == id)
                      .FirstOrDefaultAsync(cancellationToken);
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
                 _logger.LogInformation("пользователь отменил запрос");
                 return null;
@@ -44,7 +44,7 @@ namespace printing_calculator.Models.Calculating
             }
         }
 
-        public async Task<History?> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
+        public async Task<History> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
         {
             History history = new();
             history.Input = new HistoryInput();

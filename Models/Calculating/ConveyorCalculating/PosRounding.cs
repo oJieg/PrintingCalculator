@@ -13,11 +13,11 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = setting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
 
             result.PosResult.Rounding = history.Input.RoundingAmount;
@@ -25,7 +25,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PosResult.ActualRoundingPrice = true;
                 result.PosResult.RoundingPrice = 0;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
             int actualPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
             int? price = history.RoundingPrice;
@@ -35,18 +35,18 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.PosResult.RoundingPrice = actualPrice;
                 result.PosResult.ActualRoundingPrice = true;
                 history.RoundingPrice = actualPrice;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             result.PosResult.RoundingPrice = (int)price;
             if (actualPrice == price)
             {
                 result.PosResult.ActualRoundingPrice = true;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             result.PosResult.ActualRoundingPrice = false;
-            return (history, result, true);
+            return Task.FromResult((history, result, true));
         }
     }
 }

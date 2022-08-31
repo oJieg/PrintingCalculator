@@ -4,6 +4,10 @@ let width = 420;
 const classFastHover = "FastHover";
 const classDefaultHover = "FastSize";
 
+const elementHeight = document.getElementById("Height");
+const elenentWidth = document.getElementById("Width");
+
+
 function newSize(size, side) {
     if (side == "Height") {
         height = size;
@@ -15,9 +19,9 @@ function newSize(size, side) {
     activeButtonSize()
 }
 
-function editSize(HeightPaper, WidthPaper) {
-    document.getElementById("Height").value = HeightPaper;
-    document.getElementById("Width").value = WidthPaper;
+function editSize(heightPaper, widthPaper) {
+    elementHeight.value = HeightPaper;
+    elenentWidth.value = WidthPaper;
     height = HeightPaper;
     width = WidthPaper;
     activeButtonSize()

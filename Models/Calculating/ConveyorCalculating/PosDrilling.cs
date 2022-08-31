@@ -13,11 +13,11 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = setting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
 
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;
@@ -25,7 +25,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PosResult.ActualDrillingPrice = true;
                 result.PosResult.DrillingPrice = 0;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
@@ -37,18 +37,18 @@ namespace printing_calculator.Models.ConveyorCalculating
                 history.DrillingPrice = actualPrice;
                 result.PosResult.DrillingPrice = actualPrice;
                 result.PosResult.ActualDrillingPrice = true;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             result.PosResult.DrillingPrice = (int)Price;
             if (actualPrice == Price)
             {
                 result.PosResult.ActualDrillingPrice = true;
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
 
             result.PosResult.ActualDrillingPrice = false;
-            return (history, result, true);
+            return Task.FromResult((history, result, true));
         }
     }
 }

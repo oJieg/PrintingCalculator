@@ -12,18 +12,18 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = options;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if(cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
             result.PaperResult.PiecesPerSheet = PiecesPerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
             result.PaperResult.Sheets = ((int)
                 Math.Ceiling(((double)result.Amount / (double)result.PaperResult.PiecesPerSheet)))
                 * result.Kinds;
 
-            return (history, result, true);
+            return Task.FromResult((history, result, true));
         }
 
         private int PiecesPerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)

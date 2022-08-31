@@ -14,34 +14,34 @@ namespace printing_calculator.Models.ConveyorCalculating
             _cutSetting = cutSetting;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
 
             try
             {
-                int CutOneAdjustmentPrice = (int)(result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice;
+                int CutOneAdjustmentPrice = Convert.ToInt32((result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice);
                 int CutPrice = CutOneAdjustmentPrice * (int)Math.Ceiling((double)result.PaperResult.Sheets / (double)CountOfPapersInOneAdjustmentCut);
                 if (history.CutPrice == null)
                 {
                     result.PaperResult.CutPrics = CutPrice;
                     result.PaperResult.ActualCutPrice = true;
                     history.CutPrice = CutPrice;
-                    return (history, result, true);
+                    return Task.FromResult((history, result, true));
                 }
                 else
                 {
                     result.PaperResult.ActualCutPrice = (history.CutPrice == CutPrice);
-                    result.PaperResult.CutPrics = history.CutPrice;
-                    return (history, result, true);
+                    result.PaperResult.CutPrics = (int)history.CutPrice;
+                    return Task.FromResult((history, result, true));
                 }
             }
-            catch
+            catch(OverflowException)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
         }
     }

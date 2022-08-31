@@ -5,25 +5,25 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class AllPrice : IConveyor
     {
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public  Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if(cancellationToken.IsCancellationRequested)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }    
 
             try
             {
-                int Price = (int)(result.PaperResult.Price
+                int Price = Convert.ToInt32(result.PaperResult.Price
                                       + result.LaminationResult.Price
                                       + result.PosResult.CreasingPrice
                                       + result.PosResult.DrillingPrice
                                       + result.PosResult.RoundingPrice);
-                result.Price = (int)Math.Round((double)Price / 10, 1) * 10; //округление
+                result.Price = Convert.ToInt32(Math.Round((double)Price / 10, 1) * 10); //округление
 
                 if (history.Price == null)
                 {
-                    result.TryTrice = true;
+                    result.TryPrice = true;
                     history.Price = result.Price;
 
                 }
@@ -38,18 +38,18 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PosResult.ActualCreasingPrice &&
                     result.PosResult.ActualDrillingPrice)
                 {
-                    result.TryTrice = true;
+                    result.TryPrice = true;
                 }
                 else
                 {
-                    result.TryTrice = false;
+                    result.TryPrice = false;
                 }
 
-                return (history, result, true);
+                return Task.FromResult((history, result, true));
             }
-            catch
+            catch(OverflowException)
             {
-                return (history, result, false);
+                return Task.FromResult((history, result, false));
             }
         }
     }

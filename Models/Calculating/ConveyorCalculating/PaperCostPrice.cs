@@ -19,11 +19,11 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PaperResult.ActualCostPrise = await ActualData(history, cancellationToken);
 
-                result.PaperResult.CostPrise = (int)(result.PaperResult.Sheets
+               result.PaperResult.CostPrise  = Convert.ToInt32(result.PaperResult.Sheets
                     * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
                 return (history, result, true);
             }
-            catch
+            catch(OverflowException)
             {
                 return (history, result, false);
             }
