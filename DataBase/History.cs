@@ -3,9 +3,9 @@
     public class History
     {
         public int Id { get; set; }
-        public HistoryInput Input { get; set; }
-        public PricePaper PricePaper { get; set; }
-        public ConsumablePrice ConsumablePrice { get; set; }
+        public HistoryInput Input { get; set; } = null!;
+        public PricePaper PricePaper { get; set; } = null!;
+        public ConsumablePrice ConsumablePrice { get; set; } = null!;
         public int? MarkupPaper { get; set; }
         public int? CutPrice { get; set; }
         public LaminationPrice? LaminationPrices { get; set; }

@@ -14,7 +14,7 @@ namespace printing_calculator.controllers
             _applicationContext = applicationContext;
         }
 
-        public async Task<ActionResult> Index(int HistoryId, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index(int historyId, CancellationToken cancellationToken)
         {
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
@@ -22,7 +22,7 @@ namespace printing_calculator.controllers
                 PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs.ToListAsync(cancellationToken);
                 PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 return new EmptyResult();
             }
@@ -31,23 +31,23 @@ namespace printing_calculator.controllers
                 _logger.LogError(ex, "не вышло получить из базы PaperCatalogs и laminations");
             }
 
-            if (HistoryId != 0)
+            if (historyId != 0)
             {
                 try
                 {
                     PaperAndHistoryInput.Input = (await _applicationContext.Historys
-                        .Where(historys => historys.Id == HistoryId)
+                        .Where(historys => historys.Id == historyId)
                         .Include(historys => historys.Input)
                         .FirstAsync(cancellationToken))
                         .Input;
                 }
-                catch(OperationCanceledException)
+                catch (OperationCanceledException)
                 {
                     return new EmptyResult();
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "error add DataBase historyID = {HistoryId}", HistoryId);
+                    _logger.LogError(ex, "error add DataBase historyID = {HistoryId}", historyId);
                 }
             }
 

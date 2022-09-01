@@ -17,7 +17,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
-            if (history.Input.Lamination == null)
+            if (history.Input.Lamination == null || history.LaminationPrices == null)
             {
                 result.LaminationResult.ActualCostPrics = true;
                 return (history, result, true);
@@ -28,26 +28,26 @@ namespace printing_calculator.Models.ConveyorCalculating
                 int сostPrice = Convert.ToInt32((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = сostPrice;
 
-                result.LaminationResult.ActualCostPrics = await ActualCostPrice(history, cancellationToken);
+                result.LaminationResult.ActualCostPrics =
+                    await ActualCostPrice(history.LaminationPrices.Id, history.Input.Lamination.Name, cancellationToken);
                 return (history, result, true);
             }
-            catch(OverflowException)
+            catch (OverflowException)
             {
                 return (history, result, false);
             }
         }
 
-        private async Task<bool> ActualCostPrice(History history, CancellationToken cancellationToken)
+        private async Task<bool> ActualCostPrice(int priceId, string laminationName, CancellationToken cancellationToken)
         {
-            int PriceId = history.LaminationPrices.Id;
             Lamination lamination = await _applicationContext.Laminations
                 .AsNoTracking()
                 .Include(laminations => laminations.Price)
-                .Where(laminations => laminations.Name == history.Input.Lamination.Name)
+                .Where(laminations => laminations.Name == laminationName)
                 .FirstAsync(cancellationToken);
-            List<LaminationPrice> ActualPriceId = lamination.Price;
+            List<LaminationPrice> actualPriceId = lamination.Price;
 
-            if (PriceId == ActualPriceId[^1].Id)
+            if (priceId == actualPriceId[^1].Id)
             {
                 return true;
             }

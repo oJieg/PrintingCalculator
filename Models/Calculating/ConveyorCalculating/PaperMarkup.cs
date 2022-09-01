@@ -21,23 +21,23 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
 
             CalculatingMarkup markup = new(_markup.MarkupList);
-            int MarkupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
+            int markupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
 
             if (history.MarkupPaper == null)
             {
-                result.PaperResult.MarkupPaper = MarkupPaper;
+                result.PaperResult.MarkupPaper = markupPaper;
                 result.PaperResult.ActualMarkupPaper = true;
-                history.MarkupPaper = MarkupPaper;
+                history.MarkupPaper = markupPaper;
 
                 return Task.FromResult((history, result, true));
             }
             else
             {
                 result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
-                result.PaperResult.ActualMarkupPaper = history.MarkupPaper == MarkupPaper;
+                result.PaperResult.ActualMarkupPaper = history.MarkupPaper == markupPaper;
 
                 return Task.FromResult((history, result, true));
-            } 
+            }
         }
     }
 }

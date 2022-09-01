@@ -10,7 +10,7 @@
         public bool ActualConsumablePrice { get; set; }
         public int? CostPrise { get; set; }
         public bool ActualCostPrise { get; set; }
-        public int? MarkupPaper { get; set; }
+        public int MarkupPaper { get; set; }
         public bool ActualMarkupPaper { get; set; }
         public int? CutPrics { get; set; }
         public bool ActualCutPrice { get; set; }

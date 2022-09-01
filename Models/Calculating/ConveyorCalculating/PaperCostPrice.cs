@@ -19,11 +19,11 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PaperResult.ActualCostPrise = await ActualData(history, cancellationToken);
 
-               result.PaperResult.CostPrise  = Convert.ToInt32(result.PaperResult.Sheets
-                    * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
+                result.PaperResult.CostPrise = Convert.ToInt32(result.PaperResult.Sheets
+                     * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
                 return (history, result, true);
             }
-            catch(OverflowException)
+            catch (OverflowException)
             {
                 return (history, result, false);
             }
@@ -33,15 +33,15 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             try
             {
-                int PriceId = history.PricePaper.Id;
-                PaperCatalog ThisPaper = await _applicationContext.PaperCatalogs
+                int priceId = history.PricePaper.Id;
+                PaperCatalog thisPaper = await _applicationContext.PaperCatalogs
                      .AsNoTracking()
                      .Where(paperCatalogs => paperCatalogs.Name == history.Input.Paper.Name)
                      .Include(paperCatalogs => paperCatalogs.Prices)
                      .FirstAsync(cancellationToken);
-                List<PricePaper> ActualPriceId = ThisPaper.Prices;
+                List<PricePaper> actualPriceId = thisPaper.Prices;
 
-                return PriceId == ActualPriceId[^1].Id;
+                return priceId == actualPriceId[^1].Id;
             }
             catch
             {

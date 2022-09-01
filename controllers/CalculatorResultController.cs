@@ -60,7 +60,7 @@ namespace printing_calculator.controllers
                 return new EmptyResult();
             }
 
-            if (!input.SaveDB) //не получилось вынести сохранение после рендера станицы( 
+            if (!input.SaveDB)
             {
                 try
                 {
@@ -90,11 +90,9 @@ namespace printing_calculator.controllers
             Result result = new();
             try
             {
-                (History, Result, bool) answer = await conveyor.TryStartCalculation(history, result, cancellationToken);
-                result = answer.Item2;
-                history = answer.Item1;
+                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, result, cancellationToken);
 
-                if (!answer.Item3)
+                if (!tryAnswer)
                 {
                     _logger.LogError("не удался расчет на конвейере");
                     return NotFound();

@@ -5,49 +5,49 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class AllPrice : IConveyor
     {
-        public  Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
-            if(cancellationToken.IsCancellationRequested)
+            if (cancellationToken.IsCancellationRequested)
             {
                 return Task.FromResult((history, result, false));
-            }    
+            }
 
             try
             {
-                int Price = Convert.ToInt32(result.PaperResult.Price
-                                      + result.LaminationResult.Price
-                                      + result.PosResult.CreasingPrice
-                                      + result.PosResult.DrillingPrice
-                                      + result.PosResult.RoundingPrice);
-                result.Price = Convert.ToInt32(Math.Round((double)Price / 10, 1) * 10); //округление
+                result.Price = Convert.ToInt32(Math.Round((double)result.Price / 10, 1) * 10); //округление
 
                 if (history.Price == null)
                 {
                     result.TryPrice = true;
                     history.Price = result.Price;
-
                 }
 
-                if (result.PaperResult.ActualConsumablePrice &&
+                bool actualPaperPrice = result.PaperResult.ActualConsumablePrice &&
                     result.PaperResult.ActualMarkupPaper &&
                     result.PaperResult.ActualCostPrise &&
-                    result.PaperResult.ActualCutPrice &&
-                    result.LaminationResult.ActualCostPrics &&
-                    result.LaminationResult.ActualMarkup &&
-                    result.PosResult.ActualRoundingPrice &&
+                    result.PaperResult.ActualCutPrice;
+
+                bool actualLaminationPrice = result.LaminationResult.ActualCostPrics &&
+                    result.LaminationResult.ActualMarkup;
+
+                bool actualPosPrice = result.PosResult.ActualRoundingPrice &&
                     result.PosResult.ActualCreasingPrice &&
-                    result.PosResult.ActualDrillingPrice)
+                    result.PosResult.ActualDrillingPrice;
+
+                result.TryPrice = actualPaperPrice &&
+                    actualLaminationPrice &&
+                    actualPosPrice &&
+                    result.Price == history.Price;
+
+                if (result.Price != history.Price)
                 {
-                    result.TryPrice = true;
-                }
-                else
-                {
+                    result.Price = history.Price.Value;
                     result.TryPrice = false;
                 }
 
                 return Task.FromResult((history, result, true));
             }
-            catch(OverflowException)
+            catch (OverflowException)
             {
                 return Task.FromResult((history, result, false));
             }

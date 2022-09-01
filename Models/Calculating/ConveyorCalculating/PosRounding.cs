@@ -16,9 +16,10 @@ namespace printing_calculator.Models.ConveyorCalculating
         public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-            {
                 return Task.FromResult((history, result, false));
-            }
+
+            if (result.PosResult == null)
+                result.PosResult = new PosResult();
 
             result.PosResult.Rounding = history.Input.RoundingAmount;
             if (!result.PosResult.Rounding)
@@ -33,12 +34,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             if (price == null)
             {
                 result.PosResult.RoundingPrice = actualPrice;
+                result.Price += actualPrice;
                 result.PosResult.ActualRoundingPrice = true;
                 history.RoundingPrice = actualPrice;
                 return Task.FromResult((history, result, true));
             }
 
-            result.PosResult.RoundingPrice = (int)price;
+            result.PosResult.RoundingPrice = price.Value;
+            result.Price += price.Value;
             if (actualPrice == price)
             {
                 result.PosResult.ActualRoundingPrice = true;

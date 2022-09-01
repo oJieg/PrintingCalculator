@@ -1,6 +1,4 @@
-﻿using printing_calculator.DataBase;
-using Microsoft.Extensions.Options;
-using printing_calculator.Models.Settings;
+﻿using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models
 {
@@ -18,23 +16,23 @@ namespace printing_calculator.Models
             _markup = list;
         }
 
-        public int GetMarkup(int Sheets)
+        public int GetMarkup(int sheets)
         {
-            if (Sheets >= _markup[^1].Page)
+            if (sheets >= _markup[^1].Page)
             {
                 return _markup[^1].Markup;
             }
-            MaxMin(Sheets);
+            MaxMin(sheets);
 
-            float factor = (float)1 - ((float)(Sheets - _sheets) / (float)_difference);
+            float factor = (float)1 - ((float)(sheets - _sheets) / (float)_difference);
             return (int)(_stepMarkup * factor + _maxMarkup);
         }
 
-        private void MaxMin(int Shets)
+        private void MaxMin(int shets)
         {
             for (int i = 0; i <= _markup.Count - 2; i++)
             {
-                if (Shets >= _markup[i].Page && Shets < _markup[i + 1].Page)
+                if (shets >= _markup[i].Page && shets < _markup[i + 1].Page)
                 {
                     _difference = _markup[i + 1].Page - _markup[i].Page;
                     _stepMarkup = _markup[i].Markup - _markup[i + 1].Markup;

@@ -3,7 +3,7 @@
     public class SizePaper
     {
         public int Id { get; set; }
-        public string NameSizePaper { get; set; }
+        public string NameSizePaper { get; set; } = null!;
         public int SizePaperHeight { get; set; } //длинная чать
         public int SizePaperWidth { get; set; } //короткая часть
     }

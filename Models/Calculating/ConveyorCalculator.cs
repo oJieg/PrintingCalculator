@@ -18,7 +18,7 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<(History, Result, bool)> TryStartCalculation(History history, Result? result, CancellationToken cancellationToken)
+        public async Task<(History, Result, bool)> TryStartCalculation(History history, Result result, CancellationToken cancellationToken)
         {
             return await TryRun(history, result, AddConveyor(), cancellationToken);
         }
@@ -47,25 +47,22 @@ namespace printing_calculator.Models.Calculating
             return conveyors;
         }
 
-        private async Task<(History?, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors, CancellationToken cancellationToken)
+        private async Task<(History, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors, CancellationToken cancellationToken)
         {
             result = new();
-            result.PaperResult = new PaperResult();
             if (history == null)
             {
-                return (history, result, false);
+                return (new History(), result, false);
             }
 
             foreach (var conveyor in conveyors)
             {
-                (History, Result, bool) answer = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
-                if (!answer.Item3)
+                (history, result, bool tryAnswer) = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
+                if (!tryAnswer)
                 {
                     _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);
                     return (history, result, false);
                 }
-                result = answer.Item2;
-                history = answer.Item1;
             }
             return (history, result, true);
         }

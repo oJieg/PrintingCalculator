@@ -24,14 +24,16 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 if (history.Input.Lamination != null)
                 {
-                    result.LaminationResult.Price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment);
+                    int price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment);
+                    result.LaminationResult.Price = price;
+                    result.Price += price;
                     return Task.FromResult((history, result, true));
                 }
 
                 result.LaminationResult.Price = 0;
                 return Task.FromResult((history, result, true));
             }
-            catch(OverflowException)
+            catch (OverflowException)
             {
                 return Task.FromResult((history, result, false));
             }

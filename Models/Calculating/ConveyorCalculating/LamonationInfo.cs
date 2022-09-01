@@ -12,11 +12,11 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, false));
             }
 
-            result.LaminationResult = new();
+            //result.LaminationResult = new();
             if (history.Input.Lamination != null)
             {
-                    result.LaminationResult.Name = history.Input.Lamination.Name;
-                    return Task.FromResult((history, result, true));
+                result.LaminationResult.Name = history.Input.Lamination.Name;
+                return Task.FromResult((history, result, true));
             }
             return Task.FromResult((history, result, true));
         }

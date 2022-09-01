@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public float Price { get; set; }
-        public PaperCatalog Catalog { get; set; }
+        public PaperCatalog Catalog { get; set; } = null!;
     }
 }

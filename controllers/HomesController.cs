@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using printing_calculator.DataBase;
 
 namespace printing_calculator.controllers
 {

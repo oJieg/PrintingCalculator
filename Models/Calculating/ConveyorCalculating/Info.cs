@@ -13,12 +13,12 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
 
             result.HistoryInputId = history.Id;
-                result.Amount = history.Input.Amount;
-                result.Kinds = history.Input.Kinds;
-                result.Height = history.Input.Height;
-                result.Whidth = history.Input.Whidth;
+            result.Amount = history.Input.Amount;
+            result.Kinds = history.Input.Kinds;
+            result.Height = history.Input.Height;
+            result.Whidth = history.Input.Whidth;
 
-                return Task.FromResult((history, result, true));
+            return Task.FromResult((history, result, true));
         }
     }
 }

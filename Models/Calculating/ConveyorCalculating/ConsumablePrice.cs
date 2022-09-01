@@ -6,12 +6,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class ConsumablePrice : IConveyor
     {
-        private readonly Consumable _Consumable;
+        private readonly Consumable _consumable;
         private readonly ApplicationContext _applicationContext;
 
         public ConsumablePrice(Consumable consumable, ApplicationContext applicationContext)
         {
-            _Consumable = consumable;
+            _consumable = consumable;
             _applicationContext = applicationContext;
         }
 
@@ -20,20 +20,24 @@ namespace printing_calculator.Models.ConveyorCalculating
             try
             {
                 //проверка на актуальность цен
-                DataBase.ConsumablePrice consumablePrice = await _applicationContext.ConsumablePrices
+                DataBase.ConsumablePrice? consumablePrice = await _applicationContext.ConsumablePrices
                     .AsNoTracking()
                     .OrderByDescending(сonsumablePrices => сonsumablePrices.Id)
                     .FirstOrDefaultAsync(cancellationToken);
-                int ActualConsumableId = consumablePrice.Id;
 
-                result.PaperResult.ActualConsumablePrice = ActualConsumableId == history.ConsumablePrice.Id;
+                if (consumablePrice == null)
+                    return (history, result, false);
+
+                int actualConsumableId = consumablePrice.Id;
+
+                result.PaperResult.ActualConsumablePrice = actualConsumableId == history.ConsumablePrice.Id;
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2
                     + history.ConsumablePrice.DrumPrice3
-                    + history.ConsumablePrice.DrumPrice4) / (float)_Consumable.Photoconductors;
-                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / (float)_Consumable.CMYK;
-                float price = drumPrice + CMUKprice + _Consumable.Other;
+                    + history.ConsumablePrice.DrumPrice4) / (float)_consumable.Photoconductors;
+                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / (float)_consumable.CMYK;
+                float price = drumPrice + CMUKprice + _consumable.Other;
                 if (result.PaperResult.Duplex)
                 {
                     price *= 2;

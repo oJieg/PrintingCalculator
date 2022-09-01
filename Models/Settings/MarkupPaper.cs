@@ -2,6 +2,6 @@
 {
     public class MarkupPaper
     {
-        public List<MarkupList> MarkupList { get; set; }
+        public List<MarkupList> MarkupList { get; set; } = null!;
     }
 }

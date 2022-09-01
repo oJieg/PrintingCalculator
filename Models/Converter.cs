@@ -7,6 +7,9 @@ namespace printing_calculator.Models
     {
         public static SimplResult HistoryToSimplResult(History history)
         {
+            if (history.Price == null)
+                return new SimplResult();
+
             SimplResult result = new()
             {
                 HistoryId = history.Id,
@@ -16,7 +19,7 @@ namespace printing_calculator.Models
                 Kinds = history.Input.Kinds,
                 PaperName = history.Input.Paper.Name,
 
-                Price = (int)history.Price
+                Price = history.Price.Value
             };
             result.Lamination = history.Input.Lamination != null;
             result.Creasing = history.CreasingPrice > 0;

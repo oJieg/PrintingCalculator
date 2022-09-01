@@ -17,7 +17,7 @@ namespace printing_calculator.Models
 
         public async Task<bool> TryValidationInpytAsync(Input input, CancellationToken cancellationToken)
         {
-            return input != null &
+            return input != null &&
                 TryValidationSize(input.Whidth) &&
                 TryValidationSize(input.Height) &&
                 await TryValidationNamePaperAsync(input.Paper, cancellationToken) &&
@@ -28,7 +28,7 @@ namespace printing_calculator.Models
                 TryValidationPos(input.Drilling);
         }
 
-        private  bool TryValidationSize(int? size)
+        private bool TryValidationSize(int? size)
         {
             return size != null && size > 0 && size < _settings.SettingPrinter.MaximumSize;
         }
@@ -40,7 +40,7 @@ namespace printing_calculator.Models
                 .AnyAsync(paperCatalogs => paperCatalogs.Name == namePaper, cancellationToken);
         }
 
-        private async Task<bool> TryValidationLaminationName(string nameLamination, CancellationToken cancellationToken)
+        private async Task<bool> TryValidationLaminationName(string? nameLamination, CancellationToken cancellationToken)
         {
             if (nameLamination != Constants.ReturnEmptyOutputHttp)
             {
@@ -67,7 +67,7 @@ namespace printing_calculator.Models
         {
             if (countPos == 0)
                 return true;
-            return countPos > 0 && countPos < _settings.Pos.MaximumAmount; //не больше 50 биговок и дырок)) 
+            return countPos > 0 && countPos < _settings.Pos.MaximumAmount; //не больше 50 биговок и дырок
         }
     }
 }
