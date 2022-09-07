@@ -6,12 +6,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationCostPriсe : IConveyor
     {
-        private readonly Settings.Lamination _lamination1;
+        private readonly Settings.Lamination _lamination;
         private readonly ApplicationContext _applicationContext;
 
         public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext applicationContext)
         {
-            _lamination1 = lamination;
+            _lamination = lamination;
             _applicationContext = applicationContext;
         }
 
@@ -25,7 +25,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int сostPrice = Convert.ToInt32((history.LaminationPrices.Price + _lamination1.Job) * result.PaperResult.Sheets);
+                int сostPrice = Convert.ToInt32((history.LaminationPrices.Price + _lamination.Job) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = сostPrice;
 
                 result.LaminationResult.ActualCostPrics =
@@ -47,11 +47,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 .FirstAsync(cancellationToken);
             List<LaminationPrice> actualPriceId = lamination.Price;
 
-            if (priceId == actualPriceId[^1].Id)
-            {
-                return true;
-            }
-            return false;
+            return priceId == actualPriceId[^1].Id;
         }
     }
 }

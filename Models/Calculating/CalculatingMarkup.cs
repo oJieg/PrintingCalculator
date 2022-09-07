@@ -5,39 +5,45 @@ namespace printing_calculator.Models
     public class CalculatingMarkup
     {
         private float _stepMarkup;
-        private float _maxMarkup;
+        private float _maxMarkupInBorder;
+        private int _differenceMarkup;
+        private int _minimumBorderSheetsForMarkup;
+        private readonly List<Markups> _markup;
 
-        private int _difference;
-        private int _sheets;
-        private readonly List<MarkupList> _markup;
-
-        public CalculatingMarkup(List<MarkupList> list)
+        public CalculatingMarkup(List<Markups> markups)
         {
-            _markup = list;
+            _markup = markups;
         }
 
         public int GetMarkup(int sheets)
         {
+            int returnMaxMarkup = _markup[^1].Markup;
             if (sheets >= _markup[^1].Page)
             {
-                return _markup[^1].Markup;
+                return returnMaxMarkup;
             }
-            MaxMin(sheets);
+  
+            HittingBorder(sheets);
+            if(_differenceMarkup == 0)
+            {
+                return returnMaxMarkup;
+            }
 
-            float factor = (float)1 - ((float)(sheets - _sheets) / (float)_difference);
-            return (int)(_stepMarkup * factor + _maxMarkup);
+            float factor = (float)1 - ((float)(sheets - _minimumBorderSheetsForMarkup) / (float)_differenceMarkup);
+            return (int)(_stepMarkup * factor + _maxMarkupInBorder);
         }
 
-        private void MaxMin(int shets)
+        ///определяем в какие границы попадает количество листов и на этой основе заполняем приватные переменные
+        private void HittingBorder(int shets) 
         {
             for (int i = 0; i <= _markup.Count - 2; i++)
             {
                 if (shets >= _markup[i].Page && shets < _markup[i + 1].Page)
                 {
-                    _difference = _markup[i + 1].Page - _markup[i].Page;
+                    _differenceMarkup = _markup[i + 1].Page - _markup[i].Page;
                     _stepMarkup = _markup[i].Markup - _markup[i + 1].Markup;
-                    _maxMarkup = _markup[i + 1].Markup;
-                    _sheets = _markup[i].Page;
+                    _maxMarkupInBorder = _markup[i + 1].Markup;
+                    _minimumBorderSheetsForMarkup = _markup[i].Page;
                     return;
                 }
             }

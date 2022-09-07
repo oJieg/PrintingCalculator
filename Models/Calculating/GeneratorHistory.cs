@@ -66,13 +66,14 @@ namespace printing_calculator.Models.Calculating
                 history.Input.CreasingAmount = input.Creasing;
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
-                if (input.SaveDB)
+
+                await GetHistory(history, input, cancellationToken);
+                if (input.LaminationName != Constants.ReturnEmptyOutputHttp && history.Input.Lamination != null)
                 {
-                    await GetHistoryWithAsNoTracking(history, input, cancellationToken);
-                }
-                else
-                {
-                    await GetHistoryWithoutAsNoTracking(history, input, cancellationToken);
+                    await GetHistoryLamination(history, input, cancellationToken);
+                    history.LaminationPrices = history.Input.Lamination.Price
+                        .OrderByDescending(price => price.Id)
+                        .First();
                 }
 
                 history.PricePaper = history.Input.Paper.Prices
@@ -86,55 +87,39 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        private async Task<History> GetHistoryWithAsNoTracking(History history, Input input, CancellationToken cancellationToken)
+        private async Task<History> GetHistory(History history, Input input, CancellationToken cancellationToken)
         {
-            history.Input.Paper = await _applicationContext.PaperCatalogs
-                   .AsNoTracking()
-                   .Include(paperCatalogs => paperCatalogs.Prices)
-                   .Include(paperCatalogs => paperCatalogs.Size)
-                   .Where(paperCatalogs => paperCatalogs.Name == input.Paper)
-                   .FirstAsync(cancellationToken);
+            IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
+                    .Include(paperCatalogs => paperCatalogs.Prices)
+                    .Include(paperCatalogs => paperCatalogs.Size)
+                    .Where(paperCatalogs => paperCatalogs.Name == input.Paper);
 
-            history.ConsumablePrice = await _applicationContext.ConsumablePrices
-                    .AsNoTracking()
-                    .OrderByDescending(consumablePrices => consumablePrices.Id)
-                    .FirstAsync(cancellationToken);
-            if (input.LaminationName != Constants.ReturnEmptyOutputHttp)
+            IQueryable<ConsumablePrice> historyConsumablePrice = _applicationContext.ConsumablePrices
+                    .OrderByDescending(consumablePrices => consumablePrices.Id);
+
+            if (input.SaveDB)
             {
-                history.Input.Lamination = await _applicationContext.Laminations
-                    .AsNoTracking()
-                    .Include(laminations => laminations.Price)
-                    .Where(laminations => laminations.Name == input.LaminationName)
-                    .FirstAsync(cancellationToken);
-                history.LaminationPrices = history.Input.Lamination.Price
-                    .OrderByDescending(price => price.Id)
-                    .First();
+                historyInputPaper = historyInputPaper.AsNoTracking();
+                historyConsumablePrice = historyConsumablePrice.AsNoTracking();
             }
+
+            history.Input.Paper = await historyInputPaper.FirstAsync(cancellationToken);
+            history.ConsumablePrice = await historyConsumablePrice.FirstAsync(cancellationToken);
             return history;
         }
 
-        private async Task<History> GetHistoryWithoutAsNoTracking(History history, Input input, CancellationToken cancellationToken)
+        private async Task<History> GetHistoryLamination(History history, Input input, CancellationToken cancellationToken)
         {
-            history.Input.Paper = await _applicationContext.PaperCatalogs
-                   .Include(paperCatalogs => paperCatalogs.Prices)
-                   .Include(paperCatalogs => paperCatalogs.Size)
-                   .Where(paperCatalogs => paperCatalogs.Name == input.Paper)
-                   .FirstAsync(cancellationToken);
+            IQueryable<Lamination> historyInputLamination = _applicationContext.Laminations
+                .Include(laminations => laminations.Price)
+                .Where(laminations => laminations.Name == input.LaminationName);
 
-            history.ConsumablePrice = await _applicationContext.ConsumablePrices
-                    .OrderByDescending(consumablePrices => consumablePrices.Id)
-                    .FirstAsync(cancellationToken);
 
-            if (input.LaminationName != Constants.ReturnEmptyOutputHttp)
+            if (input.SaveDB)
             {
-                history.Input.Lamination = await _applicationContext.Laminations
-                    .Include(laminations => laminations.Price)
-                    .Where(laminations => laminations.Name == input.LaminationName)
-                    .FirstAsync(cancellationToken);
-                history.LaminationPrices = history.Input.Lamination.Price
-                    .OrderByDescending(price => price.Id)
-                    .First();
+                historyInputLamination.AsNoTracking();
             }
+            history.Input.Lamination = await historyInputLamination.FirstAsync(cancellationToken);
             return history;
         }
 

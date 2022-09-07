@@ -14,7 +14,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                result.Price = Convert.ToInt32(Math.Round((double)result.Price / 10, 1) * 10); //округление
+                result.Price = Convert.ToInt32(Math.Round((double)result.Price / 100, 1) * 100); //округление
 
                 if (history.Price == null)
                 {

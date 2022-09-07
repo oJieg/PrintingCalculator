@@ -35,9 +35,16 @@ namespace printing_calculator.Models
 
         private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
         {
-            return await _applicationContext.PaperCatalogs
-                .AsNoTracking()
-                .AnyAsync(paperCatalogs => paperCatalogs.Name == namePaper, cancellationToken);
+            try
+            {
+                return await _applicationContext.PaperCatalogs
+                    .AsNoTracking()
+                    .AnyAsync(paperCatalogs => paperCatalogs.Name == namePaper, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
         }
 
         private async Task<bool> TryValidationLaminationName(string? nameLamination, CancellationToken cancellationToken)
@@ -65,9 +72,7 @@ namespace printing_calculator.Models
 
         private bool TryValidationPos(int countPos)
         {
-            if (countPos == 0)
-                return true;
-            return countPos > 0 && countPos < _settings.Pos.MaximumAmount; //не больше 50 биговок и дырок
+            return countPos == 0 || (countPos > 0 && countPos < _settings.Pos.MaximumAmount);
         }
     }
 }

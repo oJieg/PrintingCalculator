@@ -32,7 +32,7 @@ namespace printing_calculator.Models.Calculating
                 new PaperSplitting(_settings.SettingPrinter),
                 new ConveyorCalculating.ConsumablePrice(_settings.Consumable, _applicationContext),
                 new PaperCostPrice(_applicationContext),
-                new PaperMarkup(_settings.MarkupPaper),
+                new PaperMarkup(_settings),
                 new PaperCutPriсe(_settings.CutSetting),
                 new PaperPriсe(),
                 new LamonationInfo(),

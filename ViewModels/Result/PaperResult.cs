@@ -4,8 +4,8 @@
     {
         public string? NamePaper { get; set; }
         public bool Duplex { get; set; }
-        public int Sheets { get; set; } //листов необхзодимо
-        public int? PiecesPerSheet { get; set; } //штук на листе
+        public int Sheets { get; set; } ///листов необхзодимо
+        public int? PiecesPerSheet { get; set; } ///штук на листе
         public float ConsumablePrice { get; set; }
         public bool ActualConsumablePrice { get; set; }
         public int? CostPrise { get; set; }
