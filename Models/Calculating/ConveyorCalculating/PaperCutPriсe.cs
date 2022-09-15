@@ -30,14 +30,13 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PaperResult.CutPrics = cutPrice;
                     result.PaperResult.ActualCutPrice = true;
                     history.CutPrice = cutPrice;
-                    return Task.FromResult((history, result, true));
                 }
                 else
                 {
                     result.PaperResult.ActualCutPrice = (history.CutPrice == cutPrice);
                     result.PaperResult.CutPrics = (int)history.CutPrice;
-                    return Task.FromResult((history, result, true));
                 }
+                return Task.FromResult((history, result, true));
             }
             catch (OverflowException)
             {

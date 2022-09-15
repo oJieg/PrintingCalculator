@@ -18,7 +18,7 @@ namespace printing_calculator
             services.AddTransient<ConveyorCalculator>();
             services.AddTransient<GeneratorHistory>();
             services.AddTransient<Validation>();
-            services.Configure<Setting>(_configuration.GetSection("Settings"));
+            services.Configure<Setting>(_configuration.GetSection(nameof(Setting)));
 
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");

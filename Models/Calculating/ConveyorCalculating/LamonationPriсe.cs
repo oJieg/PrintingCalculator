@@ -8,9 +8,9 @@ namespace printing_calculator.Models.ConveyorCalculating
     {
         private readonly Settings.Lamination _setting;
 
-        public LamonationPriсe(Settings.Lamination lamination)
+        public LamonationPriсe(Settings.Lamination laminationSetting)
         {
-            _setting = lamination;
+            _setting = laminationSetting;
         }
 
         public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)

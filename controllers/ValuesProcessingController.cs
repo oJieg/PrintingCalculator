@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
+using System.Linq;
 
 namespace printing_calculator.controllers
 {
@@ -16,6 +17,7 @@ namespace printing_calculator.controllers
         }
         public IActionResult Index()
         {
+
             _logger.LogInformation("Run AddTest data");
            // TestAddConsumablePrice();
             //TetsAddPaper("CC - 350", (float)17.2);

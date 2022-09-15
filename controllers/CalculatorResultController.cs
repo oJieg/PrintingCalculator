@@ -31,7 +31,7 @@ namespace printing_calculator.controllers
         [HttpPost]
         public async Task<IActionResult> Index(Input input, CancellationToken cancellationToken)
         {
-            if (!(await _validation.TryValidationInpytAsync(input, cancellationToken)))
+            if (!(await _validation.TryValidateInputAsync(input, cancellationToken)))
             {
                 _logger.LogError("input не прошел валидацию input:{input}", input);
                 return BadRequest();
@@ -41,13 +41,11 @@ namespace printing_calculator.controllers
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
-            Result result = new();
+            Result result;
 
             try
             {
-                ConveyorCalculator conveyor = _calculator;
-
-                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, result, cancellationToken); //как то странно выглядит но все же
+                (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(history, cancellationToken);
 
                 if (!tryAnswer)
                 {
@@ -87,10 +85,10 @@ namespace printing_calculator.controllers
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
-            Result result = new();
+            Result result;
             try
             {
-                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, result, cancellationToken);
+                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, cancellationToken);
 
                 if (!tryAnswer)
                 {

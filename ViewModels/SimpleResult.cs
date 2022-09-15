@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels
 {
-    public class SimplResult
+    public class SimpleResult
     {
         public int HistoryId { get; set; }
         public int Height { get; set; }

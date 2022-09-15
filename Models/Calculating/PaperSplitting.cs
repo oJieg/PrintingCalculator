@@ -18,7 +18,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, false));
             }
-            result.PaperResult.PiecesPerSheet = PiecesPerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
+            result.PaperResult.PiecesPerSheet = PiecePerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
             result.PaperResult.Sheets = ((int)
                 Math.Ceiling(((double)result.Amount / (double)result.PaperResult.PiecesPerSheet)))
                 * result.Kinds;
@@ -26,7 +26,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             return Task.FromResult((history, result, true));
         }
 
-        private int PiecesPerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
+        private int PiecePerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
             int SizePaperHeight = sizePaper.SizePaperHeight - _settings.WhiteFieldHeight;
             int SizePaperWidth = sizePaper.SizePaperWidth - _settings.WhiteFieldWidth;

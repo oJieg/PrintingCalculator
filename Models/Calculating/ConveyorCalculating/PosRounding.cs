@@ -18,8 +18,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             if (cancellationToken.IsCancellationRequested)
                 return Task.FromResult((history, result, false));
 
-            if (result.PosResult == null)
-                result.PosResult = new PosResult();
+            result.PosResult ??= new PosResult();
 
             result.PosResult.Rounding = history.Input.RoundingAmount;
             if (!result.PosResult.Rounding)
@@ -42,13 +41,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             result.PosResult.RoundingPrice = price.Value;
             result.Price += price.Value;
-            if (actualPrice == price)
-            {
-                result.PosResult.ActualRoundingPrice = true;
-                return Task.FromResult((history, result, true));
-            }
 
-            result.PosResult.ActualRoundingPrice = false;
+            result.PosResult.ActualRoundingPrice = (actualPrice == price);
+
             return Task.FromResult((history, result, true));
         }
     }

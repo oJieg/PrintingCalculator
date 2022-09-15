@@ -20,24 +20,24 @@ namespace printing_calculator.controllers
 
         public async Task<IActionResult> Index(int page, CancellationToken cancellationToken, int countPage = 10)
         {
-            if (!ValidationPage(page, countPage))
+            if (countPage <= 0 && page < 0)
             {
                 _logger.LogError("ошибка указания номера страницы или длины страницы page-{page}, countPage-{countPage}",
                     page, countPage);
                 return NotFound();
             }
-            List<SimplResult> result = new();
+            List<SimpleResult> result = new();
 
             try
             {
-                List<History> histories = await _generatorHistory.GetListAsync(page, countPage, cancellationToken);
+                List<History> histories = await _generatorHistory.GetHistoryListAsync(page, countPage, cancellationToken);
 
                 foreach (History history in histories)
                 {
                     result.Add(Converter.HistoryToSimplResult(history));
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 return new EmptyResult();
             }
@@ -48,17 +48,6 @@ namespace printing_calculator.controllers
             }
 
             return View("History", result);
-        }
-
-        private static bool ValidationPage(int page, int countPage)
-        {
-            if (countPage <= 0)
-                return false;
-
-            if (page < 0)
-                return false;
-
-            return true;
         }
     }
 }

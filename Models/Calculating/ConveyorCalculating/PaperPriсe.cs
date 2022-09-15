@@ -14,14 +14,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int? pricePaperWithMarkup = Convert.ToInt32(result.PaperResult.CostPrise + 
-                    (result.PaperResult.CostPrise * (float)result.PaperResult.MarkupPaper / (float)100));
-                int? pricePaper = pricePaperWithMarkup + result.PaperResult.CutPrics;
-                if (pricePaperWithMarkup == null || pricePaper == null)
-                    return Task.FromResult((history, result, false));
+                int pricePaperWithMarkup = Convert.ToInt32(result.PaperResult.CostConsumablePrise + 
+                    (result.PaperResult.CostConsumablePrise * (float)result.PaperResult.MarkupPaper / (float)100));
+                int pricePaper = pricePaperWithMarkup + result.PaperResult.CutPrics;
 
-                result.PaperResult.Price = pricePaper.Value;
-                result.Price += pricePaper.Value;
+                result.PaperResult.Price = pricePaper;
+                result.Price += pricePaper;
                 return Task.FromResult((history, result, true));
             }
             catch (OverflowException)

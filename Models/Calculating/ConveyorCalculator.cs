@@ -18,9 +18,24 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<(History, Result, bool)> TryStartCalculation(History history, Result result, CancellationToken cancellationToken)
+        public async Task<(History, Result, bool)> TryStartCalculation(History history, CancellationToken cancellationToken)
         {
-            return await TryRun(history, result, AddConveyor(), cancellationToken);
+            Result result = new();
+            if (history == null)
+            {
+                return (new History(), result, false);
+            }
+
+            foreach (var conveyor in AddConveyor())
+            {
+                (history, result, bool tryAnswer) = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
+                if (!tryAnswer)
+                {
+                    _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);
+                    return (history, result, false);
+                }
+            }
+            return (history, result, true);
         }
 
         private List<IConveyor> AddConveyor()
@@ -47,24 +62,6 @@ namespace printing_calculator.Models.Calculating
             return conveyors;
         }
 
-        private async Task<(History, Result, bool)> TryRun(History history, Result result, List<IConveyor> conveyors, CancellationToken cancellationToken)
-        {
-            result = new();
-            if (history == null)
-            {
-                return (new History(), result, false);
-            }
 
-            foreach (var conveyor in conveyors)
-            {
-                (history, result, bool tryAnswer) = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
-                if (!tryAnswer)
-                {
-                    _logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);
-                    return (history, result, false);
-                }
-            }
-            return (history, result, true);
-        }
     }
 }

@@ -67,10 +67,10 @@ namespace printing_calculator.Models.Calculating
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
 
-                await GetHistory(history, input, cancellationToken);
-                if (input.LaminationName != Constants.ReturnEmptyOutputHttp && history.Input.Lamination != null)
+                await GetHistoryAsync(history, input, cancellationToken);
+                if (input.LaminationName != null || history.Input.Lamination != null)
                 {
-                    await GetHistoryLamination(history, input, cancellationToken);
+                    await GetHistoryLaminationAsync(history, input, cancellationToken);
                     history.LaminationPrices = history.Input.Lamination.Price
                         .OrderByDescending(price => price.Id)
                         .First();
@@ -87,7 +87,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        private async Task<History> GetHistory(History history, Input input, CancellationToken cancellationToken)
+        private async Task<History> GetHistoryAsync(History history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
                     .Include(paperCatalogs => paperCatalogs.Prices)
@@ -108,7 +108,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        private async Task<History> GetHistoryLamination(History history, Input input, CancellationToken cancellationToken)
+        private async Task<History> GetHistoryLaminationAsync(History history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<Lamination> historyInputLamination = _applicationContext.Laminations
                 .Include(laminations => laminations.Price)
@@ -123,7 +123,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<List<History>> GetListAsync(int page, int countPage, CancellationToken cancellationToken)
+        public async Task<List<History>> GetHistoryListAsync(int page, int countPage, CancellationToken cancellationToken)
         {
             try
             {

@@ -5,7 +5,7 @@
 	string size = $"{Model.Height}x{Model.Whidth}";
 	string amoutKids = $"{Model.Amount}x{Model.Kinds}";
 	string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
-	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostPrise;
+	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostConsumablePrise;
 	int profit = (int)(Model.Price - AllCostPrise);
 	int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
 
@@ -23,11 +23,7 @@
 
 @section JS
 {
-<script>
-	function copyСlipboard() {
-	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperResult.NamePaper - @Model.PaperResult.Price руб.')
-	}
-</script>
+<script src="/Copy.js"></script>
 }
 
 @if (!Model.TryPrice)
@@ -54,8 +50,8 @@
 			<div class="detal">
 				<details>
 					<summary class="detal">подробнее</summary>
-					<p class="detal">себестоимость - @Model.PaperResult.CostPrise руб.</p>
-					<p class="detal">чистая прибыль - @profit руб.</p>
+					<p class="detal">себестоимость расходников - @Model.PaperResult.CostConsumablePrise руб.</p>
+					<p class="detal">Надбавочная цена - @profit руб.</p>
 					<p class="detal">цена резки - @Model.PaperResult.CutPrics руб.</p>
 				</details>
 			</div>

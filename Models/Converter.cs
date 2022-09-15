@@ -5,12 +5,12 @@ namespace printing_calculator.Models
 {
     public static class Converter
     {
-        public static SimplResult HistoryToSimplResult(History history)
+        public static SimpleResult HistoryToSimplResult(History history)
         {
             if (history.Price == null)
-                return new SimplResult();
+                return new SimpleResult();
 
-            SimplResult result = new()
+            return new()
             {
                 HistoryId = history.Id,
                 Whidth = history.Input.Whidth,
@@ -19,14 +19,13 @@ namespace printing_calculator.Models
                 Kinds = history.Input.Kinds,
                 PaperName = history.Input.Paper.Name,
 
+                Lamination = history.Input.Lamination != null,
+                Creasing = history.CreasingPrice > 0,
+                Drilling = history.DrillingPrice > 0,
+                Rounding = history.RoundingPrice > 0,
+
                 Price = history.Price.Value
             };
-            result.Lamination = history.Input.Lamination != null;
-            result.Creasing = history.CreasingPrice > 0;
-            result.Drilling = history.DrillingPrice > 0;
-            result.Rounding = history.RoundingPrice > 0;
-
-            return result;
         }
     }
 }

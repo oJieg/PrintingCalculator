@@ -28,9 +28,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 if (consumablePrice == null)
                     return (history, result, false);
 
-                int actualConsumableId = consumablePrice.Id;
-
-                result.PaperResult.ActualConsumablePrice = actualConsumableId == history.ConsumablePrice.Id;
+                result.PaperResult.ActualConsumablePrice = consumablePrice.Id == history.ConsumablePrice.Id;
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2
@@ -42,7 +40,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 {
                     price *= 2;
                 }
-                result.PaperResult.ConsumablePrice = price;
+                result.PaperResult.ConsumablePrinterPrice = price;
                 return (history, result, true);
             }
             catch

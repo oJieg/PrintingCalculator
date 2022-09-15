@@ -19,8 +19,8 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, false));
             }
-            if (result.PosResult == null)
-                result.PosResult = new PosResult();
+
+            result.PosResult ??= new();
 
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;
             if (history.Input.DrillingAmount == 0)
@@ -45,13 +45,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             result.PosResult.DrillingPrice = price.Value;
             result.Price += price.Value;
-            if (actualPrice == price)
-            {
-                result.PosResult.ActualDrillingPrice = true;
-                return Task.FromResult((history, result, true));
-            }
 
-            result.PosResult.ActualDrillingPrice = false;
+            result.PosResult.ActualDrillingPrice = actualPrice == price;
+
             return Task.FromResult((history, result, true));
         }
     }

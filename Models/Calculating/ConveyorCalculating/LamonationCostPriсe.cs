@@ -40,14 +40,18 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private async Task<bool> ActualCostPrice(int priceId, string laminationName, CancellationToken cancellationToken)
         {
-            Lamination lamination = await _applicationContext.Laminations
-                .AsNoTracking()
-                .Include(laminations => laminations.Price)
-                .Where(laminations => laminations.Name == laminationName)
-                .FirstAsync(cancellationToken);
-            List<LaminationPrice> actualPriceId = lamination.Price;
-
-            return priceId == actualPriceId[^1].Id;
+            try
+            {
+                return await _applicationContext.Laminations
+                    .AsNoTracking()
+                    .Where(laminations => laminations.Name == laminationName)
+                    .Select(Laminations => Laminations.Price.OrderBy(Price => Price.Id).Last().Id == priceId)
+                    .FirstAsync(cancellationToken);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

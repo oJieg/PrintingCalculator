@@ -20,10 +20,10 @@ function newSize(size, side) {
 }
 
 function editSize(heightPaper, widthPaper) {
-    elementHeight.value = HeightPaper;
-    elenentWidth.value = WidthPaper;
-    height = HeightPaper;
-    width = WidthPaper;
+    elementHeight.value = heightPaper;
+    elenentWidth.value = widthPaper;
+    height = heightPaper;
+    width = widthPaper;
     activeButtonSize()
 }
 

@@ -15,22 +15,22 @@ namespace printing_calculator.Models
             _settings = options.Value;
         }
 
-        public async Task<bool> TryValidationInpytAsync(Input input, CancellationToken cancellationToken)
+        public async Task<bool> TryValidateInputAsync(Input input, CancellationToken cancellationToken)
         {
             return input != null &&
                 TryValidationSize(input.Whidth) &&
                 TryValidationSize(input.Height) &&
                 await TryValidationNamePaperAsync(input.Paper, cancellationToken) &&
-                TryPositiveNumber(input.Amount) &&
-                TryPositiveNumber(input.Kinds) &&
+                IsPositiveNumber(input.Amount) &&
+                IsPositiveNumber(input.Kinds) &&
                 await TryValidationLaminationName(input.LaminationName, cancellationToken) &&
                 TryValidationPos(input.Creasing) &&
                 TryValidationPos(input.Drilling);
         }
 
-        private bool TryValidationSize(int? size)
+        private bool TryValidationSize(int size)
         {
-            return size != null && size > 0 && size < _settings.SettingPrinter.MaximumSize;
+            return size > 0 && size < _settings.SettingPrinter.MaximumSize;
         }
 
         private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ namespace printing_calculator.Models
 
         private async Task<bool> TryValidationLaminationName(string? nameLamination, CancellationToken cancellationToken)
         {
-            if (nameLamination != Constants.ReturnEmptyOutputHttp)
+            if (nameLamination != null)
             {
                 try
                 {
@@ -65,7 +65,7 @@ namespace printing_calculator.Models
             return true;
         }
 
-        private static bool TryPositiveNumber(int number)
+        private static bool IsPositiveNumber(int number)
         {
             return number > 0;
         }

@@ -22,22 +22,8 @@ namespace printing_calculator.Models.ConveyorCalculating
                     history.Price = result.Price;
                 }
 
-                bool actualPaperPrice = result.PaperResult.ActualConsumablePrice &&
-                    result.PaperResult.ActualMarkupPaper &&
-                    result.PaperResult.ActualCostPrise &&
-                    result.PaperResult.ActualCutPrice;
-
-                bool actualLaminationPrice = result.LaminationResult.ActualCostPrics &&
-                    result.LaminationResult.ActualMarkup;
-
-                bool actualPosPrice = result.PosResult.ActualRoundingPrice &&
-                    result.PosResult.ActualCreasingPrice &&
-                    result.PosResult.ActualDrillingPrice;
-
-                result.TryPrice = actualPaperPrice &&
-                    actualLaminationPrice &&
-                    actualPosPrice &&
-                    result.Price == history.Price;
+                result.TryPrice = result.IsActualPaperPrice() &&
+                    (result.Price == history.Price);
 
                 if (result.Price != history.Price)
                 {

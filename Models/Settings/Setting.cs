@@ -4,7 +4,7 @@ namespace printing_calculator.Models
 {
     public class Setting
     {
-        public List<Markups> MarkupPaper { get; set; } = null!;
+        public List<Markup> MarkupPaper { get; set; } = null!;
         public SettingPrinter SettingPrinter { get; set; } = null!;
         public CutSetting CutSetting { get; set; } = null!;
         public Consumable Consumable { get; set; } = null!;

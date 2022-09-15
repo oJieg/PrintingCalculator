@@ -8,16 +8,16 @@ namespace printing_calculator.Models
         private float _maxMarkupInBorder;
         private int _differenceMarkup;
         private int _minimumBorderSheetsForMarkup;
-        private readonly List<Markups> _markup;
+        private readonly List<Markup> _markup;
 
-        public CalculatingMarkup(List<Markups> markups)
+        public CalculatingMarkup(List<Markup> markups)
         {
             _markup = markups;
         }
 
         public int GetMarkup(int sheets)
         {
-            int returnMaxMarkup = _markup[^1].Markup;
+            int returnMaxMarkup = _markup[^1].MarkupForThisPage;
             if (sheets >= _markup[^1].Page)
             {
                 return returnMaxMarkup;
@@ -41,8 +41,8 @@ namespace printing_calculator.Models
                 if (shets >= _markup[i].Page && shets < _markup[i + 1].Page)
                 {
                     _differenceMarkup = _markup[i + 1].Page - _markup[i].Page;
-                    _stepMarkup = _markup[i].Markup - _markup[i + 1].Markup;
-                    _maxMarkupInBorder = _markup[i + 1].Markup;
+                    _stepMarkup = _markup[i].MarkupForThisPage - _markup[i + 1].MarkupForThisPage;
+                    _maxMarkupInBorder = _markup[i + 1].MarkupForThisPage;
                     _minimumBorderSheetsForMarkup = _markup[i].Page;
                     return;
                 }
