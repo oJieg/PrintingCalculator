@@ -5,7 +5,7 @@ namespace printing_calculator.Models
 {
     public static class Converter
     {
-        public static SimpleResult HistoryToSimplResult(History history)
+        public static SimpleResult HistoryToSimplResult(СalculationHistory history)
         {
             if (history.Price == null)
                 return new SimpleResult();

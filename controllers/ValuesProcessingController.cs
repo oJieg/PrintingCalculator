@@ -57,9 +57,9 @@ namespace printing_calculator.controllers
 
                 SizePaper SRA3 = new()
                 {
-                    NameSizePaper = "SRA3",
-                    SizePaperHeight = 320,
-                    SizePaperWidth = 450
+                    Name = "SRA3",
+                    Height = 320,
+                    Width = 450
                 };
                 _applicationContext.SizePapers.Add(SRA3);
                 await _applicationContext.SaveChangesAsync();
@@ -106,17 +106,17 @@ namespace printing_calculator.controllers
         {
             try
             {
-                PricePaper pricePaper = new()
+                PaperPrice pricePaper = new()
                 {
                     Price = price
                 };
                 PaperCatalog mondi350 = new()
                 {
                     Name = namePaper,
-                    Prices = new List<PricePaper>() { pricePaper },
-                    Size = _applicationContext.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
+                    Prices = new List<PaperPrice>() { pricePaper },
+                    Size = _applicationContext.SizePapers.Where(x => x.Name == "SRA3").First()
                 };
-                _applicationContext.PricePapers.Add(pricePaper);
+                _applicationContext.PaperPrices.Add(pricePaper);
                 _applicationContext.PaperCatalogs.Add(mondi350);
                 await _applicationContext.SaveChangesAsync();
             }

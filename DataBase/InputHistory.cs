@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.DataBase
 {
-    public class HistoryInput
+    public class InputHistory
     {
         public int Id { get; set; }
         public int Height { get; set; }

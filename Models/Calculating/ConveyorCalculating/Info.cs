@@ -5,7 +5,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class Info : IConveyor
     {
-        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

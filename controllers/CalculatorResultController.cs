@@ -37,7 +37,7 @@ namespace printing_calculator.controllers
                 return BadRequest();
             }
 
-            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 
@@ -62,8 +62,8 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    _applicationContext.HistoryInputs.Add(history.Input);
-                    _applicationContext.Historys.Add(history);
+                    _applicationContext.InputsHistories.Add(history.Input);
+                    _applicationContext.Histories.Add(history);
 
                     await _applicationContext.SaveChangesAsync(cancellationToken);
                     result.HistoryInputId = history.Id;
@@ -81,7 +81,7 @@ namespace printing_calculator.controllers
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
             ConveyorCalculator conveyor = _calculator;
-            History? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
+            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
             if (history == null)
                 return NotFound(); //или другой код ошибки
 

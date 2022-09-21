@@ -10,6 +10,7 @@ namespace printing_calculator.Models
         private int _minimumBorderSheetsForMarkup;
         private readonly List<Markup> _markup;
 
+
         public CalculatingMarkup(List<Markup> markups)
         {
             _markup = markups;
@@ -33,7 +34,10 @@ namespace printing_calculator.Models
             return (int)(_stepMarkup * factor + _maxMarkupInBorder);
         }
 
-        ///определяем в какие границы попадает количество листов и на этой основе заполняем приватные переменные
+        /// <summary>
+        /// определяем в какие границы попадает количество листов и на этой основе заполняем приватные переменные
+        /// </summary>
+        /// <param name="shets"></param>
         private void HittingBorder(int shets) 
         {
             for (int i = 0; i <= _markup.Count - 2; i++)

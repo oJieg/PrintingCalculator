@@ -12,7 +12,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = options;
         }
 
-        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -28,8 +28,8 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private int PiecePerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
-            int SizePaperHeight = sizePaper.SizePaperHeight - _settings.WhiteFieldHeight;
-            int SizePaperWidth = sizePaper.SizePaperWidth - _settings.WhiteFieldWidth;
+            int SizePaperHeight = sizePaper.Height - _settings.WhiteFieldHeight;
+            int SizePaperWidth = sizePaper.Width - _settings.WhiteFieldWidth;
 
             int HorizontOrientation = Splitting(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
             int VerticalOrientation = Splitting(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);

@@ -6,6 +6,6 @@ namespace printing_calculator.DataBase
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public SizePaper Size { get; set; } = null!;
-        public List<PricePaper> Prices { get; set; } = new();
+        public List<PaperPrice> Prices { get; set; } = new();
     }
 }

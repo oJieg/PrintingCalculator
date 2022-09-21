@@ -35,7 +35,7 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    PaperAndHistoryInput.Input = (await _applicationContext.Historys
+                    PaperAndHistoryInput.Input = (await _applicationContext.Histories
                         .Where(historys => historys.Id == historyId)
                         .Include(historys => historys.Input)
                         .FirstAsync(cancellationToken))

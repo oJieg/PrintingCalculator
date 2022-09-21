@@ -15,7 +15,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = applicationContext;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {

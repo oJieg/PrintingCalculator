@@ -13,7 +13,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _setting = laminationSetting;
         }
 
-        public Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

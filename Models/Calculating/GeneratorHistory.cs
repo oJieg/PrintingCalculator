@@ -15,18 +15,18 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<History?> GetFullIncludeHistoryAsync(int id, CancellationToken cancellationToken)
+        public async Task<СalculationHistory?> GetFullIncludeHistoryAsync(int id, CancellationToken cancellationToken)
         {
             try
             {
-                return await _applicationContext.Historys
+                return await _applicationContext.Histories
                      .AsNoTracking()
                      .Include(historys => historys.Input)
                         .ThenInclude(input => input.Paper.Size)
                      .Include(historys => historys.Input)
                         .ThenInclude(input => input.Lamination!)
                         .ThenInclude(lamination => lamination.Price)
-                     .Include(historys => historys.PricePaper.Catalog)
+                     .Include(historys => historys.PaperPrice.Catalog)
                      .Include(historys => historys.ConsumablePrice)
                      .Include(historys => historys.LaminationPrices)
                      .Where(historys => historys.Id == id)
@@ -44,10 +44,10 @@ namespace printing_calculator.Models.Calculating
             }
         }
 
-        public async Task<History> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
+        public async Task<СalculationHistory> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
         {
-            History history = new();
-            history.Input = new HistoryInput();
+            СalculationHistory history = new();
+            history.Input = new InputHistory();
             try
             {
                 history.Input.Height = input.Height;
@@ -76,7 +76,7 @@ namespace printing_calculator.Models.Calculating
                         .First();
                 }
 
-                history.PricePaper = history.Input.Paper.Prices
+                history.PaperPrice = history.Input.Paper.Prices
                     .OrderByDescending(prices => prices.Id)
                     .First();
             }
@@ -87,7 +87,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        private async Task<History> GetHistoryAsync(History history, Input input, CancellationToken cancellationToken)
+        private async Task<СalculationHistory> GetHistoryAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
                     .Include(paperCatalogs => paperCatalogs.Prices)
@@ -108,7 +108,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        private async Task<History> GetHistoryLaminationAsync(History history, Input input, CancellationToken cancellationToken)
+        private async Task<СalculationHistory> GetHistoryLaminationAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<Lamination> historyInputLamination = _applicationContext.Laminations
                 .Include(laminations => laminations.Price)
@@ -123,11 +123,11 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<List<History>> GetHistoryListAsync(int page, int countPage, CancellationToken cancellationToken)
+        public async Task<List<СalculationHistory>> GetHistoryListAsync(int page, int countPage, CancellationToken cancellationToken)
         {
             try
             {
-                return await _applicationContext.Historys
+                return await _applicationContext.Histories
                     .AsNoTracking()
                     .Include(historys => historys.Input)
                         .ThenInclude(Input => Input.Paper)
@@ -139,12 +139,12 @@ namespace printing_calculator.Models.Calculating
             }
             catch (OperationCanceledException)
             {
-                return new List<History>();
+                return new List<СalculationHistory>();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Не вышло получить список истории");
-                return new List<History>();
+                return new List<СalculationHistory>();
             }
         }
     }

@@ -13,14 +13,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = applicationContext;
         }
 
-        public async Task<(History, Result, bool)> TryConveyorStartAsync(History history, Result result, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {
                 result.PaperResult.ActualCostPrise = await ActualData(history, cancellationToken);
 
                 result.PaperResult.CostConsumablePrise = Convert.ToInt32(result.PaperResult.Sheets
-                     * (history.PricePaper.Price + result.PaperResult.ConsumablePrinterPrice));
+                     * (history.PaperPrice.Price + result.PaperResult.ConsumablePrinterPrice));
                 return (history, result, true);
             }
             catch (OverflowException)
@@ -29,7 +29,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
         }
 
-        private async Task<bool> ActualData(History history, CancellationToken cancellationToken)
+        private async Task<bool> ActualData(СalculationHistory history, CancellationToken cancellationToken)
         {
             try
             {

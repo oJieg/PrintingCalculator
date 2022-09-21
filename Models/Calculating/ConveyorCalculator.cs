@@ -18,12 +18,12 @@ namespace printing_calculator.Models.Calculating
             _logger = logger;
         }
 
-        public async Task<(History, Result, bool)> TryStartCalculation(History history, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, bool)> TryStartCalculation(СalculationHistory history, CancellationToken cancellationToken)
         {
             Result result = new();
             if (history == null)
             {
-                return (new History(), result, false);
+                return (new СalculationHistory(), result, false);
             }
 
             foreach (var conveyor in AddConveyor())

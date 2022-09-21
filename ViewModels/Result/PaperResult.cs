@@ -4,8 +4,14 @@
     {
         public string? NamePaper { get; set; }
         public bool Duplex { get; set; }
-        public int Sheets { get; set; } ///листов необхзодимо
-        public int PiecesPerSheet { get; set; } ///штук на листе
+        /// <summary>
+        /// листов необходимо для печати
+        /// </summary>
+        public int Sheets { get; set; } 
+        /// <summary>
+        /// штук на листе
+        /// </summary>
+        public int PiecesPerSheet { get; set; }
         public float ConsumablePrinterPrice { get; set; }
         public bool ActualConsumablePrice { get; set; }
         public int CostConsumablePrise { get; set; }
