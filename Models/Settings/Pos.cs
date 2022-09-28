@@ -12,5 +12,6 @@
 
         public int RoundingAdjustmen { get; set; }
         public float RoundingOneProduct { get; set; }
+        public int MaximumAmount { get; set; }
     }
 }

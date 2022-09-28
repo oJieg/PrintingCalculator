@@ -5,22 +5,20 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class Info : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-            try
+            if (cancellationToken.IsCancellationRequested)
             {
-                result.HistoryInputId = history.Id;
-                result.Amount = history.Input.Amount;
-                result.Kinds = history.Input.Kinds;
-                result.Height = history.Input.Height;
-                result.Whidth = history.Input.Whidth;
+                return Task.FromResult((history, result, false));
+            }
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            result.HistoryInputId = history.Id;
+            result.Amount = history.Input.Amount;
+            result.Kinds = history.Input.Kinds;
+            result.Height = history.Input.Height;
+            result.Whidth = history.Input.Whidth;
+
+            return Task.FromResult((history, result, true));
         }
     }
 }

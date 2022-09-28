@@ -1,22 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using printing_calculator.Models;
+using printing_calculator.Models.Calculating;
 
 namespace printing_calculator
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        private readonly IConfigurationBuilder _bulder;
+
         public Startup(IConfiguration config)
         {
             _configuration = config;
-            _bulder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<Setting>(_bulder.Build().GetSection("Settings"));
+            services.AddTransient<ConveyorCalculator>();
+            services.AddTransient<GeneratorHistory>();
+            services.AddTransient<Validation>();
+            services.Configure<Setting>(_configuration.GetSection(nameof(Setting)));
 
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -39,19 +41,19 @@ namespace printing_calculator
                     pattern: "{controller=Homes}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "default",
+                    name: "test",
                     pattern: "{controller=ValuesProcessing}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "default",
+                    name: "Calculator",
                     pattern: "{controller=Calculator}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "default",
+                    name: "CalculatorResult",
                     pattern: "{controller=CalculatorResult}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                   name: "default",
+                   name: "History",
                    pattern: "{controller=History}/{action=Index}/{id?}");
             });
         }

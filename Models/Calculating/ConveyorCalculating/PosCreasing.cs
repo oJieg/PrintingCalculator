@@ -7,45 +7,46 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PosCreasing : IConveyor
     {
         private readonly Pos _setting;
+
         public PosCreasing(Pos setting)
         {
             _setting = setting;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-            //мб валидацию добавить? 
-            result.PosResult = new PosResult();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
 
             result.PosResult.CreasingAmount = history.Input.CreasingAmount;
+
             if (history.Input.CreasingAmount == 0)
             {
                 result.PosResult.CreasingPrice = 0;
                 result.PosResult.ActualCreasingPrice = true;
-                return true;
+                return Task.FromResult((history, result, true));
             }
 
-            float CreasingPriceOneProduct = (int)((history.Input.CreasingAmount - 1) * _setting.CreasingAddHit) + _setting.CreasingOneProduct;
-            int ActualPrice = (int)((CreasingPriceOneProduct * result.Amount) + (_setting.CreasingAdjustmen * result.Kinds));
-            int? Price = history.CreasingPrice;
+            float creasingPriceOneProduct = (int)((history.Input.CreasingAmount - 1) * _setting.CreasingAddHit) + _setting.CreasingOneProduct;
+            int actualPrice = (int)((creasingPriceOneProduct * result.Amount) + (_setting.CreasingAdjustmen * result.Kinds));
+            int? price = history.CreasingPrice;
 
-            if (Price == null)
+            if (price == null)
             {
-                history.CreasingPrice = ActualPrice;
-                result.PosResult.CreasingPrice = ActualPrice;
+                history.CreasingPrice = actualPrice;
+                result.PosResult.CreasingPrice = actualPrice;
                 result.PosResult.ActualCreasingPrice = true;
-                return true;
+                result.Price += actualPrice;
+                return Task.FromResult((history, result, true));
             }
 
-            result.PosResult.CreasingPrice =(int)Price;
-            if(Price == ActualPrice)
-            {
-                result.PosResult.ActualCreasingPrice = true;
-                return true;
-            }
+            result.PosResult.CreasingPrice = price.Value;
+            result.Price += price.Value;
 
-            result.PosResult.ActualCreasingPrice=false;
-            return true;
+            result.PosResult.ActualCreasingPrice = price == actualPrice;
+            return Task.FromResult((history, result, true));
         }
     }
 }

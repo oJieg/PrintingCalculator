@@ -6,48 +6,35 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperMarkup : IConveyor
     {
-        private readonly MarkupPaper _markup;
-        public PaperMarkup(MarkupPaper markup)
+        private readonly Setting _markup;
+
+        public PaperMarkup(Setting markup)
         {
             _markup = markup;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-            try
+            if (cancellationToken.IsCancellationRequested)
             {
-                CalculatingMarkup markup = new(_markup.MarkupList);
-                int MarkupPaper = (int)markup.GetMarkup(result.PaperResult.Sheets);
-
-                if (history.MarkupPaper == null)
-                {
-                    result.PaperResult.MarkupPaper = MarkupPaper;
-                    result.PaperResult.ActualMarkupPaper = true;
-                    history.MarkupPaper = MarkupPaper;
-                    
-                    return true;
-                }
-                else
-                {
-                    result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
-                    result.PaperResult.ActualMarkupPaper = ActualMarkup(history, MarkupPaper);
-
-                    return true;
-                }
+                return Task.FromResult((history, result, false));
             }
-            catch
+
+            CalculatingMarkup markup = new(_markup.MarkupPaper);
+            int markupPaper = markup.GetMarkup(result.PaperResult.Sheets);
+
+            if (history.MarkupPaper == null)
             {
-                return false;
+                result.PaperResult.MarkupPaper = markupPaper;
+                result.PaperResult.ActualMarkupPaper = true;
+                history.MarkupPaper = markupPaper;
             }
-        }
-
-        private bool ActualMarkup(History history, int markup)
-        {
-            if (history.MarkupPaper == markup)
+            else
             {
-                return true;
+                result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
+                result.PaperResult.ActualMarkupPaper = history.MarkupPaper == markupPaper;
             }
-            return false;
+            return Task.FromResult((history, result, true));
         }
     }
 }

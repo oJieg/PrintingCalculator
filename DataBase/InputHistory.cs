@@ -1,11 +1,11 @@
 ﻿namespace printing_calculator.DataBase
 {
-    public class HistoryInput
+    public class InputHistory
     {
         public int Id { get; set; }
         public int Height { get; set; }
         public int Whidth { get; set; }
-        public PaperCatalog Paper { get; set; }
+        public PaperCatalog Paper { get; set; } = null!;
         public int Amount { get; set; }
         public int Kinds { get; set; }
         public bool Duplex { get; set; }

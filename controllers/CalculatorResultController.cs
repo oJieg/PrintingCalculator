@@ -1,55 +1,76 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using printing_calculator.ViewModels;
-using printing_calculator.Models;
 using printing_calculator.DataBase;
-using Microsoft.Extensions.Options;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
+using printing_calculator.Models;
 
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
     {
-        private readonly ApplicationContext _BD;
-        private readonly Setting _options;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
-        private readonly ILogger<ConveyorCalculator> _loggerConveyor;
-        public CalculatorResultController(ApplicationContext DB,
-            IOptions<Setting> options, ILoggerFactory loggerFactory)
+        private readonly ConveyorCalculator _calculator;
+        private readonly GeneratorHistory _generatorHistory;
+        private readonly Validation _validation;
+
+        public CalculatorResultController(ApplicationContext applicationContext,
+            ILogger<CalculatorResultController> loggerFactory,
+            ConveyorCalculator conveyorCalculator,
+            GeneratorHistory generatorHistory,
+            Validation validation)
         {
-            _BD = DB;
-            _options = options.Value;
-            _logger = loggerFactory.CreateLogger<CalculatorResultController>();
-            _loggerConveyor = loggerFactory.CreateLogger<ConveyorCalculator>();
+            _applicationContext = applicationContext;
+            _logger = loggerFactory;
+            _calculator = conveyorCalculator;
+            _generatorHistory = generatorHistory;
+            _validation = validation;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Input input)
+        public async Task<IActionResult> Index(Input input, CancellationToken cancellationToken)
         {
-            //валидация input
-
-            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
-
-            bool tryCalculation = conveyor.TryStartCalculation(input, out History history, out Result result);
-            if (!tryCalculation)
+            if (!(await _validation.TryValidateInputAsync(input, cancellationToken)))
             {
-                _logger.LogError("не удался расчет для данных из Input");
-                return NotFound();
+                _logger.LogError("input не прошел валидацию input:{input}", input);
+                return BadRequest();
             }
 
-            if (!input.SaveDB) //не получилось вынести сохранение после рендера станицы( 
+            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+            if (history == null)
+                return NotFound(); //или другой код ошибки
+
+            Result result;
+
+            try
+            {
+                (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(history, cancellationToken);
+
+                if (!tryAnswer)
+                {
+                    _logger.LogError("не удался расчет для данных из Input");
+                    return NotFound();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
+            }
+
+            if (!input.SaveDB)
             {
                 try
                 {
-                    _BD.HistoryInputs.Add(history.Input);
-                    _BD.Historys.Add(history);
+                    _applicationContext.InputsHistories.Add(history.Input);
+                    _applicationContext.Histories.Add(history);
 
-                    await _BD.SaveChangesAsync();
+                    await _applicationContext.SaveChangesAsync(cancellationToken);
                     result.HistoryInputId = history.Id;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError("не удалось сохранить просчет {ex}", ex);
+                    _logger.LogError(ex, "не удалось сохранить просчет");
                 }
             }
 
@@ -57,16 +78,29 @@ namespace printing_calculator.controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
-            ConveyorCalculator conveyor = new(_options, _BD, _loggerConveyor);
+            ConveyorCalculator conveyor = _calculator;
+            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
+            if (history == null)
+                return NotFound(); //или другой код ошибки
 
-            bool TryCalculatoin = conveyor.TryStartCalculation(id, out Result result);
-            if (!TryCalculatoin)
+            Result result;
+            try
             {
-                _logger.LogError("не удался расчет, возможно не верный id");
-                return NotFound();
+                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, cancellationToken);
+
+                if (!tryAnswer)
+                {
+                    _logger.LogError("не удался расчет на конвейере");
+                    return NotFound();
+                }
             }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
+            }
+
             result.HistoryInputId = id;
 
             return View("CalculatorResult", result);

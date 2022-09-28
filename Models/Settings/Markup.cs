@@ -1,8 +1,8 @@
 ﻿namespace printing_calculator.Models.Settings
 {
-    public class MarkupList
+    public class Markup
     {
         public int Page { get; set; }
-        public int Markup { get; set; }
+        public int MarkupForThisPage { get; set; }
     }
 }

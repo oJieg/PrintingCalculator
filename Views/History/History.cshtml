@@ -1,10 +1,10 @@
-﻿@model List<SimplResult>
+﻿@model List<SimpleResult>
 @using printing_calculator.ViewModels;
 @using Microsoft.AspNetCore.Html;
 
 @{
 	Layout = "_Layout";
-	HtmlString  Pos(SimplResult result)
+	HtmlString Pos(SimpleResult result)
 	{
 		string PosLogo = string.Empty;
 		if (result.Lamination)
@@ -27,11 +27,11 @@
 		{
 			PosLogo = "-";
 		}
-
 		return new HtmlString(PosLogo);
 	}
 }
-@section Stail {
+
+@section Style {
 <link rel="stylesheet" type="text/css" href="history.css">
 }
 
@@ -60,7 +60,7 @@
 				</th>
 			</tr>
 
-			@foreach (SimplResult result in Model)
+			@foreach (SimpleResult result in Model)
 			{
 				<tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
 					<td>
@@ -85,12 +85,6 @@
 					</td>
 				</tr>
 			}
-
-
-
-			</tr>
 		</table>
 	</div>
-
-
 </div>

@@ -4,6 +4,6 @@
     {
         public int CMYK { get; set; }
         public int Photoconductors { get; set; }
-        public float Other { get; set; } 
+        public float Other { get; set; }
     }
 }

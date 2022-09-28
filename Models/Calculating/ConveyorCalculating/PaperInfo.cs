@@ -5,19 +5,17 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperInfo : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-            try
+            if (cancellationToken.IsCancellationRequested)
             {
-                result.PaperResult.NamePaper = history.Input.Paper.Name;
-                result.PaperResult.Duplex = history.Input.Duplex;
+                return Task.FromResult((history, result, false));
+            }
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            result.PaperResult.NamePaper = history.Input.Paper.Name;
+            result.PaperResult.Duplex = history.Input.Duplex;
+
+            return Task.FromResult((history, result, true));
         }
     }
 }

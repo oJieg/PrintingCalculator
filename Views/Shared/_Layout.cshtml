@@ -9,7 +9,8 @@
 <html>
 
 <head>
-	@RenderSection("Stail",false)
+	@RenderSection("Style",false)
+	
 	<link rel="stylesheet" type="text/css" href="/menu.css">
 	<title>Калькулятор</title>
 </head>
@@ -19,10 +20,10 @@
 		<div class="logo">
 			<img class="logo" src="/logo_PrintLife.svg" />
 		</div>
-        <div class="rightElementOnHeder">
-            <p class="rightHeader">by ojiegko</p>
-            <a class="rightHeader"  href="/Homes/Changelog">v0.22</a>
-        </div>
+		<div class="rightElementOnHeder">
+			<p class="rightHeader">by ojiegko</p>
+			<a class="rightHeader" href="/Homes/Changelog">v0.22</a>
+		</div>
 	</div>
 	<div class="downBody">
 		<div class="menu">
@@ -39,17 +40,13 @@
 						<div>ИСТОРИЯ</div>
 					</a>
 				</li>
-@*				<li class="li-margin"><a href="хз что">хз что</a></li>
-				<li class="li-margin"><a href="и еще что то">и еще что то</a></li>*@
 			</ul>
 		</div>
 
 		<div class="main-body">
 			@RenderBody()
 		</div>
-
 	</div>
-
+	@RenderSection("JS",false)
 </body>
-
 </html>

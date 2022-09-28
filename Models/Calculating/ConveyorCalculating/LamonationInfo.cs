@@ -5,22 +5,18 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationInfo : IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-            result.LaminationResult = new();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
+
             if (history.Input.Lamination != null)
             {
-                try
-                {
-                    result.LaminationResult.Name = history.Input.Lamination.Name;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                result.LaminationResult.Name = history.Input.Lamination.Name;
             }
-            return true;
+            return Task.FromResult((history, result, true));
         }
     }
 }

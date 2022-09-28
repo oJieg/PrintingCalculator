@@ -1,55 +1,46 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationMarkup : IConveyor
     {
-        private readonly Settings.Lamination _markup;
-        public LamonationMarkup(Settings.Lamination markup)
+        private readonly List<Markup> _markup;
+
+        public LamonationMarkup(Settings.Lamination laminationSetting)
         {
-            _markup = markup;
+            _markup = laminationSetting.Markups;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
+
             if (history.Input.Lamination == null)
             {
                 result.LaminationResult.ActualMarkup = true;
-                return true;
+                return Task.FromResult((history, result, true));
             }
 
-            CalculatingMarkup markups = new(_markup.MarkupList);
-            int Markup = (int)markups.GetMarkup(result.PaperResult.Sheets);
+            CalculatingMarkup markups = new(_markup);
+            int markup = markups.GetMarkup(result.PaperResult.Sheets);
 
             if (history.LaminationMarkup == null)
             {
-                try
-                {
-                    result.LaminationResult.Markup = Markup;
-                    result.LaminationResult.ActualMarkup = true;
-                    history.LaminationMarkup = Markup;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                result.LaminationResult.Markup = markup;
+                result.LaminationResult.ActualMarkup = true;
+                history.LaminationMarkup = markup;
             }
             else
             {
                 result.LaminationResult.Markup = (int)history.LaminationMarkup;
-                result.LaminationResult.ActualMarkup = ActualMarkup(history, Markup);
-                return true;
+                result.LaminationResult.ActualMarkup = (history.LaminationMarkup == markup);
             }
-        }
-
-        private bool ActualMarkup(History history, int markup)
-        {
-            if(history.LaminationMarkup == markup)
-            {
-                return true;
-            }
-            return false;
+            return Task.FromResult((history, result, true));
         }
     }
 }

@@ -1,76 +1,72 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
+using System.Linq;
 
 namespace printing_calculator.controllers
 {
+    //TODO: Веременная заглушка. Удалить в след патче, после добавления функционала изменения каталога бумаги и цен расходников.
     public class ValuesProcessingController : Controller
     {
-        private readonly ApplicationContext _BD;
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<HomesController> _logger;
-        public ValuesProcessingController(ApplicationContext context, ILogger<HomesController> logger)
+        public ValuesProcessingController(ApplicationContext applicationContext, ILogger<HomesController> logger)
         {
-            _BD = context;
+            _applicationContext = applicationContext;
             _logger = logger;
         }
         public IActionResult Index()
         {
+
             _logger.LogInformation("Run AddTest data");
-            TestAddConsumablePrice();
-            //TetsAddPaper("CC - 350", (float)17.2);
-            //TetsAddPaper("CC - 400", (float)23.04);
-            //TetsAddPaper("DNS - 200", (float)10.58);
-            //TetsAddPaper("DNS - 160", (float)8.0);
-            //TetsAddPaper("DNS - 90", (float)4.32);
-            //TetsAddPaper("DP - 200", (float)8.6);
-            //TetsAddPaper("DP - 170", (float)7.6);
-            //TetsAddPaper("DP - 130", (float)2.56);
-            //TestAddLamonation("матовая 1+1", (float)5.96);
-            //TestAddLamonation("софт тач 1+1", (float)16.04);
+            TestAddConsumablePriceAsync();
+            TetsAddPaper("CC - 350", (float)17.2);
+            TetsAddPaper("CC - 400", (float)23.04);
+            TetsAddPaper("DNS - 200", (float)10.58);
+            TetsAddPaper("DNS - 160", (float)8.0);
+            TetsAddPaper("DNS - 90", (float)4.32);
+            TetsAddPaper("DP - 200", (float)8.6);
+            TetsAddPaper("DP - 170", (float)7.6);
+            TetsAddPaper("DP - 130", (float)2.56);
+            TestAddLamonation("матовая 1+1", (float)5.96);
+            TestAddLamonation("софт тач 1+1", (float)16.04);
 
-
-            List<PaperCatalog> catalog = _BD.PaperCatalogs.Include(x => x.Prices).ToList();
+            List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.Include(paperCatalogs => paperCatalogs.Prices).ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
             return View("PageOtvet", catalog);
         }
 
-        private void TestAddConsumablePrice()
+        private async void TestAddConsumablePriceAsync()
         {
             try
             {
                 ConsumablePrice price = new()
                 {
-                    //TonerPrice = 45000,
-                    //DrumPrice1 = 28700,
-                    //DrumPrice2 = 28700,
-                    //DrumPrice3 = 28700,
-                    //DrumPrice4 = 28700
                     TonerPrice = 45100,
                     DrumPrice1 = 28100,
                     DrumPrice2 = 28100,
                     DrumPrice3 = 28100,
                     DrumPrice4 = 28100
                 };
-                _BD.ConsumablePrices.Add(price);
+                _applicationContext.ConsumablePrices.Add(price);
 
                 SizePaper SRA3 = new()
                 {
-                    NameSizePaper = "SRA3",
-                    SizePaperHeight = 320,
-                    SizePaperWidth = 450
+                    Name = "SRA3",
+                    Height = 320,
+                    Width = 450
                 };
-                _BD.SizePapers.Add(SRA3);
-                _BD.SaveChanges();
+                _applicationContext.SizePapers.Add(SRA3);
+                await _applicationContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи ConsumablePrice ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи ConsumablePrice");
             }
-			finally
-			{
+            finally
+            {
                 _logger.LogInformation("add AddConsumablePrice");
-			}
+            }
         }
         private void TestAddLamonation(string nameLamonation, float price)
         {
@@ -86,14 +82,14 @@ namespace printing_calculator.controllers
                     Price = new List<LaminationPrice>() { Prices }
                 };
 
-                _BD.LaminationPrices.Add(Prices);
-                _BD.Laminations.Add(lamination);
+                _applicationContext.LaminationPrices.Add(Prices);
+                _applicationContext.Laminations.Add(lamination);
 
-                _BD.SaveChanges();
+                _applicationContext.SaveChanges();
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи AddLamonation ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи AddLamonation");
             }
             finally
             {
@@ -105,23 +101,23 @@ namespace printing_calculator.controllers
         {
             try
             {
-                PricePaper pricePaper = new()
+                PaperPrice pricePaper = new()
                 {
                     Price = price
                 };
                 PaperCatalog mondi350 = new()
                 {
                     Name = namePaper,
-                    Prices = new List<PricePaper>() { pricePaper },
-                    Size = _BD.SizePapers.Where(x => x.NameSizePaper == "SRA3").First()
+                    Prices = new List<PaperPrice>() { pricePaper },
+                    Size = _applicationContext.SizePapers.Where(x => x.Name == "SRA3").First()
                 };
-                _BD.PricePapers.Add(pricePaper);
-                _BD.PaperCatalogs.Add(mondi350);
-                _BD.SaveChanges();
+                _applicationContext.PaperPrices.Add(pricePaper);
+                _applicationContext.PaperCatalogs.Add(mondi350);
+                _applicationContext.SaveChanges();
             }
             catch (Exception ex)
             {
-                _logger.LogError("ошибка записи AddPaper ошибка: {ex}", ex);
+                _logger.LogError(ex, "ошибка записи AddPaper");
             }
             finally
             {
