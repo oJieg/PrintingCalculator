@@ -123,7 +123,7 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<List<СalculationHistory>> GetHistoryListAsync(int page, int countPage, CancellationToken cancellationToken)
+        public async Task<List<СalculationHistory>> GetHistoryListAsync(int skip, int countPage, CancellationToken cancellationToken)
         {
             try
             {
@@ -134,6 +134,7 @@ namespace printing_calculator.Models.Calculating
                     .Include(historys => historys.Input)
                         .ThenInclude(Input => Input.Lamination)
                     .OrderByDescending(historys => historys.Id)
+                    .Skip(skip)
                     .Take(countPage)
                     .ToListAsync(cancellationToken);
             }
@@ -146,6 +147,11 @@ namespace printing_calculator.Models.Calculating
                 _logger.LogError(ex, "Не вышло получить список истории");
                 return new List<СalculationHistory>();
             }
+        }
+
+        public async Task<int> GetCountHistoryAsunc()
+        {
+            return await _applicationContext.Histories.CountAsync();
         }
     }
 }
