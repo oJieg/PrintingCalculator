@@ -19,17 +19,17 @@ namespace printing_calculator.controllers
         {
 
             _logger.LogInformation("Run AddTest data");
-           // TestAddConsumablePrice();
-            //TetsAddPaper("CC - 350", (float)17.2);
-            //TetsAddPaper("CC - 400", (float)23.04);
-            //TetsAddPaper("DNS - 200", (float)10.58);
-            //TetsAddPaper("DNS - 160", (float)8.0);
-            //TetsAddPaper("DNS - 90", (float)4.32);
-            //TetsAddPaper("DP - 200", (float)8.6);
-            //TetsAddPaper("DP - 170", (float)7.6);
-            //TetsAddPaper("DP - 130", (float)2.56);
-            //TestAddLamonation("матовая 1+1", (float)5.96);
-            //TestAddLamonation("софт тач 1+1", (float)16.04);
+            TestAddConsumablePriceAsync();
+            TetsAddPaper("CC - 350", (float)17.2);
+            TetsAddPaper("CC - 400", (float)23.04);
+            TetsAddPaper("DNS - 200", (float)10.58);
+            TetsAddPaper("DNS - 160", (float)8.0);
+            TetsAddPaper("DNS - 90", (float)4.32);
+            TetsAddPaper("DP - 200", (float)8.6);
+            TetsAddPaper("DP - 170", (float)7.6);
+            TetsAddPaper("DP - 130", (float)2.56);
+            TestAddLamonation("матовая 1+1", (float)5.96);
+            TestAddLamonation("софт тач 1+1", (float)16.04);
 
             List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.Include(paperCatalogs => paperCatalogs.Prices).ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
@@ -42,11 +42,6 @@ namespace printing_calculator.controllers
             {
                 ConsumablePrice price = new()
                 {
-                    //TonerPrice = 45000,
-                    //DrumPrice1 = 28700,
-                    //DrumPrice2 = 28700,
-                    //DrumPrice3 = 28700,
-                    //DrumPrice4 = 28700
                     TonerPrice = 45100,
                     DrumPrice1 = 28100,
                     DrumPrice2 = 28100,
@@ -73,7 +68,7 @@ namespace printing_calculator.controllers
                 _logger.LogInformation("add AddConsumablePrice");
             }
         }
-        private async void TestAddLamonationAsync(string nameLamonation, float price)
+        private void TestAddLamonation(string nameLamonation, float price)
         {
             try
             {
@@ -90,7 +85,7 @@ namespace printing_calculator.controllers
                 _applicationContext.LaminationPrices.Add(Prices);
                 _applicationContext.Laminations.Add(lamination);
 
-                await _applicationContext.SaveChangesAsync();
+                _applicationContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -102,7 +97,7 @@ namespace printing_calculator.controllers
             }
         }
 
-        private async void TetsAddPaperAsync(string namePaper, float price)
+        private void TetsAddPaper(string namePaper, float price)
         {
             try
             {
@@ -118,7 +113,7 @@ namespace printing_calculator.controllers
                 };
                 _applicationContext.PaperPrices.Add(pricePaper);
                 _applicationContext.PaperCatalogs.Add(mondi350);
-                await _applicationContext.SaveChangesAsync();
+                _applicationContext.SaveChanges();
             }
             catch (Exception ex)
             {

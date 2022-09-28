@@ -45,9 +45,9 @@ namespace printing_calculator.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NameSizePaper = table.Column<string>(type: "text", nullable: false),
-                    SizePaperHeight = table.Column<int>(type: "integer", nullable: false),
-                    SizePaperWidth = table.Column<int>(type: "integer", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Height = table.Column<int>(type: "integer", nullable: false),
+                    Width = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,7 +94,7 @@ namespace printing_calculator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HistoryInputs",
+                name: "InputsHistories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -112,14 +112,14 @@ namespace printing_calculator.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HistoryInputs", x => x.Id);
+                    table.PrimaryKey("PK_InputsHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HistoryInputs_Laminations_LaminationId",
+                        name: "FK_InputsHistories_Laminations_LaminationId",
                         column: x => x.LaminationId,
                         principalTable: "Laminations",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_HistoryInputs_PaperCatalogs_PaperId",
+                        name: "FK_InputsHistories_PaperCatalogs_PaperId",
                         column: x => x.PaperId,
                         principalTable: "PaperCatalogs",
                         principalColumn: "Id",
@@ -127,7 +127,7 @@ namespace printing_calculator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PricePapers",
+                name: "PaperPrices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -137,9 +137,9 @@ namespace printing_calculator.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PricePapers", x => x.Id);
+                    table.PrimaryKey("PK_PaperPrices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PricePapers_PaperCatalogs_CatalogId",
+                        name: "FK_PaperPrices_PaperCatalogs_CatalogId",
                         column: x => x.CatalogId,
                         principalTable: "PaperCatalogs",
                         principalColumn: "Id",
@@ -147,13 +147,13 @@ namespace printing_calculator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Historys",
+                name: "Histories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     InputId = table.Column<int>(type: "integer", nullable: false),
-                    PricePaperId = table.Column<int>(type: "integer", nullable: false),
+                    PaperPriceId = table.Column<int>(type: "integer", nullable: false),
                     ConsumablePriceId = table.Column<int>(type: "integer", nullable: false),
                     MarkupPaper = table.Column<int>(type: "integer", nullable: true),
                     CutPrice = table.Column<int>(type: "integer", nullable: true),
@@ -166,61 +166,61 @@ namespace printing_calculator.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Historys", x => x.Id);
+                    table.PrimaryKey("PK_Histories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Historys_ConsumablePrices_ConsumablePriceId",
+                        name: "FK_Histories_ConsumablePrices_ConsumablePriceId",
                         column: x => x.ConsumablePriceId,
                         principalTable: "ConsumablePrices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Historys_HistoryInputs_InputId",
+                        name: "FK_Histories_InputsHistories_InputId",
                         column: x => x.InputId,
-                        principalTable: "HistoryInputs",
+                        principalTable: "InputsHistories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Historys_LaminationPrices_LaminationPricesId",
+                        name: "FK_Histories_LaminationPrices_LaminationPricesId",
                         column: x => x.LaminationPricesId,
                         principalTable: "LaminationPrices",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Historys_PricePapers_PricePaperId",
-                        column: x => x.PricePaperId,
-                        principalTable: "PricePapers",
+                        name: "FK_Histories_PaperPrices_PaperPriceId",
+                        column: x => x.PaperPriceId,
+                        principalTable: "PaperPrices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoryInputs_LaminationId",
-                table: "HistoryInputs",
-                column: "LaminationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HistoryInputs_PaperId",
-                table: "HistoryInputs",
-                column: "PaperId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Historys_ConsumablePriceId",
-                table: "Historys",
+                name: "IX_Histories_ConsumablePriceId",
+                table: "Histories",
                 column: "ConsumablePriceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historys_InputId",
-                table: "Historys",
+                name: "IX_Histories_InputId",
+                table: "Histories",
                 column: "InputId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historys_LaminationPricesId",
-                table: "Historys",
+                name: "IX_Histories_LaminationPricesId",
+                table: "Histories",
                 column: "LaminationPricesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historys_PricePaperId",
-                table: "Historys",
-                column: "PricePaperId");
+                name: "IX_Histories_PaperPriceId",
+                table: "Histories",
+                column: "PaperPriceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InputsHistories_LaminationId",
+                table: "InputsHistories",
+                column: "LaminationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InputsHistories_PaperId",
+                table: "InputsHistories",
+                column: "PaperId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LaminationPrices_LaminationId",
@@ -233,36 +233,13 @@ namespace printing_calculator.Migrations
                 column: "SizeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PricePapers_CatalogId",
-                table: "PricePapers",
+                name: "IX_PaperPrices_CatalogId",
+                table: "PaperPrices",
                 column: "CatalogId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Historys");
-
-            migrationBuilder.DropTable(
-                name: "ConsumablePrices");
-
-            migrationBuilder.DropTable(
-                name: "HistoryInputs");
-
-            migrationBuilder.DropTable(
-                name: "LaminationPrices");
-
-            migrationBuilder.DropTable(
-                name: "PricePapers");
-
-            migrationBuilder.DropTable(
-                name: "Laminations");
-
-            migrationBuilder.DropTable(
-                name: "PaperCatalogs");
-
-            migrationBuilder.DropTable(
-                name: "SizePapers");
         }
     }
 }

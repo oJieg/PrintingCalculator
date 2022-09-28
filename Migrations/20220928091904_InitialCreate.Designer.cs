@@ -12,7 +12,7 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220921145123_InitialCreate")]
+    [Migration("20220928091904_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,35 +24,7 @@ namespace printing_calculator.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("printing_calculator.DataBase.ConsumablePrice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DrumPrice1")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DrumPrice2")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DrumPrice3")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DrumPrice4")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TonerPrice")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConsumablePrices");
-                });
-
-            modelBuilder.Entity("printing_calculator.DataBase.History", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,10 +56,10 @@ namespace printing_calculator.Migrations
                     b.Property<int?>("MarkupPaper")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Price")
+                    b.Property<int>("PaperPriceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PricePaperId")
+                    b.Property<int?>("Price")
                         .HasColumnType("integer");
 
                     b.Property<int?>("RoundingPrice")
@@ -101,12 +73,40 @@ namespace printing_calculator.Migrations
 
                     b.HasIndex("LaminationPricesId");
 
-                    b.HasIndex("PricePaperId");
+                    b.HasIndex("PaperPriceId");
 
-                    b.ToTable("Historys");
+                    b.ToTable("Histories");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.HistoryInput", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.ConsumablePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DrumPrice1")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DrumPrice2")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DrumPrice3")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DrumPrice4")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TonerPrice")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConsumablePrices");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.InputHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,7 +150,7 @@ namespace printing_calculator.Migrations
 
                     b.HasIndex("PaperId");
 
-                    b.ToTable("HistoryInputs");
+                    b.ToTable("InputsHistories");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.Lamination", b =>
@@ -213,7 +213,7 @@ namespace printing_calculator.Migrations
                     b.ToTable("PaperCatalogs");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.PricePaper", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.PaperPrice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace printing_calculator.Migrations
 
                     b.HasIndex("CatalogId");
 
-                    b.ToTable("PricePapers");
+                    b.ToTable("PaperPrices");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.SizePaper", b =>
@@ -242,14 +242,14 @@ namespace printing_calculator.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("NameSizePaper")
+                    b.Property<int>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("SizePaperHeight")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SizePaperWidth")
+                    b.Property<int>("Width")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -257,7 +257,7 @@ namespace printing_calculator.Migrations
                     b.ToTable("SizePapers");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.History", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
                     b.HasOne("printing_calculator.DataBase.ConsumablePrice", "ConsumablePrice")
                         .WithMany()
@@ -265,7 +265,7 @@ namespace printing_calculator.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("printing_calculator.DataBase.HistoryInput", "Input")
+                    b.HasOne("printing_calculator.DataBase.InputHistory", "Input")
                         .WithMany()
                         .HasForeignKey("InputId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,9 +275,9 @@ namespace printing_calculator.Migrations
                         .WithMany()
                         .HasForeignKey("LaminationPricesId");
 
-                    b.HasOne("printing_calculator.DataBase.PricePaper", "PricePaper")
+                    b.HasOne("printing_calculator.DataBase.PaperPrice", "PaperPrice")
                         .WithMany()
-                        .HasForeignKey("PricePaperId")
+                        .HasForeignKey("PaperPriceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -287,10 +287,10 @@ namespace printing_calculator.Migrations
 
                     b.Navigation("LaminationPrices");
 
-                    b.Navigation("PricePaper");
+                    b.Navigation("PaperPrice");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.HistoryInput", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.InputHistory", b =>
                 {
                     b.HasOne("printing_calculator.DataBase.Lamination", "Lamination")
                         .WithMany()
@@ -327,7 +327,7 @@ namespace printing_calculator.Migrations
                     b.Navigation("Size");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.PricePaper", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.PaperPrice", b =>
                 {
                     b.HasOne("printing_calculator.DataBase.PaperCatalog", "Catalog")
                         .WithMany("Prices")
