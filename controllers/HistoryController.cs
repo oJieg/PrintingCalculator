@@ -18,20 +18,23 @@ namespace printing_calculator.controllers
             _generatorHistory = generatorHistory;
         }
 
-        public async Task<IActionResult> Index(int page, CancellationToken cancellationToken, int countPage = 10)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken, int page = 1, int countPage = 10)
         {
-            if (countPage <= 0 && page < 0)
+            if (countPage <= 0 && page <= 0)
             {
                 _logger.LogError("ошибка указания номера страницы или длины страницы page-{page}, countPage-{countPage}",
                     page, countPage);
                 return NotFound();
             }
+            HistoryPage historyPage = new();
+            historyPage.ThisPage = page;
             List<SimpleResult> result = new();
 
             try
             {
-                List<СalculationHistory> histories = await _generatorHistory.GetHistoryListAsync(page, countPage, cancellationToken);
-
+                int skipHistory = (page - 1) * countPage;
+                List<СalculationHistory> histories = await _generatorHistory.GetHistoryListAsync(skipHistory, countPage, cancellationToken);
+                historyPage.CurrentPage = await _generatorHistory.GetCountHistoryAsunc();
                 foreach (СalculationHistory history in histories)
                 {
                     result.Add(Converter.HistoryToSimplResult(history));
@@ -47,7 +50,9 @@ namespace printing_calculator.controllers
                 return NotFound();
             }
 
-            return View("History", result);
+            historyPage.Results = result;
+            historyPage.CurrentPage = (int)Math.Ceiling((float)historyPage.CurrentPage / (float)countPage);
+            return View("History", historyPage);
         }
     }
 }
