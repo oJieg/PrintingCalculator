@@ -28,7 +28,9 @@ namespace printing_calculator.controllers
             TetsAddPaper("DP - 200", (float)8.6);
             TetsAddPaper("DP - 170", (float)7.6);
             TetsAddPaper("DP - 130", (float)2.56);
+            TetsAddPaper("Нулевая бумага", (float)0);
             TestAddLamonation("матовая 1+1", (float)5.96);
+            TestAddLamonation("глянец 1+1", (float)5.96);
             TestAddLamonation("софт тач 1+1", (float)16.04);
 
             List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.Include(paperCatalogs => paperCatalogs.Prices).ToList();
