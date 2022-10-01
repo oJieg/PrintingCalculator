@@ -2,7 +2,7 @@
 {
     public class LaminationResult
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public int Sheets { get; set; }
         public int CostPrice { get; set; }
         public bool ActualCostPrics { get; set; }

@@ -1,45 +1,48 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.DataBase;
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCostPrice : IConveyor
     {
-        private ApplicationContext _DB;
-        public PaperCostPrice(ApplicationContext DB)
+        private readonly ApplicationContext _applicationContext;
+
+        public PaperCostPrice(ApplicationContext applicationContext)
         {
-            _DB = DB;
+            _applicationContext = applicationContext;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+
+        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {
-                result.PaperResult.ActualCostPrise = ActualData(history);
+                result.PaperResult.ActualCostPrise = await ActualData(history, cancellationToken);
 
-                result.PaperResult.CostPrise = (int)(result.PaperResult.Sheets
-                    * (history.PricePaper.Price + result.PaperResult.ConsumablePrice));
-                return true;
+                result.PaperResult.CostConsumablePrise = Convert.ToInt32(result.PaperResult.Sheets
+                     * (history.PaperPrice.Price + result.PaperResult.ConsumablePrinterPrice));
+                return (history, result, true);
+            }
+            catch (OverflowException)
+            {
+                return (history, result, false);
+            }
+        }
+
+        private async Task<bool> ActualData(СalculationHistory history, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _applicationContext.PaperCatalogs
+                    .AsNoTracking()
+                    .Where(paperCatalogs => paperCatalogs.Name == history.Input.Paper.Name)
+                    .Select(x => x.Prices.OrderBy(x => x.Id).Last().Id == history.Input.Paper.Id)
+                    .FirstAsync(cancellationToken);
             }
             catch
             {
                 return false;
             }
-        }
-
-        private bool ActualData(History history)
-        {
-            int PriceId = history.PricePaper.Id;
-            List<PricePaper> ActualPriceId = _DB.PaperCatalogs
-                .Where(x => x.Name == history.Input.Paper.Name)
-                .First()
-                .Prices;
-
-            if (PriceId == ActualPriceId[ActualPriceId.Count - 1].Id)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

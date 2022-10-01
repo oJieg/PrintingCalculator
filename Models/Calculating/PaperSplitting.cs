@@ -12,22 +12,24 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = options;
         }
 
-        public bool TryConveyorStart(ref History history, ref Result result)
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
-
-            result.PaperResult.PiecesPerSheet = PiecesPerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
+            result.PaperResult.PiecesPerSheet = PiecePerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
             result.PaperResult.Sheets = ((int)
                 Math.Ceiling(((double)result.Amount / (double)result.PaperResult.PiecesPerSheet)))
                 * result.Kinds;
 
-            return true;
+            return Task.FromResult((history, result, true));
         }
 
-        private int PiecesPerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
+        private int PiecePerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
-
-            int SizePaperHeight = sizePaper.SizePaperHeight - _settings.WhiteFieldHeight;
-            int SizePaperWidth = sizePaper.SizePaperWidth - _settings.WhiteFieldWidth;
+            int SizePaperHeight = sizePaper.Height - _settings.WhiteFieldHeight;
+            int SizePaperWidth = sizePaper.Width - _settings.WhiteFieldWidth;
 
             int HorizontOrientation = Splitting(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
             int VerticalOrientation = Splitting(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);

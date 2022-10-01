@@ -5,7 +5,7 @@
 	string size = $"{Model.Height}x{Model.Whidth}";
 	string amoutKids = $"{Model.Amount}x{Model.Kinds}";
 	string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
-	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostPrise;
+	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostConsumablePrise;
 	int profit = (int)(Model.Price - AllCostPrise);
 	int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
 
@@ -16,20 +16,22 @@
 	float PriceForOneLamonation = Model.LaminationResult.Price / Model.PaperResult.Sheets;
 }
 
-@section Stail {
+@section Style
+{
 <link rel="stylesheet" type="text/css" href="/result2.css">
-<script>
-	function copu() {
-	  navigator.clipboard.writeText('Стоимость изготовления на бумаге @Model.PaperResult.NamePaper - @Model.PaperResult.Price руб.')
-	}
-</script>
 }
-	@if (!Model.TryTrice)
-	{
-		<div class="errorePrice">
-			<p>Цена не актуальная</p>
-		</div>
-	}
+
+@section JS
+{
+<script src="/Copy.js"></script>
+}
+
+@if (!Model.TryPrice)
+{
+	<div class="errorePrice">
+		<p>Цена не актуальная</p>
+	</div>
+}
 <div class="twoColumnsFlex">
 
 	<div class="priceFlex">
@@ -48,8 +50,8 @@
 			<div class="detal">
 				<details>
 					<summary class="detal">подробнее</summary>
-					<p class="detal">себестоимость - @Model.PaperResult.CostPrise руб.</p>
-					<p class="detal">чистая прибыль - @profit руб.</p>
+					<p class="detal">себестоимость расходников - @Model.PaperResult.CostConsumablePrise руб.</p>
+					<p class="detal">Надбавочная цена - @profit руб.</p>
 					<p class="detal">цена резки - @Model.PaperResult.CutPrics руб.</p>
 				</details>
 			</div>
@@ -131,7 +133,7 @@
 						<p class="margin">Листов:шт/лист</p>
 					</div>
 					<div class="grey">
-						<p class="margin">@Model.PaperResult.PiecesPerSheet л.:@Model.PaperResult.Sheets шт/л</p>
+						<p class="margin">@Model.PaperResult.Sheets л./@Model.PaperResult.PiecesPerSheet шт на л.</p>
 					</div>
 				</div>
 
@@ -140,14 +142,11 @@
 	</div>
 </div>
 
-
-
-
 <div class="button">
 	<form>
 		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
 		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
-		<input class="buttonNext" type="button" onclick="copu();" value="Cкопировать">
+		<input class="buttonNext" type="button" onclick="copyСlipboard();" value="Cкопировать">
 
 	</form>
 </div>

@@ -1,11 +1,11 @@
 ﻿namespace printing_calculator.DataBase
 {
-    public class History
+    public class СalculationHistory
     {
         public int Id { get; set; }
-        public HistoryInput Input { get; set; }
-        public PricePaper PricePaper { get; set; }
-        public ConsumablePrice ConsumablePrice { get; set; }
+        public InputHistory Input { get; set; } = null!;
+        public PaperPrice PaperPrice { get; set; } = null!;
+        public ConsumablePrice ConsumablePrice { get; set; } = null!;
         public int? MarkupPaper { get; set; }
         public int? CutPrice { get; set; }
         public LaminationPrice? LaminationPrices { get; set; }

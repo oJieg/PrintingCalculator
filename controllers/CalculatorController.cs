@@ -6,40 +6,52 @@ namespace printing_calculator.controllers
 {
     public class CalculatorController : Controller
     {
-        private readonly ApplicationContext _BD;
-        private readonly ILogger<HomesController> _logger;
-        public CalculatorController(ApplicationContext DB, ILogger<HomesController> logger)
+        private readonly ApplicationContext _applicationContext;
+        private readonly ILogger<CalculatorController> _logger;
+        public CalculatorController(ApplicationContext applicationContext, ILogger<CalculatorController> logger)
         {
             _logger = logger;
-            _BD = DB;
+            _applicationContext = applicationContext;
         }
 
-        public ActionResult Index(int HistoryId)
+        public async Task<ActionResult> Index(int historyId, CancellationToken cancellationToken)
         {
-            PaperAndHistoryInput paperAndInput = new();
+            PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                paperAndInput.Paper = _BD.PaperCatalogs.ToList();
-                paperAndInput.Lamination = _BD.Laminations.ToList();
+                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs.ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
             }
             catch (Exception ex)
             {
-                _logger.LogError("не вышло получить из базы PaperCatalogs и laminations, {ex}", ex);
+                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs и laminations");
             }
 
-            if (HistoryId != 0)
+            if (historyId != 0)
             {
                 try
                 {
-                    paperAndInput.Input = _BD.Historys.Where(s => s.Id == HistoryId).Include(x => x.Input).First().Input;
+                    PaperAndHistoryInput.Input = (await _applicationContext.Histories
+                        .Where(historys => historys.Id == historyId)
+                        .Include(historys => historys.Input)
+                        .FirstAsync(cancellationToken))
+                        .Input;
+                }
+                catch (OperationCanceledException)
+                {
+                    return new EmptyResult();
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError("error add DataBase historyID = {HistoryId}, {ex}", HistoryId, ex);
+                    _logger.LogError(ex, "error add DataBase historyID = {HistoryId}", historyId);
                 }
             }
 
-            return View("Calculator", paperAndInput);
+            return View("Calculator", PaperAndHistoryInput);
         }
     }
 }

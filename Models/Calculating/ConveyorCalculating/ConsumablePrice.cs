@@ -1,49 +1,51 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class ConsumablePrice : IConveyor
     {
-        private readonly Consumable _Consumable;
-        private readonly ApplicationContext _DB;
-        public ConsumablePrice(Consumable consumable, ApplicationContext DB)
+        private readonly Consumable _consumable;
+        private readonly ApplicationContext _applicationContext;
+
+        public ConsumablePrice(Consumable consumable, ApplicationContext applicationContext)
         {
-            _Consumable = consumable;
-            _DB = DB;
+            _consumable = consumable;
+            _applicationContext = applicationContext;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+
+        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {
                 //проверка на актуальность цен
-                int ActualConsumableId = _DB.ConsumablePrices.OrderByDescending(x => x.Id).FirstOrDefault().Id;
-                if(ActualConsumableId != history.ConsumablePrice.Id)
-                {
-                    result.PaperResult.ActualConsumablePrice = false;  
-                }
-                else
-                {
-                    result.PaperResult.ActualConsumablePrice = true;
-                }
+                DataBase.ConsumablePrice? consumablePrice = await _applicationContext.ConsumablePrices
+                    .AsNoTracking()
+                    .OrderByDescending(сonsumablePrices => сonsumablePrices.Id)
+                    .FirstOrDefaultAsync(cancellationToken);
 
+                if (consumablePrice == null)
+                    return (history, result, false);
+
+                result.PaperResult.ActualConsumablePrice = consumablePrice.Id == history.ConsumablePrice.Id;
 
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2
                     + history.ConsumablePrice.DrumPrice3
-                    + history.ConsumablePrice.DrumPrice4) / (float)_Consumable.Photoconductors;
-                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / (float)_Consumable.CMYK;
-                float price = drumPrice + CMUKprice + _Consumable.Other;
+                    + history.ConsumablePrice.DrumPrice4) / (float)_consumable.Photoconductors;
+                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / (float)_consumable.CMYK;
+                float price = drumPrice + CMUKprice + _consumable.Other;
                 if (result.PaperResult.Duplex)
                 {
                     price *= 2;
                 }
-                result.PaperResult.ConsumablePrice = price;
-                return true;
+                result.PaperResult.ConsumablePrinterPrice = price;
+                return (history, result, true);
             }
             catch
             {
-                return false;
+                return (history, result, false);
             }
         }
     }

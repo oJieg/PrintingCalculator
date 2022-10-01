@@ -1,10 +1,18 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
+using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
-    public class AllPrice : IConveyor
+    public class LamonationPriсe : IConveyor
     {
+        private readonly Settings.Lamination _setting;
+
+        public LamonationPriсe(Settings.Lamination laminationSetting)
+        {
+            _setting = laminationSetting;
+        }
+
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -14,23 +22,15 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                result.Price = Convert.ToInt32(Math.Round((double)result.Price / 100, 1) * 100); //округление
-
-                if (history.Price == null)
+                if (history.Input.Lamination != null)
                 {
-                    result.TryPrice = true;
-                    history.Price = result.Price;
+                    int price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _setting.Adjustment);
+                    result.LaminationResult.Price = price;
+                    result.Price += price;
+                    return Task.FromResult((history, result, true));
                 }
 
-                result.TryPrice = result.IsActualPaperPrice() &&
-                    (result.Price == history.Price);
-
-                if (result.Price != history.Price)
-                {
-                    result.Price = history.Price.Value;
-                    result.TryPrice = false;
-                }
-
+                result.LaminationResult.Price = 0;
                 return Task.FromResult((history, result, true));
             }
             catch (OverflowException)

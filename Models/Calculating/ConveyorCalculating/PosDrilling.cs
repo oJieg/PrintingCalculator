@@ -7,41 +7,48 @@ namespace printing_calculator.Models.ConveyorCalculating
     public class PosDrilling : IConveyor
     {
         private readonly Pos _setting;
+
         public PosDrilling(Pos setting)
         {
             _setting = setting;
         }
-        public bool TryConveyorStart(ref History history, ref Result result)
+
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
+
+            result.PosResult ??= new();
+
             result.PosResult.DrillingAmount = history.Input.DrillingAmount;
             if (history.Input.DrillingAmount == 0)
             {
                 result.PosResult.ActualDrillingPrice = true;
                 result.PosResult.DrillingPrice = 0;
-                return true;
+                return Task.FromResult((history, result, true));
             }
 
-            float DrillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
-            int actualPrice = (int)((DrillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
-            int? Price = history.DrillingPrice;
+            float drillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
+            int actualPrice = (int)((drillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
+            int? price = history.DrillingPrice;
 
-            if (Price == null)
+            if (price == null)
             {
                 history.DrillingPrice = actualPrice;
                 result.PosResult.DrillingPrice = actualPrice;
+                result.Price += actualPrice;
                 result.PosResult.ActualDrillingPrice = true;
-                return true;
+                return Task.FromResult((history, result, true));
             }
 
-            result.PosResult.DrillingPrice = (int)Price;
-            if (actualPrice == Price)
-            {
-                result.PosResult.ActualDrillingPrice = true;
-                return true;
-            }
+            result.PosResult.DrillingPrice = price.Value;
+            result.Price += price.Value;
 
-            result.PosResult.ActualDrillingPrice = true;
-            return true;
+            result.PosResult.ActualDrillingPrice = actualPrice == price;
+
+            return Task.FromResult((history, result, true));
         }
     }
 }

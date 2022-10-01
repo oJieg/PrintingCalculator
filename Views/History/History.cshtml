@@ -1,10 +1,10 @@
-﻿@model List<SimplResult>
+﻿@model HistoryPage
 @using printing_calculator.ViewModels;
 @using Microsoft.AspNetCore.Html;
 
 @{
 	Layout = "_Layout";
-	HtmlString  Pos(SimplResult result)
+	HtmlString Pos(SimpleResult result)
 	{
 		string PosLogo = string.Empty;
 		if (result.Lamination)
@@ -27,11 +27,39 @@
 		{
 			PosLogo = "-";
 		}
-
 		return new HtmlString(PosLogo);
 	}
+	string addressHistory = "History";
+	int maxButtonNext = 5;
+	string addressBack;
+	if (@Model.ThisPage > 0)
+	{
+		addressBack = @$"{addressHistory}?page={(Model.ThisPage - 1)}";
+	}
+	else
+	{
+		addressBack = addressHistory;
+	}
+
+	string addressForward = @$"{addressHistory}?page={Model.ThisPage + 1}";
+	int countButtonPage = 5;
+	if (countButtonPage > Model.CurrentPage)
+	{
+		countButtonPage = Model.CurrentPage;
+	}
+
+	int startBottonNext = Model.ThisPage - 2;
+	if (startBottonNext <= 1)
+	{
+		startBottonNext = 1;
+	}
+	else if (startBottonNext + 5 > Model.CurrentPage)
+	{
+		startBottonNext = Model.CurrentPage - 4;
+	}
 }
-@section Stail {
+
+@section Style {
 <link rel="stylesheet" type="text/css" href="history.css">
 }
 
@@ -60,7 +88,7 @@
 				</th>
 			</tr>
 
-			@foreach (SimplResult result in Model)
+			@foreach (SimpleResult result in Model.Results)
 			{
 				<tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
 					<td>
@@ -85,12 +113,39 @@
 					</td>
 				</tr>
 			}
-
-
-
-			</tr>
 		</table>
 	</div>
+</div>
 
+<div class="pageBar">
+	<form>
+		<input class="buttonNext" type="submit" formmethod="post" formaction="@addressHistory" value="<<">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="@addressBack" value="<">
 
+		@for (int i = startBottonNext; i < startBottonNext + countButtonPage; i++)
+		{
+			string addressButton = @$"{addressHistory}?page={i}";
+			if (i == Model.ThisPage)
+			{
+				<input class="buttonNextActiv" type="submit" disabled="disabled" formmethod="post" formaction=@addressButton value="@(i)">
+			}
+			else
+			{
+				<input class="buttonNext" type="submit" formmethod="post" formaction=@addressButton value="@(i)">
+			}
+
+		}
+		@if (Model.ThisPage == Model.CurrentPage)
+		{
+			<input class="buttonNextActiv" disabled="disabled" value=">">
+		}
+		else
+		{
+			<input class="buttonNext" type="submit" formmethod="post" formaction="@addressForward" value=">">
+		}
+	</form>
+	<form>
+		<input class="inputNumber" name="page" type="number" min=1 max=@Model.CurrentPage>
+		<input class="button" type="submit" formmethod="post" formaction="@addressHistory" value="перейти">
+	</form>
 </div>

@@ -5,6 +5,6 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public interface IConveyor
     {
-        public bool TryConveyorStart(ref History history, ref Result result);
+        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken);
     }
 }
