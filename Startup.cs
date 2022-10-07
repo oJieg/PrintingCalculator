@@ -23,6 +23,7 @@ namespace printing_calculator
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,6 +56,7 @@ namespace printing_calculator
                 endpoints.MapControllerRoute(
                    name: "History",
                    pattern: "{controller=History}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

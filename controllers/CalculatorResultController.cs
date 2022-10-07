@@ -58,7 +58,7 @@ namespace printing_calculator.controllers
                 return new EmptyResult();
             }
 
-            if (!input.SaveDB)
+            if (!input.NoSaveDB)
             {
                 try
                 {
