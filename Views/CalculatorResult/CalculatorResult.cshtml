@@ -33,9 +33,7 @@
 		<p>Цена не актуальная</p>
 	</div>
 }
-<div id="test">
-	ok:
-</div>
+
 <div class="twoColumnsFlex">
 
 	<div class="priceFlex">
@@ -154,21 +152,27 @@
 
 	</form>
 </div>
+
 <div class="button">
 	<form>
 		<input class="inputNumber" id="newAnount" type="number" min="1">
-		<input class="buttonNext" type="button" onclick="GetNewAmount(@Model.HistoryInputId)" value="новый расчет">
+		<input class="buttonNumber" type="button" onclick="GetNewAmount(@Model.HistoryInputId)" value="новый расчет">
 	</form>
 </div>
+
 <div class="button">
 	<form>
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,10)" value="10">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,20)" value="20">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,50)" value="50">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,100)" value="100">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,200)" value="200">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,300)" value="300">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,500)" value="500">
-		<input class="buttonNext" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,1000)" value="1000">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,10)" value="10">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,20)" value="20">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,50)" value="50">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,100)" value="100">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,200)" value="200">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,300)" value="300">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,500)" value="500">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,1000)" value="1000">
 	</form>
+</div>
+
+<div class="quickTable">
+    <table id="table"></table>
 </div>
