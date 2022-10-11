@@ -38,7 +38,8 @@
 
 	<div class="priceFlex">
 
-		<div class="totalPrice">
+		<div class="totalPrice" onclick="CopyPrice(@Model.Price)">
+			<span class="tooltiptext" id="tooltiptext">Цена в буфере обмена</span>
 			<p class="totalPrice">Итого</p>
 			<h1 class="totalPrice">@Model.Price руб.</h1>
 			<h2 class="totalPrice">@PriceForOne руб/шт</h2>

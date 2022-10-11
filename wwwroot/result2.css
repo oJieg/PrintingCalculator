@@ -153,15 +153,15 @@ input.buttonNext {
 
 
 
-
-
-div.totalPrice{
+div.totalPrice {
     padding-bottom: 50px;
+    cursor: pointer;
 }
-p.totalPrice{
+p.totalPrice {
     font-size: 25pt;
     color: rgb(150, 150, 150);
     margin: 0;
+    
 }
 h1.totalPrice{
     font-size: 42pt;
@@ -272,3 +272,21 @@ p.margin2{
     /* position: relative; */
 }
 
+
+
+/* скрытый текст */
+.tooltiptext {
+    visibility: hidden;
+}
+/*  текст после появления */
+.tooltiptext2 {
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
