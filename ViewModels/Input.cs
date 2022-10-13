@@ -15,6 +15,6 @@
         public int Drilling { get; set; }
         public bool Rounding { get; set; }
 
-        public bool SaveDB { get; set; }
+        public bool NoSaveDB { get; set; }
     }
 }

@@ -87,6 +87,38 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
+        public async Task<Input> GetInputFromHistoryId(int historyId, int newAmount)
+        {
+            InputHistory inputHistory = await _applicationContext.Histories
+                .AsNoTracking()
+                .Include(historys => historys.Input)
+                    .ThenInclude(input => input.Paper)
+                 .Include(historys => historys.Input)
+                    .ThenInclude(inpyt => inpyt.Lamination)
+                .Where(historys => historys.Id == historyId)
+                .Select(historys => historys.Input)
+                .FirstAsync();
+
+            string? laminationName = null;
+            if (inputHistory.Lamination != null)
+                laminationName = inputHistory.Lamination.Name;
+
+            return  new()
+            {
+                Amount = newAmount,
+                Height = inputHistory.Height,
+                Whidth = inputHistory.Whidth,
+                Paper = inputHistory.Paper.Name,
+                Kinds = inputHistory.Kinds,
+                Duplex = inputHistory.Duplex,
+                LaminationName = laminationName,
+                Creasing = inputHistory.CreasingAmount,
+                Drilling = inputHistory.DrillingAmount,
+                Rounding = inputHistory.RoundingAmount,
+                NoSaveDB = false
+            };
+        }
+
         private async Task<СalculationHistory> GetHistoryAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
@@ -97,7 +129,7 @@ namespace printing_calculator.Models.Calculating
             IQueryable<ConsumablePrice> historyConsumablePrice = _applicationContext.ConsumablePrices
                     .OrderByDescending(consumablePrices => consumablePrices.Id);
 
-            if (input.SaveDB)
+            if (input.NoSaveDB)
             {
                 historyInputPaper = historyInputPaper.AsNoTracking();
                 historyConsumablePrice = historyConsumablePrice.AsNoTracking();
@@ -115,7 +147,7 @@ namespace printing_calculator.Models.Calculating
                 .Where(laminations => laminations.Name == input.LaminationName);
 
 
-            if (input.SaveDB)
+            if (input.NoSaveDB)
             {
                 historyInputLamination.AsNoTracking();
             }
