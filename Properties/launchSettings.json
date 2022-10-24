@@ -12,8 +12,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__DefaultConnection": "Host=db;Port=5432;Database=Calculator;Username=asp;Password=159"
+        "ASPNETCORE_ENVIRONMENT": "Development"
+        
       },
       "applicationUrl": "https://localhost:7181;http://localhost:5181",
       "dotnetRunMessages": true

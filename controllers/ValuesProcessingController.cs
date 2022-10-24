@@ -33,9 +33,9 @@ namespace printing_calculator.controllers
             TestAddLamonation("глянец 1+1", (float)5.96);
             TestAddLamonation("софт тач 1+1", (float)16.04);
 
-            List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.Include(paperCatalogs => paperCatalogs.Prices).ToList();
+            //List<PaperCatalog> catalog = _applicationContext.PaperCatalogs.ToList();
             // ViewData["Massage"] = DB.Markups.First().Id.ToString();
-            return View("PageOtvet", catalog);
+            return View("PageOtvet");
         }
 
         private async void TestAddConsumablePriceAsync()
@@ -74,17 +74,13 @@ namespace printing_calculator.controllers
         {
             try
             {
-                LaminationPrice Prices = new()
-                {
-                    Price = price
-                };
+
                 Lamination lamination = new()
                 {
                     Name = nameLamonation,
-                    Price = new List<LaminationPrice>() { Prices }
+                    Price = price
                 };
 
-                _applicationContext.LaminationPrices.Add(Prices);
                 _applicationContext.Laminations.Add(lamination);
 
                 _applicationContext.SaveChanges();
@@ -103,17 +99,14 @@ namespace printing_calculator.controllers
         {
             try
             {
-                PaperPrice pricePaper = new()
-                {
-                    Price = price
-                };
                 PaperCatalog mondi350 = new()
                 {
                     Name = namePaper,
-                    Prices = new List<PaperPrice>() { pricePaper },
-                    Size = _applicationContext.SizePapers.Where(x => x.Name == "SRA3").First()
+                    Prices = price,
+                    Size = _applicationContext.SizePapers.Where(x => x.Name == "SRA3").First(),
+                    Status = 1
+                    
                 };
-                _applicationContext.PaperPrices.Add(pricePaper);
                 _applicationContext.PaperCatalogs.Add(mondi350);
                 _applicationContext.SaveChanges();
             }

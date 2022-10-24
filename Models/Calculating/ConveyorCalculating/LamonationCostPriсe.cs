@@ -25,11 +25,11 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int сostPrice = Convert.ToInt32((history.LaminationPrices.Price + _lamination.Job) * result.PaperResult.Sheets);
+                int сostPrice = Convert.ToInt32((history.LaminationPrices + _lamination.Job) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = сostPrice;
 
                 result.LaminationResult.ActualCostPrics =
-                    await ActualCostPrice(history.LaminationPrices.Id, history.Input.Lamination.Name, cancellationToken);
+                    await ActualCostPrice(history.LaminationPrices, history.Input.Lamination.Name, cancellationToken);
                 return (history, result, true);
             }
             catch (OverflowException)
@@ -38,14 +38,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             }
         }
 
-        private async Task<bool> ActualCostPrice(int priceId, string laminationName, CancellationToken cancellationToken)
+        private async Task<bool> ActualCostPrice(float? laminationPrices, string laminationName, CancellationToken cancellationToken)
         {
             try
             {
                 return await _applicationContext.Laminations
                     .AsNoTracking()
                     .Where(laminations => laminations.Name == laminationName)
-                    .Select(Laminations => Laminations.Price.OrderBy(Price => Price.Id).Last().Id == priceId)
+                    .Select(Laminations => Laminations.Price == laminationPrices)
                     .FirstAsync(cancellationToken);
             }
             catch
