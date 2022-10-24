@@ -16,7 +16,47 @@ namespace printing_calculator
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
     : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ConsumablePrice>().HasData(new ConsumablePrice[]
+            {
+              new  ConsumablePrice()
+                {
+                    TonerPrice = 45100,
+                    DrumPrice1 = 28100,
+                    DrumPrice2 = 28100,
+                    DrumPrice3 = 28100,
+                    DrumPrice4 = 28100
+                }
+            });
+            modelBuilder.Entity<SizePaper>().HasData(new SizePaper[]
+            {
+                new SizePaper()
+                {
+                     Name = "SRA3",
+                    Height = 320,
+                    Width = 450
+                }
+            });
+
+            modelBuilder.Entity<PaperCatalog>().HasData(new PaperCatalog[]
+             {
+                new PaperCatalog()
+                {
+                    Name = "Нулевая бумага",
+                    Prices = new List<PaperPrice>() { new PaperPrice{Price=0f} },
+                    Size = new SizePaper()
+                {
+                     Name = "SRA3",
+                    Height = 320,
+                    Width = 450
+                }
+
+                }
+             });
+
         }
     }
 }
