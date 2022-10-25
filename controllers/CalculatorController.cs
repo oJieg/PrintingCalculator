@@ -19,7 +19,9 @@ namespace printing_calculator.controllers
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs.ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs
+                    .Where(paper => paper.Status > 0)
+                    .ToListAsync(cancellationToken);
                 PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
             }
             catch (OperationCanceledException)

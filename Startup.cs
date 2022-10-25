@@ -57,6 +57,11 @@ namespace printing_calculator
                    name: "History",
                    pattern: "{controller=History}/{action=Index}/{id?}");
                 endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                   name: "Setting",
+                   pattern: "{controller=Setting}/{action=Paper}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

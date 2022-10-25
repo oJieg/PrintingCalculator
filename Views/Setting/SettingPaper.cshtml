@@ -1,0 +1,100 @@
+﻿@model PaperAndSize
+@using printing_calculator.DataBase
+@using printing_calculator.ViewModels
+@{
+	Layout = "_Layout";
+}
+@section Style {
+<link rel="stylesheet" type="text/css" href="/paper.css">
+}
+@section JS{
+<script src="/paperWebApi.js"></script>
+}
+
+<p>Настройки бумаги</p>
+<div class="tableFlex">
+	<div style="overflow-x:auto;">
+		<table>
+			<tr>
+				<th>
+					<div class="textTableHistory">имя</div>
+				</th>
+				<th>
+					<div class="textTableHistory">текушая цена за лист</div>
+				</th>
+				<th>
+					<div class="textTableHistory">задать новую цену</div>
+				</th>
+				<th>
+					<div class="textTableHistory">нет в наличии</div>
+				</th>
+				<th>
+					<div class="textTableHistory">удалить</div>
+				</th>
+			</tr>
+			@foreach (PaperCatalog paperCatalog in Model.PaperCatalog)
+			{
+				string none = "";
+				string editStatus = "отключить";
+				if (paperCatalog.Status == 0)
+				{
+					none = "none";
+					editStatus = "подключить";
+				}
+				<tr class=@none id=@(paperCatalog.Id.ToString()+"tr")>
+					<td>
+						<div class="textTableHistory">
+							@paperCatalog.Name (@paperCatalog.Size.Width x @paperCatalog.Size.Height)
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<p id=@(paperCatalog.Id.ToString()+"p")>@paperCatalog.Prices руб</p>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="inputNumber" id=@paperCatalog.Id type="number" min="0">
+								<input class="button" type="submit" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="submit" onclick="editPaper(@paperCatalog.Id , @paperCatalog.Status)" value=@editStatus>
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="submit" onclick="delitePaper(@paperCatalog.Id)" value="удалить">
+							</form>
+						</div>
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+
+</div>
+
+<div class="addPaper">
+	<form>
+		<label>имя:</label>
+		<input class="inputName" name="name" type="text">
+		<label>цена:</label>
+		<input class="inputNumber" name="price" type="number" value="цена">
+		<label>размер:</label>
+		<select class="selectorMenu" name="size">
+			@foreach (SizePaper size in Model.Size)
+			{
+				<option value=@size.Id>@size.Name</option>
+			}
+		</select>
+
+		<input class="button" type="submit" formmethod="post" formaction="" value="создать">
+	</form>
+</div>
