@@ -41,7 +41,7 @@
 					none = "none";
 					editStatus = "подключить";
 				}
-				<tr class=@none id=@(paperCatalog.Id.ToString()+"tr")>
+				<tr id=@(paperCatalog.Id.ToString()+"tr") class=@none>
 					<td>
 						<div class="textTableHistory">
 							@paperCatalog.Name (@paperCatalog.Size.Width x @paperCatalog.Size.Height)
@@ -55,22 +55,22 @@
 					<td>
 						<div class="textTableHistory">
 							<form>
-								<input class="inputNumber" id=@paperCatalog.Id type="number" min="0">
-								<input class="button" type="submit" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+								<input class="inputNumber" id=@paperCatalog.Id type="number" min="0" value=@paperCatalog.Prices>
+								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
 							</form>
 						</div>
 					</td>
 					<td>
 						<div class="textTableHistory">
 							<form>
-								<input class="button" type="submit" onclick="editPaper(@paperCatalog.Id , @paperCatalog.Status)" value=@editStatus>
+								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id , @paperCatalog.Status)" value=@editStatus>
 							</form>
 						</div>
 					</td>
 					<td>
 						<div class="textTableHistory">
 							<form>
-								<input class="button" type="submit" onclick="delitePaper(@paperCatalog.Id)" value="удалить">
+								<input class="button" type="button" onclick="deletePaper(@paperCatalog.Id)" value="удалить">
 							</form>
 						</div>
 					</td>

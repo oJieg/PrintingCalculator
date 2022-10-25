@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using printing_calculator.DataBase;
 using printing_calculator.ViewModels;
 
 namespace printing_calculator.controllers
@@ -19,11 +18,13 @@ namespace printing_calculator.controllers
         public IActionResult Paper()
         {
             PaperAndSize paperAndSize = new();
-            
+
             try
             {
                 paperAndSize.PaperCatalog = _applicationContext.PaperCatalogs
                     .Include(paper => paper.Size)
+                    .OrderBy(paper => paper.Id)
+                    .ThenBy(paper => paper.Status)
                     .AsNoTracking()
                     .ToList();
                 paperAndSize.Size = _applicationContext.SizePapers
