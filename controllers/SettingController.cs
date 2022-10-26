@@ -24,7 +24,7 @@ namespace printing_calculator.controllers
                 paperAndSize.PaperCatalog = _applicationContext.PaperCatalogs
                     .Include(paper => paper.Size)
                     .OrderBy(paper => paper.Id)
-                    .ThenBy(paper => paper.Status)
+                    .Where(paper => paper.Status >=0)
                     .AsNoTracking()
                     .ToList();
                 paperAndSize.Size = _applicationContext.SizePapers

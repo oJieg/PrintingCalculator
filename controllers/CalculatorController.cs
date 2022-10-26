@@ -21,6 +21,7 @@ namespace printing_calculator.controllers
             {
                 PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs
                     .Where(paper => paper.Status > 0)
+                    .OrderBy(paper => paper.Id)
                     .ToListAsync(cancellationToken);
                 PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
             }

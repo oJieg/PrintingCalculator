@@ -22,12 +22,28 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
+                if(_applicationContext.PaperCatalogs.Any(x => x.Name == paper.Name))
+                {
+                    PaperCatalog editPaper = _applicationContext.PaperCatalogs
+                        .Where(x => x.Name == paper.Name)
+                        .First();
+                    editPaper.Prices = paper.Price;
+                    editPaper.Size = _applicationContext.SizePapers
+                        .Where(size => size.Name == paper.NameSize)
+                        .First();
+                    editPaper.Status = 1;
+
+                    await _applicationContext.SaveChangesAsync();
+                    return true;
+                }
                 PaperCatalog addPaper = new()
                 {
                     Name = paper.Name,
-                    Status = 1,
-                    Prices = paper.Price,
-                    Size = _applicationContext.SizePapers.Where(size => size.Name == paper.Name).First()
+                    Prices = paper.Price,                                      
+                    Size = _applicationContext.SizePapers
+                    .Where(size => size.Name == paper.NameSize)
+                    .First(),
+                    Status = 1
                 };
                 _applicationContext.PaperCatalogs.Add(addPaper);
                 await _applicationContext.SaveChangesAsync();
@@ -95,8 +111,21 @@ namespace printing_calculator.controllers.WebApi
         [HttpDelete("{id}")]
         public async Task<bool> Delete(int id)
         {
-
-            return true;
+            try
+            {
+              PaperCatalog paperDelete = _applicationContext.PaperCatalogs
+                    .Where(x=>x.Id == id)
+                    .First();
+                paperDelete.Status = -1;
+                await _applicationContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("не удалось удалить бумагу", ex);
+                return false;
+            }
+            
         }
     }
 }

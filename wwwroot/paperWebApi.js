@@ -62,7 +62,7 @@ async function addPaper() {
             NameSize: nameSize
         })
     })
-    let bools = await respone1.json();
+    let bools = await respone.json();
     if (bools == true) {
         location.reload();
     }
