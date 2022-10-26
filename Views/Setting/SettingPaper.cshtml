@@ -84,17 +84,17 @@
 <div class="addPaper">
 	<form>
 		<label>имя:</label>
-		<input class="inputName" name="name" type="text">
+		<input class="inputName" id="addPaperNeme" name="name" type="text">
 		<label>цена:</label>
-		<input class="inputNumber" name="price" type="number" value="цена">
+		<input class="inputNumber" id="addPaperPrice" name="price" type="number" value="цена">
 		<label>размер:</label>
-		<select class="selectorMenu" name="size">
+		<select class="selectorMenu" id="addPaperSize" name="size">
 			@foreach (SizePaper size in Model.Size)
 			{
 				<option value=@size.Id>@size.Name</option>
 			}
 		</select>
 
-		<input class="button" type="submit" formmethod="post" formaction="" value="создать">
+		<input class="button" type="button"  onclick="addPaper()" value="создать">
 	</form>
 </div>

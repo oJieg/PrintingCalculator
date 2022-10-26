@@ -17,6 +17,28 @@ namespace printing_calculator.controllers.WebApi
             _applicationContext = applicationContext;
             _logger = logger;
         }
+        [HttpPost]
+        public async Task<bool> Post(AddPaper paper)
+        {
+            try
+            {
+                PaperCatalog addPaper = new()
+                {
+                    Name = paper.Name,
+                    Status = 1,
+                    Prices = paper.Price,
+                    Size = _applicationContext.SizePapers.Where(size => size.Name == paper.Name).First()
+                };
+                _applicationContext.PaperCatalogs.Add(addPaper);
+                await _applicationContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ошибка добавления новой бумаги", ex);
+                return false;
+            }
+            return true;
+        }
 
         [HttpPut]
         public async Task<bool> Put(EditPaper test)
@@ -84,4 +106,10 @@ public class EditPaper
     public int id { get; set; }
     public float newPrice { get; set; }
     public int status { get; set; }
+}
+public class AddPaper
+{
+    public string Name { get; set; }
+    public float Price { get; set; }
+    public string NameSize { get; set; }
 }

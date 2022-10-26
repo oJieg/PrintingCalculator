@@ -28,6 +28,7 @@ async function editPaper(id, paperStatus) {
 
     let bools = await respone1.json();
     if (bools != true) {
+        alert("ошибка изменения");
         return;
     }
     if (paperStatus == -99) {
@@ -44,3 +45,25 @@ async function editPaper(id, paperStatus) {
         tr.setAttribute("class", "none");
     }
 }
+
+async function addPaper() {
+    let name = document.getElementById("addPaperNeme").value;
+    let price = document.getElementById("addPaperPrice").value;
+
+    let selector = document.getElementById("addPaperSize");
+    let nameSize = selector.options[selector.selectedIndex].text;;
+
+    const respone = await fetch("/api/PaperEdit", {
+        method: "Post",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+            Name: name,
+            Price: parseFloat(price),
+            NameSize: nameSize
+        })
+    })
+    let bools = await respone1.json();
+    if (bools == true) {
+        location.reload();
+    }
+;}
