@@ -1,0 +1,93 @@
+﻿@model List<Lamination>
+@using printing_calculator.DataBase
+@using printing_calculator.ViewModels
+@{
+	Layout = "_Layout";
+}
+@section Style {
+<link rel="stylesheet" type="text/css" href="/paper.css">
+}
+@section JS{
+<script src="/laminationWebApi.js"></script>
+}
+
+<p>Настройки ламинации</p>
+<div class="tableFlex">
+	<div style="overflow-x:auto;">
+		<table>
+			<tr>
+				<th>
+					<div class="textTableHistory">имя</div>
+				</th>
+				<th>
+					<div class="textTableHistory">текушая цена за 50см</div>
+				</th>
+				<th>
+					<div class="textTableHistory">задать новую цену</div>
+				</th>
+				<th>
+					<div class="textTableHistory">нет в наличии</div>
+				</th>
+				<th>
+					<div class="textTableHistory">удалить</div>
+				</th>
+			</tr>
+			@foreach (Lamination lamination in Model)
+			{
+				string none = "";
+				string editStatus = "отключить";
+				if (lamination.Status == 0)
+				{
+					none = "none";
+					editStatus = "подключить";
+				}
+				<tr id=@(lamination.Id.ToString()+"tr") class=@none>
+					<td>
+						<div class="textTableHistory">
+							@lamination.Name
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<p id=@(lamination.Id.ToString()+"p")>@lamination.Price руб</p>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="inputNumber" id=@lamination.Id type="number" min="0" value=@lamination.Price>
+								<input class="button" type="button" onclick="editLamination(@lamination.Id, -99)" value="изменить">
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="button" onclick="editLamination(@lamination.Id , @lamination.Status)" value=@editStatus>
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="button" onclick="deleteLamination(@lamination.Id)" value="удалить">
+							</form>
+						</div>
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+
+</div>
+
+<div class="addPaper">
+	<form>
+		<label>имя:</label>
+		<input class="inputName" id="addPaperNeme" name="name" type="text">
+		<label>цена:</label>
+		<input class="inputNumber" id="addPaperPrice" name="price" type="number" value="цена">
+
+		<input class="button" type="button" onclick="addLamination()" value="создать">
+	</form>
+</div>
