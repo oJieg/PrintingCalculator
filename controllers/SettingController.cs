@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.ViewModels;
+using printing_calculator.DataBase;
 
 namespace printing_calculator.controllers
 {
@@ -15,21 +16,21 @@ namespace printing_calculator.controllers
             _logger = logger;
         }
 
-        public IActionResult Paper()
+        public async Task<IActionResult> Paper()
         {
             PaperAndSize paperAndSize = new();
 
             try
             {
-                paperAndSize.PaperCatalog = _applicationContext.PaperCatalogs
+                paperAndSize.PaperCatalog = await _applicationContext.PaperCatalogs
                     .Include(paper => paper.Size)
                     .OrderBy(paper => paper.Id)
-                    .Where(paper => paper.Status >=0)
+                    .Where(paper => paper.Status >= 0)
                     .AsNoTracking()
-                    .ToList();
-                paperAndSize.Size = _applicationContext.SizePapers
+                    .ToListAsync();
+                paperAndSize.Size = await _applicationContext.SizePapers
                     .AsNoTracking()
-                    .ToList();
+                    .ToListAsync();
 
             }
             catch (Exception ex)
@@ -41,9 +42,38 @@ namespace printing_calculator.controllers
             return View("SettingPaper", paperAndSize);
         }
 
+        public async Task<IActionResult> AddSizePaper(SizePaper newSizePaper)
+        {
+            if (ValidationSize(newSizePaper))
+            {
+                return BadRequest();
+            }
+            newSizePaper.Name += newSizePaper.Height.ToString() + "x" + newSizePaper.Width.ToString(); 
+            try
+            {
+                if (await _applicationContext.SizePapers.AnyAsync(size => size.Name == newSizePaper.Name))
+                {
+                    return new RedirectResult("/Setting/Paper");
+                }
+                _applicationContext.SizePapers.Add(newSizePaper);
+                await _applicationContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "неудалось добавить новый размер");
+                return new RedirectResult("/Setting/Paper");
+            }
+            return new RedirectResult("/Setting/Paper");
+        }
+
         public IActionResult Lamination()
         {
             return View();
+        }
+        private bool ValidationSize(SizePaper newSizePaper)
+        {
+            return newSizePaper.Height <= 100
+            && newSizePaper.Width <= 100;
         }
     }
 }

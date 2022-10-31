@@ -22,7 +22,9 @@
 .addPaper{
     margin: 20px 0;
 }
-
+.addSize {
+    margin-top: 100px;
+}
 .selectorMenu{
     margin-right: 10px;
 }

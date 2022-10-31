@@ -23,7 +23,8 @@ namespace printing_calculator.controllers
                     .Where(paper => paper.Status > 0)
                     .OrderBy(paper => paper.Id)
                     .ToListAsync(cancellationToken);
-                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations
+                    .ToListAsync(cancellationToken);
             }
             catch (OperationCanceledException)
             {
@@ -31,7 +32,8 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs и laminations");
+                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs " +
+                    "и laminations");
             }
 
             if (historyId != 0)

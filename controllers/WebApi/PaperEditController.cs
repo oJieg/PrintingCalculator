@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using printing_calculator.DataBase;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,12 +12,14 @@ namespace printing_calculator.controllers.WebApi
     {
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<PaperEditController> _logger;
+
         public PaperEditController(ApplicationContext applicationContext,
             ILogger<PaperEditController> logger)
         {
             _applicationContext = applicationContext;
             _logger = logger;
         }
+
         [HttpPost]
         public async Task<bool> Post(AddPaper paper)
         {
@@ -24,13 +27,13 @@ namespace printing_calculator.controllers.WebApi
             {
                 if(_applicationContext.PaperCatalogs.Any(x => x.Name == paper.Name))
                 {
-                    PaperCatalog editPaper = _applicationContext.PaperCatalogs
+                    PaperCatalog editPaper = await _applicationContext.PaperCatalogs
                         .Where(x => x.Name == paper.Name)
-                        .First();
+                        .FirstAsync();
                     editPaper.Prices = paper.Price;
-                    editPaper.Size = _applicationContext.SizePapers
+                    editPaper.Size = await _applicationContext.SizePapers
                         .Where(size => size.Name == paper.NameSize)
-                        .First();
+                        .FirstAsync();
                     editPaper.Status = 1;
 
                     await _applicationContext.SaveChangesAsync();
@@ -40,9 +43,9 @@ namespace printing_calculator.controllers.WebApi
                 {
                     Name = paper.Name,
                     Prices = paper.Price,                                      
-                    Size = _applicationContext.SizePapers
+                    Size = await _applicationContext.SizePapers
                     .Where(size => size.Name == paper.NameSize)
-                    .First(),
+                    .FirstAsync(),
                     Status = 1
                 };
                 _applicationContext.PaperCatalogs.Add(addPaper);
@@ -62,9 +65,9 @@ namespace printing_calculator.controllers.WebApi
             PaperCatalog paper;
             try
             {
-                paper = _applicationContext.PaperCatalogs
+                paper = await _applicationContext.PaperCatalogs
                      .Where(paper => paper.Id == test.id)
-                     .First();
+                     .FirstAsync();
             }
             catch (Exception ex)
             {
@@ -113,9 +116,9 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-              PaperCatalog paperDelete = _applicationContext.PaperCatalogs
+              PaperCatalog paperDelete = await _applicationContext.PaperCatalogs
                     .Where(x=>x.Id == id)
-                    .First();
+                    .FirstAsync();
                 paperDelete.Status = -1;
                 await _applicationContext.SaveChangesAsync();
                 return true;
