@@ -78,7 +78,9 @@ namespace printing_calculator.controllers
                 Lamination lamination = new()
                 {
                     Name = nameLamonation,
-                    Price = price
+                    Price = price,
+                    Status = 1
+
                 };
 
                 _applicationContext.Laminations.Add(lamination);
@@ -105,7 +107,7 @@ namespace printing_calculator.controllers
                     Prices = price,
                     Size = _applicationContext.SizePapers.Where(x => x.Name == "SRA3").First(),
                     Status = 1
-                    
+
                 };
                 _applicationContext.PaperCatalogs.Add(mondi350);
                 _applicationContext.SaveChanges();

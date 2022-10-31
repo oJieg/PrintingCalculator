@@ -25,7 +25,7 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-                if(_applicationContext.PaperCatalogs.Any(x => x.Name == paper.Name))
+                if (_applicationContext.PaperCatalogs.Any(x => x.Name == paper.Name))
                 {
                     PaperCatalog editPaper = await _applicationContext.PaperCatalogs
                         .Where(x => x.Name == paper.Name)
@@ -42,7 +42,7 @@ namespace printing_calculator.controllers.WebApi
                 PaperCatalog addPaper = new()
                 {
                     Name = paper.Name,
-                    Prices = paper.Price,                                      
+                    Prices = paper.Price,
                     Size = await _applicationContext.SizePapers
                     .Where(size => size.Name == paper.NameSize)
                     .FirstAsync(),
@@ -50,48 +50,47 @@ namespace printing_calculator.controllers.WebApi
                 };
                 _applicationContext.PaperCatalogs.Add(addPaper);
                 await _applicationContext.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError("ошибка добавления новой бумаги", ex);
                 return false;
             }
-            return true;
         }
 
         [HttpPut]
-        public async Task<bool> Put(EditPaper test)
+        public async Task<bool> Put(EditPaper editPaper)
         {
             PaperCatalog paper;
             try
             {
                 paper = await _applicationContext.PaperCatalogs
-                     .Where(paper => paper.Id == test.id)
+                     .Where(paper => paper.Id == editPaper.id)
                      .FirstAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError("не удалось получить бумагу", ex);
+                _logger.LogError(ex, "не удалось получить бумагу при попытки изменении");
                 return false;
             }
 
-            if (test.status == -99 && test.newPrice >= 0)
+            if (editPaper.status == -99 && editPaper.newPrice >= 0)
             {
-                paper.Prices = test.newPrice;
+                paper.Prices = editPaper.newPrice;
                 try
                 {
                     await _applicationContext.SaveChangesAsync();
+                    return true;
                 }
                 catch
                 {
                     _logger.LogError("не удалось поменять цену бумаги");
                     return false;
                 }
-
-                return true;
             }
 
-            if (test.status >= 0)
+            if (editPaper.status >= 0)
             {
                 if (paper.Status == 0)
                     paper.Status = 1;
@@ -99,13 +98,13 @@ namespace printing_calculator.controllers.WebApi
                 try
                 {
                     await _applicationContext.SaveChangesAsync();
+                    return true;
                 }
                 catch
                 {
                     _logger.LogError("не удалось поменять статус бумаги");
                     return false;
                 }
-                return true;
             }
 
             return false;
@@ -116,32 +115,32 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-              PaperCatalog paperDelete = await _applicationContext.PaperCatalogs
-                    .Where(x=>x.Id == id)
-                    .FirstAsync();
+                PaperCatalog paperDelete = await _applicationContext.PaperCatalogs
+                      .Where(x => x.Id == id)
+                      .FirstAsync();
                 paperDelete.Status = -1;
                 await _applicationContext.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError("не удалось удалить бумагу", ex);
+                _logger.LogError(ex, "не удалось удалить бумагу");
                 return false;
             }
-            
         }
     }
-}
 
-public class EditPaper
-{
-    public int id { get; set; }
-    public float newPrice { get; set; }
-    public int status { get; set; }
-}
-public class AddPaper
-{
-    public string Name { get; set; }
-    public float Price { get; set; }
-    public string NameSize { get; set; }
+
+    public class EditPaper
+    {
+        public int id { get; set; }
+        public float newPrice { get; set; }
+        public int status { get; set; }
+    }
+    public class AddPaper
+    {
+        public string Name { get; set; }
+        public float Price { get; set; }
+        public string NameSize { get; set; }
+    }
 }

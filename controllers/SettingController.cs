@@ -66,9 +66,23 @@ namespace printing_calculator.controllers
             return new RedirectResult("/Setting/Paper");
         }
 
-        public IActionResult Lamination()
+        public async Task<IActionResult> Lamination()
         {
-            return View();
+            List<Lamination> laminations;
+            try
+            {
+                 laminations = await _applicationContext.Laminations
+                    .Where(l => l.Status >= 0)
+                    .OrderBy(l => l.Id)
+                    .ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "ошибка чтения списка ламинаций");
+                return NotFound();
+            }
+
+            return View("SettingLamination", laminations);
         }
         private bool ValidationSize(SizePaper newSizePaper)
         {

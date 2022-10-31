@@ -50,16 +50,12 @@ async function addLamination() {
     let name = document.getElementById("addPaperNeme").value;
     let price = document.getElementById("addPaperPrice").value;
 
-    let selector = document.getElementById("addPaperSize");
-    let nameSize = selector.options[selector.selectedIndex].text;;
-
     const respone = await fetch("/api/LaminationEdit", {
         method: "Post",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
             Name: name,
-            Price: parseFloat(price),
-            NameSize: nameSize
+            Price: parseFloat(price)
         })
     })
     let bools = await respone.json();
