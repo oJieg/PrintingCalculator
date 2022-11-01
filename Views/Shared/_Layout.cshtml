@@ -6,13 +6,14 @@
 	string adresHistoru = "/History";
 	string addresSettingPaper = "/Setting/Paper";
 	string addresSettingLamination = "/Setting/Lamination";
+	string addresSettingConsumable = "/Setting/Consumable";
 }
 <!DOCTYPE HTML>
 <html>
 
 <head>
 	@RenderSection("Style",false)
-	
+
 	<link rel="stylesheet" type="text/css" href="/menu.css">
 	<title>Калькулятор</title>
 </head>
@@ -52,6 +53,12 @@
 					<a href="@addresSettingLamination">
 						<div></div>
 						<div>настройки ламинации</div>
+					</a>
+				</li>
+				<li class="li-margin">
+					<a href="@addresSettingConsumable">
+						<div></div>
+						<div>расходники принтера</div>
 					</a>
 				</li>
 			</ul>

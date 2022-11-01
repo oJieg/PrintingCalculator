@@ -4,7 +4,7 @@ function copyСlipboard() {
 }
 
 function CopyPrice(price) {
-	navigator.clipboard.writeText(price)
+	navigator.clipboard.writeText(price+"руб.")
 	tooltiptext.classList.remove("tooltiptext");
 	tooltiptext.classList.add("tooltiptext2");
 	setTimeout(editClass, 3000);

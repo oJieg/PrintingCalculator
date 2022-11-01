@@ -84,6 +84,51 @@ namespace printing_calculator.controllers
 
             return View("SettingLamination", laminations);
         }
+
+        public async Task<IActionResult> Consumable()
+        {
+            ConsumablePrice actualPrice;
+            try
+            {
+                actualPrice = await _applicationContext.ConsumablePrices
+                   .OrderBy(x => x.Id)
+                   .LastAsync();
+                return View("SettingConsumables", actualPrice);
+            }
+            catch
+            {
+                _logger.LogError("ошибка чтения ConsumablePrice");
+                return NotFound();
+            }
+        }
+
+        public async Task<IActionResult> EditConsumable(ConsumablePrice newConsumable)
+        {
+            if(ValidationConsumable(newConsumable))
+            {
+                return NotFound();
+            }
+            try
+            {
+                _applicationContext.ConsumablePrices.Add(newConsumable);
+                await _applicationContext.SaveChangesAsync();
+                return RedirectToAction("Consumable");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "не удалось изменить Consumable");
+                return NotFound();
+            }
+        }
+
+        private bool ValidationConsumable(ConsumablePrice newConsumable)
+        {
+            return newConsumable.DrumPrice1 <= 0
+                && newConsumable.DrumPrice2 <= 0
+                && newConsumable.DrumPrice3 <= 0
+                && newConsumable.DrumPrice4 <= 0
+                && newConsumable.TonerPrice <= 0;
+        }
         private bool ValidationSize(SizePaper newSizePaper)
         {
             return newSizePaper.Height <= 100
