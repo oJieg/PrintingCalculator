@@ -50,7 +50,7 @@ namespace printing_calculator.controllers
                 if (!tryAnswer)
                 {
                     _logger.LogError("не удался расчет для данных из Input");
-                    return NotFound();
+                    return NotFound("Вероятнее всего на данный размер листа не помещается изделие!");
                 }
             }
             catch (OperationCanceledException)

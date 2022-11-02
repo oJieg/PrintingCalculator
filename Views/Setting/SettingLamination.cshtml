@@ -1,6 +1,8 @@
 ﻿@model List<Lamination>
 @using printing_calculator.DataBase
 @using printing_calculator.ViewModels
+@using System.Globalization;
+
 @{
 	Layout = "_Layout";
 }
@@ -55,7 +57,7 @@
 					<td>
 						<div class="textTableHistory">
 							<form>
-								<input class="inputNumber" id=@lamination.Id type="number" min="0" value=@lamination.Price>
+								<input class="inputNumber" id=@lamination.Id type="number" min="0" value=@lamination.Price.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
 								<input class="button" type="button" onclick="editLamination(@lamination.Id, -99)" value="изменить">
 							</form>
 						</div>

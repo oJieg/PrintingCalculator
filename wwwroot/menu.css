@@ -97,3 +97,7 @@ body {
     color: #b1b1b1;
     margin: 0;
 }
+
+.detalMenu {
+    cursor: pointer;
+}

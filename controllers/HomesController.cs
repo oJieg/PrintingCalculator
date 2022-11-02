@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+
 namespace printing_calculator.controllers
 {
     public class HomesController : Controller

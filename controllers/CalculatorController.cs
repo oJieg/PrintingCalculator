@@ -20,6 +20,7 @@ namespace printing_calculator.controllers
             try
             {
                 PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs
+                    .Include(paper => paper.Size)
                     .Where(paper => paper.Status > 0)
                     .OrderBy(paper => paper.Id)
                     .ToListAsync(cancellationToken);
