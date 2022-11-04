@@ -25,12 +25,12 @@ async function GetResult(historyId, amount) {
     return test;
 }
 
-function CreateRow(amout, result){
+function CreateRow(amout, result) {
     let newRow = table.insertRow(0);
     let newCell = newRow.insertCell(0);
     let newCell2 = newRow.insertCell(1);
-    newCell.innerHTML = amout +" шт.";
-    newCell2.innerHTML = result+" руб.";
+    newCell.innerHTML = amout + " шт.";
+    newCell2.innerHTML = result + " руб.";
     newCell.setAttribute("class", "textTableHistory");
     newCell2.setAttribute("class", "textTableHistory");
 }

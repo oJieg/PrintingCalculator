@@ -1,8 +1,23 @@
-﻿
-<div id="inputForm">
-	<input type="email" id="message" />
-	<input type="button" id="sendBtn" value="Отправить" />
+﻿<head>
+	<link rel="stylesheet" type="text/css" href="/client.css">
+</head>
+
+<div id="inputForm" class="noneStatus">
+	<div class="flex">
+		<p>веедите ваш e-mail</p>
+		<input class="input" placeholder="Your e-mail" type="email" id="message" />
+		<input class="button" type="button" id="sendBtn" value="Отправить" />
+		<h1>ваш e-mail не сохраняется у нас!</h1>
+	</div>
 </div>
-<div id="chatroom"></div>
+
+<div id="fotoMod">
+	<img class="foto" src="/foto/index2.jpeg" onclick=nextFoto()>
+	<img class="noneStatus" src="/foto/1664466654230121597.jpg" onclick=nextFoto()>
+	<img class="noneStatus" src="/foto/index.jpeg" onclick=nextFoto()>
+	<img class="noneStatus" src="/foto/index4.jpeg" onclick=nextFoto()>
+</div>
+
+
 <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script src="/SignalClient.js"></script>
