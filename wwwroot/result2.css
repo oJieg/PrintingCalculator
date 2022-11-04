@@ -1,37 +1,104 @@
-.errorePrice {
-    background-color: red;
-    color: white;
-    text-align: center;
-    width: 100%;
-    padding: 6px;
-    border-radius: 5px;
+
+/* Вид таблицы с быстрым расчетом */
+.quickTable {
+    overflow-x: auto;
 }
 
+table {
+    border-spacing: 0;
+    text-align: center;
+}
+
+th,
+td {
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+td {
+    padding: 5px 5px 3px 5px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+.textTableHistory {
+    padding: 5px 2vw;
+}
+
+
+/* Вид форм */
+.inputNumber {
+    width: 10%;
+    padding: 12px 10px 12px 20px;
+    margin: 8px 0;
+    border-style: solid;
+    border-left-color: #8fbc8f;
+    border-radius: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-width: 0;
+    border-left-width: 7px;
+    background-color: #F4F4F4;
+    outline: none;
+    -webkit-transition: border-left-color 1s, background-color 1s, border-top-right-radius 1s, border-bottom-right-radius 1s;
+}
+
+    .inputNumber:focus {
+        border-left-color: #92e4e8;
+        background-color: #e3eaee;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+.buttonQuick {
+    padding: 5px 5px;
+    margin: 10px 0;
+    margin-right: 5px;
+    font-size: 16px;
+    width: 50px;
+}
+
+.buttonNumber {
+    padding: 11px 11px;
+    margin: 10px 0;
+    margin-right: 5px;
+    font-size: 16px;
+    width: 150px;
+}
 /* вид кнопок */
 .button input {
-    background-color: #68a568;
+    background-color: #69c469;
     /* background-color: #8fbc8f; */
 
     border: none;
     color: #F4F4F4;
-    padding: 15px 20px;
-    margin: 45px 0;
-    margin-right: 44px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    width: 300px;
-
     border-radius: 5px;
     -webkit-transition: box-shadow 0.5s;
 }
 
-input.buttonNext:hover {
+input.buttonNext {
+    padding: 15px 20px;
+    margin: 45px 0;
+    margin-right: 44px;
+    font-size: 16px;
+    width: 300px;
+}
+
+.button input:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
-input.buttonNext:active {
+.button input:active {
     background-color: #8fbc8f;
 }
 
@@ -86,15 +153,15 @@ input.buttonNext:active {
 
 
 
-
-
-div.totalPrice{
+div.totalPrice {
     padding-bottom: 50px;
+    cursor: pointer;
 }
-p.totalPrice{
+p.totalPrice {
     font-size: 25pt;
     color: rgb(150, 150, 150);
     margin: 0;
+    
 }
 h1.totalPrice{
     font-size: 42pt;
@@ -205,3 +272,21 @@ p.margin2{
     /* position: relative; */
 }
 
+
+
+/* скрытый текст */
+.tooltiptext {
+    visibility: hidden;
+}
+/*  текст после появления */
+.tooltiptext2 {
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}

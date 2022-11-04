@@ -25,10 +25,7 @@ namespace printing_calculator.Models.Calculating
                         .ThenInclude(input => input.Paper.Size)
                      .Include(historys => historys.Input)
                         .ThenInclude(input => input.Lamination!)
-                        .ThenInclude(lamination => lamination.Price)
-                     .Include(historys => historys.PaperPrice.Catalog)
                      .Include(historys => historys.ConsumablePrice)
-                     .Include(historys => historys.LaminationPrices)
                      .Where(historys => historys.Id == id)
                      .FirstOrDefaultAsync(cancellationToken);
             }
@@ -71,14 +68,10 @@ namespace printing_calculator.Models.Calculating
                 if (input.LaminationName != null || history.Input.Lamination != null)
                 {
                     await GetHistoryLaminationAsync(history, input, cancellationToken);
-                    history.LaminationPrices = history.Input.Lamination.Price
-                        .OrderByDescending(price => price.Id)
-                        .First();
+                    history.LaminationPrices = history.Input.Lamination.Price;
                 }
 
-                history.PaperPrice = history.Input.Paper.Prices
-                    .OrderByDescending(prices => prices.Id)
-                    .First();
+                history.PaperPrice = history.Input.Paper.Prices;
             }
             catch (Exception ex)
             {
@@ -87,17 +80,48 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
+        public async Task<Input> GetInputFromHistoryId(int historyId, int newAmount)
+        {
+            InputHistory inputHistory = await _applicationContext.Histories
+                .AsNoTracking()
+                .Include(historys => historys.Input)
+                    .ThenInclude(input => input.Paper)
+                 .Include(historys => historys.Input)
+                    .ThenInclude(inpyt => inpyt.Lamination)
+                .Where(historys => historys.Id == historyId)
+                .Select(historys => historys.Input)
+                .FirstAsync();
+
+            string? laminationName = null;
+            if (inputHistory.Lamination != null)
+                laminationName = inputHistory.Lamination.Name;
+
+            return  new()
+            {
+                Amount = newAmount,
+                Height = inputHistory.Height,
+                Whidth = inputHistory.Whidth,
+                Paper = inputHistory.Paper.Name,
+                Kinds = inputHistory.Kinds,
+                Duplex = inputHistory.Duplex,
+                LaminationName = laminationName,
+                Creasing = inputHistory.CreasingAmount,
+                Drilling = inputHistory.DrillingAmount,
+                Rounding = inputHistory.RoundingAmount,
+                NoSaveDB = false
+            };
+        }
+
         private async Task<СalculationHistory> GetHistoryAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
-                    .Include(paperCatalogs => paperCatalogs.Prices)
                     .Include(paperCatalogs => paperCatalogs.Size)
                     .Where(paperCatalogs => paperCatalogs.Name == input.Paper);
 
             IQueryable<ConsumablePrice> historyConsumablePrice = _applicationContext.ConsumablePrices
                     .OrderByDescending(consumablePrices => consumablePrices.Id);
 
-            if (input.SaveDB)
+            if (input.NoSaveDB)
             {
                 historyInputPaper = historyInputPaper.AsNoTracking();
                 historyConsumablePrice = historyConsumablePrice.AsNoTracking();
@@ -111,11 +135,10 @@ namespace printing_calculator.Models.Calculating
         private async Task<СalculationHistory> GetHistoryLaminationAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
             IQueryable<Lamination> historyInputLamination = _applicationContext.Laminations
-                .Include(laminations => laminations.Price)
                 .Where(laminations => laminations.Name == input.LaminationName);
 
 
-            if (input.SaveDB)
+            if (input.NoSaveDB)
             {
                 historyInputLamination.AsNoTracking();
             }

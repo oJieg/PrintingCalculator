@@ -1,0 +1,113 @@
+﻿@model PaperAndSize
+@using printing_calculator.DataBase
+@using printing_calculator.ViewModels
+@using System.Globalization;
+@{
+	Layout = "_Layout";
+}
+@section Style {
+<link rel="stylesheet" type="text/css" href="/paper.css">
+}
+@section JS{
+<script src="/paperWebApi.js"></script>
+}
+
+<p>Настройки бумаги</p>
+<div class="tableFlex">
+	<div style="overflow-x:auto;">
+		<table>
+			<tr>
+				<th>
+					<div class="textTableHistory">имя</div>
+				</th>
+				<th>
+					<div class="textTableHistory">текушая цена за лист</div>
+				</th>
+				<th>
+					<div class="textTableHistory">задать новую цену</div>
+				</th>
+				<th>
+					<div class="textTableHistory">нет в наличии</div>
+				</th>
+				<th>
+					<div class="textTableHistory">удалить</div>
+				</th>
+			</tr>
+			@foreach (PaperCatalog paperCatalog in Model.PaperCatalog)
+			{
+				string none = "";
+				string editStatus = "отключить";
+				if (paperCatalog.Status == 0)
+				{
+					none = "none";
+					editStatus = "подключить";
+				}
+				<tr id=@(paperCatalog.Id.ToString()+"tr") class=@none>
+					<td>
+						<div class="textTableHistory">
+							@paperCatalog.Name (@paperCatalog.Size.Width x @paperCatalog.Size.Height)
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<p id=@(paperCatalog.Id.ToString()+"p")>@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA")) руб</p>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="inputNumber" id=@paperCatalog.Id type="number" min="0" value=@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
+								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id , @paperCatalog.Status)" value=@editStatus>
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="button" type="button" onclick="deletePaper(@paperCatalog.Id)" value="удалить">
+							</form>
+						</div>
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+
+</div>
+
+<div class="addPaper">
+	<form>
+		<label>имя:</label>
+		<input class="inputName" id="addPaperNeme" name="name" type="text">
+		<label>цена:</label>
+		<input class="inputNumber" id="addPaperPrice" name="price" type="number" value="цена">
+		<label>размер:</label>
+		<select class="selectorMenu" id="addPaperSize" name="size">
+			@foreach (SizePaper size in Model.Size)
+			{
+				<option value=@size.Id>@size.Name</option>
+			}
+		</select>
+
+		<input class="button" type="button" onclick="addPaper()" value="создать">
+	</form>
+</div>
+
+<div class="addSize">
+	<p>не добавляйте размеры без особой необходимости удалить в последнствии не воможно</p>
+	<p>Название будет сгенерированно автоматически. Минимальный размер 100х100мм</p>
+	<form>
+		<label>широкая сорона:</label>
+		<input class="inputNumber" name="Height" type="number" min="100">
+		<label>узная сторона:</label>
+		<input class="inputNumber" name="Width" type="number" min="100">
+		<input class="button" type="submit" formmethod="post" formaction="/Setting/AddSizePaper" value="создать">
+	</form>
+</div>

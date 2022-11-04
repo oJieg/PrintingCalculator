@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using printing_calculator.Models;
 using printing_calculator.Models.Calculating;
+using printing_calculator.controllers.SignalRApp;
 
 namespace printing_calculator
 {
@@ -23,6 +24,8 @@ namespace printing_calculator
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
+            services.AddControllers();
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,6 +58,19 @@ namespace printing_calculator
                 endpoints.MapControllerRoute(
                    name: "History",
                    pattern: "{controller=History}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                   name: "Setting",
+                   pattern: "{controller=Setting}/{action=Paper}/{id?}");
+                endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                   name: "MailTransfer",
+                   pattern: "{controller=MailTransfer}/{action=Client}/{id?}");
+                endpoints.MapControllers();
+
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

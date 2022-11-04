@@ -19,8 +19,15 @@ namespace printing_calculator.controllers
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
             {
-                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs.ToListAsync(cancellationToken);
-                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations.ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs
+                    .Include(paper => paper.Size)
+                    .Where(paper => paper.Status > 0)
+                    .OrderBy(paper => paper.Id)
+                    .ToListAsync(cancellationToken);
+                PaperAndHistoryInput.Lamination = await _applicationContext.Laminations
+                    .Where(lamination => lamination.Status > 0)
+                    .OrderBy(lamunation => lamunation.Id)
+                    .ToListAsync(cancellationToken);
             }
             catch (OperationCanceledException)
             {
@@ -28,7 +35,8 @@ namespace printing_calculator.controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs и laminations");
+                _logger.LogError(ex, "не вышло получить из базы PaperCatalogs " +
+                    "и laminations");
             }
 
             if (historyId != 0)

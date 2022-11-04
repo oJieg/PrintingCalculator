@@ -24,6 +24,7 @@
 @section JS
 {
 <script src="/Copy.js"></script>
+<script src="/MultiCalculating.js"></script>
 }
 
 @if (!Model.TryPrice)
@@ -32,11 +33,13 @@
 		<p>Цена не актуальная</p>
 	</div>
 }
+
 <div class="twoColumnsFlex">
 
 	<div class="priceFlex">
 
-		<div class="totalPrice">
+		<div class="totalPrice" onclick="CopyPrice(@Model.Price)">
+			<span class="tooltiptext" id="tooltiptext">Цена в буфере обмена</span>
 			<p class="totalPrice">Итого</p>
 			<h1 class="totalPrice">@Model.Price руб.</h1>
 			<h2 class="totalPrice">@PriceForOne руб/шт</h2>
@@ -149,4 +152,28 @@
 		<input class="buttonNext" type="button" onclick="copyСlipboard();" value="Cкопировать">
 
 	</form>
+</div>
+
+<div class="button">
+	<form>
+		<input class="inputNumber" id="newAnount" type="number" min="1">
+		<input class="buttonNumber" type="button" onclick="GetNewAmount(@Model.HistoryInputId)" value="новый расчет">
+	</form>
+</div>
+
+<div class="button">
+	<form>
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,10)" value="10">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,20)" value="20">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,50)" value="50">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,100)" value="100">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,200)" value="200">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,300)" value="300">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,500)" value="500">
+		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,1000)" value="1000">
+	</form>
+</div>
+
+<div class="quickTable">
+    <table id="table"></table>
 </div>
