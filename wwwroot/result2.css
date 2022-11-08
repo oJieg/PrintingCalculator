@@ -290,3 +290,7 @@ p.margin2{
     position: absolute;
     z-index: 1;
 }
+
+.errorePrice{
+    background-color: red;
+}
