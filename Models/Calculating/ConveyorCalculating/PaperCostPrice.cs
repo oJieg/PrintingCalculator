@@ -36,7 +36,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return await _applicationContext.PaperCatalogs
                     .AsNoTracking()
                     .Where(paperCatalogs => paperCatalogs.Name == history.Input.Paper.Name)
-                    .Select(x => x.Prices == history.Input.Paper.Prices)
+                    .Select(x => x.Prices == history.PaperPrice)
                     .FirstAsync(cancellationToken);
             }
             catch
