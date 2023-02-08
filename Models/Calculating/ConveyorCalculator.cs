@@ -14,12 +14,10 @@ namespace printing_calculator.Models.Calculating
         private readonly ILogger<ConveyorCalculator> _logger;
         private readonly GeneratorHistory _generatorHistory;
 
-        public ConveyorCalculator(IOptions<Setting> options, 
-            ApplicationContext applicationContext, 
+        public ConveyorCalculator(ApplicationContext applicationContext, 
             ILogger<ConveyorCalculator> logger,
             GeneratorHistory generatorHistory)
         {
-           // _settings = options.Value;
             _applicationContext = applicationContext;
             _logger = logger;
             _generatorHistory = generatorHistory;

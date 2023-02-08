@@ -1,15 +1,16 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationCostPriсe : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
+        private readonly Setting _settings;
         private readonly ApplicationContext _applicationContext;
 
-        public LamonationCostPriсe(DataBase.setting.Setting settings, ApplicationContext applicationContext)
+        public LamonationCostPriсe(Setting settings, ApplicationContext applicationContext)
         {
             _settings= settings;
             _applicationContext = applicationContext;

@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosDrilling : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
+        private readonly Setting _settings;
 
-        public PosDrilling(DataBase.setting.Setting settings)
+        public PosDrilling(Setting settings)
         {
             _settings = settings;
         }
@@ -38,7 +38,6 @@ namespace printing_calculator.Models.ConveyorCalculating
 
 
             float drillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * drillingSetting.AddMoreHit) + drillingSetting.ConsumableOther;
-                //_setting.DrillingAddHit) + _setting.DrillingOneProduct;
             int actualPrice = (int)((drillingPriceOneProduct * result.Amount) + (drillingSetting.AdjustmenPrice * result.Kinds));
             int? price = history.DrillingPrice;
 

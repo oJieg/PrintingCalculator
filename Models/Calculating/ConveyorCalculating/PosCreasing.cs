@@ -1,16 +1,14 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
-using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosCreasing : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
+        private readonly Setting _settings;
 
-        public PosCreasing(DataBase.setting.Setting settings)
+        public PosCreasing(Setting settings)
         {
             _settings = settings;
         }
@@ -39,7 +37,6 @@ namespace printing_calculator.Models.ConveyorCalculating
             
 
             float creasingPriceOneProduct = (int)((history.Input.CreasingAmount - 1) * CreasingSetting.AddMoreHit) + CreasingSetting.ConsumableOther;
-                //_setting.CreasingAddHit) + _setting.CreasingOneProduct;
             int actualPrice = (int)((creasingPriceOneProduct * result.Amount) + (CreasingSetting.AdjustmenPrice * result.Kinds));
             int? price = history.CreasingPrice;
 

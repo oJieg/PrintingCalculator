@@ -1,6 +1,5 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
@@ -29,9 +28,7 @@ namespace printing_calculator.Models.ConveyorCalculating
         private int PiecePerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
             int SizePaperHeight = sizePaper.Height - (int)_settings.PrintingsMachines[0].WhiteFieldHeight;
-                //.WhiteFieldHeight;
             int SizePaperWidth = sizePaper.Width - (int)_settings.PrintingsMachines[0].WhiteFieldWidth;
-            //.WhiteFieldWidth;
 
             int HorizontOrientation = Splitting(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
             int VerticalOrientation = Splitting(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);

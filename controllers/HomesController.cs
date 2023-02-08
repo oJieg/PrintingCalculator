@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
 using printing_calculator.DataBase.setting;
 
@@ -29,21 +27,6 @@ namespace printing_calculator.controllers
 
         public IActionResult Changelog()
         {
-            //Setting? setting = _applicationContext.Settings.Where(x=>x.Id==1)
-            //    .Include(x=> x.PosMachines)
-            //        .ThenInclude(x=>x.Markup)
-            //    .Include(x=>x.PrintingsMachines)
-            //        .ThenInclude(x=>x.Markup)
-            //    .Include(x=>x.Machines)
-            //        .ThenInclude(x=>x.Markup)
-            //    .FirstOrDefault();
-            //if (setting != null)
-            //{
-
-
-            //    _logger.LogError(setting.PrintingsMachines[0].NameMAchine);
-            //}
-            
             return View("Chengelog");
         }
 

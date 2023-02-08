@@ -1,5 +1,4 @@
-﻿using printing_calculator.Models.Settings;
-using printing_calculator.DataBase.setting;
+﻿using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models
 {
@@ -9,10 +8,10 @@ namespace printing_calculator.Models
         private float _maxMarkupInBorder;
         private int _differenceMarkup;
         private int _minimumBorderSheetsForMarkup;
-        private readonly List<DataBase.setting.Markups> _markup;
+        private readonly List<Markups> _markup;
 
 
-        public CalculatingMarkup(List<DataBase.setting.Markups> markups)
+        public CalculatingMarkup(List<Markups> markups)
         {
             _markup = markups;
         }

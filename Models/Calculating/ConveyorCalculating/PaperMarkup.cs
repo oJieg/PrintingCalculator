@@ -1,14 +1,14 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperMarkup : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
+        private readonly Setting _settings;
 
-        public PaperMarkup(DataBase.setting.Setting settings)
+        public PaperMarkup(Setting settings)
         {
             _settings = settings;
         }

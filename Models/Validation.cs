@@ -1,22 +1,28 @@
 ﻿using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models
 {
     public class Validation
     {
         private readonly ApplicationContext _applicationContext;
-        private readonly Setting _settings;
+        private PrintingMachineSetting? _printingMachineSetting;
 
-        public Validation(ApplicationContext applicationContext, IOptions<Setting> options)
+        public Validation(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _settings = options.Value;
         }
 
         public async Task<bool> TryValidateInputAsync(Input input, CancellationToken cancellationToken)
         {
+            _printingMachineSetting = _applicationContext.PrintingMachinesSettings.FirstOrDefault();
+            if (_printingMachineSetting == null)
+            {
+                return false;
+            }
+
             return input != null &&
                 TryValidationSize(input.Whidth) &&
                 TryValidationSize(input.Height) &&
@@ -30,7 +36,7 @@ namespace printing_calculator.Models
 
         private bool TryValidationSize(int size)
         {
-            return size > 0 && size < _settings.SettingPrinter.MaximumSize;
+            return size > 0 && size < _printingMachineSetting.MaximumSizeLength;
         }
 
         private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
@@ -72,7 +78,7 @@ namespace printing_calculator.Models
 
         private bool TryValidationPos(int countPos)
         {
-            return countPos == 0 || (countPos > 0 && countPos < _settings.Pos.MaximumAmount);
+            return countPos == 0 || (countPos > 0 && countPos < 50);
         }
     }
 }

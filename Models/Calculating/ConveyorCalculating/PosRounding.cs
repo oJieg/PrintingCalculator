@@ -1,15 +1,14 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
 using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosRounding : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
+        private readonly Setting _settings;
 
-        public PosRounding(DataBase.setting.Setting settings)
+        public PosRounding(Setting settings)
         {
             _settings = settings;
         }
