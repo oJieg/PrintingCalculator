@@ -1,21 +1,27 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosDrilling : IConveyor
     {
-        private readonly Pos _setting;
+        private readonly DataBase.setting.Setting _settings;
 
-        public PosDrilling(Pos setting)
+        public PosDrilling(DataBase.setting.Setting settings)
         {
-            _setting = setting;
+            _settings = settings;
         }
 
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromResult((history, result, false));
+            }
+
+            PosMachinesSetting? drillingSetting = _settings.PosMachines.Where(x => x.NameMAchine == "drilling").FirstOrDefault();
+            if (drillingSetting == null)
             {
                 return Task.FromResult((history, result, false));
             }
@@ -30,8 +36,10 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, true));
             }
 
-            float drillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * _setting.DrillingAddHit) + _setting.DrillingOneProduct;
-            int actualPrice = (int)((drillingPriceOneProduct * result.Amount) + (_setting.DrillingAdjustmen * result.Kinds));
+
+            float drillingPriceOneProduct = (int)((history.Input.DrillingAmount - 1) * drillingSetting.AddMoreHit) + drillingSetting.ConsumableOther;
+                //_setting.DrillingAddHit) + _setting.DrillingOneProduct;
+            int actualPrice = (int)((drillingPriceOneProduct * result.Amount) + (drillingSetting.AdjustmenPrice * result.Kinds));
             int? price = history.DrillingPrice;
 
             if (price == null)

@@ -33,15 +33,10 @@ namespace printing_calculator.controllers.WebApi
         [Route("{historyId}/{newAmount}")]
         public async Task<ActionResult<int>> Recalculation(int historyId, int newAmount, CancellationToken cancellationToken)
         {
-            Input input = await _generatorHistory.GetInputFromHistoryId(historyId, newAmount);
-
-
-            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
-            if (history == null)
-                return -1; //или другой код ошибки
+            СalculationHistory history;
 
             Result result;
-            (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(history, cancellationToken);
+            (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
 
             if (!tryAnswer)
             {

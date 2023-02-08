@@ -5,6 +5,7 @@ using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
 
+
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
@@ -37,15 +38,13 @@ namespace printing_calculator.controllers
                 return BadRequest();
             }
 
-            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
-            if (history == null)
-                return NotFound(); //или другой код ошибки
+            СalculationHistory? history;
 
             Result result;
 
             try
             {
-                (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(history, cancellationToken);
+                (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(input, cancellationToken);
 
                 if (!tryAnswer)
                 {
@@ -80,15 +79,12 @@ namespace printing_calculator.controllers
         [HttpGet]
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
-            ConveyorCalculator conveyor = _calculator;
-            СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
-            if (history == null)
-                return NotFound(); //или другой код ошибки
 
+            СalculationHistory? history;
             Result result;
             try
             {
-                (history, result, bool tryAnswer) = await conveyor.TryStartCalculation(history, cancellationToken);
+                (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
 
                 if (!tryAnswer)
                 {

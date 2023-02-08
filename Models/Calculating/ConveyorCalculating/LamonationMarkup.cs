@@ -6,11 +6,11 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationMarkup : IConveyor
     {
-        private readonly List<Markup> _markup;
+        private readonly DataBase.setting.Setting _settings;
 
-        public LamonationMarkup(Settings.Lamination laminationSetting)
+        public LamonationMarkup(DataBase.setting.Setting settings)
         {
-            _markup = laminationSetting.Markups;
+            _settings= settings;
         }
 
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, true));
             }
 
-            CalculatingMarkup markups = new(_markup);
+            CalculatingMarkup markups = new(_settings.Machines[0].Markup);
             int markup = markups.GetMarkup(result.PaperResult.Sheets);
 
             if (history.LaminationMarkup == null)
