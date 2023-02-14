@@ -13,7 +13,7 @@ namespace printing_calculator.Models
 
         public CalculatingMarkup(List<Markups> markups)
         {
-            _markup = markups;
+            _markup = markups.OrderBy(x=>x.Page).ToList();
         }
 
         public int GetMarkup(int sheets)

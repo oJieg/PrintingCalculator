@@ -3,22 +3,22 @@
     public class PrintingMachineSetting : MachineSetting
     {
         /// <summary>
-        /// не печатные поля ширина
+        /// не печатные поля по короткой стороне
         /// </summary>
         public float WhiteFieldWidth { get; set; }
 
         /// <summary>
-        /// не печатные поля высота
+        /// не печатные поля по длинной стороне
         /// </summary>
         public float WhiteFieldHeight { get; set;}
 
         /// <summary>
-        /// максимальная длинна листа
+        /// максимальная длинна листа(по длинной стороне)
         /// </summary>
         public int MaximumSizeLength { get; set; }
 
         /// <summary>
-        /// максимальная ширина листа
+        /// максимальная ширина листа(по короткой стороне)
         /// </summary>
         public int MaximumSizeWidth { get; set;}
 
@@ -38,7 +38,7 @@
         public int ConsumableDye { get; set; }
 
         /// <summary>
-        /// количество отпечатков для основного печатующего расходника(фотоборабаны(х4) или голова)
+        /// количество отпечатков для основного печатующего расходника(фотоборабаны(х4))
         /// </summary>
         public int MainConsumableForDrawing { get; set; } 
 
