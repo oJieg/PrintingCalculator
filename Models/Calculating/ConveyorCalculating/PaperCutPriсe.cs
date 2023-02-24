@@ -1,17 +1,17 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCutPriсe : IConveyor
     {
-        private readonly CutSetting _cutSetting;
-        private const int CountOfPapersInOneAdjustmentCut = 30; //количество листов в одной привертке при резке
+        private readonly Setting _settings;
+        private  int? _countOfPapersInOneAdjustmentCut; //количество листов в одной привертке при резке
 
-        public PaperCutPriсe(CutSetting cutSetting)
+        public PaperCutPriсe(Setting settings)
         {
-            _cutSetting = cutSetting;
+            _settings = settings;
         }
 
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
@@ -20,11 +20,19 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, false));
             }
+            PosMachinesSetting? cuttingSetting = _settings.PosMachines.Where(x => x.NameMachine == "cuting").FirstOrDefault();
+            if (cuttingSetting == null) 
+            {
+                return Task.FromResult((history, result, false));
+            }
+            _countOfPapersInOneAdjustmentCut = cuttingSetting.CountOfPapersInOneAdjustmentCut;
 
             try
             {
-                int cutOneAdjustmentPrice = Convert.ToInt32((result.PaperResult.PiecesPerSheet * _cutSetting.OneCutPrice) + _cutSetting.AdjustmentCutPrice);
-                int cutPrice = cutOneAdjustmentPrice * (int)Math.Ceiling((double)result.PaperResult.Sheets / (double)CountOfPapersInOneAdjustmentCut);
+                int cutOneAdjustmentPrice = Convert.ToInt32((result.PaperResult.PiecesPerSheet *
+                    cuttingSetting.ConsumableOther) +
+                    cuttingSetting.AdjustmenPrice);
+                int cutPrice = cutOneAdjustmentPrice * (int)Math.Ceiling((double)result.PaperResult.Sheets / (double)_countOfPapersInOneAdjustmentCut);
                 if (history.CutPrice == null)
                 {
                     result.PaperResult.CutPrics = cutPrice;

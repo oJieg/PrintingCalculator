@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator
 {
@@ -11,10 +12,17 @@ namespace printing_calculator
         public DbSet<СalculationHistory> Histories { get; set; } = null!;
         public DbSet<InputHistory> InputsHistories { get; set; } = null!;
         public DbSet<PaperCatalog> PaperCatalogs { get; set; } = null!;
+        public DbSet<Setting> Settings { get; set; } = null!;
+        public DbSet<Markup> Markups { get; set; } = null!;
+        public DbSet<MachineSetting> MachineSettings { get; set; } = null!;
+        public DbSet<PrintingMachineSetting> PrintingMachinesSettings { get; set; } = null!;
+        public DbSet<PosMachinesSetting> PosMachinesSettings { get; set; } = null!;
+		public DbSet<CommonToAllMarkup> CommonToAllMarkups { get; set; } = null!;
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
     : base(options)
         {
             Database.EnsureCreated();
         }
-    }
+	}
 }

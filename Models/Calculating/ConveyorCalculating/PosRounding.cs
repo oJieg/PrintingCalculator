@@ -1,22 +1,29 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosRounding : IConveyor
     {
-        private readonly Pos _setting;
+        private readonly Setting _settings;
 
-        public PosRounding(Pos setting)
+        public PosRounding(Setting settings)
         {
-            _setting = setting;
+            _settings = settings;
         }
 
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
+            {
                 return Task.FromResult((history, result, false));
+            }
+            PosMachinesSetting? roundingSetting = _settings.PosMachines.Where(x => x.NameMachine == "rounding").FirstOrDefault();
+            if (roundingSetting == null)
+            {
+                return Task.FromResult((history, result, false));
+            }
 
             result.PosResult ??= new PosResult();
 
@@ -27,7 +34,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.PosResult.RoundingPrice = 0;
                 return Task.FromResult((history, result, true));
             }
-            int actualPrice = (int)((result.Amount * _setting.RoundingOneProduct) + (result.Kinds * _setting.RoundingAdjustmen));
+            int actualPrice = (int)((result.Amount * roundingSetting.ConsumableOther) + (result.Kinds * roundingSetting.AdjustmenPrice));
             int? price = history.RoundingPrice;
 
             if (price == null)
