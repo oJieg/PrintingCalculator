@@ -1,4 +1,4 @@
-﻿using printing_calculator.Models.Settings;
+﻿using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models
 {
@@ -13,7 +13,7 @@ namespace printing_calculator.Models
 
         public CalculatingMarkup(List<Markup> markups)
         {
-            _markup = markups;
+            _markup = markups.OrderBy(x=>x.Page).ToList();
         }
 
         public int GetMarkup(int sheets)

@@ -28,6 +28,8 @@ namespace printing_calculator.controllers
                     .Where(lamination => lamination.Status > 0)
                     .OrderBy(lamunation => lamunation.Id)
                     .ToListAsync(cancellationToken);
+                PaperAndHistoryInput.commonToAllMarkups = await _applicationContext.CommonToAllMarkups
+                    .ToListAsync();
             }
             catch (OperationCanceledException)
             {

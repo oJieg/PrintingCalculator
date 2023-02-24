@@ -1,17 +1,18 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationCostPriсe : IConveyor
     {
-        private readonly Settings.Lamination _lamination;
+        private readonly Setting _settings;
         private readonly ApplicationContext _applicationContext;
 
-        public LamonationCostPriсe(Settings.Lamination lamination, ApplicationContext applicationContext)
+        public LamonationCostPriсe(Setting settings, ApplicationContext applicationContext)
         {
-            _lamination = lamination;
+            _settings= settings;
             _applicationContext = applicationContext;
         }
 
@@ -25,7 +26,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             try
             {
-                int сostPrice = Convert.ToInt32((history.LaminationPrices + _lamination.Job) * result.PaperResult.Sheets);
+                int сostPrice = Convert.ToInt32((history.LaminationPrices + _settings.Machines[0].ConsumableOther) * result.PaperResult.Sheets);
                 result.LaminationResult.CostPrice = сostPrice;
 
                 result.LaminationResult.ActualCostPrics =

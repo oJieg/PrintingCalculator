@@ -19,7 +19,6 @@ namespace printing_calculator
             services.AddTransient<ConveyorCalculator>();
             services.AddTransient<GeneratorHistory>();
             services.AddTransient<Validation>();
-            services.Configure<Setting>(_configuration.GetSection(nameof(Setting)));
 
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -65,7 +64,12 @@ namespace printing_calculator
                    pattern: "{controller=Setting}/{action=Paper}/{id?}");
                 endpoints.MapControllers();
 
-                endpoints.MapControllerRoute(
+				endpoints.MapControllerRoute(
+				   name: "Setting",
+				   pattern: "{controller=SettingMashines}/{action=Index}/{id?}");
+				endpoints.MapControllers();
+
+				endpoints.MapControllerRoute(
                    name: "MailTransfer",
                    pattern: "{controller=MailTransfer}/{action=Client}/{id?}");
                 endpoints.MapControllers();

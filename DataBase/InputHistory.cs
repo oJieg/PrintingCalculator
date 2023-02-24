@@ -14,5 +14,6 @@
         public int CreasingAmount { get; set; }
         public int DrillingAmount { get; set; }
         public bool RoundingAmount { get; set; }
-    }
+		public List<string>? CommonToAllMarkupName { get; set; } = null!;
+	}
 }

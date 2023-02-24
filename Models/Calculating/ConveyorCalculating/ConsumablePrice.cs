@@ -6,12 +6,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class ConsumablePrice : IConveyor
     {
-        private readonly Consumable _consumable;
+        private readonly DataBase.setting.Setting _settings;
         private readonly ApplicationContext _applicationContext;
 
-        public ConsumablePrice(Consumable consumable, ApplicationContext applicationContext)
+        public ConsumablePrice(DataBase.setting.Setting settings, ApplicationContext applicationContext)
         {
-            _consumable = consumable;
+            _settings = settings;
             _applicationContext = applicationContext;
         }
 
@@ -33,9 +33,9 @@ namespace printing_calculator.Models.ConveyorCalculating
                 float drumPrice = (float)(history.ConsumablePrice.DrumPrice1
                     + history.ConsumablePrice.DrumPrice2
                     + history.ConsumablePrice.DrumPrice3
-                    + history.ConsumablePrice.DrumPrice4) / (float)_consumable.Photoconductors;
-                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / (float)_consumable.CMYK;
-                float price = drumPrice + CMUKprice + _consumable.Other;
+                    + history.ConsumablePrice.DrumPrice4) / _settings.PrintingsMachines[0].MainConsumableForDrawing;
+                float CMUKprice = (float)history.ConsumablePrice.TonerPrice / _settings.PrintingsMachines[0].ConsumableDye;
+                float price = drumPrice + CMUKprice + _settings.PrintingsMachines[0].ConsumableOther;
                 if (result.PaperResult.Duplex)
                 {
                     price *= 2;

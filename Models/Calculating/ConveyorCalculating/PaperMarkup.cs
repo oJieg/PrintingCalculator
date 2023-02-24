@@ -1,16 +1,16 @@
 ﻿using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Settings;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperMarkup : IConveyor
     {
-        private readonly Setting _markup;
+        private readonly Setting _settings;
 
-        public PaperMarkup(Setting markup)
+        public PaperMarkup(Setting settings)
         {
-            _markup = markup;
+            _settings = settings;
         }
 
         public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, false));
             }
 
-            CalculatingMarkup markup = new(_markup.MarkupPaper);
+            CalculatingMarkup markup = new(_settings.PrintingsMachines[0].Markups);
             int markupPaper = markup.GetMarkup(result.PaperResult.Sheets);
 
             if (history.MarkupPaper == null)
