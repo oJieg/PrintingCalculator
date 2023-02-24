@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, false));
             }
 
-            PosMachinesSetting? drillingSetting = _settings.PosMachines.Where(x => x.NameMAchine == "drilling").FirstOrDefault();
+            PosMachinesSetting? drillingSetting = _settings.PosMachines.Where(x => x.NameMachine == "drilling").FirstOrDefault();
             if (drillingSetting == null)
             {
                 return Task.FromResult((history, result, false));

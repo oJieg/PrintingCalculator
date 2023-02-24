@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.DataBase.setting
 {
-    public class Markups
+    public class Markup
     {
         public int Id { get; set; }
         public int Page { get; set; }

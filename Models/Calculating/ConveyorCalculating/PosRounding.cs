@@ -19,7 +19,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, false));
             }
-            PosMachinesSetting? roundingSetting = _settings.PosMachines.Where(x => x.NameMAchine == "rounding").FirstOrDefault();
+            PosMachinesSetting? roundingSetting = _settings.PosMachines.Where(x => x.NameMachine == "rounding").FirstOrDefault();
             if (roundingSetting == null)
             {
                 return Task.FromResult((history, result, false));

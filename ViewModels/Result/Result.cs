@@ -12,7 +12,10 @@
         public PosResult PosResult { get; set; } = new();
         public int Price { get; set; }
         public bool TryPrice { get; set; }
-        public bool IsActualPaperPrice()
+        public List<string> CommonToAllMarkupName { get; set; }
+		public List<bool> TryCommonToAllMarkup { get; set; }
+
+		public bool IsActualPaperPrice()
         {
             bool actualPaperPrice = PaperResult.ActualConsumablePrice &&
                 PaperResult.ActualMarkupPaper &&

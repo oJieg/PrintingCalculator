@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, false));
             }
-            PosMachinesSetting? cuttingSetting = _settings.PosMachines.Where(x => x.NameMAchine == "cuting").FirstOrDefault();
+            PosMachinesSetting? cuttingSetting = _settings.PosMachines.Where(x => x.NameMachine == "cuting").FirstOrDefault();
             if (cuttingSetting == null) 
             {
                 return Task.FromResult((history, result, false));

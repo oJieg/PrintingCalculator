@@ -1,18 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace printing_calculator.DataBase.setting
 {
-    public class MachineSetting
+	[Index(nameof(NameMachine), IsUnique = true)]
+	public class MachineSetting
     {
         public int Id { get; set; }
         //[ForeignKey("Setting")]
-        //public int SettingId { get; set; }
-        public string NameMAchine { get; set; }
+      //  public int SettingId { get; set; }
+        public string NameMachine { get; set; }
 
         /// <summary>
         /// наценка за готовый лист(цена печати+бумаги)
         /// </summary>
-        public List<Markups> Markup { get; set; }
+        public List<Markup> Markups { get; set; }
 
         /// <summary>
         /// доп надбавочная цена за действие (на эту цену действет маркап!)

@@ -1,12 +1,13 @@
 ﻿using printing_calculator.DataBase;
+using printing_calculator.DataBase.setting;
 using printing_calculator.ViewModels.Result;
 
 namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperSplitting : IConveyor
     {
-        private readonly DataBase.setting.Setting _settings;
-        public PaperSplitting(DataBase.setting.Setting settings)
+        private readonly Setting _settings;
+        public PaperSplitting(Setting settings)
         {
             _settings = settings;
         }

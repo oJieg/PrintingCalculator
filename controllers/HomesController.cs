@@ -83,76 +83,76 @@ namespace printing_calculator.controllers
 
         private async Task addDefoltSettingMashine()
         {
-            Markups printMarkups0 = new()
+            Markup printMarkups0 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 350
             };
-            Markups printMarkups10 = new()
+            Markup printMarkups10 = new()
             {
                 Page = 10,
                 MarkupForThisPage = 300
             };
-            Markups printMarkups50 = new()
+            Markup printMarkups50 = new()
             {
                 Page = 50,
                 MarkupForThisPage = 200
             };
-            Markups printMarkups100 = new()
+            Markup printMarkups100 = new()
             {
                 Page = 100,
                 MarkupForThisPage = 175
             };
-            Markups printMarkups250 = new()
+            Markup printMarkups250 = new()
             {
                 Page = 250,
                 MarkupForThisPage = 90
             };
 
-            Markups laminationMarkups0 = new()
+            Markup laminationMarkups0 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 120
             };
-            Markups laminationMarkups30 = new()
+            Markup laminationMarkups30 = new()
             {
                 Page = 30,
                 MarkupForThisPage = 100
             };
-            Markups laminationMarkups150 = new()
+            Markup laminationMarkups150 = new()
             {
                 Page = 150,
                 MarkupForThisPage = 10
             };
 
-            Markups markupZiro1 = new()
+            Markup markupZiro1 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 0
             };
-            Markups markupZiro2 = new()
+            Markup markupZiro2 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 0
             };
-            Markups markupZiro3 = new()
+            Markup markupZiro3 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 0
             };
-            Markups markupZiro4 = new()
+            Markup markupZiro4 = new()
             {
                 Page = 0,
                 MarkupForThisPage = 0
             };
 
-            List<Markups> printMarkups = new() { printMarkups0,printMarkups10,printMarkups50,printMarkups100,printMarkups250 };
-            List<Markups> laminationMarkup = new() { laminationMarkups0,laminationMarkups30,laminationMarkups150 };
+            List<Markup> printMarkups = new() { printMarkups0,printMarkups10,printMarkups50,printMarkups100,printMarkups250 };
+            List<Markup> laminationMarkup = new() { laminationMarkups0,laminationMarkups30,laminationMarkups150 };
 
             PrintingMachineSetting printingMachine = new()
             {
-                NameMAchine = "180",
-                Markup = new(printMarkups),
+                NameMachine = "180",
+                Markups = new(printMarkups),
                 ConsumableOther = 3,
                 AdjustmenPrice = 0,
 
@@ -170,15 +170,15 @@ namespace printing_calculator.controllers
             };
             MachineSetting Laminator = new()
             {
-                NameMAchine = "laminator",
-                Markup = new(laminationMarkup),
+                NameMachine = "laminator",
+                Markups = new(laminationMarkup),
                 ConsumableOther = 30,
                 AdjustmenPrice = 50
             };
             PosMachinesSetting cut = new()
             {
-                NameMAchine = "cuting",
-                Markup = new(1) { markupZiro1},
+                NameMachine = "cuting",
+                Markups = new(1) { markupZiro1},
                 ConsumableOther = 0,
                 AdjustmenPrice = 0,
                 CountOfPapersInOneAdjustmentCut = 100,
@@ -186,8 +186,8 @@ namespace printing_calculator.controllers
             };
             PosMachinesSetting Creasing = new()
             {
-                NameMAchine = "creasing",
-                Markup = new(1) { markupZiro2},
+                NameMachine = "creasing",
+                Markups = new(1) { markupZiro2},
                 ConsumableOther = 1,
                 AdjustmenPrice = 150,
                 CountOfPapersInOneAdjustmentCut = 1,
@@ -195,8 +195,8 @@ namespace printing_calculator.controllers
             };
             PosMachinesSetting Drilling = new()
             {
-                NameMAchine = "drilling",
-                Markup = new(1) { markupZiro3},
+                NameMachine = "drilling",
+                Markups = new(1) { markupZiro3},
                 ConsumableOther = 0.6f,
                 AdjustmenPrice = 150,
                 CountOfPapersInOneAdjustmentCut = 1,
@@ -204,23 +204,39 @@ namespace printing_calculator.controllers
             };
             PosMachinesSetting Rounding = new()
             {
-                NameMAchine = "rounding",
-                Markup = new(1) { markupZiro4},
+                NameMachine = "rounding",
+                Markups = new(1) { markupZiro4},
                 ConsumableOther = 0.5f,
                 AdjustmenPrice = 150,
                 CountOfPapersInOneAdjustmentCut = 1,
                 AddMoreHit = 0
             };
-            Setting setting = new()
+            CommonToAllMarkup commonToAllMarkup = new()
+            {
+                Name = "срочно",
+                Description = "изготовить в течении часа-двух",
+                PercentMarkup = 100,
+                Adjustmen = 0
+            };
+			CommonToAllMarkup commonToAllMarkup2 = new()
+			{
+				Name = "сложная резка",
+				Description = "сложна",
+				PercentMarkup = 0,
+				Adjustmen = 150
+			};
+			Setting setting = new()
             {
                 PrintingsMachines = new() { printingMachine },
                 Machines = new() { Laminator },
-                PosMachines = new() { cut, Creasing, Drilling, Rounding }
+                PosMachines = new() { cut, Creasing, Drilling, Rounding },
+                CommonToAllMarkups = new() { commonToAllMarkup, commonToAllMarkup2 }
             };
 
             _applicationContext.Markups.AddRange(printMarkups0, printMarkups10, printMarkups50, printMarkups100, printMarkups250);
             _applicationContext.Markups.AddRange(laminationMarkups0, laminationMarkups30, laminationMarkups150);
             _applicationContext.Markups.AddRange(markupZiro1,markupZiro2,markupZiro3,markupZiro4);
+            _applicationContext.CommonToAllMarkups.AddRange(commonToAllMarkup, commonToAllMarkup2);
 
             _applicationContext.MachineSettings.Add(Laminator);
             _applicationContext.PrintingMachinesSettings.Add(printingMachine);

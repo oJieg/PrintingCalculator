@@ -64,7 +64,12 @@ namespace printing_calculator
                    pattern: "{controller=Setting}/{action=Paper}/{id?}");
                 endpoints.MapControllers();
 
-                endpoints.MapControllerRoute(
+				endpoints.MapControllerRoute(
+				   name: "Setting",
+				   pattern: "{controller=SettingMashines}/{action=Index}/{id?}");
+				endpoints.MapControllers();
+
+				endpoints.MapControllerRoute(
                    name: "MailTransfer",
                    pattern: "{controller=MailTransfer}/{action=Client}/{id?}");
                 endpoints.MapControllers();

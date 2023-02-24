@@ -14,7 +14,9 @@
         public int Creasing { get; set; }
         public int Drilling { get; set; }
         public bool Rounding { get; set; }
+        public List<string> CommonToAllMarkup { get; set; }
 
-        public bool NoSaveDB { get; set; }
+
+		public bool NoSaveDB { get; set; }
     }
 }

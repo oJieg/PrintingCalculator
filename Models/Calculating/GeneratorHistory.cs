@@ -63,6 +63,7 @@ namespace printing_calculator.Models.Calculating
                 history.Input.CreasingAmount = input.Creasing;
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
+                history.Input.CommonToAllMarkupName = input.CommonToAllMarkup;
 
                 await GetHistoryAsync(history, input, cancellationToken);
                 if (input.LaminationName != null || history.Input.Lamination != null)
@@ -72,6 +73,7 @@ namespace printing_calculator.Models.Calculating
                 }
 
                 history.PaperPrice = history.Input.Paper.Prices;
+                
             }
             catch (Exception ex)
             {

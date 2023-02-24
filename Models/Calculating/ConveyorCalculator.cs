@@ -53,13 +53,14 @@ namespace printing_calculator.Models.Calculating
             {
                 return (new СalculationHistory(), result, false);
             }
-            _settings =   _applicationContext.Settings.Where(x=>x.Id==1)
+            _settings = _applicationContext.Settings.Where(x => x.Id == 1)
                 .Include(x => x.PosMachines)
-                    .ThenInclude(x => x.Markup)
+                    .ThenInclude(x => x.Markups)
                 .Include(x => x.PrintingsMachines)
-                    .ThenInclude(x => x.Markup)
+                    .ThenInclude(x => x.Markups)
                 .Include(x => x.Machines)
-                    .ThenInclude(x => x.Markup)
+                    .ThenInclude(x => x.Markups)
+                .Include(x => x.CommonToAllMarkups)
                 .FirstOrDefault();
             if(_settings == null)
             {
@@ -89,7 +90,7 @@ namespace printing_calculator.Models.Calculating
                 new PaperCostPrice(_applicationContext),
                 new PaperMarkup(_settings),
                 new PaperCutPriсe(_settings),
-                new PaperPriсe(),
+                new PaperPriсe(_settings),
                 new LamonationInfo(),
                 new LamonationMarkup(_settings),
                 new LamonationCostPriсe(_settings, _applicationContext),
@@ -97,7 +98,7 @@ namespace printing_calculator.Models.Calculating
                 new PosCreasing(_settings),
                 new PosDrilling(_settings),
                 new PosRounding(_settings),
-                new AllPrice(),
+                new AllPrice(_settings),
             };
             return conveyors;
         }

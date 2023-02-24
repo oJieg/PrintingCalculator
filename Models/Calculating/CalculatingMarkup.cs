@@ -8,10 +8,10 @@ namespace printing_calculator.Models
         private float _maxMarkupInBorder;
         private int _differenceMarkup;
         private int _minimumBorderSheetsForMarkup;
-        private readonly List<Markups> _markup;
+        private readonly List<Markup> _markup;
 
 
-        public CalculatingMarkup(List<Markups> markups)
+        public CalculatingMarkup(List<Markup> markups)
         {
             _markup = markups.OrderBy(x=>x.Page).ToList();
         }

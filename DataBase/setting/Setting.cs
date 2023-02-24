@@ -6,5 +6,6 @@
         public List<PrintingMachineSetting> PrintingsMachines { get; set; }
         public List<MachineSetting> Machines { get; set; }
         public List<PosMachinesSetting> PosMachines { get; set;}
+        public List<CommonToAllMarkup> CommonToAllMarkups { get; set; }
     }
 }

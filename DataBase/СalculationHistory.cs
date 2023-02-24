@@ -15,5 +15,5 @@
         public int? DrillingPrice { get; set; }
         public int? RoundingPrice { get; set; }
         public int? Price { get; set; }
-    }
+	}
 }

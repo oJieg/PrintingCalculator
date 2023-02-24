@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, false));
             }
 
-            CalculatingMarkup markup = new(_settings.PrintingsMachines[0].Markup);
+            CalculatingMarkup markup = new(_settings.PrintingsMachines[0].Markups);
             int markupPaper = markup.GetMarkup(result.PaperResult.Sheets);
 
             if (history.MarkupPaper == null)

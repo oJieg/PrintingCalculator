@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, false));
             }
 
-            PosMachinesSetting? CreasingSetting = _settings.PosMachines.Where(x => x.NameMAchine == "creasing").FirstOrDefault();
+            PosMachinesSetting? CreasingSetting = _settings.PosMachines.Where(x => x.NameMachine == "creasing").FirstOrDefault();
             if (CreasingSetting == null)
             {
                 return Task.FromResult((history, result, false));
