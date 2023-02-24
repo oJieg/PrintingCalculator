@@ -8,8 +8,6 @@ namespace printing_calculator.DataBase.setting
 	public class MachineSetting
     {
         public int Id { get; set; }
-        //[ForeignKey("Setting")]
-      //  public int SettingId { get; set; }
         public string NameMachine { get; set; }
 
         /// <summary>
