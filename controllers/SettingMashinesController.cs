@@ -223,8 +223,7 @@ namespace printing_calculator.controllers
 
 		public async Task<IActionResult> AddCommonToAllMarkup(CommonToAllMarkup commonToAllMarkup)
 		{
-			if ((commonToAllMarkup.Adjustmen == 0 & commonToAllMarkup.Adjustmen == 0)
-				|| commonToAllMarkup.Name == null
+			if (commonToAllMarkup.Name == null
 				|| commonToAllMarkup.Description == null)
 			{
 				return ErroMessageForEmptyName("Не удалось добавить CommonToAllMarkup. Добавьте хотя бы одно значение и имя.");
