@@ -52,7 +52,7 @@ tr:hover {
 
     .inputNumber:focus {
         border-left-color: #92e4e8;
-        background-color: #e3eaee;
+        background-color: #636363;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
