@@ -60,7 +60,7 @@
 }
 
 @section Style {
-<link rel="stylesheet" type="text/css" href="history.css">
+<link rel="stylesheet" type="text/css" href="/history.css">
 }
 
 <p>Итория</p>
@@ -93,12 +93,12 @@
 
 			@foreach (SimpleResult result in Model.Results)
 			{
-				<tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
+				<tr onclick="document.location='/CalculatorResult?id=@result.HistoryId'">
 					<td>
 						<div class="textTableHistory">@result.HistoryId</div>
 					</td>
 					<td>
-						<div class="textTableHistory">@result.DateTime</div>
+						<div class="textTableHistory">@result.DateTime.AddHours(3)</div>
 					</td>
 					<td>
 						<div class="textTableHistory">@result.Height x @result.Whidth</div>
@@ -150,8 +150,15 @@
 			<input class="buttonNext" type="submit" formmethod="post" formaction="@addressForward" value=">">
 		}
 	</form>
-	<form>
-		<input class="inputNumber" name="page" type="number" min=1 max=@Model.CurrentPage>
-		<input class="button" type="submit" formmethod="post" formaction="@addressHistory" value="перейти">
+
+	<form action="/History/Data">
+			<input type="date" name="data" />
+		<p><button>Поиск</button></p>
 	</form>
+
+	<form action="/CalculatorResult">
+		<input type="number" name="id" />
+		<p><button>Переход по номеру</button></p>
+	</form>
+
 </div>
