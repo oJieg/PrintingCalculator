@@ -4,7 +4,8 @@ using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
-
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.controllers
 {
@@ -61,6 +62,8 @@ namespace printing_calculator.controllers
             {
                 try
                 {
+                    history.DateTime = DateTime.UtcNow;
+
                     _applicationContext.InputsHistories.Add(history.Input);
                     _applicationContext.Histories.Add(history);
 
@@ -100,6 +103,20 @@ namespace printing_calculator.controllers
             result.HistoryInputId = id;
 
             return View("CalculatorResult", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id, string comment, CancellationToken cancellationToken)
+        {
+            СalculationHistory? history = await _applicationContext.Histories
+                .FirstOrDefaultAsync(history => history.Id == id);
+
+            history.Comment = comment;
+
+            _applicationContext.Update(history);
+            await _applicationContext.SaveChangesAsync(cancellationToken);
+
+            return new RedirectResult($"/CalculatorResult?id={id}");
         }
     }
 }

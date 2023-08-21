@@ -1,6 +1,8 @@
 ﻿using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.ViewModels;
+using System.Threading;
+
 
 namespace printing_calculator.Models.Calculating
 {
@@ -150,31 +152,51 @@ namespace printing_calculator.Models.Calculating
 
         public async Task<List<СalculationHistory>> GetHistoryListAsync(int skip, int countPage, CancellationToken cancellationToken)
         {
-            try
-            {
-                return await _applicationContext.Histories
+			IQueryable<СalculationHistory> queryable = _applicationContext.Histories
+				.AsNoTracking()
+				.Include(historys => historys.Input)
+					.ThenInclude(Input => Input.Paper)
+				.Include(historys => historys.Input)
+					.ThenInclude(Input => Input.Lamination)
+				.OrderByDescending(historys => historys.Id)
+				.Skip(skip)
+				.Take(countPage);
+			return await RequestExecution(queryable, cancellationToken);
+		}
+
+		public async Task<List<СalculationHistory>> GetHistoryListForDataAsync(DateTime date, int skip, int countPage, CancellationToken cancellationToken)
+		{
+
+				IQueryable<СalculationHistory> queryable =  _applicationContext.Histories
                     .AsNoTracking()
+                    .Where(x => x.DateTime >= date && x.DateTime <= date.AddDays(1))
                     .Include(historys => historys.Input)
                         .ThenInclude(Input => Input.Paper)
                     .Include(historys => historys.Input)
                         .ThenInclude(Input => Input.Lamination)
                     .OrderByDescending(historys => historys.Id)
                     .Skip(skip)
-                    .Take(countPage)
-                    .ToListAsync(cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                return new List<СalculationHistory>();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Не вышло получить список истории");
-                return new List<СalculationHistory>();
-            }
-        }
+                    .Take(countPage);
+            return await RequestExecution(queryable, cancellationToken);
+		}
+        private async Task<List<СalculationHistory>> RequestExecution(IQueryable<СalculationHistory> queryable, CancellationToken cancellationToken)
+        {
+			try
+			{
+				return await queryable.ToListAsync(cancellationToken);
+			}
+			catch (OperationCanceledException)
+			{
+				return new List<СalculationHistory>();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Не вышло получить список истории");
+				return new List<СalculationHistory>();
+			}
+		}
 
-        public async Task<int> GetCountHistoryAsunc()
+		public async Task<int> GetCountHistoryAsunc()
         {
             return await _applicationContext.Histories.CountAsync();
         }

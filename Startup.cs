@@ -22,7 +22,8 @@ namespace printing_calculator
             services.AddMvc();
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
-            services.AddControllers();
+
+			services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,7 +35,8 @@ namespace printing_calculator
             app.UseStaticFiles();
             app.UseRouting(); // используем систему маршрутизации
 
-            app.UseEndpoints(endpoints =>
+
+			app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",

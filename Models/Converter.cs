@@ -24,7 +24,9 @@ namespace printing_calculator.Models
                 Drilling = history.DrillingPrice > 0,
                 Rounding = history.RoundingPrice > 0,
 
-                Price = history.Price.Value
+                Price = history.Price.Value,
+                DateTime = history.DateTime,
+                Comment = history.Comment
             };
         }
     }

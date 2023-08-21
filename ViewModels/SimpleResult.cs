@@ -13,5 +13,7 @@
         public bool Drilling { get; set; }
         public bool Rounding { get; set; }
         public int Price { get; set; }
+        public DateTime DateTime { get; set; }
+        public string? Comment { get; set; }
     }
 }
