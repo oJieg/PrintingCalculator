@@ -19,20 +19,18 @@
         border-bottom-right-radius: 0;
     }
 
-input.button {
+button.button {
     background-color: #69c469;
     /* background-color: #8fbc8f; */
 
     border: none;
     color: #F4F4F4;
-    padding: 10px 0px;
-    margin: 0;
-    margin-right: 1px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    width: 72px;
+    width: 120px;
+    height: 25px;
     border-radius: 5px;
     -webkit-transition: box-shadow 0.5s;
 }
@@ -55,6 +53,7 @@ input.buttonNext {
     -webkit-transition: box-shadow 0.5s;
 }
 
+
 input.buttonNext:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
@@ -76,6 +75,29 @@ input.buttonNextActiv {
     display: inline-block;
     font-size: 16px;
     width: 30px;
+    border-radius: 5px;
+    cursor: not-allowed;
+}
+
+
+
+button.button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+button.button:active {
+    background-color: #8fbc8f;
+}
+
+button.buttonActiv {
+    background-color: #69c469;
+    border: none;
+    background-color: #bfcebf;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 120px;
     border-radius: 5px;
     cursor: not-allowed;
 }
@@ -118,6 +140,13 @@ tr:hover {
 
 .textTableHistory {
     padding: 0 2vw;
+}
+.textTableHistoryComment {
+    font-size: medium;
+    width: 200px;
+    height: 50px;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }
 
 th {

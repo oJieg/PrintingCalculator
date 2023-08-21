@@ -25,8 +25,8 @@ namespace printing_calculator.Models
                 Rounding = history.RoundingPrice > 0,
 
                 Price = history.Price.Value,
-                DateTime = history.dateTime
-                
+                DateTime = history.DateTime,
+                Comment = history.Comment
             };
         }
     }

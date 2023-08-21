@@ -5,13 +5,13 @@ using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
 using System;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
-	{
-		private readonly ApplicationContext _applicationContext;
+    {
+        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
@@ -62,9 +62,9 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    history.dateTime = DateTime.UtcNow;
+                    history.DateTime = DateTime.UtcNow;
 
-					_applicationContext.InputsHistories.Add(history.Input);
+                    _applicationContext.InputsHistories.Add(history.Input);
                     _applicationContext.Histories.Add(history);
 
                     await _applicationContext.SaveChangesAsync(cancellationToken);
@@ -103,6 +103,20 @@ namespace printing_calculator.controllers
             result.HistoryInputId = id;
 
             return View("CalculatorResult", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id, string comment, CancellationToken cancellationToken)
+        {
+            СalculationHistory? history = await _applicationContext.Histories
+                .FirstOrDefaultAsync(history => history.Id == id);
+
+            history.Comment = comment;
+
+            _applicationContext.Update(history);
+            await _applicationContext.SaveChangesAsync(cancellationToken);
+
+            return new RedirectResult($"/CalculatorResult?id={id}");
         }
     }
 }

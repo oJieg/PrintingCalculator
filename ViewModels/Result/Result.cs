@@ -16,6 +16,7 @@
 		public List<bool> TryCommonToAllMarkup { get; set; }
 
         public DateTime DateTime { get; set; }
+        public string? Comment { get; set; }
 
 		public bool IsActualPaperPrice()
         {

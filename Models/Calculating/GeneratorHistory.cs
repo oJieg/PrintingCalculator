@@ -169,7 +169,7 @@ namespace printing_calculator.Models.Calculating
 
 				IQueryable<СalculationHistory> queryable =  _applicationContext.Histories
                     .AsNoTracking()
-                    .Where(x => x.dateTime >= date && x.dateTime <= date.AddDays(1))
+                    .Where(x => x.DateTime >= date && x.DateTime <= date.AddDays(1))
                     .Include(historys => historys.Input)
                         .ThenInclude(Input => Input.Paper)
                     .Include(historys => historys.Input)

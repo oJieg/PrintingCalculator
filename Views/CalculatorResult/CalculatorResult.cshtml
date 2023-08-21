@@ -43,6 +43,7 @@
 			<p class="totalPrice">Итого</p>
 			<h1 class="totalPrice">@Model.Price руб.</h1>
 			<h2 class="totalPrice">@PriceForOne руб/шт</h2>
+			<h4 class="totalPrice">@Model.DateTime</h4>
 		</div>
 
 		<div class="detalPriceBox">
@@ -144,7 +145,17 @@
 		</div>
 	</div>
 </div>
-<p> @Model.DateTime.AddHours(3)</p>
+
+<div>
+	<form>
+		<input class="inputComment" id="newAnount" name="comment" type="text" value="@Model.Comment">
+		<input style="display:none" class="inputNumber" name="id" value="@Model.HistoryInputId" type="number">
+		<div class="button">
+			<input class="buttonComment" type="submit" formmethod="get" formaction="CalculatorResult/EditComment" value="добавить">
+		</div>
+	</form>
+</div>
+
 <div class="button">
 	<form>
 		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
@@ -153,6 +164,8 @@
 
 	</form>
 </div>
+
+
 
 <div class="button">
 	<form>

@@ -89,6 +89,9 @@
 				<th>
 					<div class="textTableHistory">цена</div>
 				</th>
+				<th>
+					<div class="textTableHistory">коментарий</div>
+				</th>
 			</tr>
 
 			@foreach (SimpleResult result in Model.Results)
@@ -116,6 +119,9 @@
 					</td>
 					<td>
 						<div class="textTableHistory">@result.Price</div>
+					</td>
+					<td>
+						<div class="textTableHistoryComment">@result.Comment</div>
 					</td>
 				</tr>
 			}
@@ -153,12 +159,12 @@
 
 	<form action="/History/Data">
 			<input type="date" name="data" />
-		<p><button>Поиск</button></p>
+		<p><button class="button">Поиск</button></p>
 	</form>
 
 	<form action="/CalculatorResult">
 		<input type="number" name="id" />
-		<p><button>Переход по номеру</button></p>
+		<p><button class="button">По номеру</button></p>
 	</form>
 
 </div>

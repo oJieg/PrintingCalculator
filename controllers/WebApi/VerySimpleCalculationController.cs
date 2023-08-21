@@ -3,8 +3,6 @@ using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
-using printing_calculator.ViewModels;
-
 
 namespace printing_calculator.controllers.WebApi
 {
@@ -46,7 +44,8 @@ namespace printing_calculator.controllers.WebApi
 
             try
             {
-                _applicationContext.InputsHistories.Add(history.Input);
+				history.DateTime = DateTime.UtcNow;
+				_applicationContext.InputsHistories.Add(history.Input);
                 _applicationContext.Histories.Add(history);
 
                 await _applicationContext.SaveChangesAsync(cancellationToken);
