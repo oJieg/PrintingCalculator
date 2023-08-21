@@ -72,6 +72,9 @@
 					<div class="textTableHistory">N</div>
 				</th>
 				<th>
+					<div class="textTableHistory">Дата</div>
+				</th>
+				<th>
 					<div class="textTableHistory">размер</div>
 				</th>
 				<th>
@@ -93,6 +96,9 @@
 				<tr onclick="document.location='CalculatorResult?id=@result.HistoryId'">
 					<td>
 						<div class="textTableHistory">@result.HistoryId</div>
+					</td>
+					<td>
+						<div class="textTableHistory">@result.DateTime</div>
 					</td>
 					<td>
 						<div class="textTableHistory">@result.Height x @result.Whidth</div>

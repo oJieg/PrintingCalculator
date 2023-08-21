@@ -3,7 +3,7 @@
     public class СalculationHistory
     {
         public int Id { get; set; }
-       // public DateTime dateTime { get; set; }
+        public DateTime dateTime { get; set; }
         public InputHistory Input { get; set; } = null!;
         public float PaperPrice { get; set; }
         public ConsumablePrice ConsumablePrice { get; set; } = null!;

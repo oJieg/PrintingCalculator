@@ -18,7 +18,7 @@ namespace printing_calculator.controllers
             _generatorHistory = generatorHistory;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken, int page = 1, int countPage = 10)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken, int page = 1, int countPage = 50)
         {
             if (countPage <= 0 && page <= 0)
             {

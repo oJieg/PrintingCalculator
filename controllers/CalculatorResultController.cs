@@ -61,7 +61,9 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    _applicationContext.InputsHistories.Add(history.Input);
+                    history.dateTime = DateTime.Now;
+
+					_applicationContext.InputsHistories.Add(history.Input);
                     _applicationContext.Histories.Add(history);
 
                     await _applicationContext.SaveChangesAsync(cancellationToken);
