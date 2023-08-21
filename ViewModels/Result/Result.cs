@@ -15,6 +15,8 @@
         public List<string> CommonToAllMarkupName { get; set; }
 		public List<bool> TryCommonToAllMarkup { get; set; }
 
+        public DateTime DateTime { get; set; }
+
 		public bool IsActualPaperPrice()
         {
             bool actualPaperPrice = PaperResult.ActualConsumablePrice &&

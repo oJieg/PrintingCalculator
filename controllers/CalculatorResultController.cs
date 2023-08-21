@@ -4,13 +4,14 @@ using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
+using System;
 
 
 namespace printing_calculator.controllers
 {
     public class CalculatorResultController : Controller
-    {
-        private readonly ApplicationContext _applicationContext;
+	{
+		private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
         private readonly GeneratorHistory _generatorHistory;
@@ -61,7 +62,9 @@ namespace printing_calculator.controllers
             {
                 try
                 {
-                    _applicationContext.InputsHistories.Add(history.Input);
+                    history.dateTime = DateTime.UtcNow;
+
+					_applicationContext.InputsHistories.Add(history.Input);
                     _applicationContext.Histories.Add(history);
 
                     await _applicationContext.SaveChangesAsync(cancellationToken);

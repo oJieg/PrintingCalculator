@@ -17,6 +17,8 @@ namespace printing_calculator.Models.ConveyorCalculating
             result.Kinds = history.Input.Kinds;
             result.Height = history.Input.Height;
             result.Whidth = history.Input.Whidth;
+            result.DateTime = history.dateTime;
+
 
             return Task.FromResult((history, result, true));
         }
