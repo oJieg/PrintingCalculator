@@ -103,17 +103,17 @@ namespace printing_calculator.controllers.WebApi
 
 		// PUT api/<CalculationController>/5
 		[HttpPut]
-		public async Task<bool> Put(int id, string comment, CancellationToken cancellationToken)
+		public async Task<bool> Put(AddComment addComment)
 		{
 			try
 			{
 				СalculationHistory? history = await _applicationContext.Histories
-					.FirstOrDefaultAsync(history => history.Id == id);
+					.FirstOrDefaultAsync(history => history.Id == addComment.Id);
 
-				history.Comment = comment;
+				history.Comment = addComment.Comment;
 
 				_applicationContext.Update(history);
-				await _applicationContext.SaveChangesAsync(cancellationToken);
+				await _applicationContext.SaveChangesAsync(new CancellationToken());
 
 				return true;
 			}
@@ -122,5 +122,11 @@ namespace printing_calculator.controllers.WebApi
 				return false;
 			}
 		}
+
+	}
+	public class AddComment
+	{
+		public int Id { get; set; }
+		public string Comment { get; set; }
 	}
 }

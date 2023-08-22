@@ -148,10 +148,10 @@
 
 <div>
 	<form>
-		<input class="inputComment" id="newAnount" name="comment" type="text" value="@Model.Comment">
-		<input style="display:none" class="inputNumber" name="id" value="@Model.HistoryInputId" type="number">
+		<input class="inputComment" id="comment" name="comment" type="text" value="@Model.Comment">
 		<div class="button">
-			<input class="buttonComment" type="submit" formmethod="get" formaction="CalculatorResult/EditComment" value="добавить">
+			<input class="buttonComment" type="button" onclick="putComment(@Model.HistoryInputId)" value="добавить">
+			<span class="tooltiptext" id="tooltiptext3">Сохранено!</span>
 		</div>
 	</form>
 </div>

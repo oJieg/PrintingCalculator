@@ -79,7 +79,7 @@ async function calk() {
         Paper: PaperId.value,
         Amount: parseInt(AmountId.value),
         Kinds: parseInt(KindstId.value),
-        Duplex: Boolean(DuplexId.value),
+        Duplex: Boolean(DuplexId.checked),
         LaminationName: LaminationNameId.value,
         Creasing: parseInt(CreasingId.value),
         Drilling: parseInt(DrillingId.value),

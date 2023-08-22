@@ -101,13 +101,13 @@
 	<div class="horizontalInput">
 		<div class="radio">
 			<label class="custom-checkbox">
-				<input type="radio" id="Duplex" @nonDuplex value="false">
+				<input type="radio"  name="Duplex" @nonDuplex value="false">
 				<span>4+0</span>
 			</label>
 		</div>
 		<div class="radio">
 			<label class="custom-checkbox">
-				<input type="radio" id="Duplex" @duplex value="true">
+				<input type="radio" id="Duplex" name="Duplex" @duplex value="true">
 				<span>4+4</span>
 			</label>
 		</div>
@@ -171,11 +171,6 @@
 	</div>
 
 
-
-
-	<div class="button">
-		<input class="buttonNext" type="submit" formmethod="post" formaction="CalculatorResult" value="Расчитать">
-	</div>
 	<div class="button">
 		<input class="buttonNext" type="button" onclick="calk();" value="Расчитать">
 	</div>
