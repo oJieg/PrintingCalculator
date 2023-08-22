@@ -27,9 +27,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 				{
 					foreach (string commonToAllMarkupName in history.Input.CommonToAllMarkupName)
 					{
-						result.Price = (int)((float)result.Price *
-							((_settings.CommonToAllMarkups.Where(x => x.Name == commonToAllMarkupName).First().PercentMarkup + 100) / 100f)
-							+ _settings.CommonToAllMarkups.Where(x => x.Name == commonToAllMarkupName).First().Adjustmen);
+						if (commonToAllMarkupName != null)
+						{
+							result.Price = (int)((float)result.Price *
+								((_settings.CommonToAllMarkups.Where(x => x.Name == commonToAllMarkupName).First().PercentMarkup + 100) / 100f)
+								+ _settings.CommonToAllMarkups.Where(x => x.Name == commonToAllMarkupName).First().Adjustmen);
+						}
 					}
 				}
 

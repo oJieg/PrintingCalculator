@@ -1,4 +1,5 @@
 ﻿const tooltiptext = document.getElementById("tooltiptext");
+const tooltiptext3 = document.getElementById("tooltiptext3");
 function copyСlipboard(paperName, price) {
     copy("Стоимость изготовления на бумаге " + paperName + " - " + price + " руб.")
 }
@@ -13,6 +14,10 @@ function editClass() {
     tooltiptext.classList.remove("tooltiptext2");
     tooltiptext.classList.add("tooltiptext");
 }
+function editClass2() {
+    tooltiptext3.classList.remove("tooltiptext2");
+    tooltiptext3.classList.add("tooltiptext");
+}
 
 function copy(text) {
     var copyTextarea = document.createElement("textarea");
@@ -24,4 +29,23 @@ function copy(text) {
     copyTextarea.select();
     document.execCommand("copy");
     document.body.removeChild(copyTextarea);
+}
+
+async function putComment(id) {
+    let comment = document.getElementById("comment");
+
+    let respone1 = await fetch('/api/Calculation', {
+        method: "put",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ Id: parseInt(id), comment: comment.value })
+    });
+    if (!respone1.json()) {
+        alert("Критическая ошибка, обратитесь к Олегу!")
+    }
+    else {
+        tooltiptext3.classList.remove("tooltiptext");
+        tooltiptext3.classList.add("tooltiptext2");
+        setTimeout(editClass2, 3000);
+    }
+    ;
 }

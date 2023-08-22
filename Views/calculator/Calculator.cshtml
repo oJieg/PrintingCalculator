@@ -62,7 +62,7 @@
 
 	<div class="nameAndInput">
 		<label class="labletext" for="Height">бумагу выбери</label>
-		<select class="selectorMenu" name="Paper">
+		<select class="selectorMenu" id="Paper">
 			@foreach (PaperCatalog paper in @Model.Paper)
 			{
 				string selected = string.Empty;
@@ -77,11 +77,11 @@
 	<div class="horizontalInput">
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">тираж</label>
-			<input class="inputNumber" type="number" name="Amount" required value="@input.Amount" min="1">
+			<input class="inputNumber" type="number" id="Amount" required value="@input.Amount" min="1">
 		</div>
 		<div class="nameAndInput">
 			<label class="labletext" for="Height">Видов</label>
-			<input class="inputNumber" type="number" name="Kinds" required value="@input.Kinds" min="1">
+			<input class="inputNumber" type="number" id="Kinds" required value="@input.Kinds" min="1">
 		</div>
 	</div>
 
@@ -101,13 +101,13 @@
 	<div class="horizontalInput">
 		<div class="radio">
 			<label class="custom-checkbox">
-				<input type="radio" name="Duplex" @nonDuplex value="false">
+				<input type="radio"  name="Duplex" @nonDuplex value="false">
 				<span>4+0</span>
 			</label>
 		</div>
 		<div class="radio">
 			<label class="custom-checkbox">
-				<input type="radio" name="Duplex" @duplex value="true">
+				<input type="radio" id="Duplex" name="Duplex" @duplex value="true">
 				<span>4+4</span>
 			</label>
 		</div>
@@ -115,7 +115,7 @@
 
 	<div class="nameAndInput">
 		<label class="labletext" for="Height">ламинация</label>
-		<select class="selectorMenu" name="LaminationName">
+		<select class="selectorMenu" id="LaminationName">
 			<option value="" ">---</option>
 			@foreach (Lamination lamination in @Model.Lamination)
 			{
@@ -131,12 +131,12 @@
 
 	<div class="nameAndInput">
 		<label class="labletext" for="Height">Биговки</label>
-		<input class="inputNumber" type="number" name="Creasing" required value="@input.CreasingAmount">
+		<input class="inputNumber" type="number" id="Creasing" required value="@input.CreasingAmount">
 	</div>
 
 	<div class="nameAndInput">
 		<label class="labletext" for="Height">Сверление(дырок)</label>
-		<input class="inputNumber" type="number" name="Drilling" required value="@input.DrillingAmount">
+		<input class="inputNumber" type="number" id="Drilling" required value="@input.DrillingAmount">
 	</div>
 
 	@{
@@ -148,7 +148,7 @@
 	}
 	<div class="radio">
 		<label class="custom-checkbox">
-			<input type="checkbox" name="Rounding" @selectedRounding value="true">
+			<input type="checkbox" id="Rounding" @selectedRounding value="true">
 			<span>Скругление углов</span>
 		</label>
 	</div>
@@ -171,9 +171,7 @@
 	</div>
 
 
-
-
 	<div class="button">
-		<input class="buttonNext" type="submit" formmethod="post" formaction="CalculatorResult" value="Расчитать">
+		<input class="buttonNext" type="button" onclick="calk();" value="Расчитать">
 	</div>
 </form>
