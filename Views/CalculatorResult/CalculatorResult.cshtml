@@ -160,7 +160,7 @@
 	<form>
 		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
 		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
-		<input class="buttonNext" type="button" onclick="copyСlipboard();" value="Cкопировать">
+		<input class="buttonNext" type="button" onclick="copyСlipboard('@Model.PaperResult.NamePaper', @Model.Price);" value="Cкопировать">
 
 	</form>
 </div>

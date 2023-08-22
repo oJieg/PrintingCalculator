@@ -1,11 +1,10 @@
 ﻿const tooltiptext = document.getElementById("tooltiptext");
-function copyСlipboard() {
-    copy('Стоимость изготовления на бумаге @Model.PaperResult.NamePaper - @Model.PaperResult.Price руб.')
+function copyСlipboard(paperName, price) {
+    copy("Стоимость изготовления на бумаге " + paperName + " - " + price + " руб.")
 }
 
 function CopyPrice(price) {
-    copy(price + "руб.")
-    //navigator.clipboard.writeText(price + "руб.")
+    copy(price + " руб.")
     tooltiptext.classList.remove("tooltiptext");
     tooltiptext.classList.add("tooltiptext2");
     setTimeout(editClass, 3000);
