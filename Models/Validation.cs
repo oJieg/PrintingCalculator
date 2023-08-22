@@ -55,7 +55,7 @@ namespace printing_calculator.Models
 
         private async Task<bool> TryValidationLaminationName(string? nameLamination, CancellationToken cancellationToken)
         {
-            if (nameLamination != null)
+            if (nameLamination != null && nameLamination != string.Empty)
             {
                 try
                 {
