@@ -16,12 +16,12 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = applicationContext;
         }
 
-        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (history.Input.Lamination == null || history.LaminationPrices == null)
             {
                 result.LaminationResult.ActualCostPrics = true;
-                return (history, result, true);
+                return (history, result, new StatusCalculation());
             }
 
             try
@@ -31,11 +31,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 
                 result.LaminationResult.ActualCostPrics =
                     await ActualCostPrice(history.LaminationPrices, history.Input.Lamination.Name, cancellationToken);
-                return (history, result, true);
+                return (history, result, new StatusCalculation());
             }
             catch (OverflowException)
             {
-                return (history, result, false);
+                return (history, result, new StatusCalculation() { 
+                    Status = StatusType.Other, 
+                    ErrorMassage = "Стоимость расходных материалов ламинации вышла за возможные приделы int" });
             }
         }
 

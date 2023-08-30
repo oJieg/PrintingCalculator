@@ -26,12 +26,12 @@ namespace printing_calculator.controllers
 			Result result;
 			try
 			{
-				(history, result, bool tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
+				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
 
-				if (!tryAnswer)
+				if (tryAnswer.Status != StatusType.Ok)
 				{
 					_logger.LogError("не удался расчет на конвейере");
-					return NotFound();
+					return View("SettingMashines/Error", result);
 				}
 			}
 			catch (OperationCanceledException)

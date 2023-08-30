@@ -13,12 +13,15 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
 
             CalculatingMarkup markup = new(_settings.PrintingsMachines[0].Markups);
             int markupPaper = markup.GetMarkup(result.PaperResult.Sheets);
@@ -34,7 +37,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.PaperResult.MarkupPaper = (int)history.MarkupPaper;
                 result.PaperResult.ActualMarkupPaper = history.MarkupPaper == markupPaper;
             }
-            return Task.FromResult((history, result, true));
+            return Task.FromResult((history, result, new StatusCalculation()));
         }
     }
 }

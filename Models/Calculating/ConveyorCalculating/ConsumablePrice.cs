@@ -15,7 +15,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = applicationContext;
         }
 
-        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +26,10 @@ namespace printing_calculator.Models.ConveyorCalculating
                     .FirstOrDefaultAsync(cancellationToken);
 
                 if (consumablePrice == null)
-                    return (history, result, false);
+                    return (history, result, new StatusCalculation() { 
+                        Status = StatusType.Other, 
+                        ErrorMassage = "При обрашении к настройкам ConsumablePrices в базе, проихошла ошибка "
+					});
 
                 result.PaperResult.ActualConsumablePrice = consumablePrice.Id == history.ConsumablePrice.Id;
 
@@ -41,11 +44,14 @@ namespace printing_calculator.Models.ConveyorCalculating
                     price *= 2;
                 }
                 result.PaperResult.ConsumablePrinterPrice = price;
-                return (history, result, true);
+                return (history, result, new StatusCalculation());
             }
             catch
             {
-                return (history, result, false);
+                return (history, result, new StatusCalculation() { 
+                    Status = StatusType.Other,
+                    ErrorMassage = "Произошла ошибка при вычислении ConsumablePrice"
+				});
             }
         }
     }

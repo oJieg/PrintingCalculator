@@ -25,7 +25,13 @@
 					<div class="textTableHistory">текушая цена за лист</div>
 				</th>
 				<th>
+					<div class="textTableHistory">текушая толщина</div>
+				</th>
+				<th>
 					<div class="textTableHistory">задать новую цену</div>
+				</th>
+				<th>
+					<div class="textTableHistory">задать новую толщину</div>
 				</th>
 				<th>
 					<div class="textTableHistory">нет в наличии</div>
@@ -51,13 +57,26 @@
 					</td>
 					<td>
 						<div class="textTableHistory">
-							<p id=@(paperCatalog.Id.ToString()+"p")>@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA")) руб</p>
+							<p id=@(paperCatalog.Id.ToString()+"Price")>@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA")) руб</p>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<p id=@(paperCatalog.Id.ToString()+"Thickness")>@paperCatalog.PaperThickness.ToString(CultureInfo.CreateSpecificCulture("en-CA"))</p>
 						</div>
 					</td>
 					<td>
 						<div class="textTableHistory">
 							<form>
-								<input class="inputNumber" id=@paperCatalog.Id type="number" min="0" value=@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
+								<input class="inputNumber" id=@(paperCatalog.Id.ToString()+"NewPrice") type="number" min="0" value=@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
+								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+							</form>
+						</div>
+					</td>
+					<td>
+						<div class="textTableHistory">
+							<form>
+								<input class="inputNumber" id=@(paperCatalog.Id.ToString()+"NewThickness") type="number" min="0" value=@paperCatalog.PaperThickness.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
 								<input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
 							</form>
 						</div>

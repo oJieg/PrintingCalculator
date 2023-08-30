@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.ViewModels;
 using printing_calculator.DataBase;
+using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.controllers
 {
@@ -121,7 +122,40 @@ namespace printing_calculator.controllers
             }
         }
 
-        private bool ValidationConsumable(ConsumablePrice newConsumable)
+        public async Task<IActionResult> SpringBrochureSetting()
+        {
+			SpringBrochureSetting springBrochureSetting = new();
+
+			try
+			{
+                springBrochureSetting = _applicationContext.SpringBrochureSettings
+                    .Include(x=>x.SpringPrice)
+                    .First();
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("error db", ex);
+				return NotFound();
+			}
+
+			return View("SpringBrochureSetting", springBrochureSetting);
+		}
+
+        public async Task<IActionResult> EditSpringBrochureSetting(SpringBrochureSetting springBrochureSetting)
+        {
+            springBrochureSetting.SpringPrice = (await _applicationContext.SpringBrochureSettings
+                .Where(x => x.Id == springBrochureSetting.Id)
+                .Include(x => x.SpringPrice)
+                .AsNoTracking()
+                .FirstAsync()).SpringPrice;
+
+            _applicationContext.Update(springBrochureSetting);
+            await _applicationContext.SaveChangesAsync();
+            return new RedirectResult("/Setting/SpringBrochureSetting");
+		}
+
+		private bool ValidationConsumable(ConsumablePrice newConsumable)
         {
             return newConsumable.DrumPrice1 <= 0
                 && newConsumable.DrumPrice2 <= 0
@@ -134,5 +168,81 @@ namespace printing_calculator.controllers
             return newSizePaper.Height <= 100
             && newSizePaper.Width <= 100;
         }
-    }
+
+        //да да, дублирование кода...
+		public async Task<IActionResult> EditMarkup(MarkupAndName markupaAndName)
+		{
+			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+			{
+				return ErroMessageForEmptyName("Не удалось изменить Markup. Нет имени.");
+			}
+			try
+			{
+				_applicationContext.Update((Markup)markupaAndName);
+				await _applicationContext.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Ошибка доступа к бд. (EditMarkup)");
+				return View("Error", new string("Ошибка доступа к бд"));
+			}
+
+			return new RedirectResult("/Setting/SpringBrochureSetting");
+		}
+
+		public async Task<IActionResult> DelMarkup(MarkupAndName markupaAndName)
+		{
+			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+			{
+				return ErroMessageForEmptyName("Не удалось удалить Markup. Нет имени.");
+			}
+			try
+			{
+				_applicationContext.Remove((Markup)markupaAndName);
+				await _applicationContext.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "ошибка доступа к бд. DelMarkup");
+				return View("Error", new string("Ошибка доступа к бд"));
+			}
+
+			return new RedirectResult("/Setting/SpringBrochureSetting");
+		}
+		public async Task<IActionResult> AddMarkup(MarkupAndName markupaAndName)
+		{
+			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+			{
+				return ErroMessageForEmptyName("Не удалось добавить Markup. Нет имени.");
+			}
+
+			try
+			{
+				SpringBrochureSetting machineSetting = await _applicationContext.SpringBrochureSettings
+					.Where(x => x.Id == 1)
+					.Include(x => x.SpringPrice)
+					.FirstAsync();
+
+				machineSetting.SpringPrice.Add(new Markup()
+				{
+					MarkupForThisPage = markupaAndName.MarkupForThisPage,
+					Page = markupaAndName.Page
+				});
+
+				await _applicationContext.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "ошибка доступа к бд(AddMarkup)");
+				return View("Error", new string("Ошибка доступа к бд"));
+			}
+
+			return new RedirectResult("/Setting/SpringBrochureSetting");
+		}
+		private IActionResult ErroMessageForEmptyName(string errorMessageForLog)
+		{
+			_logger.LogError(errorMessageForLog);
+			return View("Error", "не кооретные входящие данные");
+		}
+	}
 }

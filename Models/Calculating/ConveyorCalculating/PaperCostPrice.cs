@@ -13,7 +13,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _applicationContext = applicationContext;
         }
 
-        public async Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public async Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             try
             {
@@ -21,11 +21,14 @@ namespace printing_calculator.Models.ConveyorCalculating
 
                 result.PaperResult.CostConsumablePrise = Convert.ToInt32(result.PaperResult.Sheets
                      * (history.PaperPrice + result.PaperResult.ConsumablePrinterPrice));
-                return (history, result, true);
+                return (history, result, new StatusCalculation());
             }
             catch (OverflowException)
             {
-                return (history, result, false);
+                return (history, result, new StatusCalculation() { 
+                    Status = StatusType.Other,
+                    ErrorMassage = "Стоимость расходных материалов вышла за возможные приделы int"
+                });
             }
         }
 

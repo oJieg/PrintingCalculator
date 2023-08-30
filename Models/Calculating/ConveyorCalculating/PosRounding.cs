@@ -13,16 +13,22 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
             PosMachinesSetting? roundingSetting = _settings.PosMachines.Where(x => x.NameMachine == "rounding").FirstOrDefault();
             if (roundingSetting == null)
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation() { 
+                    Status = StatusType.Other, 
+                    ErrorMassage = "При обрашении к настройкам rounding в базе, произошла ошибка"
+				}));
             }
 
             result.PosResult ??= new PosResult();
@@ -32,7 +38,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PosResult.ActualRoundingPrice = true;
                 result.PosResult.RoundingPrice = 0;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
             int actualPrice = (int)((result.Amount * roundingSetting.ConsumableOther) + (result.Kinds * roundingSetting.AdjustmenPrice));
             int? price = history.RoundingPrice;
@@ -43,7 +49,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.Price += actualPrice;
                 result.PosResult.ActualRoundingPrice = true;
                 history.RoundingPrice = actualPrice;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
 
             result.PosResult.RoundingPrice = price.Value;
@@ -51,7 +57,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             result.PosResult.ActualRoundingPrice = (actualPrice == price);
 
-            return Task.FromResult((history, result, true));
+            return Task.FromResult((history, result, new StatusCalculation()));
         }
     }
 }

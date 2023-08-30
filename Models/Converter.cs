@@ -23,6 +23,7 @@ namespace printing_calculator.Models
                 Creasing = history.CreasingPrice > 0,
                 Drilling = history.DrillingPrice > 0,
                 Rounding = history.RoundingPrice > 0,
+                SpringBrochure = history.SpringBrochurePrice > 0,
 
                 Price = history.Price.Value,
                 DateTime = history.DateTime,

@@ -1,5 +1,6 @@
 ﻿@model printing_calculator.ViewModels.Result.Result
 @using printing_calculator.ViewModels.Result;
+@using printing_calculator.DataBase.setting;
 @{
 	Layout = "_Layout";
 	string size = $"{Model.Height}x{Model.Whidth}";
@@ -88,7 +89,23 @@
 				</details>
 			</div>
 		</div>
-
+		<div class="detalPriceBox">
+			@{float forUnit = (Model.SpringBrochure.Price / Model.Amount);}
+			<div class="detalPriceBox">
+				<div class="grayBackground">
+					<p class="leftTextDetalPrice">Брошюра</p>
+					<p class="rightTextDetalPrice">@Model.SpringBrochure.Price руб.</p>
+				</div>
+				<div class="detal">
+					<details>
+						<summary class="detal">подробнее</summary>
+						<p class="detal">@Model.SpringBrochure.SpringBrochure.ToString()</p>
+						<p class="detal">@forUnit руб/шт</p>
+					</details>
+				</div>
+			</div>
+		
+		</div>
 	</div>
 
 	<div class="rowInputFlex">
@@ -134,17 +151,50 @@
 				</div>
 				<div class="smallInput">
 					<div class="green">
-						<p class="margin">Листов:шт/лист</p>
+						<p class="margin">Листов</p>
 					</div>
 					<div class="grey">
-						<p class="margin">@Model.PaperResult.Sheets л./@Model.PaperResult.PiecesPerSheet шт на л.</p>
+						<p class="margin">@Model.PaperResult.Sheets л.</p>
 					</div>
 				</div>
 
 			</div>
+
+			<div class="rowInputLitleFlex">
+
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">доп опции</p>
+					</div>
+					<div class="grey">
+						@if (Model.CommonToAllMarkupName != null)
+						{
+							foreach (CommonToAllMarkup dop in Model.CommonToAllMarkupName)
+							{
+								<p class="margin">@dop.Description</p>
+							}
+						}
+						else
+						{
+							<p class="margin">None</p>
+						}
+					</div>
+				</div>
+				<div class="smallInput">
+					<div class="green">
+						<p class="margin">шт/лист</p>
+					</div>
+					<div class="grey">
+						<p class="margin">@Model.PaperResult.PiecesPerSheet шт на л.</p>
+					</div>
+				</div>
+
+			</div>
+
 		</div>
 	</div>
 </div>
+
 
 <div>
 	<form>

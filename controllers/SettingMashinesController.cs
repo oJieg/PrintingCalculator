@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.DataBase;
 using printing_calculator.DataBase.setting;
 using printing_calculator.ViewModels;
 
@@ -22,6 +23,7 @@ namespace printing_calculator.controllers
 			try
 			{
 				settings = await _applicationContext.Settings.Where(x => x.Id == 1)
+					.Include(x => x.Machines)
 				   .Include(x => x.PosMachines)
 					   .ThenInclude(x => x.Markups)
 				   .Include(x => x.PrintingsMachines)

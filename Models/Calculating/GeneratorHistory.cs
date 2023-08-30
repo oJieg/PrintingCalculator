@@ -66,6 +66,7 @@ namespace printing_calculator.Models.Calculating
                 history.Input.DrillingAmount = input.Drilling;
                 history.Input.RoundingAmount = input.Rounding;
                 history.Input.CommonToAllMarkupName = input.CommonToAllMarkup;
+                history.Input.SpringBrochure = input.SpringBrochure;
 
                 await GetHistoryAsync(history, input, cancellationToken);
                 if (input.LaminationName != null || history.Input.Lamination != null)

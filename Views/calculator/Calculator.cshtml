@@ -24,7 +24,8 @@
 					CreasingAmount = 0,
 					DrillingAmount = 0,
 					RoundingAmount = false,
-					Lamination = new Lamination()
+					Lamination = new Lamination(),
+					SpringBrochure = SpringBrochure.None
 				};
 	}
 }
@@ -39,8 +40,54 @@
 
 <form name="my1" class="flex">
 	<h2 class="nameCalc"> Калькулятор</h2>
+	@{
+		string selectedSpring = string.Empty;
+		if (input.SpringBrochure != SpringBrochure.None)
+		{
+			selectedSpring = "selected";
+		}
 
-	<div class="FastSizeBlock">
+	}
+	<select class="selectorMenu" id="Brochure" onchange="brochure(this.value)">
+		<option value="none">-</option>
+		<option value="spring" @selectedSpring>Пружина</option>
+		<option value="clip">скрепка</option>
+	</select>
+
+	@{
+		int polosValue = input.Kinds;
+		if (input.Duplex)
+		{
+			polosValue = polosValue * 2;
+		}
+	}
+	<div id="spring" class="flex" style="display: none;">
+		<div class="horizontalInput">
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">Полос</label>
+				<input class="inputNumber" id="Polos" type="number" name="Polos" required="" value="@polosValue"
+					   min="1" max="1500" onchange="editPolos()">
+			</div>
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">Кол-во броющюр</label>
+				<input class="inputNumber" id="BrochureAmout" type="number" name="Polos" required=""
+					   value="@input.Amount" min="1" max="1500" onchange="editPolos()">
+			</div>
+		</div>
+		@{
+			string noCover = input.SpringBrochure == SpringBrochure.NoCover ? "selected" : string.Empty;
+			string CoverPlasticAndCardboard = input.SpringBrochure == SpringBrochure.CoverPlasticAndCardboard ? "selected" : string.Empty;
+			string CoverTwoPlastics = input.SpringBrochure == SpringBrochure.CoverTwoPlastics ? "selected" : string.Empty;
+		}
+		<select class="selectorMenu" id="BrochureSpring">
+			<option value="noCover" @noCover>без подложки/обложки</option>
+			<option value="CoverPlasticAndCardboard" @CoverPlasticAndCardboard>обложка пастик/подложка картон</option>
+			<option value="CoverTwoPlastics" @CoverTwoPlastics>два пластика</option>
+		</select>
+	</div>
+
+
+	<div class="FastSizeBlock" id="invizibleFastHover">
 		<input class="FastHover" id="297420" type="button" onclick="editSize(420,297);" value="А3">
 		<input class="FastSize" id="210297" type="button" onclick="editSize(210,297);" value="А4">
 		<input class="FastSize" id="148210" type="button" onclick="editSize(148,210);" value="А5">
@@ -48,6 +95,8 @@
 		<input class="FastSize" id="100150" type="button" onclick="editSize(100,150);" value="10x15">
 		<input class="FastSize" id="5090" type="button" onclick="editSize(90,50);" value="9x5">
 	</div>
+
+
 	<div class="horizontalInput">
 
 		<div class="nameAndInput">
@@ -59,6 +108,7 @@
 			<input class="inputNumber" id="Width" type="number" name="Whidth" required value="@input.Whidth" min="@sizeMinValue" max="@WidthMaxValue" onchange="newSize(this.value, 'Width')">
 		</div>
 	</div>
+
 
 	<div class="nameAndInput">
 		<label class="labletext" for="Height">бумагу выбери</label>
@@ -74,14 +124,17 @@
 			}
 		</select>
 	</div>
-	<div class="horizontalInput">
-		<div class="nameAndInput">
-			<label class="labletext" for="Height">тираж</label>
-			<input class="inputNumber" type="number" id="Amount" required value="@input.Amount" min="1">
-		</div>
-		<div class="nameAndInput">
-			<label class="labletext" for="Height">Видов</label>
-			<input class="inputNumber" type="number" id="Kinds" required value="@input.Kinds" min="1">
+
+	<div class="Diaphanous">
+		<div class="horizontalInput">
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">тираж</label>
+				<input class="inputNumber" type="number" id="Amount" required value="@input.Amount" min="1">
+			</div>
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">Видов</label>
+				<input class="inputNumber" type="number" id="Kinds" required value="@input.Kinds" min="1">
+			</div>
 		</div>
 	</div>
 
@@ -101,7 +154,7 @@
 	<div class="horizontalInput">
 		<div class="radio">
 			<label class="custom-checkbox">
-				<input type="radio"  name="Duplex" @nonDuplex value="false">
+				<input type="radio" name="Duplex" @nonDuplex value="false">
 				<span>4+0</span>
 			</label>
 		</div>
@@ -113,62 +166,63 @@
 		</div>
 	</div>
 
-	<div class="nameAndInput">
-		<label class="labletext" for="Height">ламинация</label>
-		<select class="selectorMenu" id="LaminationName">
-			<option value="" ">---</option>
-			@foreach (Lamination lamination in @Model.Lamination)
-			{
-			string selected = string.Empty;
-			if (input.Lamination != null && lamination.Name == input.Lamination.Name)
-			{
-			selected = "selected";
-			}
-			<option value="@lamination.Name" @selected>@lamination.Name</option>
-			}
-		</select>
+	<div class="Diaphanous">
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">ламинация</label>
+			<select class="selectorMenu" id="LaminationName">
+				<option value="" ">---</option>
+				@foreach (Lamination lamination in @Model.Lamination)
+				{
+					string selected = string.Empty;
+					if (input.Lamination != null && lamination.Name == input.Lamination.Name)
+					{
+						selected = "selected";
+					}
+					<option value="@lamination.Name" @selected>@lamination.Name</option>
+				}
+			</select>
+		</div>
 	</div>
 
-	<div class="nameAndInput">
-		<label class="labletext" for="Height">Биговки</label>
-		<input class="inputNumber" type="number" id="Creasing" required value="@input.CreasingAmount">
+	<div class="Diaphanous">
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">Биговки</label>
+			<input class="inputNumber" type="number" id="Creasing" required value="@input.CreasingAmount">
+		</div>
 	</div>
 
-	<div class="nameAndInput">
-		<label class="labletext" for="Height">Сверление(дырок)</label>
-		<input class="inputNumber" type="number" id="Drilling" required value="@input.DrillingAmount">
+	<div class="Diaphanous">
+		<div class="nameAndInput">
+			<label class="labletext" for="Height">Сверление(дырок)</label>
+			<input class="inputNumber" type="number" id="Drilling" required value="@input.DrillingAmount">
+		</div>
 	</div>
 
-	@{
-	string selectedRounding = string.Empty;
-	if(input.RoundingAmount)
-	{
-	selectedRounding = "checked";
-	}
-	}
-	<div class="radio">
-		<label class="custom-checkbox">
-			<input type="checkbox" id="Rounding" @selectedRounding value="true">
-			<span>Скругление углов</span>
-		</label>
+				@{
+					string selectedRounding = string.Empty;
+					if (input.RoundingAmount)
+					{
+						selectedRounding = "checked";
+					}
+				}
+	<div class="Diaphanous">
+		<div class="radio">
+			<label class="custom-checkbox">
+				<input type="checkbox" id="Rounding" @selectedRounding value="true">
+				<span>Скругление углов</span>
+			</label>
+		</div>
 	</div>
 
-	@for(int i=0; i<Model.commonToAllMarkups.Count;i++)
-	{
-	<div class="radio">
-		<label class="custom-checkbox">
-			<input type="checkbox" name="CommonToAllMarkup" value="@Model.commonToAllMarkups[i].Name">
-			<span>@Model.commonToAllMarkups[i].Description</span>
-		</label>
-	</div>
-	}
-
-	<div class="radio">
-		<label class="custom-checkbox">
-			<input type="checkbox" name="SaveDB" value="true">
-			<span>не сохранять</span>
-		</label>
-	</div>
+				@for (int i = 0; i < Model.commonToAllMarkups.Count; i++)
+				{
+		<div class="radio">
+			<label class="custom-checkbox">
+				<input type="checkbox" name="CommonToAllMarkup" value="@Model.commonToAllMarkups[i].Name">
+				<span>@Model.commonToAllMarkups[i].Description</span>
+			</label>
+		</div>
+				}
 
 
 	<div class="button">

@@ -14,16 +14,23 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
             PosMachinesSetting? cuttingSetting = _settings.PosMachines.Where(x => x.NameMachine == "cuting").FirstOrDefault();
             if (cuttingSetting == null) 
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Other,
+					ErrorMassage = "При обращении к настройкам cuting в базе, произошла ошибка"
+				}));
             }
             _countOfPapersInOneAdjustmentCut = cuttingSetting.CountOfPapersInOneAdjustmentCut;
 
@@ -44,11 +51,15 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.PaperResult.ActualCutPrice = (history.CutPrice == cutPrice);
                     result.PaperResult.CutPrics = (int)history.CutPrice;
                 }
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
             catch (OverflowException)
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Other,
+					ErrorMassage = "Стоимость резки вышла за возможные приделы int"
+				}));
             }
         }
     }

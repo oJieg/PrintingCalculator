@@ -1,4 +1,6 @@
-﻿namespace printing_calculator.DataBase
+﻿using System.ComponentModel;
+
+namespace printing_calculator.DataBase
 {
     public class InputHistory
     {
@@ -15,5 +17,15 @@
         public int DrillingAmount { get; set; }
         public bool RoundingAmount { get; set; }
 		public List<string>? CommonToAllMarkupName { get; set; } = null!;
+        public SpringBrochure SpringBrochure { get; set; } = SpringBrochure.None;
 	}
+	public enum SpringBrochure
+	{
+		None = 0,
+		[Description("Неизв.")]
+		NoCover = 1,
+		CoverPlasticAndCardboard = 2,
+		CoverTwoPlastics = 3
+	}
+
 }

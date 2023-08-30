@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using printing_calculator.Models.Calculating;
-using Microsoft.AspNetCore.Mvc;
 using printing_calculator.ViewModels;
 using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using printing_calculator.Models.Calculating;
 using printing_calculator.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,35 +17,19 @@ namespace printing_calculator.controllers.WebApi
 		private readonly ApplicationContext _applicationContext;
 		private readonly ILogger<CalculatorResultController> _logger;
 		private readonly ConveyorCalculator _calculator;
-		private readonly GeneratorHistory _generatorHistory;
 		private readonly Validation _validation;
+
 		public CalculationController(ApplicationContext applicationContext,
 			ILogger<CalculatorResultController> loggerFactory,
 			ConveyorCalculator conveyorCalculator,
-			GeneratorHistory generatorHistory,
 			Validation validation)
 		{
 			_applicationContext = applicationContext;
 			_logger = loggerFactory;
 			_calculator = conveyorCalculator;
-			_generatorHistory = generatorHistory;
 			_validation = validation;
 		}
-		//// GET: api/<CalculationController>
-		//[HttpGet]
-		//public IEnumerable<string> Get()
-		//{
-		//    return new string[] { "value1", "value2" };
-		//}
 
-		//// GET api/<CalculationController>/5
-		//[HttpGet("{id}")]
-		//public string Get(int id)
-		//{
-		//    return "value";
-		//}
-
-		// POST api/<CalculationController>
 		[HttpPost]
 		public async Task<int> Post(Input input)
 		{
@@ -67,9 +49,9 @@ namespace printing_calculator.controllers.WebApi
 
 			try
 			{
-				(history, result, bool tryAnswer) = await _calculator.TryStartCalculation(input, new CancellationToken());
+				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(input, new CancellationToken());
 
-				if (!tryAnswer)
+				if (tryAnswer.Status != StatusType.Ok)
 				{
 					_logger.LogError("не удался расчет для данных из Input");
 					return -1;

@@ -1,4 +1,4 @@
-let height = 297;
+п»їlet height = 297;
 let width = 420;
 
 const classFastHover = "FastHover";
@@ -18,6 +18,11 @@ const CreasingId = document.getElementById("Creasing");
 const DrillingId = document.getElementById("Drilling");
 const RoundingId = document.getElementById("Rounding");
 const CommonToAllMarkupName = document.getElementsByName("CommonToAllMarkup");
+
+const BrochureValue = document.getElementById("Brochure");
+function loadPage() {
+brochure();
+}
 
 function newSize(size, side) {
     if (side == "Height") {
@@ -60,8 +65,18 @@ function activeButtonSize() {
         }
     }
 }
+const brochureSpringId = document.getElementById("BrochureSpring");
 
-
+function springBrochure() {
+    if (isBrochureSpring) {
+        switch (brochureSpringId.value) {
+            case "noCover": return 1;
+            case "CoverPlasticAndCardboard": return 2;
+            case "CoverTwoPlastics": return 3;
+        }
+    }
+    return 0;
+}
 
 
 async function calk() {
@@ -85,7 +100,8 @@ async function calk() {
         Drilling: parseInt(DrillingId.value),
         Rounding: Boolean(RoundingId.checked),
         CommonToAllMarkup: CommonToAllMarkupsValue,
-        NoSaveDB: false
+        NoSaveDB: false,
+        SpringBrochure: springBrochure()
     }
 
     let respone1 = await fetch('/api/Calculation', {
@@ -95,9 +111,56 @@ async function calk() {
     });
     let historyId = await respone1.json();
     if (historyId < 0) {
-        alert("Непредвиденная ошибка!")
+        alert("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ1111111111!")
     }
     else {
         window.location.href = 'CalculatorResult?id=' + historyId;
     }
+
+}
+const springElem = document.getElementById("spring");
+const invizibleFastHover = document.getElementById("invizibleFastHover");
+const DiaphanousElem = document.getElementsByClassName("Diaphanous");
+const polosId = document.getElementById("Polos");
+const brochureAmoutId = document.getElementById("BrochureAmout");
+let isBrochureSpring = false;
+
+function editPolos() {
+    if (isBrochureSpring) {
+        AmountId.value = brochureAmoutId.value
+        if (DuplexId.checked) {
+            KindstId.value = Math.ceil(polosId.value / 2);
+        }
+        else {
+            KindstId.value = polosId.value;
+        }
+    }
+}
+
+function editSizePolos(heightPaper, widthPaper) {
+
+}
+
+
+function brochure() {
+    let value = BrochureValue.value;
+    if (value == "spring") {
+        isBrochureSpring = true;
+        springElem.style.cssText = "";
+        // invizibleFastHover.style.cssText= "display: none;";
+        for (let i = 0; i < DiaphanousElem.length; i++) {
+            DiaphanousElem[i].style.cssText = "opacity: 0.2; ";
+        }
+    }
+    else {
+        isBrochureSpring = false;
+        springElem.style.cssText = "display: none;";
+        invizibleFastHover.style.cssText = "";
+        for (let i = 0; i < DiaphanousElem.length; i++) {
+            DiaphanousElem[i].style.cssText = "";
+        }
+    }
+}
+function calkSize() {
+
 }

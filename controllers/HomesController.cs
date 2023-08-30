@@ -175,7 +175,14 @@ namespace printing_calculator.controllers
                 ConsumableOther = 30,
                 AdjustmenPrice = 50
             };
-            PosMachinesSetting cut = new()
+			MachineSetting SpringBrochure = new()
+			{
+				NameMachine = "SpringBrochure",
+				Markups = new(1) { markupZiro4 },
+				ConsumableOther = 0,
+				AdjustmenPrice = 0
+			};
+			PosMachinesSetting cut = new()
             {
                 NameMachine = "cuting",
                 Markups = new(1) { markupZiro1},
@@ -228,7 +235,7 @@ namespace printing_calculator.controllers
 			Setting setting = new()
             {
                 PrintingsMachines = new() { printingMachine },
-                Machines = new() { Laminator },
+                Machines = new() { Laminator, SpringBrochure },
                 PosMachines = new() { cut, Creasing, Drilling, Rounding },
                 CommonToAllMarkups = new() { commonToAllMarkup, commonToAllMarkup2 }
             };
@@ -238,7 +245,7 @@ namespace printing_calculator.controllers
             _applicationContext.Markups.AddRange(markupZiro1,markupZiro2,markupZiro3,markupZiro4);
             _applicationContext.CommonToAllMarkups.AddRange(commonToAllMarkup, commonToAllMarkup2);
 
-            _applicationContext.MachineSettings.Add(Laminator);
+            _applicationContext.MachineSettings.AddRange(Laminator, SpringBrochure);
             _applicationContext.PrintingMachinesSettings.Add(printingMachine);
             _applicationContext.PosMachinesSettings.Add(cut);
             _applicationContext.PosMachinesSettings.Add(Creasing);
