@@ -19,6 +19,7 @@ namespace printing_calculator.ViewModels
         public List<string> CommonToAllMarkup { get; set; }
 
 		public SpringBrochure SpringBrochure { get; set; }
+		public bool StapleBrochure { get; set; }
 
 		public bool NoSaveDB { get; set; }
     }
