@@ -1,4 +1,6 @@
-﻿namespace printing_calculator.ViewModels
+﻿using printing_calculator.DataBase;
+
+namespace printing_calculator.ViewModels
 {
     public class Input
     {
@@ -16,7 +18,10 @@
         public bool Rounding { get; set; }
         public List<string> CommonToAllMarkup { get; set; }
 
+		public SpringBrochure SpringBrochure { get; set; }
+		public bool StapleBrochure { get; set; }
 
 		public bool NoSaveDB { get; set; }
     }
+
 }

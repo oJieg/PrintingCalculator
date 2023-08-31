@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using printing_calculator;
@@ -12,9 +13,10 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230823220244_AddSpringBrochure")]
+    partial class AddSpringBrochure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace printing_calculator.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("SpringBrochurePrice")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("StapleBrochurePrice")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -153,9 +152,6 @@ namespace printing_calculator.Migrations
 
                     b.Property<int>("SpringBrochure")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("StapleBrochure")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("Whidth")
                         .HasColumnType("integer");

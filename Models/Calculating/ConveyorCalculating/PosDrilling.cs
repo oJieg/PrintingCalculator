@@ -13,17 +13,24 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
 
             PosMachinesSetting? drillingSetting = _settings.PosMachines.Where(x => x.NameMachine == "drilling").FirstOrDefault();
             if (drillingSetting == null)
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Other,
+					ErrorMassage = "При обрашении к настройкам drilling в базе, произошла ошибка."
+				}));
             }
 
             result.PosResult ??= new();
@@ -33,7 +40,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 result.PosResult.ActualDrillingPrice = true;
                 result.PosResult.DrillingPrice = 0;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
 
 
@@ -47,7 +54,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 result.PosResult.DrillingPrice = actualPrice;
                 result.Price += actualPrice;
                 result.PosResult.ActualDrillingPrice = true;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
 
             result.PosResult.DrillingPrice = price.Value;
@@ -55,7 +62,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
             result.PosResult.ActualDrillingPrice = actualPrice == price;
 
-            return Task.FromResult((history, result, true));
+            return Task.FromResult((history, result, new StatusCalculation()));
         }
     }
 }

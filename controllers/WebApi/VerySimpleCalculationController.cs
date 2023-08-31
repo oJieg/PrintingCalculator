@@ -34,9 +34,9 @@ namespace printing_calculator.controllers.WebApi
             СalculationHistory history;
 
             Result result;
-            (history, result, bool tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
+            (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
 
-            if (!tryAnswer)
+            if (tryAnswer.Status != StatusType.Ok)
             {
                 _logger.LogError("не удался расчет для данных из Input");
                 return -1;

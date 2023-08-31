@@ -13,12 +13,15 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings; 
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
 
             try
             {
@@ -27,15 +30,25 @@ namespace printing_calculator.Models.ConveyorCalculating
                     int price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _settings.Machines[0].AdjustmenPrice);
                     result.LaminationResult.Price = price;
                     result.Price += price;
-                    return Task.FromResult((history, result, true));
+                    return Task.FromResult((history, result, new StatusCalculation()
+					{
+						Status = StatusType.Ok
+					}));
                 }
 
                 result.LaminationResult.Price = 0;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Ok
+				}));
             }
             catch (OverflowException)
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Other,
+                    ErrorMassage = "Расчетная цена вышла за возможные пределы Int"
+				}));
             }
         }
     }

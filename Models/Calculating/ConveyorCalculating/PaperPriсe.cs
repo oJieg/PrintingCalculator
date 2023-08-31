@@ -13,12 +13,15 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
 
             try
             {
@@ -28,11 +31,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 
                 result.PaperResult.Price = pricePaper;
                 result.Price += pricePaper;
-                return Task.FromResult((history, result, true));
+                return Task.FromResult((history, result, new StatusCalculation()));
             }
             catch (OverflowException)
             {
-                return Task.FromResult((history, result, false));
+                return Task.FromResult((history, result, new StatusCalculation() { 
+                    Status = StatusType.Other, 
+                    ErrorMassage = "Стоимость бумаги вышла за возможные приделы int" }));
             }
         }
     }

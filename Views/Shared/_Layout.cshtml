@@ -6,6 +6,7 @@
 	string adresHistoru = "/History";
 	string addresSettingPaper = "/Setting/Paper";
 	string addresSettingLamination = "/Setting/Lamination";
+	string addresSpringBrochureSetting = "/Setting/SpringBrochureSetting";
 	string addresSettingConsumable = "/Setting/Consumable";
 	string addrresSettingMashines = "/SettingMashines";
 }
@@ -19,7 +20,7 @@
 	<title>Калькулятор</title>
 </head>
 
-<body>
+<body onload="loadPage()">
 	<div class="header">
 		<div class="logo">
 			<img class="logo" src="/logo_PrintLife.svg" />
@@ -59,6 +60,12 @@
 							<a href="@addresSettingLamination">
 								<div></div>
 								<div>настройки ламинации</div>
+							</a>
+						</div>
+						<div>
+							<a href="@addresSpringBrochureSetting">
+								<div></div>
+								<div>настройки брощюр на пружине</div>
 							</a>
 						</div>
 						<div>

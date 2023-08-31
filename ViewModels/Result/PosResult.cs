@@ -11,5 +11,8 @@
         public bool Rounding { get; set; }
         public int RoundingPrice { get; set; }
         public bool ActualRoundingPrice { get; set; }
-    }
+        public int StapleBrochurePrice { get; set; }
+        public bool ActualStapleBrochure { get; set; }
+
+	}
 }

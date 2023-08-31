@@ -14,15 +14,20 @@
 }
 
 async function editPaper(id, paperStatus) {
-    let newPrice = document.getElementById(id).value;
-    let p = document.getElementById(id + "p");
+    let newPrice = document.getElementById(id + "NewPrice").value;
+    let oldPrice = document.getElementById(id + "Price");
+
+    let newThickness = document.getElementById(id + "NewThickness").value;
+    let oldThickness = document.getElementById(id + "Thickness");
+    
     const respone1 = await fetch("/api/PaperEdit", {
         method: "Put",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
             id: parseInt(id),
             newPrice: parseFloat(newPrice),
-            status: parseInt(paperStatus)
+            status: parseInt(paperStatus),
+            PaperThickness: parseFloat(newThickness)
         })
     })
 
@@ -32,7 +37,8 @@ async function editPaper(id, paperStatus) {
         return;
     }
     if (paperStatus == -99) {
-        p.innerHTML = newPrice;
+        oldPrice.innerHTML = newPrice + " руб";
+        oldThickness.innerHTML = newThickness;
         return;
     }
 

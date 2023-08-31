@@ -78,6 +78,7 @@ namespace printing_calculator.controllers.WebApi
             if (editPaper.status == -99 && editPaper.newPrice >= 0)
             {
                 paper.Prices = editPaper.newPrice;
+                paper.PaperThickness = editPaper.PaperThickness;
                 try
                 {
                     await _applicationContext.SaveChangesAsync();
@@ -136,7 +137,9 @@ namespace printing_calculator.controllers.WebApi
         public int id { get; set; }
         public float newPrice { get; set; }
         public int status { get; set; }
-    }
+        public float PaperThickness { get; set; }
+
+	}
     public class AddPaper
     {
         public string Name { get; set; }

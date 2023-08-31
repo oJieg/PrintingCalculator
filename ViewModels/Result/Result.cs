@@ -1,4 +1,7 @@
-﻿namespace printing_calculator.ViewModels.Result
+﻿using printing_calculator.DataBase;
+using printing_calculator.DataBase.setting;
+
+namespace printing_calculator.ViewModels.Result
 {
     public class Result
     {
@@ -12,11 +15,12 @@
         public PosResult PosResult { get; set; } = new();
         public int Price { get; set; }
         public bool TryPrice { get; set; }
-        public List<string> CommonToAllMarkupName { get; set; }
+        public List<CommonToAllMarkup> CommonToAllMarkupName { get; set; }
 		public List<bool> TryCommonToAllMarkup { get; set; }
 
         public DateTime DateTime { get; set; }
         public string? Comment { get; set; }
+        public SpringBrochureResult SpringBrochure { get; set; } = new();
 
 		public bool IsActualPaperPrice()
         {
@@ -30,7 +34,9 @@
 
             bool actualPosPrice = PosResult.ActualRoundingPrice &&
                 PosResult.ActualCreasingPrice &&
-                PosResult.ActualDrillingPrice;
+                PosResult.ActualDrillingPrice &&
+                SpringBrochure.ActualPrice &&
+                PosResult.ActualStapleBrochure;
             return actualPaperPrice &&
                     actualLaminationPrice &&
                     actualPosPrice;

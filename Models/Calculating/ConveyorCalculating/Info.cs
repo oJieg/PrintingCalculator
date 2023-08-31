@@ -5,12 +5,15 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class Info : IConveyor
     {
-        public Task<(СalculationHistory, Result, bool)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, false));
-            }
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Cancellation
+				}));
+			}
 
             result.HistoryInputId = history.Id;
             result.Amount = history.Input.Amount;
@@ -21,7 +24,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             result.Comment = history.Comment;
 
 
-            return Task.FromResult((history, result, true));
+            return Task.FromResult((history, result, new StatusCalculation()));
         }
     }
 }

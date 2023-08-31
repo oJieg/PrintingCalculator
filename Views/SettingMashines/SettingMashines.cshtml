@@ -233,7 +233,7 @@
 	</div>
 </div>
 
-@foreach (Markup markups in Model.PrintingsMachines[0].Markups.OrderBy(x => x.Page))
+@foreach (Markup markups in Model.PrintingsMachines.First(x => x.NameMachine == "180").Markups.OrderBy(x => x.Page))
 {
 	<form class="markup">
 		<div class="t">
@@ -297,18 +297,18 @@
 		</div>
 		<div>
 			<div class="t2">
-				<p>@Model.Machines[0].ConsumableOther</p>
+				<p>@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther</p>
 			</div>
 			<div class="t2">
-				<p>@Model.Machines[0].AdjustmenPrice</p>
+				<p>@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice</p>
 			</div>
 		</div>
 		<div>
 			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines[0].ConsumableOther">
+				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther">
 			</div>
 			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines[0].AdjustmenPrice">
+				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice">
 			</div>
 			<div class="del">
 				<input class="inputNumber" name="NameMachine" type="text" value="laminator">
@@ -342,7 +342,7 @@
 
 <h3>Настройка наценки для ламинации!</h3>
 
-@foreach (Markup markups in Model.Machines[0].Markups.OrderBy(x => x.Page))
+@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "laminator").Markups.OrderBy(x => x.Page))
 {
 	<form class="markup">
 		<div class="t">
@@ -391,7 +391,230 @@
 	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
 </form>
 
+
 <hr>
+
+<h3>Настройки брощюры на скрепку</h3>
+
+<form class="addConsumables">
+	<div class="t">
+		<div>
+			<div class="t2">
+				<p>доп наценка за каждый лист</p>
+			</div>
+			<div class="t2">
+				<p>Цена приладки</p>
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther</p>
+			</div>
+			<div class="t2">
+				<p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice</p>
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther">
+			</div>
+			<div class="t2">
+				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<div class="tooltip">
+					<p>?</p>
+					<span class="tooltiptext">
+						Эта стоимость добавляется к каждому листу дополнительно.
+						На эту цену действует наценка!!!
+						В эту цену можно включить цену работы
+					</span>
+				</div>
+			</div>
+			<div class="t2">
+				<div class="tooltip">
+					<p>?</p>
+					<span class="tooltiptext">
+						Эта стоимость добавляется к общей сумме текушего расчета.
+						На него НЕ действует наценка!
+					</span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
+</form>
+
+<h3>Настройка наценки для ламинации!</h3>
+
+@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "StapleBrochure").Markups.OrderBy(x => x.Page))
+{
+	<form class="markup">
+		<div class="t">
+			<div class="t2">
+				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
+			</div>
+			<div class="t2">
+				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+			</div>
+			<div class="t2">
+				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+			</div>
+			<div class="t2">
+				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+			</div>
+		</div>
+	</form>
+}
+
+<h3>Добавить интервал!</h3>
+
+<form class="addConsumables">
+	<div class="flexRov">
+		<div class="t2">
+			<p>Листов</p>
+		</div>
+		<div class="t2">
+			<input class="inputNumber" name="Page" type="number" value="название">
+		</div>
+		<div class="t2">
+			<p>наценка(%)</p>
+		</div>
+		<div class="t2">
+			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+		</div>
+		<div class="del">
+			<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+		</div>
+	</div>
+	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+</form>
+
+
+<hr>
+
+<h3>Настройки брощюровки на пружину</h3>
+
+<form class="addConsumables">
+	<div class="t">
+		<div>
+			<div class="t2">
+				<p>доп наценка за каждый лист</p>
+			</div>
+			<div class="t2">
+				<p>Цена приладки</p>
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther</p>
+			</div>
+			<div class="t2">
+				<p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice</p>
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther">
+			</div>
+			<div class="t2">
+				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+			</div>
+		</div>
+		<div>
+			<div class="t2">
+				<div class="tooltip">
+					<p>?</p>
+					<span class="tooltiptext">
+						Эта стоимость добавляется к каждому листу дополнительно.
+						На эту цену действует наценка!!!
+						В эту цену можно включить цену работы
+					</span>
+				</div>
+			</div>
+			<div class="t2">
+				<div class="tooltip">
+					<p>?</p>
+					<span class="tooltiptext">
+						Эта стоимость добавляется к общей сумме текушего расчета.
+						На него НЕ действует наценка!
+					</span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
+</form>
+
+<h3>Настройка наценки для брощюровки пружиной!</h3>
+
+@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "SpringBrochure").Markups.OrderBy(x => x.Page))
+{
+	<form class="markup">
+		<div class="t">
+			<div class="t2">
+				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
+			</div>
+			<div class="t2">
+				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
+			</div>
+			<div class="del">
+				<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+			</div>
+			<div class="t2">
+				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+			</div>
+			<div class="t2">
+				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+			</div>
+		</div>
+	</form>
+}
+
+<h3>Добавить интервал!</h3>
+
+<form class="addConsumables">
+	<div class="flexRov">
+		<div class="t2">
+			<p>Листов</p>
+		</div>
+		<div class="t2">
+			<input class="inputNumber" name="Page" type="number" value="название">
+		</div>
+		<div class="t2">
+			<p>наценка(%)</p>
+		</div>
+		<div class="t2">
+			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+		</div>
+		<div class="del">
+			<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+		</div>
+	</div>
+	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+</form>
+
+<hr>
+
 <h3>Настройки цены резки</h3>
 
 <form class="addConsumables">
