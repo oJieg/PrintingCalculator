@@ -15,6 +15,7 @@
         public int? DrillingPrice { get; set; }
         public int? RoundingPrice { get; set; }
         public int? SpringBrochurePrice { get; set; }
+        public int? StapleBrochurePrice { get; set; }
 
 		public int? Price { get; set; }
         public string? Comment { get; set; }

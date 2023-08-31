@@ -18,14 +18,14 @@
 }
 
 @section Style
-{
-<link rel="stylesheet" type="text/css" href="/result2.css">
+	{
+	<link rel="stylesheet" type="text/css" href="/result2.css">
 }
 
 @section JS
-{
-<script src="/Copy.js"></script>
-<script src="/MultiCalculating.js"></script>
+	{
+	<script src="/Copy.js"></script>
+	<script src="/MultiCalculating.js"></script>
 }
 
 @if (!Model.TryPrice)
@@ -90,21 +90,37 @@
 			</div>
 		</div>
 		<div class="detalPriceBox">
-			@{float forUnit = (Model.SpringBrochure.Price / Model.Amount);}
+			@{
+
+				int summ = Model.SpringBrochure.Price + Model.PosResult.StapleBrochurePrice;
+			}
 			<div class="detalPriceBox">
 				<div class="grayBackground">
 					<p class="leftTextDetalPrice">Брошюра</p>
-					<p class="rightTextDetalPrice">@Model.SpringBrochure.Price руб.</p>
+
+					<p class="rightTextDetalPrice">@summ руб.</p>
 				</div>
 				<div class="detal">
 					<details>
 						<summary class="detal">подробнее</summary>
-						<p class="detal">@Model.SpringBrochure.SpringBrochure.ToString()</p>
-						<p class="detal">@forUnit руб/шт</p>
+						@if (Model.SpringBrochure.SpringBrochure != printing_calculator.DataBase.SpringBrochure.None)
+						{
+							float forUnit = (Model.SpringBrochure.Price / Model.Amount);
+							<p class="detal">@Model.SpringBrochure.SpringBrochure.ToString()</p>
+
+							<p class="detal">На пружину @Model.SpringBrochure.Price руб</p>
+							<p class="detal"> @forUnit руб/шт</p>
+						}
+						@if(Model.PosResult.StapleBrochurePrice!=0)
+						{
+							float forUnit = (Model.PosResult.StapleBrochurePrice / Model.Amount);
+							<p class="detal">На скрепку @Model.PosResult.StapleBrochurePrice руб</p>
+							<p class="detal"> @forUnit руб/шт</p>
+						}
 					</details>
 				</div>
 			</div>
-		
+
 		</div>
 	</div>
 
@@ -238,5 +254,5 @@
 </div>
 
 <div class="quickTable">
-    <table id="table"></table>
+	<table id="table"></table>
 </div>

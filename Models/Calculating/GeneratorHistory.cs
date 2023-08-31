@@ -67,6 +67,7 @@ namespace printing_calculator.Models.Calculating
                 history.Input.RoundingAmount = input.Rounding;
                 history.Input.CommonToAllMarkupName = input.CommonToAllMarkup;
                 history.Input.SpringBrochure = input.SpringBrochure;
+                history.Input.StapleBrochure = input.StapleBrochure;
 
                 await GetHistoryAsync(history, input, cancellationToken);
                 if (input.LaminationName != null || history.Input.Lamination != null)
@@ -113,6 +114,9 @@ namespace printing_calculator.Models.Calculating
                 Creasing = inputHistory.CreasingAmount,
                 Drilling = inputHistory.DrillingAmount,
                 Rounding = inputHistory.RoundingAmount,
+                StapleBrochure = inputHistory.StapleBrochure,
+                SpringBrochure = inputHistory.SpringBrochure,
+                CommonToAllMarkup = inputHistory.CommonToAllMarkupName,
                 NoSaveDB = false
             };
         }

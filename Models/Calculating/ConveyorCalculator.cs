@@ -105,6 +105,7 @@ namespace printing_calculator.Models.Calculating
 				new PosDrilling(_settings),
 				new PosRounding(_settings),
 				new PosSpringBrochure(_settings, _applicationContext),
+				new PosStapleBrochure(_settings),
 				new AllPrice(_settings),
 			};
 			return conveyors;

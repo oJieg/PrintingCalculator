@@ -18,6 +18,7 @@ namespace printing_calculator.DataBase
         public bool RoundingAmount { get; set; }
 		public List<string>? CommonToAllMarkupName { get; set; } = null!;
         public SpringBrochure SpringBrochure { get; set; } = SpringBrochure.None;
+        public bool StapleBrochure { get; set; }
 	}
 	public enum SpringBrochure
 	{

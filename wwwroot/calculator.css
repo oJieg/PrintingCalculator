@@ -30,7 +30,20 @@
 .nameCalc {
     text-align: center;
 }
+.tooltiptext {
+    display: none;
+}
 
+.tooltiptextVisibility {
+    width: 198px;
+    background-color: rgb(255, 0, 0);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
 /* располежение форм */
 .flex {
     display: flex;
