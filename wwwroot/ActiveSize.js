@@ -159,12 +159,13 @@ async function calk() {
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify(Input)
     });
-    let historyId = await respone1.json();
-    if (historyId < 0) {
-        alert("�������������� ������1111111111!")
+    let answer = await respone1.json();
+    console.log(answer);
+    if (answer.status.status != 0) {
+        alert(answer.status.errorMassage)
     }
     else {
-        window.location.href = 'CalculatorResult?id=' + historyId;
+        window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }

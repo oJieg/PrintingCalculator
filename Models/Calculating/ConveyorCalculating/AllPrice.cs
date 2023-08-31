@@ -14,11 +14,12 @@ namespace printing_calculator.Models.ConveyorCalculating
 			_settings = settings;
 		}
 
-		public Task<(СalculationHistory, Result, StatusCalculation )> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+		public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
-				return Task.FromResult((history, result, new StatusCalculation () { 
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
 					Status = StatusType.Cancellation
 				}));
 			}
@@ -33,18 +34,13 @@ namespace printing_calculator.Models.ConveyorCalculating
 					{
 						if (commonToAllMarkupName != null)
 						{
-							
+
 							CommonToAllMarkup commonToAllMarkup = _settings.CommonToAllMarkups.Where(x => x.Name == commonToAllMarkupName).First();
 							int percentMarkup = commonToAllMarkup.PercentMarkup;
 							result.CommonToAllMarkupName.Add(commonToAllMarkup);
 							float multiplicationMarkup;
-							if (percentMarkup > 0) {
-								multiplicationMarkup = ((percentMarkup + 100) / 100f);
-							}
-							else
-							{
-								multiplicationMarkup = (percentMarkup + 100) / 100f;
-							}
+
+							multiplicationMarkup = ((percentMarkup + 100) / 100f);
 
 							result.Price = (int)((float)result.Price *
 								multiplicationMarkup
@@ -72,9 +68,11 @@ namespace printing_calculator.Models.ConveyorCalculating
 			}
 			catch (OverflowException)
 			{
-				return Task.FromResult((history, result, new StatusCalculation() { 
-					Status = StatusType.Other, 
-					ErrorMassage = "Стоимость итоговая вышла за возможные приделы int" }));
+				return Task.FromResult((history, result, new StatusCalculation()
+				{
+					Status = StatusType.Other,
+					ErrorMassage = "Стоимость итоговая вышла за возможные приделы int"
+				}));
 			}
 		}
 	}

@@ -31,16 +31,16 @@ namespace printing_calculator.controllers.WebApi
 		}
 
 		[HttpPost]
-		public async Task<int> Post(Input input)
+		public async Task<ApiCalculationAnswer> Post(Input input)
 		{
-			if(input.LaminationName== string.Empty)
+			if (input.LaminationName == string.Empty)
 			{
 				input.LaminationName = null;
 			}
 			if (!(await _validation.TryValidateInputAsync(input, new CancellationToken())))
 			{
 				_logger.LogError("input не прошел валидацию input:{input}", input);
-				return -1;
+				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
 			}
 
 			СalculationHistory? history;
@@ -54,16 +54,16 @@ namespace printing_calculator.controllers.WebApi
 				if (tryAnswer.Status != StatusType.Ok)
 				{
 					_logger.LogError("не удался расчет для данных из Input");
-					return -1;
+					return new ApiCalculationAnswer() { Status = tryAnswer };
 				}
 			}
 			catch (OperationCanceledException)
 			{
-				return -1;
+				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				return -1;
+				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
 			}
 
 			try
@@ -74,12 +74,17 @@ namespace printing_calculator.controllers.WebApi
 				_applicationContext.Histories.Add(history);
 
 				await _applicationContext.SaveChangesAsync(new CancellationToken());
-				return history.Id;
+				return new ApiCalculationAnswer()
+				{
+					Status = new StatusCalculation() { Status = StatusType.Ok },
+					IdHistory = history.Id,
+					Price = history.Price
+				};
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "не удалось сохранить просчет");
-				return -1;
+				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
 			}
 		}
 

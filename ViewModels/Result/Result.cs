@@ -35,7 +35,8 @@ namespace printing_calculator.ViewModels.Result
             bool actualPosPrice = PosResult.ActualRoundingPrice &&
                 PosResult.ActualCreasingPrice &&
                 PosResult.ActualDrillingPrice &&
-                SpringBrochure.ActualPrice;
+                SpringBrochure.ActualPrice &&
+                PosResult.ActualStapleBrochure;
             return actualPaperPrice &&
                     actualLaminationPrice &&
                     actualPosPrice;

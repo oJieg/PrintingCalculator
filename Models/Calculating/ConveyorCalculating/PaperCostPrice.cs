@@ -27,7 +27,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return (history, result, new StatusCalculation() { 
                     Status = StatusType.Other,
-                    ErrorMassage = "Стоимость расходных материалов вышла за возможные приделы int"
+                    ErrorMassage = "Стоимость бумаги вышла за возможные приделы int"
                 });
             }
         }
