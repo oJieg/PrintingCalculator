@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase;
+using printing_calculator.DataBase.crm;
 using printing_calculator.DataBase.setting;
 
 namespace printing_calculator
@@ -19,8 +20,13 @@ namespace printing_calculator
         public DbSet<PosMachinesSetting> PosMachinesSettings { get; set; } = null!;
 		public DbSet<SpringBrochureSetting> SpringBrochureSettings { get; set; } = null!;
 		public DbSet<CommonToAllMarkup> CommonToAllMarkups { get; set; } = null!;
-		
-		public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Contact> Contacts { get; set; } = null!;
+        public DbSet<Mail> Mails { get; set; } = null!;
+        public DbSet<PhoneNmber> PhoneNmbers { get; set; } = null!;
+
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
     : base(options)
         {
 			Database.EnsureCreated();
