@@ -1,7 +1,6 @@
 ﻿using printing_calculator.Models.ConveyorCalculating;
 using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
-using Microsoft.Extensions.Options;
 using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.Models.Calculating.ConveyorCalculating;
@@ -28,6 +27,14 @@ namespace printing_calculator.Models.Calculating
 		public async Task<(СalculationHistory, Result, StatusCalculation)> TryStartCalculation(int id, CancellationToken cancellationToken)
 		{
 			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
+			if(history == null)
+			{
+                return (new СalculationHistory(),new Result(), new StatusCalculation()
+                {
+                    Status = StatusType.Other,
+                    ErrorMassage = "Данное Id не найдено"
+                });
+            }
 
 			return await StartConveyor(history, cancellationToken);
 		}

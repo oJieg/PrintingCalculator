@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using printing_calculator.ViewModels;
 using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;

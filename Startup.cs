@@ -24,6 +24,7 @@ namespace printing_calculator
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
 
 			services.AddControllers();
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,12 +32,19 @@ namespace printing_calculator
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             app.UseStaticFiles();
             app.UseRouting(); // используем систему маршрутизации
 
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = "api";
+            });
 
-			app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",

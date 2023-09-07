@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace printing_calculator.controllers.WebApi
 {
-	[Route("api/[controller]")]
 	[ApiController]
 	public class CalculationController : ControllerBase
 	{
@@ -30,8 +29,8 @@ namespace printing_calculator.controllers.WebApi
 			_validation = validation;
 		}
 
-		[HttpPost]
-		public async Task<ApiCalculationAnswer> Post(Input input)
+		[HttpPost("api/simpl-calculation")]
+		public async Task<ApiSimplCalculationAnswer> SimplCalculation(Input input)
 		{
 			if (input.LaminationName == string.Empty)
 			{
@@ -40,7 +39,7 @@ namespace printing_calculator.controllers.WebApi
 			if (!(await _validation.TryValidateInputAsync(input, new CancellationToken())))
 			{
 				_logger.LogError("input не прошел валидацию input:{input}", input);
-				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
 			}
 
 			СalculationHistory? history;
@@ -54,16 +53,16 @@ namespace printing_calculator.controllers.WebApi
 				if (tryAnswer.Status != StatusType.Ok)
 				{
 					_logger.LogError("не удался расчет для данных из Input");
-					return new ApiCalculationAnswer() { Status = tryAnswer };
+					return new ApiSimplCalculationAnswer() { Status = tryAnswer };
 				}
 			}
 			catch (OperationCanceledException)
 			{
-				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
 			}
 			catch (Exception ex)
 			{
-				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
 			}
 
 			try
@@ -74,7 +73,7 @@ namespace printing_calculator.controllers.WebApi
 				_applicationContext.Histories.Add(history);
 
 				await _applicationContext.SaveChangesAsync(new CancellationToken());
-				return new ApiCalculationAnswer()
+				return new ApiSimplCalculationAnswer()
 				{
 					Status = new StatusCalculation() { Status = StatusType.Ok },
 					IdHistory = history.Id,
@@ -84,12 +83,12 @@ namespace printing_calculator.controllers.WebApi
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "не удалось сохранить просчет");
-				return new ApiCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
 			}
 		}
 
 		// PUT api/<CalculationController>/5
-		[HttpPut]
+		[HttpPut("api/add-comment")]
 		public async Task<bool> Put(AddComment addComment)
 		{
 			try
@@ -109,6 +108,65 @@ namespace printing_calculator.controllers.WebApi
 				return false;
 			}
 		}
+
+        [HttpPost("api/calculation")]
+        public async Task<ApiResultAnswer> Calculation(Input input)
+		{
+            if (input.LaminationName == string.Empty)
+            {
+                input.LaminationName = null;
+            }
+            if (!(await _validation.TryValidateInputAsync(input, new CancellationToken())))
+            {
+                _logger.LogError("input не прошел валидацию input:{input}", input);
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
+            }
+
+            СalculationHistory? history;
+
+            Result result;
+
+            try
+            {
+                (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(input, new CancellationToken());
+
+                if (tryAnswer.Status != StatusType.Ok)
+                {
+                    _logger.LogError("не удался расчет для данных из Input");
+                    return new ApiResultAnswer() { Status = tryAnswer };
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+            }
+
+            try
+            {
+                history.DateTime = DateTime.UtcNow;
+
+                _applicationContext.InputsHistories.Add(history.Input);
+                _applicationContext.Histories.Add(history);
+
+                await _applicationContext.SaveChangesAsync(new CancellationToken());
+                return new ApiResultAnswer()
+                {
+                    Status = new StatusCalculation() { Status = StatusType.Ok },
+                    IdHistory = history.Id,
+                    Result = result
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "не удалось сохранить просчет");
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+            }
+        }
+
 
 	}
 	public class AddComment
