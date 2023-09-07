@@ -6,5 +6,6 @@
         public string? Name { get; set; }
         public string? Description { get; set; }
         public List<СalculationHistory> Histories { get; set; }
+        public int ActivecalculationHistoryId { get; set; }
     }
 }

@@ -13,7 +13,7 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230907092543_addCrm")]
+    [Migration("20230907093606_addCrm")]
     partial class addCrm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,9 @@ namespace printing_calculator.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActivecalculationHistoryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
