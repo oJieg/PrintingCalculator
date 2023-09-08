@@ -9,13 +9,11 @@ namespace printing_calculator.controllers.WebApi
     public class OrderController : Controller
     {
         private readonly ApplicationContext _applicationContext;
-        private readonly ILogger<CalculatorResultController> _logger;
 
-        public OrderController(ApplicationContext applicationContext,
-            ILogger<CalculatorResultController> loggerFactory)
+
+        public OrderController(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _logger = loggerFactory;
         }
 
         [HttpGet("api/order/add-new-order")]
@@ -39,23 +37,64 @@ namespace printing_calculator.controllers.WebApi
         [HttpGet("api/order/get-order{Id}")]
         public async Task<Answer<Order>> GetOrder(int Id)
         {
-            Order order;
             try
             {
-                order = await _applicationContext.Orders
+                Order order = await _applicationContext.Orders
                     .AsNoTracking()
                     .Include(x => x.Products)
+                        .ThenInclude(x => x.Histories)
                     .Include(x => x.Contacts)
                         .ThenInclude(x => x.PhoneNmbers)
                     .Include(x => x.Contacts)
                         .ThenInclude(x => x.Mails)
                     .FirstAsync(x => x.Id == Id);
+                return new Answer<Order>() { Status = StatusAnswer.Ok, Result = order };
             }
             catch (InvalidOperationException)
             {
                 return new Answer<Order>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
             }
-            return new Answer<Order>() { Status = StatusAnswer.Ok, Result = order };
+
+        }
+
+        [HttpGet("api/order/get-list-open-order")]
+        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip, int take)
+        {
+            try
+            {
+                List<Order> order = await _applicationContext.Orders
+                     .AsNoTracking()
+                     .Include(x => x.Products)
+                         .ThenInclude(x => x.Histories)
+                     .Include(x => x.Contacts)
+                         .ThenInclude(x => x.PhoneNmbers)
+                     .Include(x => x.Contacts)
+                         .ThenInclude(x => x.Mails)
+                     .Where(x => x.status == statusOrder)
+                     .OrderBy(x=>x.DateTime)
+                     .Skip(skip)
+                     .Take(take)
+                     .ToListAsync();
+                return new Answer<List<Order>>() { Result = order };
+            }
+            catch (InvalidOperationException)
+            {
+                return new Answer<List<Order>>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
+            }
+        }
+
+        [HttpGet("api/order/get-count-order")]
+        public async Task<Answer<int>> GetCountOrder(StatusOrder statusOrder)
+        {
+            try
+            {
+                int countOrder = await _applicationContext.Orders.Where(x=>x.status == statusOrder).CountAsync();
+                return new Answer<int>() { Result = countOrder };
+            }
+            catch (Exception ex)
+            {
+                return new Answer<int>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.ToString()};
+            }
         }
 
         [HttpGet("api/order/edit-status-order{Id}")]
@@ -75,7 +114,6 @@ namespace printing_calculator.controllers.WebApi
             }
             catch (Exception ex)
             {
-                _logger.LogError($"не удалось изменить статус заказа: {Id}", ex);
                 return new Answer<bool>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.ToString(), Result = false };
             }
             return new Answer<bool>() { Status = StatusAnswer.Ok, Result = true };
@@ -99,7 +137,6 @@ namespace printing_calculator.controllers.WebApi
             }
             catch (Exception ex)
             {
-                _logger.LogError($"не удалось изменить описание заказа: {Id}", ex);
                 return new Answer<bool>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.ToString(), Result = false };
             }
         }

@@ -9,13 +9,10 @@ namespace printing_calculator.controllers.WebApi
     public class ContactController : ControllerBase
     {
         private readonly ApplicationContext _applicationContext;
-        private readonly ILogger<CalculatorResultController> _logger;
 
-        public ContactController(ApplicationContext applicationContext,
-            ILogger<CalculatorResultController> loggerFactory)
+        public ContactController(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _logger = loggerFactory;
         }
 
         [HttpGet("api/contact/add-new-contact")]

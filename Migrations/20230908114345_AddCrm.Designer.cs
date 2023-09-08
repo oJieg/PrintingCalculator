@@ -13,8 +13,8 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230908073438_addCrm2")]
-    partial class addCrm2
+    [Migration("20230908114345_AddCrm")]
+    partial class AddCrm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace printing_calculator.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("ContactOrder");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
@@ -238,6 +238,9 @@ namespace printing_calculator.Migrations
                         .HasColumnType("text");
 
                     b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Price")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
