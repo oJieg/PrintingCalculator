@@ -10,20 +10,14 @@ namespace printing_calculator.controllers.WebApi
     [ApiController]
     public class GetResultController
     {
-        private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
-        private readonly Validation _validation;
 
-        public GetResultController(ApplicationContext applicationContext,
-            ILogger<CalculatorResultController> loggerFactory,
-            ConveyorCalculator conveyorCalculator,
-            Validation validation)
+        public GetResultController(ILogger<CalculatorResultController> loggerFactory,
+            ConveyorCalculator conveyorCalculator)
         {
-            _applicationContext = applicationContext;
             _logger = loggerFactory;
             _calculator = conveyorCalculator;
-            _validation = validation;
         }
 
         [HttpGet("api/get-result{id}")]
@@ -35,7 +29,7 @@ namespace printing_calculator.controllers.WebApi
             {
                 (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
 
-                if (tryAnswer.Status != StatusType.Ok)
+                if (tryAnswer.Status != StatusAnswer.Ok)
                 {
                     _logger.LogError("не удался расчет на конвейере");
                     return new ApiResultAnswer() { Status = tryAnswer };
@@ -43,14 +37,14 @@ namespace printing_calculator.controllers.WebApi
             }
             catch (OperationCanceledException)
             {
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
             }
 
             result.HistoryInputId = id;
 
             return new ApiResultAnswer()
             {
-                Status = new StatusCalculation() { Status = StatusType.Ok },
+                Status = new StatusCalculation() { Status = StatusAnswer.Ok },
                 Result = result,
                 IdHistory = id
             };
@@ -65,7 +59,7 @@ namespace printing_calculator.controllers.WebApi
             {
                 (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
 
-                if (tryAnswer.Status != StatusType.Ok)
+                if (tryAnswer.Status != StatusAnswer.Ok)
                 {
                     _logger.LogError("не удался расчет на конвейере");
                     return new ApiSimplResultAnswer() { Status = tryAnswer };
@@ -73,14 +67,14 @@ namespace printing_calculator.controllers.WebApi
             }
             catch (OperationCanceledException)
             {
-                return new ApiSimplResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+                return new ApiSimplResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
             }
 
             result.HistoryInputId = id;
 
             return new ApiSimplResultAnswer()
             {
-                Status = new StatusCalculation() { Status = StatusType.Ok },
+                Status = new StatusCalculation() { Status = StatusAnswer.Ok },
                 SimplResult = Converter.HistoryToSimplResult(history),
                 IdHistory = id
             };

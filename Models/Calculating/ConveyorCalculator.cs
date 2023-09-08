@@ -31,7 +31,7 @@ namespace printing_calculator.Models.Calculating
 			{
                 return (new СalculationHistory(),new Result(), new StatusCalculation()
                 {
-                    Status = StatusType.Other,
+                    Status = StatusAnswer.Other,
                     ErrorMassage = "Данное Id не найдено"
                 });
             }
@@ -59,7 +59,7 @@ namespace printing_calculator.Models.Calculating
 			Result result = new();
 			if (history == null)
 			{
-				return (new СalculationHistory(), result, new StatusCalculation() { Status = StatusType.Other,
+				return (new СalculationHistory(), result, new StatusCalculation() { Status = StatusAnswer.Other,
 				ErrorMassage = "произошла ошибка при заполении history"
 				});
 			}
@@ -75,7 +75,7 @@ namespace printing_calculator.Models.Calculating
 			if (_settings == null)
 			{
 				return (new СalculationHistory(), result, new StatusCalculation() {
-					Status = StatusType.Other, 
+					Status = StatusAnswer.Other, 
 					ErrorMassage = "Ошибка при загрузке Settings из базы"
 				});
 			}
@@ -83,7 +83,7 @@ namespace printing_calculator.Models.Calculating
 			foreach (var conveyor in AddConveyor())
 			{
 				(history, result, tryAnswer) = await conveyor.TryConveyorStartAsync(history, result, cancellationToken);
-				if (tryAnswer.Status != StatusType.Ok)
+				if (tryAnswer.Status != StatusAnswer.Ok)
 				{
 					_logger.LogError("ошибка подсчета в методе {conveyor}", conveyor);
 					return (history, result, tryAnswer);

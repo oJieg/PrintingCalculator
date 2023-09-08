@@ -13,7 +13,7 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230907093606_addCrm")]
+    [Migration("20230907142820_addCrm")]
     partial class addCrm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,16 +174,21 @@ namespace printing_calculator.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNmber", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,7 +199,7 @@ namespace printing_calculator.Migrations
                     b.Property<int>("ContactId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -594,24 +599,20 @@ namespace printing_calculator.Migrations
 
             modelBuilder.Entity("printing_calculator.DataBase.crm.Mail", b =>
                 {
-                    b.HasOne("printing_calculator.DataBase.crm.Contact", "Contact")
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
                         .WithMany("Mails")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNmber", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
                 {
-                    b.HasOne("printing_calculator.DataBase.crm.Contact", "Contact")
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
                         .WithMany("PhoneNmbers")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.crm.Product", b =>

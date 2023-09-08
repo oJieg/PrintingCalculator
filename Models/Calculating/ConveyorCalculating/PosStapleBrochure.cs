@@ -49,7 +49,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			{
 				return (history, result, new StatusCalculation()
 				{
-					Status = StatusType.Other,
+					Status = StatusAnswer.Other,
 					ErrorMassage = "Произошла ошибка при вычислении ConsumablePrice"
 				});
 			}

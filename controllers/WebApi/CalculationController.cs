@@ -39,7 +39,7 @@ namespace printing_calculator.controllers.WebApi
 			if (!(await _validation.TryValidateInputAsync(input, new CancellationToken())))
 			{
 				_logger.LogError("input не прошел валидацию input:{input}", input);
-				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
 			}
 
 			СalculationHistory? history;
@@ -50,7 +50,7 @@ namespace printing_calculator.controllers.WebApi
 			{
 				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(input, new CancellationToken());
 
-				if (tryAnswer.Status != StatusType.Ok)
+				if (tryAnswer.Status != StatusAnswer.Ok)
 				{
 					_logger.LogError("не удался расчет для данных из Input");
 					return new ApiSimplCalculationAnswer() { Status = tryAnswer };
@@ -58,11 +58,11 @@ namespace printing_calculator.controllers.WebApi
 			}
 			catch (OperationCanceledException)
 			{
-				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
 			}
 			catch (Exception ex)
 			{
-				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = ex.ToString() } };
 			}
 
 			try
@@ -75,7 +75,7 @@ namespace printing_calculator.controllers.WebApi
 				await _applicationContext.SaveChangesAsync(new CancellationToken());
 				return new ApiSimplCalculationAnswer()
 				{
-					Status = new StatusCalculation() { Status = StatusType.Ok },
+					Status = new StatusCalculation() { Status = StatusAnswer.Ok },
 					IdHistory = history.Id,
 					Price = history.Price
 				};
@@ -83,7 +83,7 @@ namespace printing_calculator.controllers.WebApi
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "не удалось сохранить просчет");
-				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+				return new ApiSimplCalculationAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = ex.ToString() } };
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace printing_calculator.controllers.WebApi
             if (!(await _validation.TryValidateInputAsync(input, new CancellationToken())))
             {
                 _logger.LogError("input не прошел валидацию input:{input}", input);
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = "Введенные данные не прошли валидацию" } };
             }
 
             СalculationHistory? history;
@@ -130,7 +130,7 @@ namespace printing_calculator.controllers.WebApi
             {
                 (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(input, new CancellationToken());
 
-                if (tryAnswer.Status != StatusType.Ok)
+                if (tryAnswer.Status != StatusAnswer.Ok)
                 {
                     _logger.LogError("не удался расчет для данных из Input");
                     return new ApiResultAnswer() { Status = tryAnswer };
@@ -138,11 +138,11 @@ namespace printing_calculator.controllers.WebApi
             }
             catch (OperationCanceledException)
             {
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Cancellation } };
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
             }
             catch (Exception ex)
             {
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = ex.ToString() } };
             }
 
             try
@@ -155,7 +155,7 @@ namespace printing_calculator.controllers.WebApi
                 await _applicationContext.SaveChangesAsync(new CancellationToken());
                 return new ApiResultAnswer()
                 {
-                    Status = new StatusCalculation() { Status = StatusType.Ok },
+                    Status = new StatusCalculation() { Status = StatusAnswer.Ok },
                     IdHistory = history.Id,
                     Result = result
                 };
@@ -163,7 +163,7 @@ namespace printing_calculator.controllers.WebApi
             catch (Exception ex)
             {
                 _logger.LogError(ex, "не удалось сохранить просчет");
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusType.Other, ErrorMassage = ex.ToString() } };
+                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Other, ErrorMassage = ex.ToString() } };
             }
         }
 
