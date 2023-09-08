@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using printing_calculator;
@@ -12,9 +13,10 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230908073438_addCrm2")]
+    partial class addCrm2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace printing_calculator.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("ContactOrder");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>

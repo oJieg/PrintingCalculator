@@ -3,7 +3,7 @@
     public class Order
     {
         public int Id { get; set; }
-        public List<Contact> Contacts { get; set; }
+        public List<Contact> Contacts { get; set; } = new List<Contact>();
         public string? Description { get; set; }
         public List<Product> Products { get; set; }
         public DateTime DateTime { get; set; }

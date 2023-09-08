@@ -31,5 +31,5 @@ namespace printing_calculator
         {
 			Database.EnsureCreated();
         }
-	}
+    }
 }

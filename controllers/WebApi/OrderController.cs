@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase.crm;
-using printing_calculator.Models.Calculating;
 using printing_calculator.ViewModels;
 
 namespace printing_calculator.controllers.WebApi
@@ -45,6 +43,7 @@ namespace printing_calculator.controllers.WebApi
             try
             {
                 order = await _applicationContext.Orders
+                    .AsNoTracking()
                     .Include(x => x.Products)
                     .Include(x => x.Contacts)
                         .ThenInclude(x => x.PhoneNmbers)
@@ -104,55 +103,6 @@ namespace printing_calculator.controllers.WebApi
                 return new Answer<bool>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.ToString(), Result = false };
             }
         }
-
-        //[HttpPost("api/order/add-new-contact{orderId}")]
-        //public async Task<Answer<Contact>> AddNewContact(int orderId, string? name, string? eMail, string? phone)
-        //{
-        //    Contact contact = new()
-        //    {
-        //        Name = name
-        //    };
-
-        //    try
-        //    {
-        //        Mail mail;
-        //        PhoneNumber phoneNumber;
-
-        //        Order order = await _applicationContext.Orders
-        //             .Include(x => x.Products)
-        //             .Include(x => x.Contacts)
-        //                 .ThenInclude(x => x.PhoneNmbers)
-        //             .Include(x => x.Contacts)
-        //                 .ThenInclude(x => x.Mails)
-        //             .FirstAsync(x => x.Id == orderId);
-
-        //        if (eMail != null)
-        //        {
-        //            mail = new() { Email = eMail };
-        //            _applicationContext.Mails.Add(mail);
-        //            contact.Mails = new List<Mail>() { mail };
-        //        }
-        //        if (phone != null)
-        //        {
-        //            phoneNumber = new() { Number = phone };
-        //            _applicationContext.PhoneNmbers.Add(phoneNumber);
-        //            contact.PhoneNmbers = new List<PhoneNumber>() { phoneNumber };
-        //        }
-
-        //        _applicationContext.Contacts.Add(contact);
-        //        order.Contacts.Add(contact);
-        //        await _applicationContext.SaveChangesAsync();
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        return new Answer<Contact>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new Answer<Contact>() { Status = StatusAnswer.Other, ErrorMassage = ex.Message };
-        //    }
-        //    return new Answer<Contact>() { Result = contact };
-        //}
 
         [HttpPost("api/order/add-contact{orderId}")]
         public async Task<Answer<Contact>> AddContact(int orderId, int contactId)

@@ -20,5 +20,6 @@ namespace printing_calculator
                  logging.ClearProviders();
              })
             .UseNLog();
+        
     }
 }
