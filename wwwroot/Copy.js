@@ -34,7 +34,7 @@ function copy(text) {
 async function putComment(id) {
     let comment = document.getElementById("comment");
 
-    let respone1 = await fetch('/api/Calculation', {
+    let respone1 = await fetch('/api/add-comment', {
         method: "put",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({ Id: parseInt(id), comment: comment.value })

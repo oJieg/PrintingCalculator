@@ -24,12 +24,12 @@ namespace printing_calculator
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Contact> Contacts { get; set; } = null!;
         public DbSet<Mail> Mails { get; set; } = null!;
-        public DbSet<PhoneNmber> PhoneNmbers { get; set; } = null!;
+        public DbSet<PhoneNumber> PhoneNmbers { get; set; } = null!;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
     : base(options)
         {
 			Database.EnsureCreated();
         }
-	}
+    }
 }

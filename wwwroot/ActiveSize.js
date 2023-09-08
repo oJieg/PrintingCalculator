@@ -154,7 +154,7 @@ async function calk() {
         StapleBrochure: isBrochureStaple
     }
     console.log(Input);
-    let respone1 = await fetch('/api/Calculation', {
+    let respone1 = await fetch('/api/simpl-calculation', {
         method: "Post",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify(Input)

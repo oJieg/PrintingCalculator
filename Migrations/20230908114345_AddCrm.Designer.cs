@@ -13,8 +13,8 @@ using printing_calculator;
 namespace printing_calculator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230907093606_addCrm")]
-    partial class addCrm
+    [Migration("20230908114345_AddCrm")]
+    partial class AddCrm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,21 @@ namespace printing_calculator.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ContactOrder", b =>
+                {
+                    b.Property<int>("ContactsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ContactsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("ContactOrder");
+                });
 
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
@@ -134,12 +149,7 @@ namespace printing_calculator.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Contacts");
                 });
@@ -174,16 +184,21 @@ namespace printing_calculator.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNmber", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,7 +209,7 @@ namespace printing_calculator.Migrations
                     b.Property<int>("ContactId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -223,6 +238,9 @@ namespace printing_calculator.Migrations
                         .HasColumnType("text");
 
                     b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Price")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -562,6 +580,21 @@ namespace printing_calculator.Migrations
                     b.HasDiscriminator().HasValue("PrintingMachineSetting");
                 });
 
+            modelBuilder.Entity("ContactOrder", b =>
+                {
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
+                        .WithMany()
+                        .HasForeignKey("ContactsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("printing_calculator.DataBase.crm.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
                     b.HasOne("printing_calculator.DataBase.ConsumablePrice", "ConsumablePrice")
@@ -585,33 +618,22 @@ namespace printing_calculator.Migrations
                     b.Navigation("Input");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.crm.Contact", b =>
-                {
-                    b.HasOne("printing_calculator.DataBase.crm.Order", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("OrderId");
-                });
-
             modelBuilder.Entity("printing_calculator.DataBase.crm.Mail", b =>
                 {
-                    b.HasOne("printing_calculator.DataBase.crm.Contact", "Contact")
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
                         .WithMany("Mails")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNmber", b =>
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
                 {
-                    b.HasOne("printing_calculator.DataBase.crm.Contact", "Contact")
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
                         .WithMany("PhoneNmbers")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.crm.Product", b =>
@@ -697,8 +719,6 @@ namespace printing_calculator.Migrations
 
             modelBuilder.Entity("printing_calculator.DataBase.crm.Order", b =>
                 {
-                    b.Navigation("Contacts");
-
                     b.Navigation("Products");
                 });
 
