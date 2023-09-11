@@ -12,8 +12,7 @@
 .main-body {
     display: flex;
     flex-direction: column;
-    padding-left: 50px;
-    padding-right: 50px;
+    width: 98vw;
 }
 
 .menu {
@@ -41,6 +40,8 @@
 }
 
 .NavigationBar {
+    display: flex;
+    flex-direction: row;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -48,18 +49,15 @@
     background-color: #ffffff;
 }
 
-li.li-margin a {
+.li-margin a {
     white-space: nowrap;
     display: flex;
     flex-direction: row;
     align-items: center;
-
     justify-content: flex-start;
-
     color: rgb(26, 26, 26);
     padding: 8px 16px;
     text-decoration: none;
-
     border-bottom: 2px solid #8fbc8f;
     border-radius: 5px;
 }
@@ -93,6 +91,7 @@ body {
     text-align: right;
     flex-grow: 1;
 }
+
 .rightHeader {
     color: #b1b1b1;
     margin: 0;
