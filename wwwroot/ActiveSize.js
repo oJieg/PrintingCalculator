@@ -153,14 +153,12 @@ async function calk() {
         SpringBrochure: springBrochure(),
         StapleBrochure: isBrochureStaple
     }
-    console.log(Input);
     let respone1 = await fetch('/api/simpl-calculation', {
         method: "Post",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify(Input)
     });
     let answer = await respone1.json();
-    console.log(answer);
     if (answer.status.status != 0) {
         alert(answer.status.errorMassage)
     }

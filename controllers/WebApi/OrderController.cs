@@ -58,7 +58,7 @@ namespace printing_calculator.controllers.WebApi
         }
 
         [HttpGet("api/order/get-list-open-order")]
-        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip, int take)
+        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip=0, int take=5)
         {
             try
             {
