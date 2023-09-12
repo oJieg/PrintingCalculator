@@ -6,7 +6,7 @@ async function generatorTable(inResponseOrder) {
     responseOrder = inResponseOrder;
 
     for (let i = 0; i < responseOrder.length; i++) {
-        $('#table tr:last').after('<tr onclick="clicTable()">' + addData( i, addTotalPrice(addContact( i, await addProduct(i ,addStatus(i, addId(i)))))) + '</tr>');
+        $('#table tr:last').after('<tr onclick="clicTable('+responseOrder[i].id +')">' + addData( i, addTotalPrice(addContact( i, await addProduct(i ,addStatus(i, addId(i)))))) + '</tr>');
     }
 }
 
@@ -49,7 +49,7 @@ async function addProduct(i, text) {
     }
 
     if(countProuction > 1) {
-        text += '<details class="detal"> <summary>Больше</summary>';
+        text += '<details class="detal" onclick="detal()"> <summary>Больше</summary>';
         for(let j = 1; j<countProuction; j++){
             let historysLength = responseOrder[i].products.$values[j].histories.$values.length;
             let actualHistoryJ = responseOrder[i].products.$values[j].activecalculationHistoryId;
@@ -85,7 +85,7 @@ function generatorBoxProduct(history, productionId){
 function addContact(i, text){
     text += '<td>';
     for(let j = 0; j<responseOrder[i].contacts.$values.length; j++){
-        text += '<div class="textTableHistory">' +
+        text += '<div class="textTableHistory" onclick="contactClick('+responseOrder[i].contacts.$values[j].id+')">' +
                     '<div class="boxProduct">'+
                         '<p class="boxText">' + responseOrder[i].contacts.$values[j].name +'</p>';
         if(responseOrder[i].contacts.$values[j].mails.$values.length>0){
@@ -121,23 +121,23 @@ function addData(i, text){
 
 function generatorLogo(history){
     let PosLogo= "";
-    if (history.Lamination)
+    if (history.lamination)
     {
         PosLogo += "<img class='imagPos' src='lamination.svg'/>";
     }
-    if (history.Creasing)
+    if (history.creasing)
     {
         PosLogo += "<img class='imagPos' src='creesing.svg'/>";
     }
-    if (history.Drilling)
+    if (history.drilling)
     {
         PosLogo += "<img class='imagPos' src='driling.svg'/>";
     }
-    if (history.Rounding)
+    if (history.rounding)
     {
         PosLogo += "<img class='imagPos' src='rolling.svg'/>";
     }
-    if(history.SpringBrochure)
+    if(history.springBrochure)
     {
         PosLogo += "<img class='imagPos' src='SpringBrochure.svg'/>";
     }

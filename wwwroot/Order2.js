@@ -1,16 +1,52 @@
-function clicTable(){
-//alert();
+let clicMiss = true;
+
+function clicTable(orderId){
+    if(clicMiss){
+        alert();
+        
+    }
+    clicMiss = true;
+
+}
+function detal(){
+    clicMiss = false;
 }
 function productionClick(idProduction){
+    
+   clicMiss = false;
+   $("#vignette").fadeIn();
+   $("#detalProduction").fadeIn();
     //alert(idProduction);
 }
 
+function contactClick(contactId){
+    clicMiss = false;
+    alert(contactId);
+}
+
 function closeOrder(orderId){
+    clicMiss = false;
 alert("close"+ orderId)
 }
+
 function openOrder(orderId){
+    clicMiss = false;
+    $("#vignette").fadeIn();
     alert("open" + orderId)
 }
+
+function venetkaClick(){
+   // alert();
+   // $("#vignette").fadeOut() ;
+
+}
+
+$( "#vignette" ).click(function() {
+   // alert();
+    $( this ).fadeOut();
+    $("#detalProduction").fadeOut();
+  });
+
 
 
 
