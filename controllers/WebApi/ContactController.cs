@@ -113,6 +113,7 @@ namespace printing_calculator.controllers.WebApi
                     .AsNoTracking()
                     .Include(x => x.Mails)
                     .Include(x => x.PhoneNmbers)
+                    .Include(x=>x.Orders)
                     .FirstAsync(x => x.Id == contactId);
                 return new Answer<Contact>() { Result = contact };
             }

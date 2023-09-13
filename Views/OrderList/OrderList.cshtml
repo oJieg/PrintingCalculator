@@ -5,8 +5,9 @@
 	Layout = "_Layout";
 }
 @section JS{
-	<script src="/Order.js" charset="utf-8"></script>
-	<script src="/Order2.js" charset="utf-8"></script>
+	<script src="/OrderGeneratorTable.js" charset="utf-8"></script>
+	<script src="/OrderPopUpControl.js" charset="utf-8"></script>
+	<script src="/OrderGeneratorPage.js" charset="utf-8"></script>
 }
 
 @section Style {
@@ -26,8 +27,8 @@
 				<tbody >
 					<tr>
 						<th>
-							<div class="textTableHistory">N</div>
-							<input class="search" type="text">
+							<div class="textTableHistory" onclick="searchId();">N</div>
+							<input class="search" id="searchId" type="text" style="display:none">
 						</th>
 						<th>
 							<div class="textTableHistory">Статус</div>
@@ -42,8 +43,8 @@
 							<div class="textTableHistory">Сумма</div>
 						</th>
 						<th>
-							<div class="textTableHistory">Дата</div>
-							<input class="search" type="text">
+							<div class="textTableHistory" onclick="searchDate();">Дата</div>
+							<input class="search" id="searchDate" type="date" style="display:none">
 						</th>
 					</tr>
 				</tbody>
@@ -51,44 +52,40 @@
 		</div>
 	</div>
 
-	<div class="pageBar">
-		<form>
+	<div class="pageBar" id="pageBar">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History" value="&lt;&lt;">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=0" value="&lt;">
 
-			<input class="buttonNextActiv" type="submit" disabled="disabled" formmethod="post"
+			<input class="buttonNextActiv" type="submit" disabled="disabled" onclick="toPage(0)" formmethod="post"
 				   formaction="History?page=1" value="1">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="2">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=3" value="3">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=4" value="4">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=5" value="5">
 			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="&gt;">
-		</form>
 
 	</div>
-	<div class="detalContact" style="display: none;">
-		<div class="close" onclick=""> [x]</div>
+	<div class="detalContact" id="detalContact" style="display: none;">
+		<div class="close" onclick="closeVenetka();"> [x]</div>
 		<P class="contact">Имя:</P>
-		<h2 class="contact">Алесей</h2>
+		<h2 class="contact" id="contactName">Алесей</h2>
 		<P class="contact">Датали:</P>
-		<h2 class="contact">Работает тут</h2>
-		<P class="contact">E-mail:</P>
-		<h2 class="contactMail">print@print.life</h2>
-		<h2 class="contactMail">print@print.life</h2>
-		<h2 class="contactMail">print@print.life</h2>
+		<h2 class="contact" id="contactDetal">Работает тут</h2>
+		<P class="contact" >E-mail:</P>
+		<div class="contactMail" id="contactEmail"></div>
+
 		<P class="contact">Тел:</P>
-		<h2 class="contact">+791245810254</h2>
-		<div class="close"> [x]</div>
+		<div class="contact" id="contactPhone"></div>
 	</div>
 
 	<div class="detalProduction" id="detalProduction" style="display: none;">
-		<div class="close" onclick=""> [x]</div>
+		<div class="close" onclick="closeVenetka();"> [x]</div>
 		<P class="contact">Название:</P>
-		<h2 class="contact">визитки</h2>
+		<h2 class="contact" id="detalProductionName">визитки</h2>
 		<P class="contact">Датали:</P>
-		<h2 class="contact">-</h2>
+		<h2 class="contact" id="detalProductionDetails">-</h2>
 
-		<table class="tableHistory">
+		<table class="tableHistory" id="productionTable">
 			<tbody>
 				<tr>
 					<th>
@@ -117,63 +114,6 @@
 					</th>
 				</tr>
 
-				<tr onclick="document.location=&#39;/CalculatorResult?id=7&#39;">
-					<td>
-						<div class="textTableHistory">7</div>
-					</td>
-					<td>
-						<div class="textTableHistory">08.09.2023 12:22:12</div>
-					</td>
-					<td>
-						<div class="textTableHistory">297 x 420</div>
-					</td>
-					<td>
-						<div class="textTableHistory">1 x 1</div>
-					</td>
-					<td>
-						<div class="textTableHistory">Нулевая бумага</div>
-					</td>
-					<td>
-						<div>
-							-
-						</div>
-					</td>
-					<td>
-						<div class="textTableHistory">90</div>
-					</td>
-					<td>
-						<div class="textTableHistoryComment"></div>
-					</td>
-				</tr>
-				<tr onclick="document.location=&#39;/CalculatorResult?id=6&#39;">
-					<td>
-						<div class="textTableHistory">6</div>
-					</td>
-					<td>
-						<div class="textTableHistory">07.09.2023 14:21:59</div>
-					</td>
-					<td>
-						<div class="textTableHistory">100 x 100</div>
-					</td>
-					<td>
-						<div class="textTableHistory">5 x 10</div>
-					</td>
-					<td>
-						<div class="textTableHistory">Нулевая бумага</div>
-					</td>
-					<td>
-						<div>
-							<img class="imagPos" src="./Калькулятор_files/rolling.svg">
-						</div>
-					</td>
-					<td>
-						<div class="textTableHistory">2350</div>
-					</td>
-					<td>
-						<div class="textTableHistoryComment"></div>
-					</td>
-				</tr>
-
 			</tbody>
 		</table>
 
@@ -184,4 +124,4 @@
 
 </div>
 
-<div class="venetka" id="vignette" style="display: none"></div>
+<div class="venetka" id="vignette" onclick="closeVenetka();" style="display: none"></div>

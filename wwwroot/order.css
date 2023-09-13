@@ -249,10 +249,11 @@ h2.contactMail{
     margin: 0;
     cursor: pointer;
 }
-.close{
+.close {
     position: absolute;
-right: 3%;
-font-size: large;
+    right: 3%;
+    font-size: large;
+    cursor: pointer;
 }
 
 .detalProduction{
@@ -268,4 +269,7 @@ font-size: large;
 }
 .tableHistory{
     width: 80vw ;
+}
+.actualHistoru {
+    background-color: rgb(222, 255, 196);
 }
