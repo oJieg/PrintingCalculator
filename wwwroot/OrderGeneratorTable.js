@@ -233,7 +233,7 @@ async function addProductionTable(historyId) {
 
 async function detalContact(contactId) {
     let contact = await getContact(contactId);
-    console.log(contact);
+    //console.log(contact);
     addInformatioContact(contact);
 
 }

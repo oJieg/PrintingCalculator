@@ -214,5 +214,32 @@ namespace printing_calculator.controllers.WebApi
                 return new Answer<List<Contact>>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.Message };
             }
         }
+
+        [HttpGet("api/contact/searth-contact-by-name")]
+        public async Task<Answer<List<Contact>>> SearthContactByName(string name)
+        {
+            try
+            {
+                List<Contact>? contact = await _applicationContext.Contacts
+                    .Where(x => x.Name.Contains(name))
+                    .ToListAsync();
+
+                if (contact.Count == 0)
+                {
+                    return new Answer<List<Contact>>() { Status = StatusAnswer.NotFaund };
+                }
+
+                return new Answer<List<Contact>>() { Result = contact };
+
+            }
+            catch (InvalidOperationException)
+            {
+                return new Answer<List<Contact>>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден contact с таким ID" };
+            }
+            catch (Exception ex)
+            {
+                return new Answer<List<Contact>>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.Message };
+            }
+        }
     }
 }

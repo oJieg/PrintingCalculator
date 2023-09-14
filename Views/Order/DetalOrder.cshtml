@@ -1,0 +1,119 @@
+﻿@model int
+@using printing_calculator.ViewModels;
+@using Microsoft.AspNetCore.Html;
+
+@{
+    Layout = "_Layout";
+}
+@section JS{
+    <script src="/DetalOrderSearch.js" charset="utf-8"></script>
+    <script src="/DetalOrderFill.js" charset="utf-8"></script>
+
+}
+
+@section Style {
+    <link rel="stylesheet" type="text/css" href="/DetalOrder.css">
+}
+
+<div class="main-body">
+    <form name="my1" class="flex">
+        <h2 class="nameCalc" id="idOrder" name="@Model"> Заказ №@Model</h2>
+
+        <p class="blockName">контакты</p>
+        <div class="contactSpace" id="contactSpace">
+
+        </div>
+
+        <div class="horizontalInput" id="opacitySize">
+            <div class="nameAndInput">
+                <label class="labletext" for="Height">Имя</label>
+                <input class="inputNumber" id="Name" type="text" autocomplete="off">
+            </div>
+            <div class="nameAndInput">
+                <label class="labletext" for="Height">Телефон</label>
+                <input class="inputNumber" id="Phone" type="text" autocomplete="off">
+            </div>
+            <div class="nameAndInput">
+                <label class="labletext" for="Height">E-mail</label>
+                <input class="inputNumber" id="Email" type="text" autocomplete="off">
+            </div>
+
+            <div class="clue" id="clue" style="display:none">
+            </div>
+        </div>
+
+
+
+        <p class="blockName">продукт</p>
+        <div id="product">
+            <div class="productSpace">
+                <div class="horizontalInput">
+                    <div>
+                        <div class="productionDetal">
+                            <label class="labletext" for="Height">Название</label>
+                            <input class="inputNumber" id="productName" name="1111" type="text" onchange=''>
+                        </div>
+                        <div class="productionDetal">
+                            <label class="labletext" for="Height">Описание</label>
+                            <input class="inputNumber" id="productDetal" name="1111" type="text" onchange=''>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="Price" id="productPrice" name="1111">1844 руб.</p>
+                    </div>
+                    <div class="centrButton">
+                        <div class="button">
+                            <input class="buttonNext" type="button" onclick="calk(1111);" value="Посчитать">
+                        </div>
+                    </div>
+                </div>
+                <div class="tableFlex">
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <div class="textTableHistory">N</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">Дата</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">размер</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">тираж</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">бумага</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">постпечатная</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">цена</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">коментарий</div>
+                                    </th>
+                                    <th>
+                                        <div class="textTableHistory">активировать</div>
+                                    </th>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="totalPrice" id="totalPrice">
+            итого: 1845р
+        </div>
+        <div class="buttonNewContact">
+            <input class="buttonNext" type="button" onclick="addNewProduct();" value="добавить новый продукт">
+        </div>
+
+    </form>
+</div>
