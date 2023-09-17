@@ -8,10 +8,16 @@
 	<script src="/OrderGeneratorTable.js" charset="utf-8"></script>
 	<script src="/OrderPopUpControl.js" charset="utf-8"></script>
 	<script src="/OrderGeneratorPage.js" charset="utf-8"></script>
+	<script src="/OrderGeneratorResultHistory.js" charset="utf-8"></script>
+	<script src="/DetalContact.js" charset="utf-8"></script>
+	<script src="/Copy.js" charset="utf-8"></script>
+	
 }
 
 @section Style {
-    <link rel="stylesheet" type="text/css" href="/order.css">
+	<link rel="stylesheet" type="text/css" href="/order.css">
+	<link rel="stylesheet" type="text/css" href="/result.css">
+	
 }
 
 <div class="main-body">
@@ -23,8 +29,8 @@
 	</p>
 	<div class="tableFlex">
 		<div style="overflow-x:auto;">
-			<table id="table">
-				<tbody >
+			<table class="TableOrder" id="table">
+				<tbody>
 					<tr>
 						<th>
 							<div class="textTableHistory" onclick="searchId();">N</div>
@@ -53,16 +59,16 @@
 	</div>
 
 	<div class="pageBar" id="pageBar">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History" value="&lt;&lt;">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=0" value="&lt;">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History" value="&lt;&lt;">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=0" value="&lt;">
 
-			<input class="buttonNextActiv" type="submit" disabled="disabled" onclick="toPage(0)" formmethod="post"
-				   formaction="History?page=1" value="1">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="2">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=3" value="3">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=4" value="4">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=5" value="5">
-			<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="&gt;">
+		<input class="buttonNextActiv" type="submit" disabled="disabled" onclick="toPage(0)" formmethod="post"
+			   formaction="History?page=1" value="1">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="2">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=3" value="3">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=4" value="4">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=5" value="5">
+		<input class="buttonNext" type="submit" formmethod="post" formaction="History?page=2" value="&gt;">
 
 	</div>
 	<div class="detalContact" id="detalContact" style="display: none;">
@@ -71,11 +77,42 @@
 		<h2 class="contact" id="contactName">Алесей</h2>
 		<P class="contact">Датали:</P>
 		<h2 class="contact" id="contactDetal">Работает тут</h2>
-		<P class="contact" >E-mail:</P>
+		<P class="contact">E-mail:</P>
 		<div class="contactMail" id="contactEmail"></div>
 
 		<P class="contact">Тел:</P>
 		<div class="contact" id="contactPhone"></div>
+
+		<div class="tableFlex">
+		<div style="overflow-x:auto;">
+				<table class="TableContactOrder" id="TableContactOrder">
+				<tbody>
+					<tr>
+						<th>
+							<div class="textTableHistory" onclick="searchId();">N</div>
+							<input class="search" id="searchId" type="text" style="display:none">
+						</th>
+						<th>
+							<div class="textTableHistory">Статус</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Продукты</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Клиент</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Сумма</div>
+						</th>
+						<th>
+							<div class="textTableHistory" onclick="searchDate();">Дата</div>
+							<input class="search" id="searchDate" type="date" style="display:none">
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 	</div>
 
 	<div class="detalProduction" id="detalProduction" style="display: none;">
@@ -109,18 +146,17 @@
 					<th>
 						<div class="textTableHistory">цена</div>
 					</th>
-					<th>
-						<div class="textTableHistory">коментарий</div>
-					</th>
 				</tr>
 
 			</tbody>
 		</table>
 
-
 	</div>
 
-	
+	<div class="detalHistory" style="display:none;" id="detalHistory">
+	</div>
+
+
 
 </div>
 

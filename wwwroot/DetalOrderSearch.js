@@ -50,7 +50,7 @@ function renderClue(contacts){
         }
     }
 
-    $('#clue').append('<div class="clueContact" id="newContact">Добавить как новый контакт</div>');
+    $('#clue').append('<div class="clueContact" id="newContact" onclick="newContact();">Добавить как новый контакт</div>');
 }
 
 function renderContactClue(contact){
@@ -63,12 +63,12 @@ function renderContactClue(contact){
         mail = contact.mails.$values[0].email;
     }
 
-    $('#clue').append( '<div class="clueContact" onclick="getContact('+contact.id+'">'+
+    $('#clue').append( '<div class="clueContact" onclick="ContactInOrder('+contact.id+')">'+
     contact.name + '|'+ phine +'|'+ mail + '</div>');
 }
 
 async function findContactForPhone(phone) {
-    let respone1 = await fetch('https://localhost:7181/api/contact/searth-contact-by-phone?phone=' + phone, {
+    let respone1 = await fetch('/api/contact/searth-contact-by-phone?phone=' + phone, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });
@@ -80,7 +80,7 @@ async function findContactForPhone(phone) {
 }
 
 async function findContactForEmail(Email) {
-    let respone1 = await fetch('https://localhost:7181/api/contact/searth-contact-by-email?email=' + Email, {
+    let respone1 = await fetch('/api/contact/searth-contact-by-email?email=' + Email, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });
@@ -92,7 +92,7 @@ async function findContactForEmail(Email) {
 }
 
 async function findContactForName(name) {
-    let respone1 = await fetch('https://localhost:7181/api/contact/searth-contact-by-name?name=' + name, {
+    let respone1 = await fetch('/api/contact/searth-contact-by-name?name=' + name, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });

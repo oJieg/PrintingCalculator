@@ -204,3 +204,30 @@ input.buttonNext:active {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.venetka {
+    position: fixed;
+    background-color: #bbbbbb;
+    opacity: 70%;
+    width: 100vw;
+    height: 100vh;
+    z-index: 97;
+}
+.detalHistory {
+    position: fixed;
+    border: solid;
+    overflow-y: auto;
+    left: 50%;
+    top: 50%;
+    background-color: #ffffff;
+    width: 700px;
+    height: 620px;
+    margin: -300px 0 0 -350px;
+    z-index: 99;
+}
+.close {
+    position: absolute;
+    right: 3%;
+    font-size: large;
+    cursor: pointer;
+}

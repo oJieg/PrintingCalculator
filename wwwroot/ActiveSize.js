@@ -29,6 +29,33 @@ function loadPage() {
     calkSizeStaple();
 }
 
+async function getResult(historyId){
+    $('#vignette').fadeIn();
+    await addHistoryInOrder(historyId);
+    await result(historyId);
+}
+
+async function addHistoryInOrder(historyId){
+    let respone = await fetch('/api/product/add-history'+$('#ProductId').attr('Name')+'?histiryId=' + historyId, {
+        method: "Get",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" }
+    });
+
+    let awner = await respone.json();
+    if (awner.status != 0) {
+        alert("не получилось получить добавить результат расчета в продукт!" + awner.status.errorMassage)
+    }
+
+    return awner.result;
+}
+function closeVenetka() {
+    window.location.href = '/order/detal?id=' + $('#OrderId').attr('Name');
+   // $('#vignette').fadeOut();
+   // $("#detalProduction").fadeOut();
+   // $("#detalContact").fadeOut();
+   // $('#detalHistory').fadeOut();
+}
+
 function newSize(size, side) {
     if (side == "Height") {
         height = size;
@@ -163,7 +190,8 @@ async function calk() {
         alert(answer.status.errorMassage)
     }
     else {
-        window.location.href = 'CalculatorResult?id=' + answer.idHistory;
+        await getResult(answer.idHistory);
+        //window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }

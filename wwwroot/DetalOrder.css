@@ -19,7 +19,7 @@
 .FastHover {
     background-color: #8fbc8f;
     /* Green */
-    color: white;
+    color: white;clueContact
     border: 2px solid #8fbc8f;
     border-radius: 4px;
     width: 100px;
@@ -257,9 +257,10 @@ input.buttonNext:active {
     z-index: 99;
     flex-direction: column;
 }
-.clueContact{
+.clueContact {
     width: 100%;
     font-size: 20px;
+    cursor: pointer;
 }
 .clueContact:hover {
     background-color: #e0e0e0;
@@ -324,5 +325,66 @@ th {
 }
 
 .imagPos {
-    height: 25px;
+    height: 15px;
+}
+
+.venetka {
+    position: fixed;
+    background-color: #bbbbbb;
+    opacity: 70%;
+    width: 100vw;
+    height: 100vh;
+    z-index: 97;
+}
+.detalContact {
+    position: fixed;
+    overflow-y: auto;
+    left: 10vw;
+    bottom: 10vh;
+    background-color: #ffffff;
+    width: 80vw;
+    height: 80vh;
+    z-index: 98;
+}
+
+.TableContactOrder {
+    border-spacing: 0;
+    text-align: center;
+    font-family: "Cera Pro", Sans-serif;
+    width: 80vw;
+
+    border: 1px solid rgb(205, 205, 205);
+    table-layout: auto;
+}
+
+.boxProduct {
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 5px;
+}
+.boxText {
+    margin: 0px;
+}
+
+.detalHistory {
+    position: fixed;
+    border: solid;
+    overflow-y: auto;
+    left: 50%;
+    top: 50%;
+    background-color: #ffffff;
+    width: 700px;
+    height: 620px;
+    margin: -300px 0 0 -350px;
+    z-index: 99;
+}
+
+.venetka {
+    position: fixed;
+    background-color: #bbbbbb;
+    opacity: 70%;
+    width: 100vw;
+    height: 100vh;
+    z-index: 97;
 }

@@ -177,6 +177,8 @@ namespace printing_calculator.controllers.WebApi
                      .Include(x => x.Contacts)
                      .FirstAsync(x => x.Id == orderId);
                 Contact contact = await _applicationContext.Contacts
+                    .Include(x => x.Mails)
+                    .Include(x=>x.PhoneNmbers)
                     .FirstAsync(x => x.Id == contactId);
 
                 order.Contacts.Add(contact);

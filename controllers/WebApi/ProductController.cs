@@ -22,7 +22,7 @@ namespace printing_calculator.controllers.WebApi
 			try
 			{
 				Product product = await _applicationContext.Products
-					.Include(x=>x.Histories)
+					.Include(x => x.Histories)
 					.FirstAsync(x => x.Id == idProduction);
 				return new Answer<Product>() { Result = product };
 			}
@@ -84,8 +84,8 @@ namespace printing_calculator.controllers.WebApi
 			}
 		}
 
-		[HttpGet("api/product/edit-active-history{productId}")]
-		public async Task<Answer<Product>> EditActiveHistory(int productId, int histiryId)
+		[HttpGet("api/product/edit-active-history")]
+		public async Task<Answer<Product>> EditActiveHistory(int productId, int historyId)
 		{
 			try
 			{
@@ -93,13 +93,13 @@ namespace printing_calculator.controllers.WebApi
 					.Include(x => x.Histories)
 					.FirstAsync(x => x.Id == productId);
 
-				СalculationHistory history = await _applicationContext.Histories.FirstAsync(x => x.Id != histiryId);
-				if (product.Histories.Any(x => x.Id == histiryId))
+				СalculationHistory history = await _applicationContext.Histories.FirstAsync(x => x.Id == historyId);
+				if (!product.Histories.Any(x => x.Id == historyId))
 				{
 					return new Answer<Product>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден histiryId с таким ID" };
 				}
 
-				product.ActivecalculationHistoryId = histiryId;
+				product.ActivecalculationHistoryId = historyId;
 				product.Price = history.Price;
 
 				await _applicationContext.SaveChangesAsync();
@@ -115,5 +115,29 @@ namespace printing_calculator.controllers.WebApi
 				return new Answer<Product>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.Message };
 			}
 		}
+		[HttpGet("api/product/edit-product")]
+		public async Task<Answer<Product>> Editproduct(int productId, string? name , string? description )
+		{
+			try
+		{
+				Product product = await _applicationContext.Products
+						.FirstAsync(x => x.Id == productId);
+
+				product.Name = name;
+				product.Description = description;
+
+				await _applicationContext.SaveChangesAsync();
+
+				return new Answer<Product>() { Result = product };
+			}
+			catch (InvalidOperationException)
+			{
+				return new Answer<Product>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден Product с таким ID" };
+			}
+			catch (Exception ex)
+			{
+				return new Answer<Product>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.Message };
+			}
+		} 
 	}
 }

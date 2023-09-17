@@ -11,6 +11,7 @@ let skip = 0;
 
 let first = true;
 let remainder = 0;
+let tableNameId = "table";
 
 async function newLoadPage(){
     location. reload();
@@ -39,13 +40,13 @@ async function loadPage() {
     skip = ((thisPage-1) * maxCountInPage)+remainder;
 
     if (thisPage == 0) {
-        await generatorTable(await getListOrder(1, 0, countOpen));
-        await generatorTable(await getListOrder(0, 0, remainder));
+        await generatorTable(await getListOrder(1, 0, countOpen), tableNameId);
+        await generatorTable(await getListOrder(0, 0, remainder), tableNameId);
     }
     else {
         //remainder = maxCountInPage; 
         //skip = (thisPage * maxCountInPage)-countOpen;
-        await generatorTable(await getListOrder(0, skip, maxCountInPage));
+        await generatorTable(await getListOrder(0, skip, maxCountInPage), tableNameId);
     }
 
     generatorPageCounter();
@@ -84,7 +85,7 @@ function toPage(page) {
 }
 
 async function countProuction(status) {
-    let respone1 = await fetch('https://localhost:7181/api/order/get-count-order?statusOrder=' + status, {
+    let respone1 = await fetch('/api/order/get-count-order?statusOrder=' + status, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });
@@ -96,7 +97,7 @@ async function countProuction(status) {
 }
 
 async function editStatus(orderId, newStatus) {
-    let respone1 = await fetch('https://localhost:7181/api/order/edit-status-order' + orderId + "?status=" + newStatus, {
+    let respone1 = await fetch('/api/order/edit-status-order' + orderId + "?status=" + newStatus, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });
@@ -124,7 +125,7 @@ async function getListOrder(status, skip, take) {
 }
 
 async function getOrderForId(id) {
-    let respone1 = await fetch('https://localhost:7181/api/order/get-order' + id, {
+    let respone1 = await fetch('/api/order/get-order' + id, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });
@@ -145,7 +146,7 @@ async function getOrderForId(id) {
 }
 
 async function getOrderForData(data) {
-    let respone1 = await fetch('https://localhost:7181/api/order/get-order-data?data=' + data, {
+    let respone1 = await fetch('/api/order/get-order-data?data=' + data, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });

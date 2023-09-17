@@ -32,14 +32,18 @@
 
 @section Style {
     <link rel="stylesheet" type="text/css" href="/calculator.css">
+    <link rel="stylesheet" type="text/css" href="/result.css">
+   
 }
 
 @section JS{
-    <script src="/ActiveSize.js"></script>
+    <script src="/ActiveSize.js" charset="utf-8"></script>
+    <script src="/OrderGeneratorResultHistory.js" charset="utf-8"></script>
 }
 <div class="main-body">
     <form name="my1" class="flex">
-        <h2 class="nameCalc"> Калькулятор</h2>
+        <h2 class="nameCalc" id="ProductId" name="@Model.ProductId"> Калькулятор</h2>
+        <h2 class="nameCalc" id="OrderId" name="@Model.OpderId"> расчет для заказа: @Model.OpderId</h2>
         @{
             string selectedSpring = string.Empty;
             if (input.SpringBrochure != SpringBrochure.None)
@@ -269,4 +273,8 @@
             <input class="buttonNext" type="button" onclick="calk();" value="Расчитать">
         </div>
     </form>
+    <div class="detalHistory" style="display:none;" id="detalHistory">
+    </div>
 </div>
+
+<div class="venetka" id="vignette" onclick="closeVenetka();" style="display: none"></div>

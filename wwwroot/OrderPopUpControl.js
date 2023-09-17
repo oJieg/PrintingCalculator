@@ -1,12 +1,12 @@
 let clicMiss = true;
 
+
 function clicTable(orderId) {
     if (clicMiss) {
-        alert();
+        window.location.href = '/order/detal?id=' + orderId;
 
     }
     clicMiss = true;
-
 }
 function detal() {
     clicMiss = false;
@@ -53,7 +53,7 @@ function closeVenetka() {
     $('#vignette').fadeOut();
     $("#detalProduction").fadeOut();
     $("#detalContact").fadeOut();
-
+    $('#detalHistory').fadeOut();
 }
 
 
@@ -67,13 +67,13 @@ function searchDate() {
 
 $("#searchId").change(async function (id) {
     $(".mainTableRow").empty();
-    await generatorTable(await getOrderForId($(this).val()));
+    await generatorTable(await getOrderForId($(this).val()),'Table');
     $("#searchId").fadeOut();
 });
 
 $("#searchDate").change(async function (id) {
     $(".mainTableRow").empty();
-    await generatorTable(await getOrderForData($(this).val()));
+    await generatorTable(await getOrderForData($(this).val()),'Table');
     $("#searchDate").fadeOut();
 });
 

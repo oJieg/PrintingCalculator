@@ -2,11 +2,12 @@ let responseOrder;
 let totalPrice = 0;
 
 
-async function generatorTable(inResponseOrder) {
+async function generatorTable(inResponseOrder, tableNameId) {
+    console.log(inResponseOrder);
     responseOrder = inResponseOrder;
 
     for (let i = 0; i < responseOrder.length; i++) {
-        $('#table tr:last').after('<tr class="mainTableRow" onclick="clicTable(' + responseOrder[i].id + ')">' + addData(i, addTotalPrice(addContact(i, await addProduct(i, addStatus(i, addId(i)))))) + '</tr>');
+        $('#'+tableNameId+' tr:last').after('<tr class="mainTableRow" onclick="clicTable(' + responseOrder[i].id + ')">' + addData(i, addTotalPrice(addContact(i, await addProduct(i, addStatus(i, addId(i)))))) + '</tr>');
     }
 }
 
@@ -122,25 +123,25 @@ function addData(i, text) {
 function generatorLogo(history) {
     let PosLogo = "";
     if (history.lamination) {
-        PosLogo += "<img class='imagPos' src='lamination.svg'/>";
+        PosLogo += "<img class='imagPos' src='/lamination.svg'/>";
     }
     if (history.creasing) {
-        PosLogo += "<img class='imagPos' src='creesing.svg'/>";
+        PosLogo += "<img class='imagPos' src='/creesing.svg'/>";
     }
     if (history.drilling) {
-        PosLogo += "<img class='imagPos' src='driling.svg'/>";
+        PosLogo += "<img class='imagPos' src='/driling.svg'/>";
     }
     if (history.rounding) {
-        PosLogo += "<img class='imagPos' src='rolling.svg'/>";
+        PosLogo += "<img class='imagPos' src='/rolling.svg'/>";
     }
     if (history.springBrochure) {
-        PosLogo += "<img class='imagPos' src='SpringBrochure.svg'/>";
+        PosLogo += "<img class='imagPos' src='/SpringBrochure.svg'/>";
     }
     return PosLogo
 }
 
 async function getSimolHistory(id) {
-    let respone = await fetch('https://localhost:7181/api/get-simpl-result' + id, {
+    let respone = await fetch('/api/get-simpl-result' + id, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
     });
@@ -164,11 +165,11 @@ async function detalProduction(idProduction) {
 
     addDetalProduction(production);
     if (production.histories.$values.length > 0) {
-        $('#productionTable tr:last').after('<tr class="productionTableRow" id="' + 'production' + production.histories.$values[0].id + '" onclick="document.location=&#39;/CalculatorResult?id=' + production.histories.$values[0].id + '&#39;">' +
+        $('#productionTable tr:last').after('<tr class="productionTableRow" id="' + 'production' + production.histories.$values[0].id + '" onclick="result(' + production.histories.$values[0].id + ');">' +
             await addProductionTable(production.histories.$values[0].id) + '</tr>');
 
         for (let i = 1; i < production.histories.$values.length; i++) {
-            $('#productionTable tr:last').after('<tr class="productionTableRow" id="' + 'production' + production.histories.$values[i].id + '" onclick="document.location=&#39;/CalculatorResult?id=' + production.histories.$values[i].id + '&#39;">' +
+            $('#productionTable tr:last').after('<tr class="productionTableRow" id="' + 'production' + production.histories.$values[i].id + '" onclick="result(' + production.histories.$values[i].id + ');">' +
                 await addProductionTable(production.histories.$values[i].id) + '</tr>');
         }
     }
@@ -178,7 +179,7 @@ async function detalProduction(idProduction) {
 }
 
 async function getProduction(idProduction) {
-    let respone = await fetch('https://localhost:7181/api/product/get-product' + idProduction, {
+    let respone = await fetch('/api/product/get-product' + idProduction, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
     });
@@ -222,56 +223,8 @@ async function addProductionTable(historyId) {
         '<td>' +
         '<div class="textTableHistory">' + simplResult.price + '</div>' +
         '</td>' +
-        '<td>' +
-        '<div class="textTableHistoryComment">' + simplResult.comment + '</div>' +
-        '</td>' +
         '</tr>';
     return text;
 }
 
 /*---------------------/*/
-
-async function detalContact(contactId) {
-    let contact = await getContact(contactId);
-    //console.log(contact);
-    addInformatioContact(contact);
-
-}
-
-
-function addInformatioContact(contact) {
-    $('#contactName').html(contact.name);
-    $('#contactDetal').html(contact.description);
-
-    if (contact.phoneNmbers.$values.length > 0) {
-        let allPhone = "";
-        for (let i = 0; i < contact.phoneNmbers.$values.length; i++) {
-            allPhone += '<h2 class="contactMail">' + contact.phoneNmbers.$values[i].number + '</h2>'
-        }
-        $('#contactPhone').html(allPhone);
-    }
-    else{$('#contactPhone').empty();}
-
-    if (contact.mails.$values.length > 0) {
-        let allMail = "";
-        for (let i = 0; i < contact.mails.$values.length; i++) {
-            allMail += '<h2 class="contactMail">' + contact.mails.$values[i].email + '</h2>'
-        }
-        $('#contactEmail').html(allMail);
-    }
-    else{$('#contactEmail').empty();}
-}
-
-async function getContact(contactId) {
-    let respone = await fetch('https://localhost:7181/api/contact/get-contact' + contactId, {
-        method: "Get",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }
-    });
-
-    let awner = await respone.json();
-    if (awner.status != 0) {
-        alert("не получилось получить product!" + awner.status.errorMassage)
-    }
-
-    return awner.result;
-}
