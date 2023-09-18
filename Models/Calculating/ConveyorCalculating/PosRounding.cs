@@ -19,14 +19,14 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
             PosMachinesSetting? roundingSetting = _settings.PosMachines.Where(x => x.NameMachine == "rounding").FirstOrDefault();
             if (roundingSetting == null)
             {
                 return Task.FromResult((history, result, new StatusCalculation() { 
-                    Status = StatusType.Other, 
+                    Status = StatusAnswer.Other, 
                     ErrorMassage = "При обрашении к настройкам rounding в базе, произошла ошибка"
 				}));
             }

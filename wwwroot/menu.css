@@ -12,8 +12,8 @@
 .main-body {
     display: flex;
     flex-direction: column;
-    padding-left: 50px;
-    padding-right: 50px;
+    margin-left: 2vw;
+    width: 98vw;
 }
 
 .menu {
@@ -41,25 +41,25 @@
 }
 
 .NavigationBar {
+    display: flex;
+    flex-direction: row;
     list-style-type: none;
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #ffffff;
+    border-radius: 10px;
+    background-color: #dfdfdf;
 }
 
-li.li-margin a {
+.li-margin a {
     white-space: nowrap;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-
     justify-content: flex-start;
-
     color: rgb(26, 26, 26);
     padding: 8px 16px;
     text-decoration: none;
-
     border-bottom: 2px solid #8fbc8f;
     border-radius: 5px;
 }
@@ -72,6 +72,7 @@ li.li-margin a:hover {
 
 .li-margin {
     margin-top: 5px;
+    margin-left: 10px;
 }
 
 body {
@@ -93,6 +94,7 @@ body {
     text-align: right;
     flex-grow: 1;
 }
+
 .rightHeader {
     color: #b1b1b1;
     margin: 0;

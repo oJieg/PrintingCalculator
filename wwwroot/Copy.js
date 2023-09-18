@@ -6,13 +6,13 @@ function copyСlipboard(paperName, price) {
 
 function CopyPrice(price) {
     copy(price + " руб.")
-    tooltiptext.classList.remove("tooltiptext");
-    tooltiptext.classList.add("tooltiptext2");
+    document.getElementById("tooltiptext").classList.remove("tooltiptext");
+    document.getElementById("tooltiptext").classList.add("tooltiptext2");
     setTimeout(editClass, 3000);
 }
 function editClass() {
-    tooltiptext.classList.remove("tooltiptext2");
-    tooltiptext.classList.add("tooltiptext");
+    document.getElementById("tooltiptext").classList.remove("tooltiptext2");
+    document.getElementById("tooltiptext").classList.add("tooltiptext");
 }
 function editClass2() {
     tooltiptext3.classList.remove("tooltiptext2");
@@ -34,7 +34,7 @@ function copy(text) {
 async function putComment(id) {
     let comment = document.getElementById("comment");
 
-    let respone1 = await fetch('/api/Calculation', {
+    let respone1 = await fetch('/api/add-comment', {
         method: "put",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({ Id: parseInt(id), comment: comment.value })

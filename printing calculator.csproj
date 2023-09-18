@@ -23,6 +23,8 @@
 
   <ItemGroup>
 
+    <PackageReference Include="jQuery" Version="3.7.1" />
+
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
@@ -37,10 +39,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.7" />
+
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="NLog" Version="5.0.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,257 +2,259 @@
 @using printing_calculator.ViewModels.Result;
 @using printing_calculator.DataBase.setting;
 @{
-	Layout = "_Layout";
-	string size = $"{Model.Height}x{Model.Whidth}";
-	string amoutKids = $"{Model.Amount}x{Model.Kinds}";
-	string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
-	int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostConsumablePrise;
-	int profit = (int)(Model.Price - AllCostPrise);
-	int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
+    Layout = "_Layout";
+    string size = $"{Model.Height}x{Model.Whidth}";
+    string amoutKids = $"{Model.Amount}x{Model.Kinds}";
+    string duplex = Model.PaperResult.Duplex ? "4+4" : "4+0";
+    int AllCostPrise = Model.LaminationResult.CostPrice + (int)Model.PaperResult.CostConsumablePrise;
+    int profit = (int)(Model.Price - AllCostPrise);
+    int pricePos = Model.PosResult.CreasingPrice + Model.PosResult.DrillingPrice + Model.PosResult.RoundingPrice;
 
-	string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
+    string formaction = @$"Calculator?HistoryId={Model.HistoryInputId}";
 
-	string copyText = @$"Стоимость изготовления на бумаге {Model.PaperResult.NamePaper} - {Model.PaperResult.Price}";
-	double PriceForOne = Math.Round((double)Model.Price / (double)(Model.Amount * Model.Kinds), 2); //округлить до 3х знаков
-	float PriceForOneLamonation = Model.LaminationResult.Price / Model.PaperResult.Sheets;
+    string copyText = @$"Стоимость изготовления на бумаге {Model.PaperResult.NamePaper} - {Model.PaperResult.Price}";
+    double PriceForOne = Math.Round((double)Model.Price / (double)(Model.Amount * Model.Kinds), 2); //округлить до 3х знаков
+    float PriceForOneLamonation = Model.LaminationResult.Price / Model.PaperResult.Sheets;
 }
 
 @section Style
-	{
-	<link rel="stylesheet" type="text/css" href="/result2.css">
+    {
+    <link rel="stylesheet" type="text/css" href="/result2.css">
 }
 
 @section JS
-	{
-	<script src="/Copy.js"></script>
-	<script src="/MultiCalculating.js"></script>
+    {
+    <script src="/Copy.js"></script>
+    <script src="/MultiCalculating.js"></script>
 }
 
 @if (!Model.TryPrice)
 {
-	<div class="errorePrice">
-		<p>Цена не актуальная</p>
-	</div>
+    <div class="errorePrice">
+        <p>Цена не актуальная</p>
+    </div>
 }
 
-<div class="twoColumnsFlex">
+<div class="main-body">
+    <div class="twoColumnsFlex">
 
-	<div class="priceFlex">
+        <div class="priceFlex">
 
-		<div class="totalPrice" onclick="CopyPrice(@Model.Price)">
-			<span class="tooltiptext" id="tooltiptext">Цена в буфере обмена</span>
-			<p class="totalPrice">Итого</p>
-			<h1 class="totalPrice">@Model.Price руб.</h1>
-			<h2 class="totalPrice">@PriceForOne руб/шт</h2>
-			<h4 class="totalPrice">@Model.DateTime</h4>
-		</div>
+            <div class="totalPrice" onclick="CopyPrice(@Model.Price)">
+                <span class="tooltiptext" id="tooltiptext">Цена в буфере обмена</span>
+                <p class="totalPrice">Итого</p>
+                <h1 class="totalPrice">@Model.Price руб.</h1>
+                <h2 class="totalPrice">@PriceForOne руб/шт</h2>
+                <h4 class="totalPrice">@Model.DateTime</h4>
+            </div>
 
-		<div class="detalPriceBox">
-			<div class="grayBackground">
-				<p class="leftTextDetalPrice">Бумага</p>
-				<p class="rightTextDetalPrice">@Model.PaperResult.Price руб.</p>
-			</div>
-			<div class="detal">
-				<details>
-					<summary class="detal">подробнее</summary>
-					<p class="detal">себестоимость расходников - @Model.PaperResult.CostConsumablePrise руб.</p>
-					<p class="detal">Надбавочная цена - @profit руб.</p>
-					<p class="detal">цена резки - @Model.PaperResult.CutPrics руб.</p>
-				</details>
-			</div>
-		</div>
+            <div class="detalPriceBox">
+                <div class="grayBackground">
+                    <p class="leftTextDetalPrice">Бумага</p>
+                    <p class="rightTextDetalPrice">@Model.PaperResult.Price руб.</p>
+                </div>
+                <div class="detal">
+                    <details>
+                        <summary class="detal">подробнее</summary>
+                        <p class="detal">себестоимость расходников - @Model.PaperResult.CostConsumablePrise руб.</p>
+                        <p class="detal">Надбавочная цена - @profit руб.</p>
+                        <p class="detal">цена резки - @Model.PaperResult.CutPrics руб.</p>
+                    </details>
+                </div>
+            </div>
 
-		<div class="detalPriceBox">
-			<div class="grayBackground">
-				<p class="leftTextDetalPrice">Ламинация</p>
-				<p class="rightTextDetalPrice">@Model.LaminationResult.Price руб.</p>
-			</div>
-			<div class="detal">
-				<details>
-					<summary class="detal">подробнее</summary>
-					<p class="detal">@Model.LaminationResult.Name</p>
-				</details>
-			</div>
-		</div>
+            <div class="detalPriceBox">
+                <div class="grayBackground">
+                    <p class="leftTextDetalPrice">Ламинация</p>
+                    <p class="rightTextDetalPrice">@Model.LaminationResult.Price руб.</p>
+                </div>
+                <div class="detal">
+                    <details>
+                        <summary class="detal">подробнее</summary>
+                        <p class="detal">@Model.LaminationResult.Name</p>
+                    </details>
+                </div>
+            </div>
 
-		<div class="detalPriceBox">
-			<div class="grayBackground">
-				<p class="leftTextDetalPrice">Постпечатная</p>
-				<p class="rightTextDetalPrice">@pricePos руб.</p>
-			</div>
-			<div class="detal">
-				<details>
-					<summary class="detal">подробнее</summary>
-					<p class="detal">биговка - @Model.PosResult.CreasingPrice руб.(@Model.PosResult.CreasingAmount шт.)</p>
-					<p class="detal">сверление - @Model.PosResult.DrillingPrice руб. (@Model.PosResult.DrillingAmount шт.)</p>
-					<p class="detal">скругление углов - @Model.PosResult.RoundingPrice руб.</p>
-				</details>
-			</div>
-		</div>
-		<div class="detalPriceBox">
-			@{
+            <div class="detalPriceBox">
+                <div class="grayBackground">
+                    <p class="leftTextDetalPrice">Постпечатная</p>
+                    <p class="rightTextDetalPrice">@pricePos руб.</p>
+                </div>
+                <div class="detal">
+                    <details>
+                        <summary class="detal">подробнее</summary>
+                        <p class="detal">биговка - @Model.PosResult.CreasingPrice руб.(@Model.PosResult.CreasingAmount шт.)</p>
+                        <p class="detal">сверление - @Model.PosResult.DrillingPrice руб. (@Model.PosResult.DrillingAmount шт.)</p>
+                        <p class="detal">скругление углов - @Model.PosResult.RoundingPrice руб.</p>
+                    </details>
+                </div>
+            </div>
+            <div class="detalPriceBox">
+                @{
 
-				int summ = Model.SpringBrochure.Price + Model.PosResult.StapleBrochurePrice;
-			}
-			<div class="detalPriceBox">
-				<div class="grayBackground">
-					<p class="leftTextDetalPrice">Брошюра</p>
+                    int summ = Model.SpringBrochure.Price + Model.PosResult.StapleBrochurePrice;
+                }
+                <div class="detalPriceBox">
+                    <div class="grayBackground">
+                        <p class="leftTextDetalPrice">Брошюра</p>
 
-					<p class="rightTextDetalPrice">@summ руб.</p>
-				</div>
-				<div class="detal">
-					<details>
-						<summary class="detal">подробнее</summary>
-						@if (Model.SpringBrochure.SpringBrochure != printing_calculator.DataBase.SpringBrochure.None)
-						{
-							float forUnit = (Model.SpringBrochure.Price / Model.Amount);
-							<p class="detal">@Model.SpringBrochure.SpringBrochure.ToString()</p>
+                        <p class="rightTextDetalPrice">@summ руб.</p>
+                    </div>
+                    <div class="detal">
+                        <details>
+                            <summary class="detal">подробнее</summary>
+                            @if (Model.SpringBrochure.SpringBrochure != printing_calculator.DataBase.SpringBrochure.None)
+                            {
+                                float forUnit = (Model.SpringBrochure.Price / Model.Amount);
+                                <p class="detal">@Model.SpringBrochure.SpringBrochure.ToString()</p>
 
-							<p class="detal">На пружину @Model.SpringBrochure.Price руб</p>
-							<p class="detal"> @forUnit руб/шт</p>
-						}
-						@if(Model.PosResult.StapleBrochurePrice!=0)
-						{
-							float forUnit = (Model.PosResult.StapleBrochurePrice / Model.Amount);
-							<p class="detal">На скрепку @Model.PosResult.StapleBrochurePrice руб</p>
-							<p class="detal"> @forUnit руб/шт</p>
-						}
-					</details>
-				</div>
-			</div>
+                                <p class="detal">На пружину @Model.SpringBrochure.Price руб</p>
+                                <p class="detal"> @forUnit руб/шт</p>
+                            }
+                            @if (Model.PosResult.StapleBrochurePrice != 0)
+                            {
+                                float forUnit = (Model.PosResult.StapleBrochurePrice / Model.Amount);
+                                <p class="detal">На скрепку @Model.PosResult.StapleBrochurePrice руб</p>
+                                <p class="detal"> @forUnit руб/шт</p>
+                            }
+                        </details>
+                    </div>
+                </div>
 
-		</div>
-	</div>
+            </div>
+        </div>
 
-	<div class="rowInputFlex">
-		<div class="paperInput">
-			<div class="green">
-				<p class="margin2"><b>Бумага</b></p>
-			</div>
-			<div class="grey">
-				<p class="margin">@Model.PaperResult.NamePaper</p>
-			</div>
-		</div>
+        <div class="rowInputFlex">
+            <div class="paperInput">
+                <div class="green">
+                    <p class="margin2"><b>Бумага</b></p>
+                </div>
+                <div class="grey">
+                    <p class="margin">@Model.PaperResult.NamePaper</p>
+                </div>
+            </div>
 
-		<div class="columnInputFlex">
-			<div class="rowInputLitleFlex">
+            <div class="columnInputFlex">
+                <div class="rowInputLitleFlex">
 
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">Размер изделия</p>
-					</div>
-					<div class="grey">
-						<p class="margin">@size</p>
-					</div>
-				</div>
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">Кол-во/Видов</p>
-					</div>
-					<div class="grey">
-						<p class="margin">@amoutKids шт.</p>
-					</div>
-				</div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">Размер изделия</p>
+                        </div>
+                        <div class="grey">
+                            <p class="margin">@size</p>
+                        </div>
+                    </div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">Кол-во/Видов</p>
+                        </div>
+                        <div class="grey">
+                            <p class="margin">@amoutKids шт.</p>
+                        </div>
+                    </div>
 
-			</div>
-			<div class="rowInputLitleFlex">
+                </div>
+                <div class="rowInputLitleFlex">
 
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">Цветность</p>
-					</div>
-					<div class="grey">
-						<p class="margin">@duplex</p>
-					</div>
-				</div>
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">Листов</p>
-					</div>
-					<div class="grey">
-						<p class="margin">@Model.PaperResult.Sheets л.</p>
-					</div>
-				</div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">Цветность</p>
+                        </div>
+                        <div class="grey">
+                            <p class="margin">@duplex</p>
+                        </div>
+                    </div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">Листов</p>
+                        </div>
+                        <div class="grey">
+                            <p class="margin">@Model.PaperResult.Sheets л.</p>
+                        </div>
+                    </div>
 
-			</div>
+                </div>
 
-			<div class="rowInputLitleFlex">
+                <div class="rowInputLitleFlex">
 
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">доп опции</p>
-					</div>
-					<div class="grey">
-						@if (Model.CommonToAllMarkupName != null)
-						{
-							foreach (CommonToAllMarkup dop in Model.CommonToAllMarkupName)
-							{
-								<p class="margin">@dop.Description</p>
-							}
-						}
-						else
-						{
-							<p class="margin">None</p>
-						}
-					</div>
-				</div>
-				<div class="smallInput">
-					<div class="green">
-						<p class="margin">шт/лист</p>
-					</div>
-					<div class="grey">
-						<p class="margin">@Model.PaperResult.PiecesPerSheet шт на л.</p>
-					</div>
-				</div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">доп опции</p>
+                        </div>
+                        <div class="grey">
+                            @if (Model.CommonToAllMarkupName != null)
+                            {
+                                foreach (CommonToAllMarkup dop in Model.CommonToAllMarkupName)
+                                {
+                                    <p class="margin">@dop.Description</p>
+                                }
+                            }
+                            else
+                            {
+                                <p class="margin">None</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="smallInput">
+                        <div class="green">
+                            <p class="margin">шт/лист</p>
+                        </div>
+                        <div class="grey">
+                            <p class="margin">@Model.PaperResult.PiecesPerSheet шт на л.</p>
+                        </div>
+                    </div>
 
-			</div>
+                </div>
 
-		</div>
-	</div>
-</div>
-
-
-<div>
-	<form>
-		<input class="inputComment" id="comment" name="comment" type="text" value="@Model.Comment">
-		<div class="button">
-			<input class="buttonComment" type="button" onclick="putComment(@Model.HistoryInputId)" value="добавить">
-			<span class="tooltiptext" id="tooltiptext3">Сохранено!</span>
-		</div>
-	</form>
-</div>
-
-<div class="button">
-	<form>
-		<input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
-		<!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
-		<input class="buttonNext" type="button" onclick="copyСlipboard('@Model.PaperResult.NamePaper', @Model.Price);" value="Cкопировать">
-
-	</form>
-</div>
+            </div>
+        </div>
+    </div>
 
 
+    <div>
+        <form>
+            <input class="inputComment" id="comment" name="comment" type="text" value="@Model.Comment">
+            <div class="button">
+                <input class="buttonComment" type="button" onclick="putComment(@Model.HistoryInputId)" value="добавить">
+                <span class="tooltiptext" id="tooltiptext3">Сохранено!</span>
+            </div>
+        </form>
+    </div>
 
-<div class="button">
-	<form>
-		<input class="inputNumber" id="newAnount" type="number" min="1">
-		<input class="buttonNumber" type="button" onclick="GetNewAmount(@Model.HistoryInputId)" value="новый расчет">
-	</form>
-</div>
+    <div class="button">
+        <form>
+            <input class="buttonNext" type="submit" formmethod="post" formaction=@formaction value="Пересчитать">
+            <!-- <input class="close" type="submit" formaction="result.html" value="сохранить как задачу"> -->
+            <input class="buttonNext" type="button" onclick="copyСlipboard('@Model.PaperResult.NamePaper', @Model.Price);" value="Cкопировать">
 
-<div class="button">
-	<form>
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,10)" value="10">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,20)" value="20">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,50)" value="50">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,100)" value="100">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,200)" value="200">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,300)" value="300">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,500)" value="500">
-		<input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,1000)" value="1000">
-	</form>
-</div>
+        </form>
+    </div>
 
-<div class="quickTable">
-	<table id="table"></table>
+
+
+    <div class="button">
+        <form>
+            <input class="inputNumber" id="newAnount" type="number" min="1">
+            <input class="buttonNumber" type="button" onclick="GetNewAmount(@Model.HistoryInputId)" value="новый расчет">
+        </form>
+    </div>
+
+    <div class="button">
+        <form>
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,10)" value="10">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,20)" value="20">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,50)" value="50">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,100)" value="100">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,200)" value="200">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,300)" value="300">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,500)" value="500">
+            <input class="buttonQuick" type="button" onclick="GetNewConstAmount(@Model.HistoryInputId,1000)" value="1000">
+        </form>
+    </div>
+
+    <div class="quickTable">
+        <table id="table"></table>
+    </div>
 </div>

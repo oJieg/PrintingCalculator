@@ -145,6 +145,11 @@ namespace printing_calculator.controllers
                 Page = 0,
                 MarkupForThisPage = 0
             };
+            Markup markupZiro5 = new()
+            {
+                Page = 0,
+                MarkupForThisPage = 0
+            };
 
             List<Markup> printMarkups = new() { printMarkups0,printMarkups10,printMarkups50,printMarkups100,printMarkups250 };
             List<Markup> laminationMarkup = new() { laminationMarkups0,laminationMarkups30,laminationMarkups150 };
@@ -175,7 +180,14 @@ namespace printing_calculator.controllers
                 ConsumableOther = 30,
                 AdjustmenPrice = 50
             };
-			MachineSetting SpringBrochure = new()
+            MachineSetting StapleBrochure = new()
+            {
+                NameMachine = "StapleBrochure",
+                Markups = new() { markupZiro5 },
+                ConsumableOther = 30,
+                AdjustmenPrice = 50
+            };
+            MachineSetting SpringBrochure = new()
 			{
 				NameMachine = "SpringBrochure",
 				Markups = new(1) { markupZiro4 },
@@ -235,14 +247,14 @@ namespace printing_calculator.controllers
 			Setting setting = new()
             {
                 PrintingsMachines = new() { printingMachine },
-                Machines = new() { Laminator, SpringBrochure },
+                Machines = new() { Laminator, SpringBrochure, StapleBrochure },
                 PosMachines = new() { cut, Creasing, Drilling, Rounding },
                 CommonToAllMarkups = new() { commonToAllMarkup, commonToAllMarkup2 }
             };
 
             _applicationContext.Markups.AddRange(printMarkups0, printMarkups10, printMarkups50, printMarkups100, printMarkups250);
             _applicationContext.Markups.AddRange(laminationMarkups0, laminationMarkups30, laminationMarkups150);
-            _applicationContext.Markups.AddRange(markupZiro1,markupZiro2,markupZiro3,markupZiro4);
+            _applicationContext.Markups.AddRange(markupZiro1,markupZiro2,markupZiro3,markupZiro4, markupZiro5);
             _applicationContext.CommonToAllMarkups.AddRange(commonToAllMarkup, commonToAllMarkup2);
 
             _applicationContext.MachineSettings.AddRange(Laminator, SpringBrochure);

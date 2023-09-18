@@ -23,6 +23,21 @@ namespace printing_calculator.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ContactOrder", b =>
+                {
+                    b.Property<int>("ContactsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ContactsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("ContactOrder");
+                });
+
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -67,6 +82,9 @@ namespace printing_calculator.Migrations
                     b.Property<int?>("Price")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("RoundingPrice")
                         .HasColumnType("integer");
 
@@ -81,6 +99,8 @@ namespace printing_calculator.Migrations
                     b.HasIndex("ConsumablePriceId");
 
                     b.HasIndex("InputId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Histories");
                 });
@@ -111,6 +131,121 @@ namespace printing_calculator.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ConsumablePrices");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Mail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContactId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("Mails");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContactId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("PhoneNmbers");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActivecalculationHistoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Price")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.InputHistory", b =>
@@ -443,6 +578,21 @@ namespace printing_calculator.Migrations
                     b.HasDiscriminator().HasValue("PrintingMachineSetting");
                 });
 
+            modelBuilder.Entity("ContactOrder", b =>
+                {
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
+                        .WithMany()
+                        .HasForeignKey("ContactsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("printing_calculator.DataBase.crm.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("printing_calculator.DataBase.СalculationHistory", b =>
                 {
                     b.HasOne("printing_calculator.DataBase.ConsumablePrice", "ConsumablePrice")
@@ -457,9 +607,38 @@ namespace printing_calculator.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("printing_calculator.DataBase.crm.Product", null)
+                        .WithMany("Histories")
+                        .HasForeignKey("ProductId");
+
                     b.Navigation("ConsumablePrice");
 
                     b.Navigation("Input");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Mail", b =>
+                {
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
+                        .WithMany("Mails")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.PhoneNumber", b =>
+                {
+                    b.HasOne("printing_calculator.DataBase.crm.Contact", null)
+                        .WithMany("PhoneNmbers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Product", b =>
+                {
+                    b.HasOne("printing_calculator.DataBase.crm.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.InputHistory", b =>
@@ -527,6 +706,23 @@ namespace printing_calculator.Migrations
                     b.HasOne("printing_calculator.DataBase.setting.Setting", null)
                         .WithMany("PrintingsMachines")
                         .HasForeignKey("SettingId1");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Contact", b =>
+                {
+                    b.Navigation("Mails");
+
+                    b.Navigation("PhoneNmbers");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Order", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("printing_calculator.DataBase.crm.Product", b =>
+                {
+                    b.Navigation("Histories");
                 });
 
             modelBuilder.Entity("printing_calculator.DataBase.setting.MachineSetting", b =>

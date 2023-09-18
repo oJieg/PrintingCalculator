@@ -23,7 +23,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			{
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
 			if (history.Input.SpringBrochure == SpringBrochure.None)
@@ -37,7 +37,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			if (history.Input.Kinds >= ConvertMmToPageCount( springBrochureSetting.SpringPrice.Max(x => x.Page),paperThickness))
 			{
 				return Task.FromResult((history, result, new StatusCalculation() { 
-					Status = StatusType.Other, 
+					Status = StatusAnswer.Other, 
 					ErrorMassage = "Не возможно сшить такое количество страниц сшить на пружину"
 				}));
 			}

@@ -16,12 +16,12 @@ namespace printing_calculator.Models.ConveyorCalculating
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult((history, result, new StatusCalculation() { Status = StatusType.Cancellation }));
+                return Task.FromResult((history, result, new StatusCalculation() { Status = StatusAnswer.Cancellation }));
             }
             result.PaperResult.PiecesPerSheet = PiecePerSheet(history.Input.Paper.Size, result.Height, result.Whidth);
             if(result.PaperResult.PiecesPerSheet == 0)
             {
-                return Task.FromResult((history, result, new StatusCalculation() { Status = StatusType.WrongSize, ErrorMassage="Изделие не помещается на данной бумаге" }));
+                return Task.FromResult((history, result, new StatusCalculation() { Status = StatusAnswer.WrongSize, ErrorMassage="Изделие не помещается на данной бумаге" }));
 			}
             result.PaperResult.Sheets = ((int)
                 Math.Ceiling(((double)result.Amount / (double)result.PaperResult.PiecesPerSheet)))

@@ -1,0 +1,162 @@
+﻿@using printing_calculator.ViewModels;
+@using Microsoft.AspNetCore.Html;
+
+@{
+	Layout = "_Layout";
+}
+
+@section JS{
+
+	<script src="/DetalContact.js" charset="utf-8"></script>
+	<script src="/ContactTableGenerator.js" charset="utf-8"></script>
+	<script src="/ContactSearch.js" charset="utf-8"></script>
+	
+	
+}
+
+@section Style {
+	<link rel="stylesheet" type="text/css" href="/contacts.css">
+	<link rel="stylesheet" type="text/css" href="/result.css">
+
+}
+
+<div class="main-body">
+	<p>
+		<div class="horizontalInput" id="opacitySize">
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">Имя</label>
+				<input class="inputNumber" id="Name" type="text" autocomplete="off">
+			</div>
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">Телефон</label>
+				<input class="inputNumber" id="Phone" type="text" autocomplete="off">
+			</div>
+			<div class="nameAndInput">
+				<label class="labletext" for="Height">E-mail</label>
+				<input class="inputNumber" id="Email" type="text" autocomplete="off">
+			</div>
+
+			<div class="clue" id="clue" style="display:none">
+			</div>
+		</div>
+	</p>
+	<p>
+		<button class="buttonUp" onclick="newContact();">Создать новый</button>
+
+	</p>
+
+	<div class="tableFlex">
+		<div style="overflow-x:auto;">
+			<table class="TableOrder" id="table">
+				<tbody>
+					<tr>
+						<th>
+							<div class="textTableHistory">N;</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Имя</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Описание</div>
+						</th>
+						<th>
+							<div class="textTableHistory">E-mail</div>
+						</th>
+						<th>
+							<div class="textTableHistory">Телефон</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="detalContact" id="detalContact" style="display: none;">
+		<div class="close" onclick="closeVenetka();"> [x]</div>
+		<h2 class="contact">Имя:</h2>
+		<p class="contact" id="contactName">Алесей</p>
+		<h2 class="contact">Датали:</h2>
+		<p class="contact" id="contactDetal">Работает тут</p>
+		<h2 class="contact">E-mail:</h2>
+		<div class="contact" id="contactEmail"></div>
+
+		<h2 class="contact">Тел:</h2>
+		<div class="contact" id="contactPhone"></div>
+
+		<div class="tableFlex">
+			<div style="overflow-x:auto;">
+				<table class="TableContactOrder" id="TableContactOrder">
+					<tbody>
+						<tr>
+							<th>
+								<div class="textTableHistory" onclick="searchId();">N</div>
+								<input class="search" id="searchId" type="text" style="display:none">
+							</th>
+							<th>
+								<div class="textTableHistory">Статус</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Продукты</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Клиент</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Сумма</div>
+							</th>
+							<th>
+								<div class="textTableHistory" onclick="searchDate();">Дата</div>
+								<input class="search" id="searchDate" type="date" style="display:none">
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="detalProduction" id="detalProduction" style="display: none;">
+		<div class="close" onclick="closeVenetka();"> [x]</div>
+		<P class="contact">Название:</P>
+		<h2 class="contact" id="detalProductionName">визитки</h2>
+		<P class="contact">Датали:</P>
+		<h2 class="contact" id="detalProductionDetails">-</h2>
+
+		<table class="tableHistory" id="productionTable">
+			<tbody>
+				<tr>
+					<th>
+						<div class="textTableHistory">N</div>
+					</th>
+					<th>
+						<div class="textTableHistory">Дата</div>
+					</th>
+					<th>
+						<div class="textTableHistory">размер</div>
+					</th>
+					<th>
+						<div class="textTableHistory">тираж</div>
+					</th>
+					<th>
+						<div class="textTableHistory">бумага</div>
+					</th>
+					<th>
+						<div class="textTableHistory">постпечатная</div>
+					</th>
+					<th>
+						<div class="textTableHistory">цена</div>
+					</th>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</div>
+
+	<div class="detalHistory" style="display:none;" id="detalHistory">
+	</div>
+
+</div>
+
+<div class="venetka" id="vignette" onclick="closeVenetka();" style="display: none"></div>

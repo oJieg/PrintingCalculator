@@ -9,5 +9,7 @@ namespace printing_calculator.ViewModels
         public List<Lamination> Lamination { get; set; } = null!;
         public List<CommonToAllMarkup> commonToAllMarkups { get; set; } = null!;
         public InputHistory? Input { get; set; }
+        public int ProductId { get; set; }
+        public int OpderId { get; set; }
     }
 }
