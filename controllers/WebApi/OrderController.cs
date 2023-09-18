@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using printing_calculator.DataBase.crm;
 using printing_calculator.ViewModels;
+using System.Globalization;
 
 namespace printing_calculator.controllers.WebApi
 {
@@ -57,8 +58,34 @@ namespace printing_calculator.controllers.WebApi
 
         }
 
-        [HttpGet("api/order/get-list-open-order")]
-        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip, int take)
+		[HttpGet("api/order/get-order-data")]
+		public async Task<Answer<List<Order>>> GetOrdersForData( 
+           string data)
+		{
+			try
+			{
+                DateTime dateTime = DateTime.Parse(data, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeLocal);
+				List<Order> order = await _applicationContext.Orders
+					 .AsNoTracking()
+					 .Where(x => x.DateTime >= dateTime && x.DateTime <= dateTime.AddDays(1))
+					 .Include(x => x.Products)
+						 .ThenInclude(x => x.Histories)
+					 .Include(x => x.Contacts)
+						 .ThenInclude(x => x.PhoneNmbers)
+					 .Include(x => x.Contacts)
+						 .ThenInclude(x => x.Mails)
+					 .OrderBy(x => x.DateTime)
+					 .ToListAsync();
+				return new Answer<List<Order>>() { Result = order };
+			}
+			catch (InvalidOperationException)
+			{
+				return new Answer<List<Order>>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
+			}
+		}
+
+		[HttpGet("api/order/get-list-open-order")]
+        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip=0, int take=5)
         {
             try
             {
@@ -150,6 +177,8 @@ namespace printing_calculator.controllers.WebApi
                      .Include(x => x.Contacts)
                      .FirstAsync(x => x.Id == orderId);
                 Contact contact = await _applicationContext.Contacts
+                    .Include(x => x.Mails)
+                    .Include(x=>x.PhoneNmbers)
                     .FirstAsync(x => x.Id == contactId);
 
                 order.Contacts.Add(contact);

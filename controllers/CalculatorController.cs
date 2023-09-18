@@ -14,7 +14,7 @@ namespace printing_calculator.controllers
             _applicationContext = applicationContext;
         }
 
-        public async Task<ActionResult> Index(int historyId, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index(int historyId, int productId, int orderId, CancellationToken cancellationToken)
         {
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
@@ -30,6 +30,8 @@ namespace printing_calculator.controllers
                     .ToListAsync(cancellationToken);
                 PaperAndHistoryInput.commonToAllMarkups = await _applicationContext.CommonToAllMarkups
                     .ToListAsync();
+                PaperAndHistoryInput.ProductId = productId;
+                PaperAndHistoryInput.OpderId = orderId;
             }
             catch (OperationCanceledException)
             {

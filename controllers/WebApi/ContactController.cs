@@ -113,6 +113,7 @@ namespace printing_calculator.controllers.WebApi
                     .AsNoTracking()
                     .Include(x => x.Mails)
                     .Include(x => x.PhoneNmbers)
+                    .Include(x=>x.Orders)
                     .FirstAsync(x => x.Id == contactId);
                 return new Answer<Contact>() { Result = contact };
             }
@@ -202,6 +203,33 @@ namespace printing_calculator.controllers.WebApi
                     .Where(x => contactIds.Any(y => y == x.Id))
                     .ToListAsync();
                 return new Answer<List<Contact>>() { Result = contacts };
+
+            }
+            catch (InvalidOperationException)
+            {
+                return new Answer<List<Contact>>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден contact с таким ID" };
+            }
+            catch (Exception ex)
+            {
+                return new Answer<List<Contact>>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.Message };
+            }
+        }
+
+        [HttpGet("api/contact/searth-contact-by-name")]
+        public async Task<Answer<List<Contact>>> SearthContactByName(string name)
+        {
+            try
+            {
+                List<Contact>? contact = await _applicationContext.Contacts
+                    .Where(x => x.Name.Contains(name))
+                    .ToListAsync();
+
+                if (contact.Count == 0)
+                {
+                    return new Answer<List<Contact>>() { Status = StatusAnswer.NotFaund };
+                }
+
+                return new Answer<List<Contact>>() { Result = contact };
 
             }
             catch (InvalidOperationException)

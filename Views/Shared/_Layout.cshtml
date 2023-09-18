@@ -15,7 +15,7 @@
 
 <head>
     @RenderSection("Style",false)
-
+    <script src="/jquery-3.7.1.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/menu.css">
     <title>Калькулятор</title>
 </head>
@@ -92,12 +92,7 @@
 
     </div>
 
-
-    <div class="downBody">
-        <div class="main-body">
-            @RenderBody()
-        </div>
-    </div>
+    @RenderBody()
     @RenderSection("JS",false)
 </body>
 </html>
