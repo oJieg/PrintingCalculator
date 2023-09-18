@@ -1,3 +1,5 @@
+let clicMiss = true;
+
 async function newContact() {
     let newContact = await addNewContact($('#Name').val(), $('#Phone').val(), $('#Email').val());
     await addContactInOrder(getIdOrder(), newContact.id)
@@ -6,34 +8,36 @@ async function newContact() {
 }
 
 async function deleteContact(IdContact) {
-
+    clicMiss = false;
     if (await delContactInOrder(getIdOrder(), IdContact)) {
         $('#contact' + IdContact).remove();
     }
 }
 
-async function calk(productId){
+async function calk(productId) {
     let order = getOrder();
     let actualHistoruId;
     for (let i = 0; i < order.products.$values.length; i++) {
-        if(order.products.$values[i].id == productId){
+        if (order.products.$values[i].id == productId) {
             actualHistoruId = order.products.$values[i].activecalculationHistoryId;
         }
     }
-    window.location.href = '/Calculator?historyId=' +actualHistoruId+'&productId='+productId+'&orderId='+order.id;
+    window.location.href = '/Calculator?historyId=' + actualHistoruId + '&productId=' + productId + '&orderId=' + order.id;
 }
 
 
 function contactClick(contactId) {
-    clicMiss = false;
-    $("#vignette").fadeIn();
-    $("#detalContact").fadeIn();
-    detalContact(contactId);
+    if (clicMiss) {
+        $("#vignette").fadeIn();
+        $("#detalContact").fadeIn();
+        detalContact(contactId);
+    }
+    clicMiss = true;
 }
 
 function closeVenetka() {
     $('#vignette').fadeOut();
-   // $("#detalProduction").fadeOut();
+    // $("#detalProduction").fadeOut();
     $("#detalContact").fadeOut();
     $('#detalHistory').fadeOut();
 }
@@ -63,21 +67,21 @@ async function delContactInOrder(orderId, contactId) {
 }
 
 async function addNewProduct() {
- let product = await addNewProductInOrder( await NewProduct());
- window.location.href = '/Calculator?historyId=' +0+'&productId='+product.id+'&orderId='+order.id;
- //console.log(product);
- //$('#product').append(addProductInDetalOrder(product));
+    let product = await addNewProductInOrder(await NewProduct());
+    window.location.href = '/Calculator?historyId=' + 0 + '&productId=' + product.id + '&orderId=' + order.id;
+    //console.log(product);
+    //$('#product').append(addProductInDetalOrder(product));
 }
 
-async function deleteProduct(productId){
- if(apiDeleteProduct(productId)){
-    $('#productSpace'+productId).remove();
- }
+async function deleteProduct(productId) {
+    if (apiDeleteProduct(productId)) {
+        $('#productSpace' + productId).remove();
+    }
 }
 
 
-async function apiDeleteProduct(productId){
-    let respone = await fetch('/api/order/del-product'+getIdOrder()+'?productId='+productId, {
+async function apiDeleteProduct(productId) {
+    let respone = await fetch('/api/order/del-product' + getIdOrder() + '?productId=' + productId, {
         method: "Delete",
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
     });
@@ -108,12 +112,12 @@ async function NewProduct() {
         alert("не получилось добавить контакт в ордер!" + awner.status.errorMassage)
         return false;
     }
-//addNewProduct();
+    //addNewProduct();
     return awner.result.id;
 }
 
 async function addNewProductInOrder(productId) {
-    let respone = await fetch('/api/order/add-product'+getIdOrder()+'?productId='+productId, {
+    let respone = await fetch('/api/order/add-product' + getIdOrder() + '?productId=' + productId, {
         method: "Post",
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
     });
@@ -193,7 +197,7 @@ async function addContactInOrder(orderId, contactId) {
 
     let awner = await respone.json();
 
-   // console.log(awner);
+    // console.log(awner);
 
     if (awner.status != 0) {
         alert("не получилось добавить контакт в ордер!" + awner.status.errorMassage)
@@ -212,7 +216,7 @@ async function editActivecalculationHistoryId(historyId, productId) {
 
     let awner = await respone.json();
 
-   // console.log(awner);
+    // console.log(awner);
 
     if (awner.status != 0) {
         alert("не получилось изменить статус!" + awner.status.errorMassage)

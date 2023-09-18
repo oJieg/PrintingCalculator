@@ -30,7 +30,19 @@ async function loadPage() {
         }
             $('#history'+order.products.$values[i].activecalculationHistoryId + order.products.$values[i].id).css('opacity', '100%');
     }
+    generatorTotalPrice();
 }
+
+function generatorTotalPrice(){
+    let totalPrice = 0;
+   let productSpace =  $(".Price");//.attr('name');
+    for (let i = 0; i < productSpace.length; i++) {
+        totalPrice+= parseInt( $(productSpace[i]).attr("name"));
+    }
+
+    $('#totalPrice').html('итого: '+totalPrice+ ' руб.');
+}
+
 async function getResult(historyId){
     if(activeClick){
     $('#vignette').fadeIn();
@@ -44,8 +56,17 @@ async function ActivecalculationHistoryId(historyId, productId  ){
    if( await editActivecalculationHistoryId(historyId, productId)){
     $('#history'+historyId + productId).css('opacity', '100%');
     $('#history'+order.products.$values[getacAtivecalculationHistoryId(productId)].activecalculationHistoryId + productId).css('opacity', opacity+'%');
-
+    
+    
     order = await getOrderForId(idOrder);
+    let newPrice
+    for (let i = 0; i < order.products.$values.length; i++){
+        if(order.products.$values[i].id == productId){
+            newPrice = order.products.$values[i].price;
+        }
+    }
+    $("#price"+productId).attr('name', newPrice).html(newPrice+" руб.");
+    generatorTotalPrice();
    }
 }
 
@@ -86,7 +107,7 @@ if(description==null){
     description='';
 }
     //console.log(product);
-    return '<div class="productSpace" id="productSpace'+product.id+'">' +
+    return '<div class="productSpace" id="productSpace'+product.id+'" name="'+product.price+'">' +
         ' <div class="horizontalInput">' +
 
         '  <div>' +
@@ -101,7 +122,7 @@ if(description==null){
         '        </div>' +
 
         '<div>' +
-        '<p class="Price" id="productPrice" name="' + product.id + '">' + product.price + ' руб.</p>' +
+        '<p class="Price" name="'+product.price+'" id="price' + product.id + '">' + product.price + ' руб.</p>' +
         '</div>' +
 
         '<div class="centrButton">' +

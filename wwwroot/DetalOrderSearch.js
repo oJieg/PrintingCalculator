@@ -1,19 +1,19 @@
 
 let maxCountClu = 5;
 $('#Name').blur(function () {
-    if ($(this).val() == '') {
+  //  if ($(this).val() == '') {
         $('#clue').fadeOut();
-    }
+  //  }
 });
 $('#Phone').blur(function () {
-    if ($(this).val() == '') {
+   // if ($(this).val() == '') {
         $('#clue').fadeOut();
-    }
+   // }
 });
 $('#Email').blur(function () {
-    if ($(this).val() == '') {
+    //if ($(this).val() == '') {
         $('#clue').fadeOut();
-    }
+   // }
 });
 
 

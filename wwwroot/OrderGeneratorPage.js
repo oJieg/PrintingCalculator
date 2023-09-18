@@ -1,11 +1,11 @@
-let maxCountInPage = 4;
+let maxCountInPage = 10;
 let countOpen = 0;
 let countClose = 0;
 
 let thisPage = 0;
 let maxPage = 0;
 
-let maxCountButton = 3;
+let maxCountButton = 4;
 
 let skip = 0;
 
