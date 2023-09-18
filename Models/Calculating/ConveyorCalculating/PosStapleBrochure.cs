@@ -24,7 +24,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 
 			try
 			{
-				int сostPrice = Convert.ToInt32((_settings.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther) * result.Amount);
+				int сostPrice = Convert.ToInt32((_settings.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther));
 
 				CalculatingMarkup markups = new(_settings.Machines.First(x => x.NameMachine == "StapleBrochure").Markups);
 				int markup = markups.GetMarkup(result.Amount);

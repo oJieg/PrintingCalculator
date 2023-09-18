@@ -6,6 +6,13 @@ async function newContact() {
     $('#contactSpace').append(addContactInDetalOrder(newContact));
     console.log(newContact);
 }
+function clicTable(orderId) {
+    if (clicMiss) {
+        window.location.href = '/order/detal?id=' + orderId;
+
+    }
+    clicMiss = true;
+}
 
 async function deleteContact(IdContact) {
     clicMiss = false;
