@@ -12,7 +12,9 @@
     }
     public enum StatusOrder
     {
-        Closed = 0,
-        Open = 1
+        NotAgreed = 0,
+        AtWork = 1,
+        Canceled = 2,
+        Done = 3
     }
 }

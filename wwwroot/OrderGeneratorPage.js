@@ -21,8 +21,12 @@ async function loadPage() {
     $(".mainTableRow").empty();
 
     if (first) {
-        countOpen = await countProuction(1);
-        countClose = await countProuction(0);
+        let countNotAgreed = await countProuction(0);
+        let countAtWork = await countProuction(1);
+        countOpen = countNotAgreed+countAtWork;
+        let countCanceled = await countProuction(2);
+        let countDone = await countProuction(3);
+        countClose = countCanceled + countDone
 
         remainder = maxCountInPage - countOpen;
 
@@ -40,13 +44,14 @@ async function loadPage() {
     skip = ((thisPage-1) * maxCountInPage)+remainder;
 
     if (thisPage == 0) {
-        await generatorTable(await getListOrder(1, 0, countOpen), tableNameId);
-        await generatorTable(await getListOrder(0, 0, remainder), tableNameId);
+        await generatorTable(await getListOrder(0,0, countOpen), tableNameId);
+        await generatorTable(await getListOrder(1,0, countOpen), tableNameId);
+        await generatorTable(await getColoseListOrder( 0, remainder), tableNameId);
     }
     else {
         //remainder = maxCountInPage; 
         //skip = (thisPage * maxCountInPage)-countOpen;
-        await generatorTable(await getListOrder(0, skip, maxCountInPage), tableNameId);
+        await generatorTable(await getColoseListOrder(skip, maxCountInPage), tableNameId);
     }
 
     generatorPageCounter();
@@ -110,8 +115,9 @@ async function editStatus(orderId, newStatus) {
 }
 
 let arrayOrder;
-async function getListOrder(status, skip, take) {
-    let respone1 = await fetch('https://localhost:7181/api/order/get-list-open-order?statusOrder=' + status + '&skip=' + skip + '&take=' + take, {
+async function getListOrder( statusOrder, skip, take) {
+    console.log(statusOrder);
+    let respone1 = await fetch('https://localhost:7181/api/order/get-list-order?statusOrder='+statusOrder +'&skip=' + skip + '&take=' + take, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify()
@@ -121,6 +127,20 @@ async function getListOrder(status, skip, take) {
         alert("не получилось получить список заказов!" + responseOrder.status.errorMassage)
     }
     arrayOrder = responseOrder.result.$values;
+    return responseOrder.result.$values;
+}
+
+async function getColoseListOrder( skip, take) {
+    let respone1 = await fetch('https://localhost:7181/api/order/get-list-close-order?skip=' + skip + '&take=' + take, {
+        method: "Get",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify()
+    });
+    responseOrder = await respone1.json();
+    if (responseOrder.status != 0) {
+        alert("не получилось получить список заказов!" + responseOrder.status.errorMassage)
+    }
+    //arrayOrder = responseOrder.result.$values;
     return responseOrder.result.$values;
 }
 

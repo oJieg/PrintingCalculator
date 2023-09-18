@@ -20,7 +20,7 @@ namespace printing_calculator.controllers.WebApi
         [HttpGet("api/order/add-new-order")]
         public async Task<Answer<int>> AddNewOrder()
         {
-            Order order = new() { DateTime = DateTime.UtcNow, status = StatusOrder.Open };
+            Order order = new() { DateTime = DateTime.UtcNow, status = StatusOrder.NotAgreed };
 
             try
             {
@@ -84,8 +84,8 @@ namespace printing_calculator.controllers.WebApi
 			}
 		}
 
-		[HttpGet("api/order/get-list-open-order")]
-        public async Task<Answer<List<Order>>> GetOrders(StatusOrder statusOrder, int skip=0, int take=5)
+		[HttpGet("api/order/get-list-order")]
+        public async Task<Answer<List<Order>>> GetOpenOrders(StatusOrder statusOrder,int skip =0, int take=5)
         {
             try
             {
@@ -99,6 +99,32 @@ namespace printing_calculator.controllers.WebApi
                          .ThenInclude(x => x.Mails)
                      .Where(x => x.status == statusOrder)
                      .OrderBy(x=>x.DateTime)
+                     .Skip(skip)
+                     .Take(take)
+                     .ToListAsync();
+                return new Answer<List<Order>>() { Result = order };
+            }
+            catch (InvalidOperationException)
+            {
+                return new Answer<List<Order>>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
+            }
+        }
+
+        [HttpGet("api/order/get-list-close-order")]
+        public async Task<Answer<List<Order>>> GetCloseOrders(int skip = 0, int take = 5)
+        {
+            try
+            {
+                List<Order> order = await _applicationContext.Orders
+                     .AsNoTracking()
+                     .Include(x => x.Products)
+                         .ThenInclude(x => x.Histories)
+                     .Include(x => x.Contacts)
+                         .ThenInclude(x => x.PhoneNmbers)
+                     .Include(x => x.Contacts)
+                         .ThenInclude(x => x.Mails)
+                     .Where(x => x.status == StatusOrder.Canceled || x.status == StatusOrder.Done)
+                     .OrderBy(x => x.DateTime)
                      .Skip(skip)
                      .Take(take)
                      .ToListAsync();

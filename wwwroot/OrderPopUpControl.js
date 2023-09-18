@@ -28,26 +28,18 @@ function contactClick(contactId) {
     detalContact(contactId);
 }
 
-function closeOrder(orderId) {
+function statusOrder(orderId, newStatus) {
     clicMiss = false;
 
 
-    editStatus(orderId, 0);
+    editStatus(orderId, newStatus);
     //$(".mainTableRow").empty();
     newLoadPage();
 
     // alert("close" + orderId)
 }
 
-function openOrder(orderId) {
-    clicMiss = false;
 
-    editStatus(orderId, 1);
-   // $(".mainTableRow").empty();
-    newLoadPage();
-    // $("#vignette").fadeIn();
-    // alert("open" + orderId)
-}
 
 function closeVenetka() {
     $('#vignette').fadeOut();

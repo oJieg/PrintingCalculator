@@ -36,8 +36,8 @@ function generatorResult(result){
     let pricePos = result.posResult.creasingPrice + result.posResult.drillingPrice + result.posResult.roundingPrice;
     let dor ='';
     if (result.commonToAllMarkupName != null && result.commonToAllMarkupName.$values.length){
-        for(let i=0;i<result.commonToAllMarkupName.$value.length;i++ ){
-            dor += '<p class="margin">'+result.commonToAllMarkupName.$value[i].sescription+'</p>';
+        for(let i=0;i<result.commonToAllMarkupName.$values.length;i++ ){
+            dor += '<p class="margin">'+result.commonToAllMarkupName.$values[i].description+'</p>';
         }
     }
 

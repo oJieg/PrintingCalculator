@@ -12,5 +12,9 @@ namespace printing_calculator.controllers
         public IActionResult Detal(int id) {
 			return View("DetalOrder", id);
 		}
-    }
+		public IActionResult Contact()
+		{
+			return View("ContactList");
+		}
+	}
 }

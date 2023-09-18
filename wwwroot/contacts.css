@@ -1,23 +1,26 @@
 .inputNumber {
-    width: 30px;
-    padding: 12px;
+    width: 92%;
+    padding: 12px 10px 12px 20px;
     margin: 8px 0;
     border-style: solid;
     border-left-color: #8fbc8f;
     border-radius: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
     border-width: 0;
-    border-left-width: 3px;
+    border-left-width: 7px;
     background-color: #F4F4F4;
     outline: none;
     -webkit-transition: border-left-color 1s, background-color 1s, border-top-right-radius 1s, border-bottom-right-radius 1s;
 }
 
-    .inputNumber:focus {
-        border-left-color: #92e4e8;
-        background-color: #e3eaee;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
+.inputNumber:focus {
+    border-left-color: #92e4e8;
+    background-color: #e3eaee;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 
 button.button {
     background-color: #69c469;
@@ -305,4 +308,31 @@ h2.contactMail{
 }
 .actualHistoru {
     background-color: rgb(222, 255, 196);
+}
+
+.horizontalInput {
+    margin: 10px 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    position: relative;
+    
+}
+
+.horizontalFlex{
+    margin: 10px 0;
+    display: flex;
+    flex-flow: row wrap;   
+}
+.contactText{
+    margin: 0;
+}
+
+.nameAndInput {
+    margin: 1px;
+    padding: 10px 15px 10px 0;
+}
+
+.labletext {
+    font-size: 20px;
 }

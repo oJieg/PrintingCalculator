@@ -19,13 +19,23 @@ function addId(i) {
 function addStatus(i, text) {
     let status;
     if (responseOrder[i].status == 0) {
-        status = '<p style="background-color: rgb(162, 243, 169);">Закрыто</p>';
+        status = '<p style="background-color: #e390d6;">На утверждении</p>';
     }
     else if (responseOrder[i].status == 1) {
-        status = '<p style="background-color: red;">Открыто</p>';
+        status = '<p style="background-color: #eb6e6e;">В работе</p>';
+    }
+    else if (responseOrder[i].status == 2) {
+        status = '<p style="background-color: #3e697d;">Отмененый</p>';
+    }
+    else if (responseOrder[i].status == 3) {
+        status = '<p style="background-color: #9ee19f;">Выполнено</p>';
     }
 
-    return text + '<td><div class="textTableHistory">' + status + '<p class="boxText"><button onclick="closeOrder(' + responseOrder[i].id + ')" class="buttonStatus">Закрыть </button></p><p class="boxText"><button onclick="openOrder(' + responseOrder[i].id + ')" class="buttonStatus">Открыть</button></p></div></td>';
+    return text + '<td><div class="textTableHistory">' + status + '<p class="boxText">'+
+    '<button onclick="statusOrder(' + responseOrder[i].id + ', 0)" class="buttonStatus">На утв-е </button></p><p class="boxText">'+
+    '<button onclick="statusOrder(' + responseOrder[i].id + ', 1)" class="buttonStatus">В работу </button></p><p class="boxText">'+
+    '<button onclick="statusOrder(' + responseOrder[i].id + ', 3)" class="buttonStatus">Готово</button></p><p class="boxText">'+
+    '<button onclick="statusOrder(' + responseOrder[i].id + ', 2)" class="buttonStatus">Отменено</button></p></div></td>';
 }
 
 async function addProduct(i, text) {
