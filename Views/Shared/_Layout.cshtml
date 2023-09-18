@@ -9,6 +9,7 @@
     string addresSpringBrochureSetting = "/Setting/SpringBrochureSetting";
     string addresSettingConsumable = "/Setting/Consumable";
     string addrresSettingMashines = "/SettingMashines";
+    string addressOrderList = "/order/list";
 }
 <!DOCTYPE HTML>
 <html>
@@ -30,17 +31,36 @@
             <div class="NavigationBar">
 
                 <div class="li-margin">
-                    <a href="@adresCalcularot">
+                    <a href="@addressOrderList">
                         <div><img class="imagMenu" src="/calk2.png"></div>
-                        <div>КАЛЬКУЛЯТОР</div>
+                        <div>Заказы</div>
                     </a>
                 </div>
                 <div class="li-margin">
-                    <a href="@adresHistoru">
+                    <a href="">
                         <div><img class="imagMenu" src="/history.png"></div>
-                        <div>ИСТОРИЯ</div>
+                        <div>Клиенты</div>
                     </a>
                 </div>
+                <div class="li-margin">
+                    <details class="detalMenu">
+                        <summary>old</summary>
+                        <div>
+                            <a href="@adresHistoru">
+                                <div><img class="imagMenu" src="/history.png"></div>
+                                <div>ИСТОРИЯ</div>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="@adresCalcularot">
+                                <div><img class="imagMenu" src="/calk2.png"></div>
+                                <div>КАЛЬКУЛЯТОР</div>
+                            </a>
+                        </div>
+
+                    </details>
+                </div>
+
 
                 <div class="li-margin">
                     <details class="detalMenu">
@@ -87,7 +107,7 @@
 
         <div class="rightElementOnHeder">
             <p class="rightHeader">by ojiegko</p>
-            <a class="rightHeader" href="http://localhost:8080/Homes/Changelog">v1.12</a>
+            <a class="rightHeader" href="http://localhost:8080/Homes/Changelog">v2.00</a>
         </div>
 
     </div>
