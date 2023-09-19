@@ -3,7 +3,7 @@ let totalPrice = 0;
 
 
 async function generatorTable(inResponseOrder, tableNameId) {
-    console.log(inResponseOrder);
+    //console.log(tableNameId);
     responseOrder = inResponseOrder;
 
     for (let i = 0; i < responseOrder.length; i++) {
@@ -19,23 +19,28 @@ function addId(i) {
 function addStatus(i, text) {
     let status;
     if (responseOrder[i].status == 0) {
-        status = '<p style="background-color: #e390d6;">На утверждении</p>';
+        status = '<p style="background-color: #e390d6;width: 238px;">На утверждении</p>';
     }
     else if (responseOrder[i].status == 1) {
-        status = '<p style="background-color: #eb6e6e;">В работе</p>';
+        status = '<p style="background-color: #eb6e6e;width: 238px;">В работе</p>';
     }
     else if (responseOrder[i].status == 2) {
-        status = '<p style="background-color: #3e697d;">Отмененый</p>';
+        status = '<p style="background-color: #3e697d;width: 238px;">Отмененый</p>';
     }
     else if (responseOrder[i].status == 3) {
-        status = '<p style="background-color: #9ee19f;">Выполнено</p>';
+        status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
     }
 
-    return text + '<td><div class="textTableHistory">' + status + '<p class="boxText">'+
-    '<button onclick="statusOrder(' + responseOrder[i].id + ', 0)" class="buttonStatus">На утв-е </button></p><p class="boxText">'+
-    '<button onclick="statusOrder(' + responseOrder[i].id + ', 1)" class="buttonStatus">В работу </button></p><p class="boxText">'+
-    '<button onclick="statusOrder(' + responseOrder[i].id + ', 3)" class="buttonStatus">Готово</button></p><p class="boxText">'+
-    '<button onclick="statusOrder(' + responseOrder[i].id + ', 2)" class="buttonStatus">Отменено</button></p></div></td>';
+    return text + '<td style="width: 250px;"><div class="textTableHistory">' + status +
+        '<div class="horizontalInput">'+
+        '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 0)" class="buttonStatus">На утв-е </button></p>' +
+            '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 1)" class="buttonStatus">В работу </button></p>' +
+           ' </div>'+
+        '<div class="horizontalInput">'+
+        '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 3)" class="buttonStatus">Готово</button></p>' +
+        '<p class="boxText">' +'<button onclick="statusOrder(' + responseOrder[i].id + ', 2)" class="buttonStatus">Отмена </button></p>' +
+        '</div>'+
+    '</p></div></td>';
 }
 
 async function addProduct(i, text) {
@@ -95,15 +100,15 @@ function generatorBoxProduct(history, productionId) {
 
 function addContact(i, text) {
     text += '<td>';
-    for (let j = 0; j < responseOrder[i].contacts.$values.length; j++) {
-        text += '<div class="textTableHistory" onclick="contactClick(' + responseOrder[i].contacts.$values[j].id + ')">' +
+    for (const element of responseOrder[i].contacts.$values) {
+        text += '<div class="textTableHistory" onclick="contactClick(' + element.id + ')">' +
             '<div class="boxProduct">' +
-            '<p class="boxText">' + responseOrder[i].contacts.$values[j].name + '</p>';
-        if (responseOrder[i].contacts.$values[j].mails.$values.length > 0) {
-            text += '<p class="boxText">mail:' + responseOrder[i].contacts.$values[j].mails.$values[0].email + '</p>';
+            '<p class="boxText">' + element.name + '</p>';
+        if (element.mails.$values.length > 0) {
+            text += '<p class="boxText">mail:' + element.mails.$values[0].email + '</p>';
         }
-        if (responseOrder[i].contacts.$values[j].phoneNmbers.$values.length > 0) {
-            text += '<p class="boxText">тел:' + responseOrder[i].contacts.$values[j].phoneNmbers.$values[0].number + '</p>';
+        if (element.phoneNmbers.$values.length > 0) {
+            text += '<p class="boxText">тел:' + element.phoneNmbers.$values[0].number + '</p>';
         }
 
         text += '</div>' +

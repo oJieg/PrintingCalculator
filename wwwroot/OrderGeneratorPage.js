@@ -28,6 +28,9 @@ async function loadPage() {
         let countDone = await countProuction(3);
         countClose = countCanceled + countDone
 
+        $('#NotAgreed').text(countNotAgreed);
+        $('#inWork').text(countAtWork);
+
         remainder = maxCountInPage - countOpen;
 
         if (countOpen + countClose > maxCountInPage) {
@@ -57,6 +60,14 @@ async function loadPage() {
     generatorPageCounter();
 }
 
+async function sortInWork() {
+    $(".mainTableRow").empty();
+    await generatorTable(await getListOrder(1, 0, countOpen), tableNameId);
+}
+async function sortNotAgreed() {
+    $(".mainTableRow").empty();
+    await generatorTable(await getListOrder(0, 0, countOpen), tableNameId);
+}
 function generatorPageCounter() {
     $('#pageBar').empty()
     if (thisPage == 0) {
@@ -81,7 +92,6 @@ function generatorPageCounter() {
     if (thisPage < maxPage-maxCountButton) {
         $('#pageBar').append('<input class="buttonNext" type="button" onclick="toPage(' + (thisPage + maxCountButton) + ')" value=">>"></input>');
     }
-
 }
 
 function toPage(page) {
@@ -154,15 +164,14 @@ async function getOrderForId(id) {
     if (responseOrder.status != 0) {
         alert("не получилось получить получить заказ по id!" + responseOrder.status.errorMassage)
     }
+    
+    let resultList = []
+    resultList.push(responseOrder.result);
 
-    arrayOrder.push(responseOrder.result);
 
-    let lengthArray = arrayOrder.length;
 
-    for (let i = 0; i < lengthArray - 1; i++) {
-        arrayOrder.shift();
-    }
-    return arrayOrder;
+    //console.log(resultList)
+    return resultList;
 }
 
 async function getOrderForData(data) {
