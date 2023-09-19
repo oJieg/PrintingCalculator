@@ -63,7 +63,7 @@ async function delContactInOrder(orderId, contactId) {
 
     let awner = await respone.json();
 
-    console.log(awner);
+   // console.log(awner);
 
     if (awner.status != 0) {
         alert("не получилось удалить контакт из ордера!" + awner.status.errorMassage)
@@ -95,7 +95,7 @@ async function apiDeleteProduct(productId) {
 
     let awner = await respone.json();
 
-    console.log(awner);
+   // console.log(awner);
 
     if (awner.status != 0) {
         alert("не получилось добавить контакт в ордер!" + awner.status.errorMassage)
@@ -113,7 +113,7 @@ async function NewProduct() {
 
     let awner = await respone.json();
 
-    console.log(awner);
+  //  console.log(awner);
 
     if (awner.status != 0) {
         alert("не получилось добавить контакт в ордер!" + awner.status.errorMassage)
@@ -142,7 +142,7 @@ async function addNewProductInOrder(productId) {
 }
 
 async function editNemaProduction(productId) {
-    console.log('https://localhost:7181/api/product/edit-product?productId=' + productId +
+    console.log('/api/product/edit-product?productId=' + productId +
         '&name=' + $('#name' + productId).val() +
         '&description=' + $('#description' + productId).val());
     let name = $('#name' + productId).val();
@@ -150,7 +150,7 @@ async function editNemaProduction(productId) {
         name = '';
     }
 
-    let respone = await fetch('https://localhost:7181/api/product/edit-product?productId=' + productId +
+    let respone = await fetch('/api/product/edit-product?productId=' + productId +
         '&name=' + name +
         '&description=' + $('#description' + productId).val(), {
         method: "Get",
