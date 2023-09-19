@@ -127,7 +127,7 @@ async function editStatus(orderId, newStatus) {
 let arrayOrder;
 async function getListOrder( statusOrder, skip, take) {
     console.log(statusOrder);
-    let respone1 = await fetch('https://localhost:7181/api/order/get-list-order?statusOrder='+statusOrder +'&skip=' + skip + '&take=' + take, {
+    let respone1 = await fetch('/api/order/get-list-order?statusOrder='+statusOrder +'&skip=' + skip + '&take=' + take, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify()
@@ -141,7 +141,7 @@ async function getListOrder( statusOrder, skip, take) {
 }
 
 async function getColoseListOrder( skip, take) {
-    let respone1 = await fetch('https://localhost:7181/api/order/get-list-close-order?skip=' + skip + '&take=' + take, {
+    let respone1 = await fetch('/api/order/get-list-close-order?skip=' + skip + '&take=' + take, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify()
