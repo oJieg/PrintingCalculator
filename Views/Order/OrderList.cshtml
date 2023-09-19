@@ -12,20 +12,28 @@
 	<script src="/AddNewOrder.js" charset="utf-8"></script>
 	<script src="/DetalContact.js" charset="utf-8"></script>
 	<script src="/Copy.js" charset="utf-8"></script>
-	
+
 }
 
 @section Style {
 	<link rel="stylesheet" type="text/css" href="/order.css">
 	<link rel="stylesheet" type="text/css" href="/result.css">
-	
+
 }
 
 <div class="main-body">
-	<p>
+	<div class="horizontalInput">
 		<button class="buttonUp" onclick="addNewOrderHref();">Добавить</button>
+		<div class="statistic" onclick="sortInWork();">
+			<p>В работе:</p>
+			<p id="inWork">10</p>
+		</div>
+		<div class="statistic" onclick="sortNotAgreed();">
+			<p>Не согласованно:</p>
+			<p id="NotAgreed">10</p>
+		</div>
+	</div>
 
-	</p>
 	<div class="tableFlex">
 		<div style="overflow-x:auto;">
 			<table class="TableOrder" id="table">
@@ -83,35 +91,35 @@
 		<div class="contact" id="contactPhone"></div>
 
 		<div class="tableFlex">
-		<div style="overflow-x:auto;">
+			<div style="overflow-x:auto;">
 				<table class="TableContactOrder" id="TableContactOrder">
-				<tbody>
-					<tr>
-						<th>
-							<div class="textTableHistory" onclick="searchId();">N</div>
-							<input class="search" id="searchId" type="text" style="display:none">
-						</th>
-						<th>
-							<div class="textTableHistory">Статус</div>
-						</th>
-						<th>
-							<div class="textTableHistory">Продукты</div>
-						</th>
-						<th>
-							<div class="textTableHistory">Клиент</div>
-						</th>
-						<th>
-							<div class="textTableHistory">Сумма</div>
-						</th>
-						<th>
-							<div class="textTableHistory" onclick="searchDate();">Дата</div>
-							<input class="search" id="searchDate" type="date" style="display:none">
-						</th>
-					</tr>
-				</tbody>
-			</table>
+					<tbody>
+						<tr>
+							<th>
+								<div class="textTableHistory" onclick="searchId();">N</div>
+								<input class="search" id="searchId" type="text" style="display:none">
+							</th>
+							<th>
+								<div class="textTableHistory">Статус</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Продукты</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Клиент</div>
+							</th>
+							<th>
+								<div class="textTableHistory">Сумма</div>
+							</th>
+							<th>
+								<div class="textTableHistory" onclick="searchDate();">Дата</div>
+								<input class="search" id="searchDate" type="date" style="display:none">
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<div class="detalProduction" id="detalProduction" style="display: none;">

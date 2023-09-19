@@ -59,13 +59,13 @@ function searchDate() {
 
 $("#searchId").change(async function (id) {
     $(".mainTableRow").empty();
-    await generatorTable(await getOrderForId($(this).val()),'Table');
+    await generatorTable(await getOrderForId($(this).val()), 'table');
     $("#searchId").fadeOut();
 });
 
 $("#searchDate").change(async function (id) {
     $(".mainTableRow").empty();
-    await generatorTable(await getOrderForData($(this).val()),'Table');
+    await generatorTable(await getOrderForData($(this).val()),'table');
     $("#searchDate").fadeOut();
 });
 

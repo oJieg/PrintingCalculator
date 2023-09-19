@@ -20,7 +20,7 @@ function editClass2() {
 }
 
 function copy(text) {
-    var copyTextarea = document.createElement("textarea");
+    let copyTextarea = document.createElement("textarea");
     copyTextarea.style.position = "fixed";
     copyTextarea.style.opacity = "0";
     copyTextarea.textContent = text;

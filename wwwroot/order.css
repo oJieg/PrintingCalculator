@@ -172,7 +172,7 @@ th {
 .boxProduct{
     background-color: #e9e9e9;
     border-radius: 5px;
-    padding: 15px;
+    padding: 3px;
     margin: 5px;
 }
 
@@ -305,4 +305,17 @@ h2.contactMail{
 }
 .actualHistoru {
     background-color: rgb(222, 255, 196);
+}
+.horizontalInput {
+    margin: 10px 0;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
+.statistic{
+    margin-left:100px;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+    cursor: pointer;
 }
