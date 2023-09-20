@@ -7,10 +7,30 @@ async function generatorTable(inResponseOrder, tableNameId) {
     responseOrder = inResponseOrder;
 
     for (let i = 0; i < responseOrder.length; i++) {
-        $('#'+tableNameId+' tr:last').after('<tr class="mainTableRow" onclick="clicTable(' + responseOrder[i].id + ')">' + addData(i, addTotalPrice(addContact(i, await addProduct(i, addStatus(i, addId(i)))))) + '</tr>');
+        $('#' + tableNameId + ' tr:last').after('<tr class="mainTableRow" id="mainRow' + responseOrder[i].id+'" onclick="clicTable(' + responseOrder[i].id + ')">' + addData(i, addTotalPrice(await addProduct(i, addContact(i, addStatus(i, addId(i)))))) + '</tr>');
+        backgroundColor(i);
     }
+    
 }
 
+function backgroundColor(i) {
+    if (responseOrder[i].status == 0) {
+        $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #eedeeb;');
+       // status = '<p style="background-color: #e390d6;width: 238px;">На утв-е</p>';
+    }
+    else if (responseOrder[i].status == 1) {
+        $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #ddb5b5;');
+       // status = '<p style="background-color: #eb6e6e;width: 238px;">В работе</p>';
+    }
+    else if (responseOrder[i].status == 2) {
+        $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #9dbdcc;');
+       // status = '<p style="background-color: #3e697d;width: 238px;">Отмененый</p>';
+    }
+    else if (responseOrder[i].status == 3) {
+        $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #cde3ce;');
+      //  status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
+    }
+}
 
 function addId(i) {
     return '<td><div class="textTableHistory">' + responseOrder[i].id + '</div></td>';
@@ -19,7 +39,7 @@ function addId(i) {
 function addStatus(i, text) {
     let status;
     if (responseOrder[i].status == 0) {
-        status = '<p style="background-color: #e390d6;width: 238px;">На утверждении</p>';
+        status = '<p style="background-color: #e390d6;width: 238px;">На утв-е</p>';
     }
     else if (responseOrder[i].status == 1) {
         status = '<p style="background-color: #eb6e6e;width: 238px;">В работе</p>';
@@ -30,6 +50,8 @@ function addStatus(i, text) {
     else if (responseOrder[i].status == 3) {
         status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
     }
+
+    
 
     return text + '<td style="width: 250px;"><div class="textTableHistory">' + status +
         '<div class="horizontalInput">'+
@@ -90,11 +112,12 @@ async function addProduct(i, text) {
 
 function generatorBoxProduct(history, productionId) {
     totalPrice += history.price;
+    let UnitPrice = history.price / (history.amount * history.kinds); 
     return '<div class="boxProduct" onclick="productionClick(' + productionId + ')">' +
         '<p class="boxText">' + history.height + 'x' + history.whidth + '|' + history.amount + 'x' + history.kinds + 'шт' + '</p>' +
         '<p class="boxText">' + history.paperName + ' </p>' +
         '<p class="boxText">' + generatorLogo(history) + '</p>' +
-        '<p class="boxText">' + history.price + 'руб' + '</p>' +
+        '<p class="boxText">' + history.price + 'руб|' + UnitPrice.toFixed(1) + ' руб/шт</p>' +
         '</div>';
 }
 

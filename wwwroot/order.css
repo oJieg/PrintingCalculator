@@ -312,10 +312,14 @@ h2.contactMail{
     flex-flow: row wrap;
     position: relative;
 }
-.statistic{
-    margin-left:100px;
+.statistic {
+    margin-left: 100px;
     display: flex;
     flex-flow: row wrap;
     position: relative;
     cursor: pointer;
+    font-size: 30px;
+}
+p{
+    margin-top:0;
 }

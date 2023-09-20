@@ -98,7 +98,7 @@ namespace printing_calculator.controllers.WebApi
                      .Include(x => x.Contacts)
                          .ThenInclude(x => x.Mails)
                      .Where(x => x.status == statusOrder)
-                     .OrderBy(x=>x.DateTime)
+                     .OrderByDescending(x=>x.DateTime)
                      .Skip(skip)
                      .Take(take)
                      .ToListAsync();
@@ -124,7 +124,7 @@ namespace printing_calculator.controllers.WebApi
                      .Include(x => x.Contacts)
                          .ThenInclude(x => x.Mails)
                      .Where(x => x.status == StatusOrder.Canceled || x.status == StatusOrder.Done)
-                     .OrderBy(x => x.DateTime)
+                     .OrderByDescending(x => x.DateTime)
                      .Skip(skip)
                      .Take(take)
                      .ToListAsync();

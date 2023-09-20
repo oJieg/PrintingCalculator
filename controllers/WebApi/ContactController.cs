@@ -139,8 +139,8 @@ namespace printing_calculator.controllers.WebApi
 					.Include(x => x.Mails)
 					.FirstAsync(x => x.Id == contactId);
 				//PhoneNumber phoneNumber = await _applicationContext.PhoneNmbers.FirstAsync(x=>x.Number== phone);
-
-				contact.PhoneNmbers.Remove(contact.PhoneNmbers.First(x => x.Number.Replace(" ", "") == phone));
+				//contact.PhoneNmbers[2].Number.Trim() == phone;
+				contact.PhoneNmbers.Remove(contact.PhoneNmbers.First(x => x.Number == phone));
 
 				//_applicationContext.PhoneNmbers.Remove(phoneNumber);
 				await _applicationContext.SaveChangesAsync();

@@ -12,6 +12,8 @@
 	<script src="/AddNewOrder.js" charset="utf-8"></script>
 	<script src="/DetalContact.js" charset="utf-8"></script>
 	<script src="/Copy.js" charset="utf-8"></script>
+	<script src="/js-inputmask.js" charset="utf-8"></script>
+	
 
 }
 
@@ -29,7 +31,7 @@
 			<p id="inWork">10</p>
 		</div>
 		<div class="statistic" onclick="sortNotAgreed();">
-			<p>Не согласованно:</p>
+			<p>На утв-е:</p>
 			<p id="NotAgreed">10</p>
 		</div>
 	</div>
@@ -47,10 +49,10 @@
 							<div class="textTableHistory">Статус</div>
 						</th>
 						<th>
-							<div class="textTableHistory">Продукты</div>
+							<div class="textTableHistory">Клиент</div>
 						</th>
 						<th>
-							<div class="textTableHistory">Клиент</div>
+							<div class="textTableHistory">Продукты</div>
 						</th>
 						<th>
 							<div class="textTableHistory">Сумма</div>
@@ -88,7 +90,8 @@
 		<div class="contact" id="contactEmail"></div>
 
 		<h2 class="contact">Тел:</h2>
-		<div class="contact" id="contactPhone"></div>
+		<div class="contact" id="contactPhone">
+		</div>
 
 		<div class="tableFlex">
 			<div style="overflow-x:auto;">

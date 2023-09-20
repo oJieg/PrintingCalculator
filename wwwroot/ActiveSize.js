@@ -207,7 +207,7 @@ const brochureAmoutId = document.getElementById("BrochureAmout");
 const polosStapleId = document.getElementById("PolosStaple");
 const brochureAmoutStapleId = document.getElementById("BrochureAmoutStaple");
 
-const tooltiptextId = document.getElementById("tooltiptext");
+const tooltiptextId = document.getElementById("tooltiptextBroshure");
 
 
 
