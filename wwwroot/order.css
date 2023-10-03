@@ -121,7 +121,7 @@ button.buttonActiv {
     text-align: center;
     font-family: "Cera Pro", Sans-serif;
     width: 98vw;
-    border: 1px solid rgb(205, 205, 205);
+
     table-layout: auto;
 }
 
@@ -129,8 +129,7 @@ th,
 td {
     /*width: 100%;*/
     font-size: 18px;
-    border-bottom: 1px solid #ddd;
-   /* border: 1px solid rgb(236, 236, 236);*/
+    border-bottom: 1px solid #646464;
 }
 
 td {
@@ -318,7 +317,7 @@ h2.contactMail{
     flex-flow: row wrap;
     position: relative;
     cursor: pointer;
-    font-size: 30px;
+    font-size: 24px;
 }
 p{
     margin-top:0;

@@ -35,7 +35,7 @@
 			</div>
 			<div class="nameAndInput">
 				<label class="labletext" for="Height">Телефон</label>
-				<input class="inputNumber" id="Phone" type="text" autocomplete="off">
+				<input class="inputPhone" id="Phone" type="text" autocomplete="off">
 			</div>
 			<div class="nameAndInput">
 				<label class="labletext" for="Height">E-mail</label>
@@ -45,17 +45,34 @@
 			<div class="clue" id="clue" style="display:none">
 			</div>
 		</div>
+		<div class="horizontalInput" id="">
+			<div class="totalPrice" id="">
+				<p id="totalPrice"></p>
+				<div>
+					<p class="boxText"><button onclick="stratusPayment(@Model, 0)" class="buttonStatus">Оплачено </button></p>
+				</div>
+				<div>
+					<p class="boxText"><button onclick="stratusPayment(@Model, 1)" class="buttonStatus">Не оплачено</button>
+				</div>
+			</div>
+			<div class="totalPrice" id="">
+				<div id="status"></div>
 
-
-
+				<div class="horizontalInput">
+					<p class="boxText"><button onclick="statusOrder(@Model, 0)" class="buttonStatus">На утв </button></p>
+					<p class="boxText"><button onclick="statusOrder(@Model, 1)" class="buttonStatus">В работу </button></p>
+				</div>
+				<div class="horizontalInput">
+					<p class="boxText"><button onclick="statusOrder(@Model, 3)" class="buttonStatus">Готово</button></p>
+					<p class="boxText"><button onclick="statusOrder(@Model, 4)" class="buttonStatus">Не отгруженно </button></p>
+				</div>
+			</div>
+		</div>
 		<p class="blockName">продукт</p>
 		<div id="product">
-			
 		</div>
 
-		<div class="totalPrice" id="totalPrice">
-			итого: 1845р
-		</div>
+
 		<div class="buttonNewContact">
 			<input class="buttonNext" type="button" onclick="addNewProduct();" value="добавить новый продукт">
 		</div>
@@ -78,7 +95,7 @@
 			<div style="overflow-x:auto;">
 				<table class="TableContactOrder" id="TableContactOrder">
 					<tbody>
-						<tr>
+						<tr name="mainTableRow">
 							<th>
 								<div class="textTableHistory" onclick="searchId();">N</div>
 								<input class="search" id="searchId" type="text" style="display:none">
@@ -108,5 +125,5 @@
 
 	<div class="detalHistory" style="display:none;" id="detalHistory">
 	</div>
-</div> 
+</div>
 <div class="venetka" id="vignette" onclick="closeVenetka();" style="display: none"></div>

@@ -26,13 +26,25 @@
 <div class="main-body">
 	<div class="horizontalInput">
 		<button class="buttonUp" onclick="addNewOrderHref();">Добавить</button>
-		<div class="statistic" onclick="sortInWork();">
+		<div class="statistic" onclick="sort(1);">
 			<p>В работе:</p>
 			<p id="inWork">10</p>
 		</div>
-		<div class="statistic" onclick="sortNotAgreed();">
-			<p>На утв-е:</p>
+		<div class="statistic" onclick="sort(0);">
+			<p>На утв.:</p>
 			<p id="NotAgreed">10</p>
+		</div>
+		<div class="statistic" onclick="sort(4);">
+			<p>Не отгруженно.:</p>
+			<p id="NotShipped">10</p>
+		</div>
+		<div class="statistic" onclick="sort(3);">
+			<p>Готово:</p>
+			<p id="Done">10</p>
+		</div>
+		<div class="statistic" onclick="sort(2);">
+			<p>Отменено:</p>
+			<p id="Canceled">10</p>
 		</div>
 	</div>
 
@@ -40,7 +52,7 @@
 		<div style="overflow-x:auto;">
 			<table class="TableOrder" id="table">
 				<tbody>
-					<tr>
+					<tr name="mainTableRow">
 						<th>
 							<div class="textTableHistory" onclick="searchId();">N 	&#128270;</div>
 							<input class="search" id="searchId" type="text" style="display:none">
@@ -97,7 +109,7 @@
 			<div style="overflow-x:auto;">
 				<table class="TableContactOrder" id="TableContactOrder">
 					<tbody>
-						<tr>
+						<tr name="mainTableRow">
 							<th>
 								<div class="textTableHistory" onclick="searchId();">N</div>
 								<input class="search" id="searchId" type="text" style="display:none">

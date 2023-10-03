@@ -18,7 +18,7 @@ async function newLoadPage(){
 }
 
 async function loadPage() {
-    $(".mainTableRow").empty();
+    $(".mainTableRow").remove();
 
     if (first) {
         let countNotAgreed = await countProuction(0);
@@ -26,10 +26,14 @@ async function loadPage() {
         countOpen = countNotAgreed+countAtWork;
         let countCanceled = await countProuction(2);
         let countDone = await countProuction(3);
+        let countNotShipped = await countProuction(4);
         countClose = countCanceled + countDone
 
         $('#NotAgreed').text(countNotAgreed);
         $('#inWork').text(countAtWork);
+        $('#Canceled').text(countCanceled);
+        $('#Done').text(countDone);
+        $('#NotShipped').text(countNotShipped);
 
         remainder = maxCountInPage - countOpen;
 
@@ -48,7 +52,9 @@ async function loadPage() {
 
     if (thisPage == 0) {
         await generatorTable(await getListOrder(0,0, countOpen), tableNameId);
-        await generatorTable(await getListOrder(1,0, countOpen), tableNameId);
+        await generatorTable(await getListOrder(1, 0, countOpen), tableNameId);
+        await generatorTable(await getListOrder(4, 0, countOpen), tableNameId);
+
         await generatorTable(await getColoseListOrder( 0, remainder), tableNameId);
     }
     else {
@@ -60,14 +66,11 @@ async function loadPage() {
     generatorPageCounter();
 }
 
-async function sortInWork() {
-    $(".mainTableRow").empty();
-    await generatorTable(await getListOrder(1, 0, countOpen), tableNameId);
+async function sort(status) {
+    $(".mainTableRow").remove();
+    await generatorTable(await getListOrder(status, 0, countOpen), tableNameId);
 }
-async function sortNotAgreed() {
-    $(".mainTableRow").empty();
-    await generatorTable(await getListOrder(0, 0, countOpen), tableNameId);
-}
+
 function generatorPageCounter() {
     $('#pageBar').empty()
     if (thisPage == 0) {
@@ -113,6 +116,19 @@ async function countProuction(status) {
 
 async function editStatus(orderId, newStatus) {
     let respone1 = await fetch('/api/order/edit-status-order' + orderId + "?status=" + newStatus, {
+        method: "Get",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+    });
+    responseOrder = await respone1.json();
+    if (responseOrder.status != 0) {
+        alert("не получилось изменить статус!" + responseOrder.status.errorMassage)
+    }
+
+    return responseOrder.result;
+}
+
+async function editStratusPayment(orderId, newStatus) {
+    let respone1 = await fetch('/api/order/edit-status-payment' + orderId + "?status=" + newStatus, {
         method: "Get",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
     });

@@ -83,8 +83,28 @@ async function addNewProduct() {
 async function deleteProduct(productId) {
     if (apiDeleteProduct(productId)) {
         $('#productSpace' + productId).remove();
+        generatorTotalPrice();
     }
 }
+
+async function statusOrder(orderId, newStatus) {
+    clicMiss = false;
+
+
+    await editStatus(orderId, newStatus);
+    //$(".mainTableRow").empty();
+    generatorStatus(newStatus);
+
+    // alert("close" + orderId)
+}
+
+async function stratusPayment(orderId, newStatus) {
+    clicMiss = false;
+    await editStratusPayment(orderId, newStatus);
+
+    colorTotalPrice(newStatus);
+}
+
 
 
 async function apiDeleteProduct(productId) {
@@ -233,3 +253,30 @@ async function editActivecalculationHistoryId(historyId, productId) {
     return true;
 }
 //
+
+
+async function editStatus(orderId, newStatus) {
+    let respone1 = await fetch('/api/order/edit-status-order' + orderId + "?status=" + newStatus, {
+        method: "Get",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+    });
+    responseOrder = await respone1.json();
+    if (responseOrder.status != 0) {
+        alert("не получилось изменить статус!" + responseOrder.status.errorMassage)
+    }
+
+    return responseOrder.result;
+}
+
+async function editStratusPayment(orderId, newStatus) {
+    let respone1 = await fetch('/api/order/edit-status-payment' + orderId + "?status=" + newStatus, {
+        method: "Get",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+    });
+    responseOrder = await respone1.json();
+    if (responseOrder.status != 0) {
+        alert("не получилось изменить статус!" + responseOrder.status.errorMassage)
+    }
+
+    return responseOrder.result;
+}

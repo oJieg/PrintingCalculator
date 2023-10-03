@@ -1,7 +1,10 @@
 async function loadPage() {
     fillTableContact(await apiGetListContact());
 }
+function clicTable(orderId) {
 
+        window.location.href = '/order/detal?id=' + orderId;
+}
 function contactClick(contactId) {
     //clicMiss = false;
     $("#vignette").fadeIn();

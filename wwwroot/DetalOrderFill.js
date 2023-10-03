@@ -31,6 +31,7 @@ async function loadPage() {
             $('#history'+order.products.$values[i].activecalculationHistoryId + order.products.$values[i].id).css('opacity', '100%');
     }
     generatorTotalPrice();
+    generatorStatus(order.status);
 }
 
 function generatorTotalPrice(){
@@ -40,7 +41,38 @@ function generatorTotalPrice(){
         totalPrice+= parseInt( $(productSpace[i]).attr("name"));
     }
 
-    $('#totalPrice').html('итого: '+totalPrice+ ' руб.');
+    $('#totalPrice').html('итого: ' + totalPrice + ' руб.');
+    colorTotalPrice(order.stratusPayment);
+}
+
+function colorTotalPrice(status) {
+    if (status == 1) {
+        $('#totalPrice').css('background-color', '#eb6e6e');
+    }
+    else {
+        $('#totalPrice').css('background-color', '#ffffff');
+    }
+}
+
+function generatorStatus(status) {
+    let statusHtml;
+    if (status == 0) {
+        statusHtml = '<p style="background-color: #e390d6;width: 238px;">На утв</p>';
+    }
+    else if (status == 1) {
+        statusHtml = '<p style="background-color: #eb6e6e;width: 238px;">В работе</p>';
+    }
+    else if (status == 2) {
+        statusHtml = '<p style="background-color: #3e697d;width: 238px;">Отмененый</p>';
+    }
+    else if (status == 3) {
+        statusHtml = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
+    }
+    else if (status == 4) {
+        statusHtml = '<p style="background-color: #ccce7e;width: 238px;">Не отгруженно</p>';
+    }
+    console.log(statusHtml);
+    $("#status").html(statusHtml);
 }
 
 async function getResult(historyId){

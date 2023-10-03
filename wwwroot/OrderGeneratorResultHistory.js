@@ -25,11 +25,12 @@ async function getHistory(id) {
     return awner.result;
 }
 
-function generatorResult(result){
+function generatorResult(result) {
+    console.log(result);
     let size = result.height+'x'+result.whidth;
     let amoutKids = result.amount+'x'+result.kinds;
     let duplex='4+0';
-    if(result.paperResult.Duplex){
+    if(result.paperResult.duplex){
         duplex ="4+4";
     }
     let PriceForOne = Math.round(result.price / (result.amount * result.kinds), 2); //округлить до 3х знаков

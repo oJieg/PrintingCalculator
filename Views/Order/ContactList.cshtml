@@ -10,6 +10,7 @@
 	<script src="/DetalContact.js" charset="utf-8"></script>
 	<script src="/ContactTableGenerator.js" charset="utf-8"></script>
 	<script src="/ContactSearch.js" charset="utf-8"></script>
+	<script src="/OrderGeneratorTable.js" charset="utf-8"></script>
 	
 	
 }
@@ -29,7 +30,7 @@
 			</div>
 			<div class="nameAndInput">
 				<label class="labletext" for="Height">Телефон</label>
-				<input class="inputNumber" id="Phone" type="text" autocomplete="off">
+				<input class="inputPhone" id="Phone" type="text" autocomplete="off">
 			</div>
 			<div class="nameAndInput">
 				<label class="labletext" for="Height">E-mail</label>
@@ -88,7 +89,7 @@
 			<div style="overflow-x:auto;">
 				<table class="TableContactOrder" id="TableContactOrder">
 					<tbody>
-						<tr>
+						<tr name="mainTableRow">
 							<th>
 								<div class="textTableHistory" onclick="searchId();">N</div>
 								<input class="search" id="searchId" type="text" style="display:none">

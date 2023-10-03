@@ -40,7 +40,7 @@ function addInformatioContact(contact) {
     //contact.description);
     let allPhone = "";
     if (contact.phoneNmbers.$values.length > 0) {
-console.log(contact.phoneNmbers);
+//console.log(contact.phoneNmbers);
         for (let i = 0; i < contact.phoneNmbers.$values.length; i++) {
             allPhone += '<div class="horizontalFlex" id="opacitySize">' +
                 '<p class="contactText">' + contact.phoneNmbers.$values[i].number + '</p>' +
@@ -72,7 +72,7 @@ async function listOrderForId(contact) {
     for (let i = 0; i < contact.orders.$values.length; i++) {
         listOrder[i] = await getOrderForId2(contact.orders.$values[i].id);
     }
-    //console.log(listOrder)
+    console.log(listOrder)
     return (listOrder);
 }
 
@@ -100,8 +100,7 @@ async function getOrderForId2(id) {
     if (responseOrder.status != 0) {
         alert("не получилось получить получить заказ по id!" + responseOrder.status.errorMassage)
     }
-
-
+   // console.log(responseOrder)
     return responseOrder.result;
 }
 
@@ -218,4 +217,45 @@ window.addEventListener("GeneratorComplite", function() {
   
     });
   
-  });
+});
+
+window.addEventListener("DOMContentLoaded", function () {
+    [].forEach.call(document.querySelectorAll('.inputPhone'), function (input) {
+        var keyCode;
+        function mask(event) {
+            event.keyCode && (keyCode = event.keyCode);
+            var pos = this.selectionStart;
+            if (pos < 3) event.preventDefault();
+            var matrix = "+7 (___) ___ ____",
+                i = 0,
+                def = matrix.replace(/\D/g, ""),
+                val = this.value.replace(/\D/g, ""),
+                new_value = matrix.replace(/[_\d]/g, function (a) {
+                    return i < val.length ? val.charAt(i++) : a
+                });
+            i = new_value.indexOf("_");
+            if (i != -1) {
+                i < 5 && (i = 3);
+                new_value = new_value.slice(0, i)
+            }
+            var reg = matrix.substr(0, this.value.length).replace(/_+/g,
+                function (a) {
+                    return "\\d{1," + a.length + "}"
+                }).replace(/[+()]/g, "\\$&");
+            reg = new RegExp("^" + reg + "$");
+            if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) {
+                this.value = new_value;
+            }
+            if (event.type == "blur" && this.value.length < 5) {
+                this.value = "";
+            }
+        }
+
+        input.addEventListener("input", mask, false);
+        input.addEventListener("focus", mask, false);
+        input.addEventListener("blur", mask, false);
+        input.addEventListener("keydown", mask, false);
+
+    });
+
+});

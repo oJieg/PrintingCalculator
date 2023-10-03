@@ -3,17 +3,22 @@ let totalPrice = 0;
 
 
 async function generatorTable(inResponseOrder, tableNameId) {
-    //console.log(tableNameId);
+    console.log(inResponseOrder);
     responseOrder = inResponseOrder;
 
     for (let i = 0; i < responseOrder.length; i++) {
-        $('#' + tableNameId + ' tr:last').after('<tr class="mainTableRow" id="mainRow' + responseOrder[i].id+'" onclick="clicTable(' + responseOrder[i].id + ')">' + addData(i, addTotalPrice(await addProduct(i, addContact(i, addStatus(i, addId(i)))))) + '</tr>');
+        console.log($('#' + tableNameId));
+
+        let text = addId(i) + addStatus(i) + addContact(i) + await addProduct(i) + addTotalPrice(i) + addData(i);
+        $('#' + tableNameId + ' tr[name="mainTableRow"]:last').after('<tr name ="mainTableRow" class="mainTableRow" id="mainRow'  + responseOrder[i].id + '" onclick="clicTable(' + responseOrder[i].id + ')">' +
+            text + '</tr>');
         backgroundColor(i);
     }
     
 }
 
 function backgroundColor(i) {
+   // console.log(responseOrder[i].status);
     if (responseOrder[i].status == 0) {
         $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #eedeeb;');
        // status = '<p style="background-color: #e390d6;width: 238px;">На утв-е</p>';
@@ -30,16 +35,20 @@ function backgroundColor(i) {
         $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #cde3ce;');
       //  status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
     }
+    else if (responseOrder[i].status == 4) {
+        $('#mainRow' + responseOrder[i].id).attr('style', 'background-color: #e2e3cd;');
+        //  status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
+    }
 }
 
 function addId(i) {
     return '<td><div class="textTableHistory">' + responseOrder[i].id + '</div></td>';
 }
 
-function addStatus(i, text) {
+function addStatus(i) {
     let status;
     if (responseOrder[i].status == 0) {
-        status = '<p style="background-color: #e390d6;width: 238px;">На утв-е</p>';
+        status = '<p style="background-color: #e390d6;width: 238px;">На утв</p>';
     }
     else if (responseOrder[i].status == 1) {
         status = '<p style="background-color: #eb6e6e;width: 238px;">В работе</p>';
@@ -50,23 +59,27 @@ function addStatus(i, text) {
     else if (responseOrder[i].status == 3) {
         status = '<p style="background-color: #9ee19f;width: 238px;">Выполнено</p>';
     }
+    else if (responseOrder[i].status == 4) {
+        status = '<p style="background-color: #ccce7e;width: 238px;">Не отгруженно</p>';
+    }
 
     
 
-    return text + '<td style="width: 250px;"><div class="textTableHistory">' + status +
+    return  '<td style="width: 250px;"><div class="textTableHistory">' + status +
         '<div class="horizontalInput">'+
-        '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 0)" class="buttonStatus">На утв-е </button></p>' +
+        '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 0)" class="buttonStatus">На утв </button></p>' +
             '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 1)" class="buttonStatus">В работу </button></p>' +
            ' </div>'+
         '<div class="horizontalInput">'+
-        '<p class="boxText">'+ '<button onclick="statusOrder(' + responseOrder[i].id + ', 3)" class="buttonStatus">Готово</button></p>' +
-        '<p class="boxText">' +'<button onclick="statusOrder(' + responseOrder[i].id + ', 2)" class="buttonStatus">Отмена </button></p>' +
+        '<p class="boxText">' + '<button onclick="statusOrder(' + responseOrder[i].id + ', 3)" class="buttonStatus">Готово</button></p>' +
+        '<p class="boxText">' + '<button onclick="statusOrder(' + responseOrder[i].id + ', 4)" class="buttonStatus">Не отгруженно </button></p>' +
         '</div>'+
     '</p></div></td>';
 }
 
-async function addProduct(i, text) {
-    text += '<td>';
+
+async function addProduct(i) {
+    let text = '<td style="width: 500px;">';
     let countProuction = responseOrder[i].products.$values.length;
     if (countProuction > 0) {
         let historysLength = responseOrder[i].products.$values[0].histories.$values.length;
@@ -77,8 +90,15 @@ async function addProduct(i, text) {
 
         if (historysLength > 0) {
             let history = await getSimolHistory(actualHistory);
+            let name = responseOrder[i].products.$values[0].name;
+            if (name == null) { name = ""; }
 
-            text += '<div class="textTableHistory">' + generatorBoxProduct(history, responseOrder[i].products.$values[0].id) + '</div>';
+            text += '<div class="textTableHistory">' +
+                '<div class="boxProduct" onclick="productionClick(' + responseOrder[i].products.$values[0].id + ')">' +
+                '<p class="boxText">' + name + '</p>' +
+                generatorBoxProduct(history) +
+                '</div>' +
+                '</div>';
         }
         else {
             text += '<div class="textTableHistory"><div class="boxProduct" onclick="productionClick(' + responseOrder[i].products.$values[0].id + ')""> </div> </div>';
@@ -92,46 +112,71 @@ async function addProduct(i, text) {
             let historysLength = responseOrder[i].products.$values[j].histories.$values.length;
             let actualHistoryJ = responseOrder[i].products.$values[j].activecalculationHistoryId;
 
-            if (historysLength > 0) {
+            let name = responseOrder[i].products.$values[j].name;
+            if (name == null) { name = ""; }
 
+            if (historysLength > 0) {
                 let history = await getSimolHistory(actualHistoryJ);
 
-                text += '<div class="textTableHistory">' + generatorBoxProduct(history, responseOrder[i].products.$values[j].id) + '</div>';
+                text += '<div class="textTableHistory">' +
+                    '<div class="boxProduct" onclick="productionClick(' + responseOrder[i].products.$values[0].id + ')">' +
+                    '<p class="boxText">' + name + '</p>' +
+                    generatorBoxProduct(history) +
+                    '</div>' +
+                    '</div>';
             }
             else {
-                text += '<div class="textTableHistory"><div class="boxProduct" onclick="productionClick(' + responseOrder[i].products.$values[j].id + ')"> </div> </div>';
+                text += '<div class="textTableHistory"><div class="boxProduct" onclick="productionClick(' + responseOrder[i].products.$values[0].id + ')""> </div> </div>';
 
             }
         }
         text += '</details>';
     }
+
     text += '</td>'
+
     return text;
 }
 
 
-function generatorBoxProduct(history, productionId) {
+function generatorBoxProduct(history) {
+
     totalPrice += history.price;
     let UnitPrice = history.price / (history.amount * history.kinds); 
-    return '<div class="boxProduct" onclick="productionClick(' + productionId + ')">' +
-        '<p class="boxText">' + history.height + 'x' + history.whidth + '|' + history.amount + 'x' + history.kinds + 'шт' + '</p>' +
+    return '<table style="width: 100%;">' +
+        ' <tr>' +
+        '<td style="width: 16%;">' +
+        '<p class="boxText">' + history.height + 'x' + history.whidth + '</p>' +
+        '</td>' +
+        '<td style="width: 16%;">' +
+        '<p class="boxText">' + history.amount + 'x' + history.kinds + 'шт </p>' +
+        '</td>' +
+        '<td style="width: 36%;">' +
         '<p class="boxText">' + history.paperName + ' </p>' +
-        '<p class="boxText">' + generatorLogo(history) + '</p>' +
-        '<p class="boxText">' + history.price + 'руб|' + UnitPrice.toFixed(1) + ' руб/шт</p>' +
-        '</div>';
+        '</td>' +
+        '<td style="width: 16%;">' +
+        '<p class="boxText">' + UnitPrice.toFixed(1) + ' руб/шт</p>' +
+        '</td>' +
+        '<td style="width: 16%;">' +
+        '<p class="boxText">' + history.price + 'руб </p>' +
+        '</td>' +
+        '</tr>' +
+        '</table>' +
+        '<p class="boxText">' + generatorLogo(history) + '</p>';
+
 }
 
-function addContact(i, text) {
-    text += '<td>';
+function addContact(i) {
+   let text = '<td>';
     for (const element of responseOrder[i].contacts.$values) {
         text += '<div class="textTableHistory" onclick="contactClick(' + element.id + ')">' +
             '<div class="boxProduct">' +
             '<p class="boxText">' + element.name + '</p>';
         if (element.mails.$values.length > 0) {
-            text += '<p class="boxText">mail:' + element.mails.$values[0].email + '</p>';
+            text += '<p class="boxText">' + element.mails.$values[0].email + '</p>';
         }
         if (element.phoneNmbers.$values.length > 0) {
-            text += '<p class="boxText">тел:' + element.phoneNmbers.$values[0].number + '</p>';
+            text += '<p class="boxText">' + element.phoneNmbers.$values[0].number + '</p>';
         }
 
         text += '</div>' +
@@ -141,21 +186,38 @@ function addContact(i, text) {
     return text;
 }
 
-function addTotalPrice(text) {
-    text += '<td>' +
-        '<div class="textTableHistory">' + totalPrice + 'руб.</div>' +
+function addTotalPrice(i) {
+    let color;
+    if (responseOrder[i].stratusPayment == 0) {
+        color = 'style="background-color: #9ee19f;"';
+    }
+    else if (responseOrder[i].stratusPayment == 1) {
+        color = 'style="background-color: #eb6e6e;"';
+    }
+    else if (responseOrder[i].stratusPayment == 2) {
+        color = 'style="background-color: #e390d6;"';
+    }
+
+    let text = '<td>' +
+        '<div class="textTableHistory" ' + color+'>' + totalPrice + 'руб.</div>' +
+        '<div>' +
+        '<p class="boxText">' + '<button onclick="stratusPayment(' + responseOrder[i].id + ', 0)" class="buttonStatus">Оплачено </button></p>' +
+        ' </div>' +
+        '<div' +
+        '<p class="boxText">' + '<button onclick="stratusPayment(' + responseOrder[i].id + ', 1)" class="buttonStatus">Не оплачено</button></p>' +
+        '</div>' +
         '</td>';
     totalPrice = 0;
     return text;
 }
 
-function addData(i, text) {
+function addData(i) {
     var msUTC = Date.parse(responseOrder[i].dateTime);
 
-    text += '<td>' +
+    return '<td>' +
         '<div class="textTableHistory">' + new Date(msUTC).toLocaleString() + '</div>' +
+        '<p class="boxText">' + '<button onclick="statusOrder(' + responseOrder[i].id + ', 2)" class="buttonStatus">Отмена </button></p>' +
         '</td>';
-    return text;
 }
 
 function generatorLogo(history) {

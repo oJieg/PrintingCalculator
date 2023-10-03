@@ -159,6 +159,11 @@ namespace printing_calculator.controllers.WebApi
                    .FirstAsync(x => x.Id == Id);
 
                 order.status = status;
+                if(status == StatusOrder.Done)
+                {
+                    order.stratusPayment = StratusPayment.Paid;
+                }
+
                 await _applicationContext.SaveChangesAsync();
             }
             catch (InvalidOperationException)
@@ -171,8 +176,30 @@ namespace printing_calculator.controllers.WebApi
             }
             return new Answer<bool>() { Status = StatusAnswer.Ok, Result = true };
         }
+		
 
-        [HttpGet("api/order/edit-description-order{Id}")]
+		[HttpGet("api/order/edit-status-payment{Id}")]
+		public async Task<Answer<bool>> EditStatusPayment(int Id, StratusPayment status)
+		{
+			try
+			{
+				Order order = await _applicationContext.Orders
+				   .FirstAsync(x => x.Id == Id);
+
+				order.stratusPayment = status;
+				await _applicationContext.SaveChangesAsync();
+			}
+			catch (InvalidOperationException)
+			{
+				return new Answer<bool>() { Status = StatusAnswer.NotFaund, ErrorMassage = "Не найден order с таким ID" };
+			}
+			catch (Exception ex)
+			{
+				return new Answer<bool>() { Status = StatusAnswer.ErrorDataBase, ErrorMassage = ex.ToString(), Result = false };
+			}
+			return new Answer<bool>() { Status = StatusAnswer.Ok, Result = true };
+		}
+		[HttpGet("api/order/edit-description-order{Id}")]
         public async Task<Answer<bool>> EditDescriptionOrder(int Id, string description)
         {
             try
