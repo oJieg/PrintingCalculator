@@ -1,0 +1,2785 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "printing calculator",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/simpl-calculation": {
+      "post": {
+        "tags": [
+          "Calculation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplCalculationAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplCalculationAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplCalculationAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/add-comment": {
+      "put": {
+        "tags": [
+          "Calculation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddComment"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddComment"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddComment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calculation": {
+      "post": {
+        "tags": [
+          "Calculation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Input"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/edit-contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/add-new-contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/get-contact{contactId}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/get-list-contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/get-count-contact": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/get-all-order-for-contact{contactId}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/searth-contact": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContactsAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContactsAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContactsAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/searth-contact-by-email": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact/searth-contact-by-name": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/get-result{id}": {
+      "get": {
+        "tags": [
+          "GetResult"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResultAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/get-simpl-result{id}": {
+      "get": {
+        "tags": [
+          "GetResult"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplResultAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplResultAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiSimplResultAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/LaminationEdit": {
+      "post": {
+        "tags": [
+          "LaminationEdit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLamination"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLamination"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLamination"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LaminationEdit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLamination"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLamination"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditLamination"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/LaminationEdit/{id}": {
+      "delete": {
+        "tags": [
+          "LaminationEdit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/add-new-order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/get-order{Id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/get-order-data": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/get-list-order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "statusOrder",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/StatusOrder"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/get-list-close-order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderArrayAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/get-count-order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "statusOrder",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/StatusOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int32Answer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/edit-status-order{Id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/StatusOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/edit-description-order{Id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/add-contact{orderId}": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "contactId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/del-contact{orderId}": {
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "contactId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/add-product{orderId}": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/del-product{orderId}": {
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PaperEdit": {
+      "post": {
+        "tags": [
+          "PaperEdit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPaper"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPaper"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPaper"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PaperEdit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPaper"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPaper"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPaper"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PaperEdit/{id}": {
+      "delete": {
+        "tags": [
+          "PaperEdit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/get-product{idProduction}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "idProduction",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/add-new-product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/add-history{productId}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "histiryId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/edit-active-history": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "historyId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/edit-product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAnswer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/VerySimpleCalculation/{historyId}/{newAmount}": {
+      "get": {
+        "tags": [
+          "VerySimpleCalculation"
+        ],
+        "parameters": [
+          {
+            "name": "historyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "newAmount",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddComment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddLamination": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddPaper": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "nameSize": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiResultAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusCalculation"
+          },
+          "idHistory": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/Result"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiSimplCalculationAnswer": {
+        "type": "object",
+        "properties": {
+          "idHistory": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusCalculation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiSimplResultAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusCalculation"
+          },
+          "idHistory": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "simplResult": {
+            "$ref": "#/components/schemas/SimpleResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BooleanAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommonToAllMarkup": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "percentMarkup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "adjustmen": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConsumablePrice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tonerPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drumPrice1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drumPrice2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drumPrice3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drumPrice4": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "mails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mail"
+            },
+            "nullable": true
+          },
+          "phoneNumbers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhoneNumber"
+            },
+            "nullable": true
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactArrayAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditLamination": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newPrice": {
+            "type": "number",
+            "format": "float"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditPaper": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newPrice": {
+            "type": "number",
+            "format": "float"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paperThickness": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Input": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "whidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paper": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kinds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duplex": {
+            "type": "boolean"
+          },
+          "laminationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "creasing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drilling": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rounding": {
+            "type": "boolean"
+          },
+          "commonToAllMarkup": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "springBrochure": {
+            "$ref": "#/components/schemas/SpringBrochure"
+          },
+          "stapleBrochure": {
+            "type": "boolean"
+          },
+          "noSaveDB": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InputHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "whidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/PaperCatalog"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kinds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duplex": {
+            "type": "boolean"
+          },
+          "laminationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lamination": {
+            "$ref": "#/components/schemas/Lamination"
+          },
+          "creasingAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drillingAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundingAmount": {
+            "type": "boolean"
+          },
+          "commonToAllMarkupName": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "springBrochure": {
+            "$ref": "#/components/schemas/SpringBrochure"
+          },
+          "stapleBrochure": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Int32Answer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Lamination": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LaminationResult": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "sheets": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualCostPrics": {
+            "type": "boolean"
+          },
+          "markup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualMarkup": {
+            "type": "boolean"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Mail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusOrder"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/Order"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderArrayAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaperCatalog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "size": {
+            "$ref": "#/components/schemas/SizePaper"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paperThickness": {
+            "type": "number",
+            "format": "float"
+          },
+          "prices": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaperResult": {
+        "type": "object",
+        "properties": {
+          "namePaper": {
+            "type": "string",
+            "nullable": true
+          },
+          "duplex": {
+            "type": "boolean"
+          },
+          "sheets": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "piecesPerSheet": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consumablePrinterPrice": {
+            "type": "number",
+            "format": "float"
+          },
+          "actualConsumablePrice": {
+            "type": "boolean"
+          },
+          "costConsumablePrise": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualCostPrise": {
+            "type": "boolean"
+          },
+          "markupPaper": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualMarkupPaper": {
+            "type": "boolean"
+          },
+          "cutPrics": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualCutPrice": {
+            "type": "boolean"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PhoneNumber": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PosResult": {
+        "type": "object",
+        "properties": {
+          "creasingAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "creasingPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualCreasingPrice": {
+            "type": "boolean"
+          },
+          "drillingAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "drillingPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualDrillingPrice": {
+            "type": "boolean"
+          },
+          "rounding": {
+            "type": "boolean"
+          },
+          "roundingPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualRoundingPrice": {
+            "type": "boolean"
+          },
+          "stapleBrochurePrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualStapleBrochure": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "histories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/СalculationHistory"
+            },
+            "nullable": true
+          },
+          "activecalculationHistoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/Product"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "historyInputId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kinds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "whidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paperResult": {
+            "$ref": "#/components/schemas/PaperResult"
+          },
+          "laminationResult": {
+            "$ref": "#/components/schemas/LaminationResult"
+          },
+          "posResult": {
+            "$ref": "#/components/schemas/PosResult"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tryPrice": {
+            "type": "boolean"
+          },
+          "commonToAllMarkupName": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommonToAllMarkup"
+            },
+            "nullable": true
+          },
+          "tryCommonToAllMarkup": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "springBrochure": {
+            "$ref": "#/components/schemas/SpringBrochureResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchContacts": {
+        "type": "object",
+        "properties": {
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchContactsAnswer": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/SearchContacts"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SimpleResult": {
+        "type": "object",
+        "properties": {
+          "historyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "whidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kinds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paperName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lamination": {
+            "type": "boolean"
+          },
+          "creasing": {
+            "type": "boolean"
+          },
+          "drilling": {
+            "type": "boolean"
+          },
+          "rounding": {
+            "type": "boolean"
+          },
+          "springBrochure": {
+            "type": "boolean"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SizePaper": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpringBrochure": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SpringBrochureResult": {
+        "type": "object",
+        "properties": {
+          "springBrochure": {
+            "$ref": "#/components/schemas/SpringBrochure"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actualPrice": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusAnswer": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "StatusCalculation": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/StatusAnswer"
+          },
+          "errorMassage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusOrder": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "СalculationHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "input": {
+            "$ref": "#/components/schemas/InputHistory"
+          },
+          "paperPrice": {
+            "type": "number",
+            "format": "float"
+          },
+          "consumablePrice": {
+            "$ref": "#/components/schemas/ConsumablePrice"
+          },
+          "markupPaper": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cutPrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "laminationPrices": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "laminationMarkup": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "creasingPrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "drillingPrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "roundingPrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "springBrochurePrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "stapleBrochurePrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
