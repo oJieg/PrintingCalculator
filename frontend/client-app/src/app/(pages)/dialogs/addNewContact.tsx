@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,7 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import Box from '@mui/material/Box';
 
-import { UseShowcaseStore } from '../contacts/page';
+import { UseStoresForContacts } from '../contacts/page';
 import { observer } from 'mobx-react-lite';
 import Confirmation from './confirmation';
 
@@ -27,7 +29,7 @@ interface NewContactProps {
   actionAfterClosing?: () => void;
 }
 export default function NewContact(report: NewContactProps) {
-  const { newContactStore, confirmationStore } = UseShowcaseStore();
+  const { newContactStore, confirmationStore } = UseStoresForContacts();
   const MailsField = observer(() => {
     return (
       <Box key="mails">

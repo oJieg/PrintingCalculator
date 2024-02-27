@@ -20,7 +20,7 @@ export class OrderService {
     public static getApiOrderAddNewOrder(): CancelablePromise<Int32Answer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/add-new-order',
+            url: 'https://localhost:7181/api/order/add-new-order',
         });
     }
     /**
@@ -33,7 +33,7 @@ export class OrderService {
     ): CancelablePromise<OrderAnswer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/get-order{Id}',
+            url: 'https://localhost:7181/api/order/get-order{Id}',
             path: {
                 'Id': id,
             },
@@ -49,67 +49,48 @@ export class OrderService {
     ): CancelablePromise<OrderArrayAnswer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/get-order-data',
+            url: 'https://localhost:7181/api/order/get-order-data',
             query: {
                 'data': data,
             },
         });
     }
     /**
-     * @param statusOrder
      * @param skip
      * @param take
+     * @param requestBody
      * @returns OrderArrayAnswer Success
      * @throws ApiError
      */
     public static getApiOrderGetListOrder(
-        statusOrder?: StatusOrder,
         skip?: number,
         take: number = 5,
+        requestBody?: Array<StatusOrder>,
     ): CancelablePromise<OrderArrayAnswer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/get-list-order',
-            query: {
-                'statusOrder': statusOrder,
-                'skip': skip,
-                'take': take,
-            },
-        });
-    }
-    /**
-     * @param skip
-     * @param take
-     * @returns OrderArrayAnswer Success
-     * @throws ApiError
-     */
-    public static getApiOrderGetListCloseOrder(
-        skip?: number,
-        take: number = 5,
-    ): CancelablePromise<OrderArrayAnswer> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/order/get-list-close-order',
+            url: 'https://localhost:7181/api/order/get-list-order',
             query: {
                 'skip': skip,
                 'take': take,
             },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
-     * @param statusOrder
+     * @param requestBody
      * @returns Int32Answer Success
      * @throws ApiError
      */
     public static getApiOrderGetCountOrder(
-        statusOrder?: StatusOrder,
+        requestBody?: Array<StatusOrder>,
     ): CancelablePromise<Int32Answer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/get-count-order',
-            query: {
-                'statusOrder': statusOrder,
-            },
+            url: 'https://localhost:7181/api/order/get-count-order',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -124,7 +105,7 @@ export class OrderService {
     ): CancelablePromise<BooleanAnswer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/edit-status-order{Id}',
+            url: 'https://localhost:7181/api/order/edit-status-order{Id}',
             path: {
                 'Id': id,
             },
@@ -145,7 +126,7 @@ export class OrderService {
     ): CancelablePromise<BooleanAnswer> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/order/edit-description-order{Id}',
+            url: 'https://localhost:7181/api/order/edit-description-order{Id}',
             path: {
                 'Id': id,
             },
@@ -166,7 +147,7 @@ export class OrderService {
     ): CancelablePromise<ContactAnswer> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/order/add-contact{orderId}',
+            url: 'https://localhost:7181/api/order/add-contact{orderId}',
             path: {
                 'orderId': orderId,
             },
@@ -187,7 +168,7 @@ export class OrderService {
     ): CancelablePromise<BooleanAnswer> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/order/del-contact{orderId}',
+            url: 'https://localhost:7181/api/order/del-contact{orderId}',
             path: {
                 'orderId': orderId,
             },
@@ -208,7 +189,7 @@ export class OrderService {
     ): CancelablePromise<ProductAnswer> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/order/add-product{orderId}',
+            url: 'https://localhost:7181/api/order/add-product{orderId}',
             path: {
                 'orderId': orderId,
             },
@@ -229,7 +210,7 @@ export class OrderService {
     ): CancelablePromise<BooleanAnswer> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/order/del-product{orderId}',
+            url: 'https://localhost:7181/api/order/del-product{orderId}',
             path: {
                 'orderId': orderId,
             },

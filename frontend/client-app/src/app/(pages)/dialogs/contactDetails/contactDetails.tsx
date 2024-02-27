@@ -1,10 +1,12 @@
+import * as React from 'react';
+
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 
 import { observer } from 'mobx-react-lite';
-import { UseShowcaseStore } from '../../contacts/page';
+import { UseStoresForContacts } from '../../contacts/page';
 import ContactCard from './contactCard';
 
 interface ContactDetailsProps {
@@ -12,7 +14,7 @@ interface ContactDetailsProps {
 }
 
 export default function ContactDetails(report: ContactDetailsProps) {
-  const { contactDetailsStore } = UseShowcaseStore();
+  const { contactDetailsStore } = UseStoresForContacts();
 
   const onCloseDetailContact = () => {
     contactDetailsStore.close();

@@ -1,7 +1,7 @@
 import { makeObservable, observable, action, runInAction, toJS } from 'mobx';
-import { Contact } from '../api/models/Contact';
-import { ContactService } from '../api/services/ContactService';
-import { alertStore } from './alert-store';
+import { Contact } from '../../api/models/Contact';
+import { ContactService } from '../../api/services/ContactService';
+import { alertStore } from '../alert-store';
 
 export class ContactDetailsStore {
   isOpen: boolean = false;

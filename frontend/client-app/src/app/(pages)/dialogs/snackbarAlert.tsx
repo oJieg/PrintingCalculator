@@ -1,7 +1,9 @@
+import * as React from 'react';
+
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { alertStore } from '../../stores/alert-store';
-import { UseShowcaseStore } from '../contacts/page';
+import { UseStoresForContacts } from '../contacts/page';
 import { observer } from 'mobx-react-lite';
 
 export default function SnackbarAlert() {

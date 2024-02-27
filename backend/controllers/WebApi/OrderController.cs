@@ -92,7 +92,7 @@ namespace printing_calculator.controllers.WebApi
         }
 
         [HttpGet("api/order/get-list-order")]
-        public async Task<Answer<OutOrder[]>> GetOpenOrders(StatusOrder statusOrder, int skip = 0, int take = 5)
+        public async Task<Answer<OutOrder[]>> GetOrders(StatusOrder[] statusOrder, int skip = 0, int take = 5)
         {
             try
             {
@@ -103,8 +103,11 @@ namespace printing_calculator.controllers.WebApi
                      .Include(x => x.Contacts)
                          .ThenInclude(x => x.PhoneNumbers)
                      .Include(x => x.Contacts)
+                     .Include(x => x.Contacts)
+                     .Include(x => x.Contacts)
+                     .Include(x => x.Contacts)
                          .ThenInclude(x => x.Mails)
-                     .Where(x => x.status == statusOrder)
+                     .Where(x => statusOrder.Any(s => s == x.status))
                      .OrderByDescending(x => x.DateTime)
                      .Skip(skip)
                      .Take(take)
@@ -118,39 +121,41 @@ namespace printing_calculator.controllers.WebApi
             }
         }
 
-        [HttpGet("api/order/get-list-close-order")]
-        public async Task<Answer<OutOrder[]>> GetCloseOrders(int skip = 0, int take = 5)
-        {
-            try
-            {
-                Order[] order = await _applicationContext.Orders
-                     .AsNoTracking()
-                     .Include(x => x.Products)
-                         .ThenInclude(x => x.Histories)
-                     .Include(x => x.Contacts)
-                         .ThenInclude(x => x.PhoneNumbers)
-                     .Include(x => x.Contacts)
-                         .ThenInclude(x => x.Mails)
-                     .Where(x => x.status == StatusOrder.Canceled || x.status == StatusOrder.Done)
-                     .OrderByDescending(x => x.DateTime)
-                     .Skip(skip)
-                     .Take(take)
-                     .ToArrayAsync<Order>();
+        //[HttpGet("api/order/get-list-close-order")]
+        //public async Task<Answer<OutOrder[]>> GetCloseOrders(int skip = 0, int take = 5)
+        //{
+        //    try
+        //    {
+        //        Order[] order = await _applicationContext.Orders
+        //             .AsNoTracking()
+        //             .Include(x => x.Products)
+        //                 .ThenInclude(x => x.Histories)
+        //             .Include(x => x.Contacts)
+        //                 .ThenInclude(x => x.PhoneNumbers)
+        //             .Include(x => x.Contacts)
+        //                 .ThenInclude(x => x.Mails)
+        //             .Where(x => x.status == StatusOrder.Canceled || x.status == StatusOrder.Done)
+        //             .OrderByDescending(x => x.DateTime)
+        //             .Skip(skip)
+        //             .Take(take)
+        //             .ToArrayAsync<Order>();
 
-                return new Answer<OutOrder[]>() { Result = ConvetrotContactArrey.OrderConvert(order) };
-            }
-            catch (InvalidOperationException)
-            {
-                return new Answer<OutOrder[]>() { Status = StatusAnswer.NotFound, ErrorMassage = "Не найден order с таким ID" };
-            }
-        }
+        //        return new Answer<OutOrder[]>() { Result = ConvetrotContactArrey.OrderConvert(order) };
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        return new Answer<OutOrder[]>() { Status = StatusAnswer.NotFound, ErrorMassage = "Не найден order с таким ID" };
+        //    }
+        //}
 
         [HttpGet("api/order/get-count-order")]
-        public async Task<Answer<int>> GetCountOrder(StatusOrder statusOrder)
+        public async Task<Answer<int>> GetCountOrder(StatusOrder[] statusOrder)
         {
             try
             {
-                int countOrder = await _applicationContext.Orders.Where(x => x.status == statusOrder).CountAsync();
+                int countOrder = await _applicationContext.Orders
+                    .Where(x => statusOrder.Any(s=>s==x.status))
+                    .CountAsync();
                 return new Answer<int>() { Result = countOrder };
             }
             catch (Exception ex)

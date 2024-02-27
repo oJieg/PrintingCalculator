@@ -1,6 +1,8 @@
+import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import CostomAvatar from '@/app/component/customAvatar';
+import CostomAvatar from '../../../component/customAvatar';
 import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,10 +18,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { contactCard, flexRow, styleIcon, styleDivider } from './cardContactStyle';
 
 import { observer } from 'mobx-react-lite';
-import { UseShowcaseStore } from '../../contacts/page';
+import { UseStoresForContacts } from '../../contacts/page';
 
 export default function ContactCardEditing() {
-  const { contactDetailsStore, confirmationStore } = UseShowcaseStore();
+  const { contactDetailsStore, confirmationStore } = UseStoresForContacts();
 
   const AvatarCostom = observer(() => {
     return <CostomAvatar fullName={contactDetailsStore.contact.name} />;

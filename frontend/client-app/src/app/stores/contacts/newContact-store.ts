@@ -1,9 +1,9 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { Contact } from '../api/models/Contact';
-import { ContactService } from '../api/services/ContactService';
-import { alertStore } from './alert-store';
-import { Mail } from '../api/models/Mail';
-import { PhoneNumber } from '../api/models/PhoneNumber';
+import { Contact } from '../../api/models/Contact';
+import { ContactService } from '../../api/services/ContactService';
+import { alertStore } from '../alert-store';
+import { Mail } from '../../api/models/Mail';
+import { PhoneNumber } from '../../api/models/PhoneNumber';
 
 export class NewContactStore {
   isOpen: boolean = false;

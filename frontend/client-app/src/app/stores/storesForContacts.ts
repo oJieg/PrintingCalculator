@@ -1,9 +1,9 @@
-import { ContactsStore } from './contacts-store';
-import { NewContactStore } from './newContact-store';
-import { ContactDetailsStore } from './contactDetails-store';
+import { ContactsStore } from './contacts/contacts-store';
+import { NewContactStore } from './contacts/newContact-store';
+import { ContactDetailsStore } from './contacts/contactDetails-store';
 import { ConfirmationStore } from './confirmation-Store';
 
-export class ShowcaseStore {
+export class StoresForContacts {
   contactsStore = new ContactsStore();
   newContactStore = new NewContactStore();
   contactDetailsStore = new ContactDetailsStore();

@@ -10,41 +10,41 @@ import Pagination from '@mui/material/Pagination';
 import SnackbarAlert from '../dialogs/snackbarAlert';
 
 import { observer } from 'mobx-react-lite';
-import { ShowcaseStore } from '@/app/stores/showcaseStore';
+import { StoresForContacts} from '../../stores/storesForContacts'
 
 import TableContacts from './tableContacts';
 import SearchPanel from './searchPanel';
 import NewContact from '../dialogs/addNewContact';
 import ContactDetails from '../dialogs/contactDetails/contactDetails';
 
-export const ShowcaseStoreContext = React.createContext<ShowcaseStore | undefined>(undefined);
-export const UseShowcaseStore = (): ShowcaseStore => {
-  return React.useContext(ShowcaseStoreContext)!;
+export const StoresForContactsContext = React.createContext<StoresForContacts | undefined>(undefined);
+export const UseStoresForContacts = (): StoresForContacts => {
+  return React.useContext(StoresForContactsContext)!;
 };
 
 export default function Contacts() {
   useEffect(() => {
-    showcaseStore.contactsStore.getContacts();
+    storesForContacts.contactsStore.getContacts();
     return () => {};
   }, []);
 
-  const showcaseStore = new ShowcaseStore();
+  const storesForContacts = new StoresForContacts();
 
   const PaginationContacts = observer(() => {
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-      showcaseStore.contactsStore.setCurrentPage(value);
+      storesForContacts.contactsStore.setCurrentPage(value);
     };
     return (
       <Pagination
-        count={showcaseStore.contactsStore.paginationState.allPage}
-        page={showcaseStore.contactsStore.paginationState.currentPage}
+        count={storesForContacts.contactsStore.paginationState.allPage}
+        page={storesForContacts.contactsStore.paginationState.currentPage}
         onChange={handleChange}
       />
     );
   });
 
   return (
-    <ShowcaseStoreContext.Provider value={showcaseStore}>
+    <StoresForContactsContext.Provider value={storesForContacts}>
       <Container maxWidth="md">
         <SearchPanel />
         <TableContacts />
@@ -52,12 +52,12 @@ export default function Contacts() {
 
         <SnackbarAlert />
 
-        <Button onClick={() => showcaseStore.newContactStore.open()} variant="contained">
+        <Button onClick={() => storesForContacts.newContactStore.open()} variant="contained">
           Добавить
         </Button>
-        <ContactDetails actionAfterClosing={() => showcaseStore.contactsStore.getContacts()} />
-        <NewContact actionAfterClosing={() => showcaseStore.contactsStore.getContacts()} />
+        <ContactDetails actionAfterClosing={() => storesForContacts.contactsStore.getContacts()} />
+        <NewContact actionAfterClosing={() => storesForContacts.contactsStore.getContacts()} />
       </Container>
-    </ShowcaseStoreContext.Provider>
+    </StoresForContactsContext.Provider>
   );
 }

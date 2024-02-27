@@ -1,15 +1,17 @@
+import * as React from 'react';
+
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { observer } from 'mobx-react-lite';
-import { UseShowcaseStore } from './page';
+import { UseStoresForContacts } from './page';
 
 import { paperSearchPanel, iconCloseButtonForSearchPanel } from './styleContacts';
 
 export default function SearchPanel() {
-  const { contactsStore } = UseShowcaseStore();
+  const { contactsStore } = UseStoresForContacts();
 
   const InputSearch = observer(() => {
     return (

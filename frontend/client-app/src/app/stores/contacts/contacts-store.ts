@@ -1,8 +1,8 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { Contact } from '../api/models/Contact';
-import { ContactService } from '../api/services/ContactService';
-import { PaginationState } from '../model/paginationState';
-import { alertStore } from './alert-store';
+import { Contact } from '../../api/models/Contact';
+import { ContactService } from '../../api/services/ContactService';
+import { PaginationState } from '../../model/paginationState';
+import { alertStore } from '../alert-store';
 
 export class ContactsStore {
   contacts: Contact[] = [];

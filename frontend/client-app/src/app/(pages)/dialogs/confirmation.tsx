@@ -1,14 +1,16 @@
+import * as React from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 
-import { UseShowcaseStore } from '../contacts/page';
+import { UseStoresForContacts } from '../contacts/page';
 import { observer } from 'mobx-react-lite';
 
 export default function Confirmation() {
-  const { confirmationStore } = UseShowcaseStore();
+  const { confirmationStore } = UseStoresForContacts();
 
   const ConfirmationDialog = observer(() => {
     return (

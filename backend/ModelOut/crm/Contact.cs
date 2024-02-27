@@ -1,5 +1,4 @@
 ﻿using ContactConvertible = printing_calculator.DataBase.crm.Contact;
-using OrderConvertible = printing_calculator.DataBase.crm.Order;
 using Mail = printing_calculator.DataBase.crm.Mail;
 using PhoneNumber = printing_calculator.DataBase.crm.PhoneNumber;
 
@@ -16,13 +15,8 @@ namespace printing_calculator.ModelOut.crm
 
         public static explicit operator Contact(ContactConvertible сontact)
         {
-            int orderCount = сontact.Orders.Count;
-            int[] order = new int[orderCount];
+            int[] order = сontact.Orders.Select(x=>x.Id).ToArray();
 
-            for (int i = 0; i < orderCount; i++)
-            {
-                order[i] = сontact.Orders[i].Id;
-            }
             Mail[] mail = Array.Empty<Mail>();
             if (сontact.Mails != null)
             {

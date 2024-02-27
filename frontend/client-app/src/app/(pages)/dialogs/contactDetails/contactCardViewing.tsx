@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,11 +10,11 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 
 import { contactCard, flexRow, styleIcon, styleDivider, flexColumn } from './cardContactStyle';
-import { UseShowcaseStore } from '../../contacts/page';
-import CostomAvatar from '@/app/component/customAvatar';
+import { UseStoresForContacts } from '../../contacts/page';
+import CostomAvatar from '../../../component/customAvatar';
 
 export default function ContactCardViewing() {
-  const { contactDetailsStore } = UseShowcaseStore();
+  const { contactDetailsStore } = UseStoresForContacts();
 
   const PhoneList = () => {
     if (!contactDetailsStore.contact.phoneNumbers) {

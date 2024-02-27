@@ -1,9 +1,11 @@
+import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import Paper from '@mui/material/Paper';
 
 import { observer } from 'mobx-react-lite';
-import { UseShowcaseStore } from '../../contacts/page';
+import { UseStoresForContacts } from '../../contacts/page';
 
 import ContactCardEditing from './сontactCardEditing';
 import ContactCardViewing from './contactCardViewing';
@@ -11,7 +13,7 @@ import ContactCardViewing from './contactCardViewing';
 import { contactCard } from './cardContactStyle';
 
 export default function ContactCard() {
-  const { contactDetailsStore } = UseShowcaseStore();
+  const { contactDetailsStore } = UseStoresForContacts();
 
   const CardContact = observer(() => {
     if (contactDetailsStore.editeMod) {

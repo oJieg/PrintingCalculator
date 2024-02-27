@@ -859,13 +859,6 @@
         ],
         "parameters": [
           {
-            "name": "statusOrder",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/StatusOrder"
-            }
-          },
-          {
             "name": "skip",
             "in": "query",
             "schema": {
@@ -884,55 +877,34 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderArrayAnswer"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
                 }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderArrayAnswer"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
                 }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderArrayAnswer"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/api/order/get-list-close-order": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
-          {
-            "name": "skip",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "take",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 5
-            }
-          }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -962,15 +934,34 @@
         "tags": [
           "Order"
         ],
-        "parameters": [
-          {
-            "name": "statusOrder",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/StatusOrder"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/StatusOrder"
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -1907,7 +1898,8 @@
           "orders": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Order"
+              "type": "integer",
+              "format": "int32"
             },
             "nullable": true
           }
@@ -2218,6 +2210,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contact"
             },
             "nullable": true
           },

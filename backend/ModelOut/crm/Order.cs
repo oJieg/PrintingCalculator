@@ -9,6 +9,7 @@ namespace printing_calculator.ModelOut.crm
         public int Id { get; set; }
         public string? Description { get; set; }
         public Product[] Products { get; set; }
+        public Contact[] Contacts { get; set; } 
         public DateTime DateTime { get; set; }
         public StatusOrder status { get; set; }
 
@@ -22,13 +23,22 @@ namespace printing_calculator.ModelOut.crm
                 product[i] = (Product)order.Products[i];
             }
 
+            int contactsCount = order.Contacts.Count;
+            Contact[] contacts = new Contact[contactsCount];
+            
+            for(int i=0; i<contactsCount; i++)
+            {
+                contacts[i] = (Contact)order.Contacts[i];
+            }
+
             return new Order()
             {
                 Id = order.Id,
                 Description = order.Description,
                 DateTime = order.DateTime,
                 status = order.status,
-                Products = product
+                Products = product,
+                Contacts=contacts
             };
         }
 

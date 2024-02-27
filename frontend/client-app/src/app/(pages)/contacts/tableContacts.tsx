@@ -17,11 +17,11 @@ import Skeleton from '@mui/material/Skeleton';
 import Alert from '@mui/material/Alert';
 
 import { observer } from 'mobx-react-lite';
-import { UseShowcaseStore } from './page';
+import { UseStoresForContacts } from './page';
 
 import { activeRow, inactiveRow } from './styleContacts';
 export default function TableContacts() {
-  const { contactsStore, contactDetailsStore } = UseShowcaseStore();
+  const { contactsStore, contactDetailsStore } = UseStoresForContacts();
 
   const DataForTable = observer(() => {
     return contactsStore.contacts.map((row) => (
