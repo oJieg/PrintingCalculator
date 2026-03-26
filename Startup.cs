@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using printing_calculator.Models;
 using printing_calculator.Models.Calculating;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace printing_calculator
 {
@@ -20,10 +22,14 @@ namespace printing_calculator
             services.AddTransient<Validation>();
 
             services.AddMvc();
+
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
 
-			services.AddControllers();
+
+
+            services.AddControllers().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,12 +37,19 @@ namespace printing_calculator
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             app.UseStaticFiles();
             app.UseRouting(); // используем систему маршрутизации
 
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = "api";
+            });
 
-			app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",

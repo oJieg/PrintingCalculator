@@ -1,6 +1,6 @@
 ﻿namespace printing_calculator.ViewModels
 {
-	public class ApiCalculationAnswer
+	public class ApiSimplCalculationAnswer
 	{
 		public int? IdHistory { get; set; }
 		public int? Price { get; set; }

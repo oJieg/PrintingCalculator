@@ -19,7 +19,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
 
@@ -28,7 +28,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Other,
+					Status = StatusAnswer.Other,
 					ErrorMassage = "При обрашении к настройкам drilling в базе, произошла ошибка."
 				}));
             }

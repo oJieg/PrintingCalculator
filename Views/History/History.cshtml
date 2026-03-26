@@ -25,7 +25,7 @@
 		}
 		if(result.SpringBrochure)
 		{
-			PosLogo += "<img class='imagPos' src='SpringBrochure.svg'/>";
+			PosLogo += "<img class='imagPos' src='/SpringBrochure.svg'/>";
 		}
 		if (PosLogo == string.Empty)
 		{
@@ -38,14 +38,14 @@
 	string addressBack;
 	if (@Model.ThisPage > 0)
 	{
-		addressBack = @$"{addressHistory}?page={(Model.ThisPage - 1)}";
+		addressBack = $"{addressHistory}?page={(Model.ThisPage - 1)}";
 	}
 	else
 	{
 		addressBack = addressHistory;
 	}
 
-	string addressForward = @$"{addressHistory}?page={Model.ThisPage + 1}";
+	string addressForward = $"{addressHistory}?page={Model.ThisPage + 1}";
 	int countButtonPage = 5;
 	if (countButtonPage > Model.CurrentPage)
 	{
@@ -67,6 +67,7 @@
 <link rel="stylesheet" type="text/css" href="/history.css">
 }
 
+<div class="main-body">
 <p>Итория</p>
 <div class="tableFlex">
 	<div style="overflow-x:auto;">
@@ -140,7 +141,7 @@
 
 		@for (int i = startBottonNext; i < startBottonNext + countButtonPage; i++)
 		{
-			string addressButton = @$"{addressHistory}?page={i}";
+			string addressButton = $"{addressHistory}?page={i}";
 			if (i == Model.ThisPage)
 			{
 				<input class="buttonNextActiv" type="submit" disabled="disabled" formmethod="post" formaction=@addressButton value="@(i)">
@@ -171,4 +172,5 @@
 		<p><button class="button">По номеру</button></p>
 	</form>
 
+</div>
 </div>

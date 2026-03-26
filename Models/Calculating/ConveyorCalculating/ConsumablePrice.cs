@@ -27,7 +27,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 
                 if (consumablePrice == null)
                     return (history, result, new StatusCalculation() { 
-                        Status = StatusType.Other, 
+                        Status = StatusAnswer.Other, 
                         ErrorMassage = "При обрашении к настройкам ConsumablePrices в базе, проихошла ошибка "
 					});
 
@@ -49,7 +49,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             catch
             {
                 return (history, result, new StatusCalculation() { 
-                    Status = StatusType.Other,
+                    Status = StatusAnswer.Other,
                     ErrorMassage = "Произошла ошибка при вычислении ConsumablePrice"
 				});
             }

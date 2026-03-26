@@ -20,7 +20,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
             PosMachinesSetting? cuttingSetting = _settings.PosMachines.Where(x => x.NameMachine == "cuting").FirstOrDefault();
@@ -28,7 +28,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Other,
+					Status = StatusAnswer.Other,
 					ErrorMassage = "При обращении к настройкам cuting в базе, произошла ошибка"
 				}));
             }
@@ -57,7 +57,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Other,
+					Status = StatusAnswer.Other,
 					ErrorMassage = "Стоимость резки вышла за возможные приделы int"
 				}));
             }

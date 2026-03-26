@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using printing_calculator.ViewModels;
 using printing_calculator.DataBase;
 using printing_calculator.ViewModels.Result;
 using printing_calculator.Models.Calculating;
@@ -28,7 +27,7 @@ namespace printing_calculator.controllers
 			{
 				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
 
-				if (tryAnswer.Status != StatusType.Ok)
+				if (tryAnswer.Status != StatusAnswer.Ok)
 				{
 					_logger.LogError("не удался расчет на конвейере");
 					return View("SettingMashines/Error", result);

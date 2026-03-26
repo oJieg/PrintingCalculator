@@ -2,134 +2,135 @@
 @using printing_calculator.DataBase.setting;
 
 @{
-	Layout = "_Layout";
+    Layout = "_Layout";
 }
 
 @section Style {
-	<link rel="stylesheet" type="text/css" href="/SettingMashines.css">
+    <link rel="stylesheet" type="text/css" href="/SettingMashines.css">
 }
+<div class="main-body">
+    <h3>Настройки ламинации</h3>
 
-<h3>Настройки ламинации</h3>
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>цена кортонной подложки/обложки А4</p>
+                </div>
+                <div class="t2">
+                    <p>цена кортонной подложки/обложки А3</p>
+                </div>
+                <div class="t2">
+                    <p>цена пластиковой подложки/обложки А4</p>
+                </div>
+                <div class="t2">
+                    <p>цена пластиковой подложки/обложки А3</p>
+                </div>
+                <div class="t2">
+                    <p>цена брощюровки А3</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.CoverCardboardA4Price</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.CoverCardboardA3Price</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.CoverPlasticA4Price</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.CoverPlasticA3Price</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PriceForA3</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="CoverCardboardA4Price" type="number" value="@Model.CoverCardboardA4Price">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CoverCardboardA3Price" type="number" value="@Model.CoverCardboardA3Price">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CoverPlasticA4Price" type="number" value="@Model.CoverPlasticA4Price">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CoverPlasticA3Price" type="number" value="@Model.CoverPlasticA3Price">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="PriceForA3" type="number" value="@Model.PriceForA3">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="text" value="@Model.Id">
+                </div>
+            </div>
 
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>цена кортонной подложки/обложки А4</p>
-			</div>
-			<div class="t2">
-				<p>цена кортонной подложки/обложки А3</p>
-			</div>
-			<div class="t2">
-				<p>цена пластиковой подложки/обложки А4</p>
-			</div>
-			<div class="t2">
-				<p>цена пластиковой подложки/обложки А3</p>
-			</div>
-			<div class="t2">
-				<p>цена брощюровки А3</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.CoverCardboardA4Price</p>
-			</div>
-			<div class="t2">
-				<p>@Model.CoverCardboardA3Price</p>
-			</div>
-			<div class="t2">
-				<p>@Model.CoverPlasticA4Price</p>
-			</div>
-			<div class="t2">
-				<p>@Model.CoverPlasticA3Price</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PriceForA3</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="CoverCardboardA4Price" type="number" value="@Model.CoverCardboardA4Price">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CoverCardboardA3Price" type="number" value="@Model.CoverCardboardA3Price">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CoverPlasticA4Price" type="number" value="@Model.CoverPlasticA4Price">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CoverPlasticA3Price" type="number" value="@Model.CoverPlasticA3Price">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="PriceForA3" type="number" value="@Model.PriceForA3">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="text" value="@Model.Id">
-			</div>
-		</div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="/Setting/EditSpringBrochureSetting" value="изменить">
+    </form>
 
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="/Setting/EditSpringBrochureSetting" value="изменить">
-</form>
+    <h3>Цена при разной толщине!</h3>
 
-<h3>Цена при разной толщине!</h3>
+    <div class="t">
+        <div class="t2">
+            <p style="margin-right: 50px;">толшина</p>
+        </div>
+        <div class="t2">
+            <p>цена</p>
+        </div>
+    </div>
+    @foreach (Markup markups in Model.SpringPrice.OrderBy(x => x.Page))
+    {
+        <form class="markup">
+            <div class="t">
+                <div class="t2">
+                    <input class="inputNumber" name="Page" type="number" value="@markups.Page">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@markups.Id">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/EditMarkup" value="изменить">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/DelMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
 
-<div class="t">
-	<div class="t2">
-		<p style="margin-right: 50px;">толшина</p>
-	</div>
-	<div class="t2">
-		<p>цена</p>
-	</div>
+    <h3>Добавить интервал!</h3>
+
+    <form class="addConsumables">
+        <div class="flexRov">
+            <div class="t2">
+                <p>толшина</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Page" type="number" value="название">
+            </div>
+            <div class="t2">
+                <p>цена</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+            </div>
+            <div class="del">
+                <input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="/Setting/AddMarkup" value="добавить">
+    </form>
+
+
+    <hr>
 </div>
-@foreach (Markup markups in Model.SpringPrice.OrderBy(x => x.Page))
-{
-	<form class="markup">
-		<div class="t">
-			<div class="t2">
-				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/EditMarkup" value="изменить">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/DelMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<h3>Добавить интервал!</h3>
-
-<form class="addConsumables">
-	<div class="flexRov">
-		<div class="t2">
-			<p>толшина</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Page" type="number" value="название">
-		</div>
-		<div class="t2">
-			<p>цена</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
-		</div>
-		<div class="del">
-			<input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="/Setting/AddMarkup" value="добавить">
-</form>
-
-
-<hr>

@@ -26,7 +26,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             catch (OverflowException)
             {
                 return (history, result, new StatusCalculation() { 
-                    Status = StatusType.Other,
+                    Status = StatusAnswer.Other,
                     ErrorMassage = "Стоимость бумаги вышла за возможные приделы int"
                 });
             }

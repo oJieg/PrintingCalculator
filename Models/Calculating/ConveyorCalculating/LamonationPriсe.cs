@@ -19,7 +19,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
 
@@ -32,21 +32,21 @@ namespace printing_calculator.Models.ConveyorCalculating
                     result.Price += price;
                     return Task.FromResult((history, result, new StatusCalculation()
 					{
-						Status = StatusType.Ok
+						Status = StatusAnswer.Ok
 					}));
                 }
 
                 result.LaminationResult.Price = 0;
                 return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Ok
+					Status = StatusAnswer.Ok
 				}));
             }
             catch (OverflowException)
             {
                 return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Other,
+					Status = StatusAnswer.Other,
                     ErrorMassage = "Расчетная цена вышла за возможные пределы Int"
 				}));
             }

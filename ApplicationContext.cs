@@ -20,7 +20,7 @@ namespace printing_calculator
 		public DbSet<SpringBrochureSetting> SpringBrochureSettings { get; set; } = null!;
 		public DbSet<CommonToAllMarkup> CommonToAllMarkups { get; set; } = null!;
 		
-		public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
     : base(options)
         {
 			Database.EnsureCreated();

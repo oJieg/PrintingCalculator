@@ -2,1005 +2,1006 @@
 @using printing_calculator.DataBase.setting;
 
 @{
-	Layout = "_Layout";
+    Layout = "_Layout";
 }
 
 @section Style {
-	<link rel="stylesheet" type="text/css" href="/SettingMashines.css">
+    <link rel="stylesheet" type="text/css" href="/SettingMashines.css">
 }
+<div class="main-body">
+    <h3>Настройки принтера!</h3>
 
-<h3>Настройки принтера!</h3>
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>Надбавочная цена за каждый лист</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+                <div class="t2">
+                    <p>Отпечатков на полном комплекте тонеров</p>
+                </div>
+                <div class="t2">
+                    <p>Отпечатков на полном комплекте фотобарабанов</p>
+                </div>
 
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>Надбавочная цена за каждый лист</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-			<div class="t2">
-				<p>Отпечатков на полном комплекте тонеров</p>
-			</div>
-			<div class="t2">
-				<p>Отпечатков на полном комплекте фотобарабанов</p>
-			</div>
+                <div class="t2">
+                    <p>Максимально длинна листа</p>
+                </div>
+                <div class="t2">
+                    <p>Максимально ширина листа</p>
+                </div>
+                <div class="t2">
+                    <p>Поля печати, длинна</p>
+                </div>
+                <div class="t2">
+                    <p>Поля печати, ширина</p>
+                </div>
+                <div class="t2">
+                    <p>Растояние от изделия до меток</p>
+                </div>
+                <div class="t2">
+                    <p>Растояние отмежду изделиями</p>
+                </div>
 
-			<div class="t2">
-				<p>Максимально длинна листа</p>
-			</div>
-			<div class="t2">
-				<p>Максимально ширина листа</p>
-			</div>
-			<div class="t2">
-				<p>Поля печати, длинна</p>
-			</div>
-			<div class="t2">
-				<p>Поля печати, ширина</p>
-			</div>
-			<div class="t2">
-				<p>Растояние от изделия до меток</p>
-			</div>
-			<div class="t2">
-				<p>Растояние отмежду изделиями</p>
-			</div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].AdjustmenPrice</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].ConsumableDye</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].MainConsumableForDrawing</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].MaximumSizeLength</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].MaximumSizeWidth</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].WhiteFieldHeight</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].WhiteFieldWidth</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].FieldForLabels</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PrintingsMachines[0].Bleed</p>
+                </div>
 
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].AdjustmenPrice</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].ConsumableDye</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].MainConsumableForDrawing</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].MaximumSizeLength</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].MaximumSizeWidth</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].WhiteFieldHeight</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].WhiteFieldWidth</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].FieldForLabels</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PrintingsMachines[0].Bleed</p>
-			</div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PrintingsMachines[0].ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PrintingsMachines[0].AdjustmenPrice">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableDye" type="number" value="@Model.PrintingsMachines[0].ConsumableDye">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MainConsumableForDrawing" type="number" value="@Model.PrintingsMachines[0].MainConsumableForDrawing">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MaximumSizeLength" type="number" value="@Model.PrintingsMachines[0].MaximumSizeLength">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MaximumSizeWidth" type="number" value="@Model.PrintingsMachines[0].MaximumSizeWidth">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="WhiteFieldHeight" type="number" value="@Model.PrintingsMachines[0].WhiteFieldHeight">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="WhiteFieldWidth" type="number" value="@Model.PrintingsMachines[0].WhiteFieldWidth">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="FieldForLabels" type="number" value="@Model.PrintingsMachines[0].FieldForLabels">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="Bleed" type="number" value="@Model.PrintingsMachines[0].Bleed">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="number" value="180">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к каждому листу дополнительно.
+                            На эту цену действует наценка!!!
+                            В эту цену можно включить
+                            все издержки не учитываемые.
+                            По типу расходников принтера, для которых не выходит посчитать
+                            цену на один прогон листа, цена работы сотрудников,
+                            аренда и тд.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к общей сумме текушего расчета.
+                            На него НЕ действует наценка!
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Для подсчета этой цифры необходимо
+                            в начале и конце месяца(можно и большего периуда) засеч сколько отпечатков сделано,
+                            сколько тонера осталось(для каждого цвета). Высчитываем:
+                            1 Сколько тонера потратилось для каждого цвета и берем средне арефметическое.
+                            2 Сколько листов отпечатнно за расчетный периуд.
+                            3 Соответсвенно делаем расчеты - отп.листов*100/потр.%тонера.
+                            Чем на большем промежутки сделанны расчеты - тем точнее будет расчет цены расходников.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Для подсчета этой цифры необходимо
+                            в начале и конце месяца(можно и большего периуда) засеч сколько отпечатков сделано,
+                            сколько % фотобарабана осталось. Высчитываем:
+                            1 Сколько фотобарабана потратилось для каждого цвета и берем средне арефметическое.
+                            2 Сколько листов отпечатнно за расчетный периуд.
+                            Соответсвенно делаем расчеты - отп.листов*100/потр.%фотобарабана.
+                            Чем на большем промежутки сделанны расчеты - тем точнее будет расчет цены расходников.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            По длинной стороне
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            По короткой стороне
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Поля печати по длинной стороне
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Поля печати по короткой стороне
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            С краю растояние от самого изделия до места где хотя чуть чуть видена метка будет.
+                            Скорее всего это растояние между изделиями + чуть чуть)
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Растояние между изделиями при раскладке.
+                        </span>
+                    </div>
+                </div>
 
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PrintingsMachines[0].ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PrintingsMachines[0].AdjustmenPrice">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableDye" type="number" value="@Model.PrintingsMachines[0].ConsumableDye">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MainConsumableForDrawing" type="number" value="@Model.PrintingsMachines[0].MainConsumableForDrawing">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MaximumSizeLength" type="number" value="@Model.PrintingsMachines[0].MaximumSizeLength">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MaximumSizeWidth" type="number" value="@Model.PrintingsMachines[0].MaximumSizeWidth">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="WhiteFieldHeight" type="number" value="@Model.PrintingsMachines[0].WhiteFieldHeight">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="WhiteFieldWidth" type="number" value="@Model.PrintingsMachines[0].WhiteFieldWidth">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="FieldForLabels" type="number" value="@Model.PrintingsMachines[0].FieldForLabels">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="Bleed" type="number" value="@Model.PrintingsMachines[0].Bleed">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="number" value="180">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к каждому листу дополнительно.
-						На эту цену действует наценка!!!
-						В эту цену можно включить
-						все издержки не учитываемые.
-						По типу расходников принтера, для которых не выходит посчитать
-						цену на один прогон листа, цена работы сотрудников,
-						аренда и тд.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к общей сумме текушего расчета.
-						На него НЕ действует наценка!
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Для подсчета этой цифры необходимо
-						в начале и конце месяца(можно и большего периуда) засеч сколько отпечатков сделано,
-						сколько тонера осталось(для каждого цвета). Высчитываем:
-						1 Сколько тонера потратилось для каждого цвета и берем средне арефметическое.
-						2 Сколько листов отпечатнно за расчетный периуд.
-						3 Соответсвенно делаем расчеты - отп.листов*100/потр.%тонера.
-						Чем на большем промежутки сделанны расчеты - тем точнее будет расчет цены расходников.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Для подсчета этой цифры необходимо
-						в начале и конце месяца(можно и большего периуда) засеч сколько отпечатков сделано,
-						сколько % фотобарабана осталось. Высчитываем:
-						1 Сколько фотобарабана потратилось для каждого цвета и берем средне арефметическое.
-						2 Сколько листов отпечатнно за расчетный периуд.
-						Соответсвенно делаем расчеты - отп.листов*100/потр.%фотобарабана.
-						Чем на большем промежутки сделанны расчеты - тем точнее будет расчет цены расходников.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						По длинной стороне
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						По короткой стороне
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Поля печати по длинной стороне
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Поля печати по короткой стороне
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						С краю растояние от самого изделия до места где хотя чуть чуть видена метка будет.
-						Скорее всего это растояние между изделиями + чуть чуть)
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Растояние между изделиями при раскладке.
-					</span>
-				</div>
-			</div>
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EditPrinterSetting" value="изменить">
+    </form>
 
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EditPrinterSetting" value="изменить">
-</form>
+    <h3>Настройка наценки для принтера!</h3>
 
-<h3>Настройка наценки для принтера!</h3>
+    <div class="t">
+        <div class="t2">
+            <p>Листов</p>
+        </div>
+        <div class="t2">
+            <p>наценка(%)</p>
+        </div>
+    </div>
 
-<div class="t">
-	<div class="t2">
-		<p>Листов</p>
-	</div>
-	<div class="t2">
-		<p>наценка(%)</p>
-	</div>
+    @foreach (Markup markups in Model.PrintingsMachines.First(x => x.NameMachine == "180").Markups.OrderBy(x => x.Page))
+    {
+        <form class="markup">
+            <div class="t">
+                <div class="t2">
+                    <input class="inputNumber" name="Page" type="number" value="@markups.Page">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@markups.Id">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="number" value="180">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
+
+    <h3>Добавить интервал!</h3>
+
+    <form class="addConsumables">
+        <div class="flexRov">
+            <div class="t2">
+                <p>Листов</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Page" type="number" value="название">
+            </div>
+            <div class="t2">
+                <p>наценка(%)</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+            </div>
+            <div class="del">
+                <input class="inputNumber" name="NameMachine" type="number" value="180">
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+    </form>
+
+    <hr>
+    <h3>Настройки ламинации</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>доп наценка за каждый лист</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="laminator">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к каждому листу дополнительно.
+                            На эту цену действует наценка!!!
+                            В эту цену можно включить цену работы
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к общей сумме текушего расчета.
+                            На него НЕ действует наценка!
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
+    </form>
+
+    <h3>Настройка наценки для ламинации!</h3>
+
+    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "laminator").Markups.OrderBy(x => x.Page))
+    {
+        <form class="markup">
+            <div class="t">
+                <div class="t2">
+                    <input class="inputNumber" name="Page" type="number" value="@markups.Page">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@markups.Id">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="laminator">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
+
+    <h3>Добавить интервал!</h3>
+
+    <form class="addConsumables">
+        <div class="flexRov">
+            <div class="t2">
+                <p>Листов</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Page" type="number" value="название">
+            </div>
+            <div class="t2">
+                <p>наценка(%)</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+            </div>
+            <div class="del">
+                <input class="inputNumber" name="NameMachine" type="text" value="laminator">
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+    </form>
+
+
+    <hr>
+
+    <h3>Настройки брощюры на скрепку</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>доп наценка за каждый лист</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к каждому листу дополнительно.
+                            На эту цену действует наценка!!!
+                            В эту цену можно включить цену работы
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к общей сумме текушего расчета.
+                            На него НЕ действует наценка!
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
+    </form>
+
+    <h3>Настройка наценки для ламинации!</h3>
+
+    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "StapleBrochure").Markups.OrderBy(x => x.Page))
+    {
+        <form class="markup">
+            <div class="t">
+                <div class="t2">
+                    <input class="inputNumber" name="Page" type="number" value="@markups.Page">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@markups.Id">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
+
+    <h3>Добавить интервал!</h3>
+
+    <form class="addConsumables">
+        <div class="flexRov">
+            <div class="t2">
+                <p>Листов</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Page" type="number" value="название">
+            </div>
+            <div class="t2">
+                <p>наценка(%)</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+            </div>
+            <div class="del">
+                <input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+    </form>
+
+
+    <hr>
+
+    <h3>Настройки брощюровки на пружину</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>доп наценка за каждый лист</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к каждому листу дополнительно.
+                            На эту цену действует наценка!!!
+                            В эту цену можно включить цену работы
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Эта стоимость добавляется к общей сумме текушего расчета.
+                            На него НЕ действует наценка!
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
+    </form>
+
+    <h3>Настройка наценки для брощюровки пружиной!</h3>
+
+    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "SpringBrochure").Markups.OrderBy(x => x.Page))
+    {
+        <form class="markup">
+            <div class="t">
+                <div class="t2">
+                    <input class="inputNumber" name="Page" type="number" value="@markups.Page">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@markups.Id">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
+                </div>
+                <div class="t2">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
+
+    <h3>Добавить интервал!</h3>
+
+    <form class="addConsumables">
+        <div class="flexRov">
+            <div class="t2">
+                <p>Листов</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Page" type="number" value="название">
+            </div>
+            <div class="t2">
+                <p>наценка(%)</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
+            </div>
+            <div class="del">
+                <input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
+    </form>
+
+    <hr>
+
+    <h3>Настройки цены резки</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>цена удара ножа</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+                <div class="t2">
+                    <p>листов в одной привертке</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().AdjustmenPrice</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().CountOfPapersInOneAdjustmentCut</p>
+                </div>
+
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().AdjustmenPrice">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().CountOfPapersInOneAdjustmentCut">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="cuting">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            цена одного удара ножом.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Примерное количество листов которое можно резануть однима разом
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
+    </form>
+
+    <hr>
+    <h3>Настройки цены биговки</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>цена удара ножа</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+                <div class="t2">
+                    <p>Цена доп удара</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AdjustmenPrice</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AddMoreHit</p>
+                </div>
+
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AdjustmenPrice">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AddMoreHit" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AddMoreHit">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="creasing">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена биговки одного изделия
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена доп удара на одном и том же изделии
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
+    </form>
+
+    <hr>
+    <h3>Настройки цены сверления</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>цена сверления привертки</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+                <div class="t2">
+                    <p>Цена доп дырки</p>
+                </div>
+                <div class="t2">
+                    <p>листов в привертке</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AdjustmenPrice</p>
+                </div>
+
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AddMoreHit</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().CountOfPapersInOneAdjustmentCut</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AdjustmenPrice">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AddMoreHit" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AddMoreHit">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().CountOfPapersInOneAdjustmentCut">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="drilling">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена биговки одной привертки
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена доп дырки на одном и том же изделии
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Примерное количество листов которое можно продырявить одним разом
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
+    </form>
+
+    <hr>
+    <h3>Настройки цены скругления углов</h3>
+
+    <form class="addConsumables">
+        <div class="t">
+            <div>
+                <div class="t2">
+                    <p>цена скругления одной привертки</p>
+                </div>
+                <div class="t2">
+                    <p>Цена приладки</p>
+                </div>
+                <div class="t2">
+                    <p>Листов в привертке</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().ConsumableOther</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().AdjustmenPrice</p>
+                </div>
+                <div class="t2">
+                    <p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().CountOfPapersInOneAdjustmentCut</p>
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().ConsumableOther">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().AdjustmenPrice">
+                </div>
+                <div class="t2">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().CountOfPapersInOneAdjustmentCut">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="NameMachine" type="text" value="rounding">
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
+                </div>
+            </div>
+            <div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена скругления 4х углов для одной привертки
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
+                        </span>
+                    </div>
+                </div>
+                <div class="t2">
+                    <div class="tooltip">
+                        <p>?</p>
+                        <span class="tooltiptext">
+                            Примерное количество листов которое можно резануть однима разом
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
+    </form>
+
+    <hr>
+    <div class="t">
+        <div class="t3">
+            <h3>имя</h3>
+        </div>
+
+        <div class="t3">
+            <h3>описание</h3>
+        </div>
+        <div class="t3">
+            <h3>наценка в процентах</h3>
+        </div>
+        <div class="t3">
+            <h3>наценка приладочная</h3>
+        </div>
+    </div>
+
+    @foreach (CommonToAllMarkup commonToAllMarkup in Model.CommonToAllMarkups)
+    {
+        <form class="CommonToAllMarkup">
+            <div class="t">
+                <div class="t3">
+                    <p>@commonToAllMarkup.Name</p>
+                </div>
+                <div class="t3">
+                    <p>@commonToAllMarkup.Description</p>
+                </div>
+                <div class="t3">
+                    <p>@commonToAllMarkup.PercentMarkup</p>
+                </div>
+                <div class="t3">
+                    <p>@commonToAllMarkup.Adjustmen</p>
+                </div>
+                <div class="del">
+                    <input class="inputNumber" name="Id" type="number" value="@commonToAllMarkup.Id">
+                </div>
+                <div class="t3">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DeleteCommonToAllMarkup" value="удалить">
+                </div>
+            </div>
+        </form>
+    }
+
+    <form class="CommonToAllMarkup">
+        <div class="t">
+            <div class="t2">
+                <p>имя</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Name" type="text" value="">
+            </div>
+            <div class="t2">
+                <p>описание</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Description" type="text" value="">
+            </div>
+            <div class="t2">
+                <p>наценка в процентах</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="PercentMarkup" type="text" value="">
+            </div>
+            <div class="t2">
+                <p>наценка приладочная</p>
+            </div>
+            <div class="t2">
+                <input class="inputNumber" name="Adjustmen" type="text" value="">
+            </div>
+
+            <div class="t2">
+                <input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/AddCommonToAllMarkup" value="Добавить">
+            </div>
+        </div>
+    </form>
+
+    <h1 class="space"></h1>
 </div>
-
-@foreach (Markup markups in Model.PrintingsMachines.First(x => x.NameMachine == "180").Markups.OrderBy(x => x.Page))
-{
-	<form class="markup">
-		<div class="t">
-			<div class="t2">
-				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="number" value="180">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<h3>Добавить интервал!</h3>
-
-<form class="addConsumables">
-	<div class="flexRov">
-		<div class="t2">
-			<p>Листов</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Page" type="number" value="название">
-		</div>
-		<div class="t2">
-			<p>наценка(%)</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
-		</div>
-		<div class="del">
-			<input class="inputNumber" name="NameMachine" type="number" value="180">
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
-</form>
-
-<hr>
-<h3>Настройки ламинации</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>доп наценка за каждый лист</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="laminator">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к каждому листу дополнительно.
-						На эту цену действует наценка!!!
-						В эту цену можно включить цену работы
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к общей сумме текушего расчета.
-						На него НЕ действует наценка!
-					</span>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
-</form>
-
-<h3>Настройка наценки для ламинации!</h3>
-
-@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "laminator").Markups.OrderBy(x => x.Page))
-{
-	<form class="markup">
-		<div class="t">
-			<div class="t2">
-				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="laminator">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<h3>Добавить интервал!</h3>
-
-<form class="addConsumables">
-	<div class="flexRov">
-		<div class="t2">
-			<p>Листов</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Page" type="number" value="название">
-		</div>
-		<div class="t2">
-			<p>наценка(%)</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
-		</div>
-		<div class="del">
-			<input class="inputNumber" name="NameMachine" type="text" value="laminator">
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
-</form>
-
-
-<hr>
-
-<h3>Настройки брощюры на скрепку</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>доп наценка за каждый лист</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к каждому листу дополнительно.
-						На эту цену действует наценка!!!
-						В эту цену можно включить цену работы
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к общей сумме текушего расчета.
-						На него НЕ действует наценка!
-					</span>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
-</form>
-
-<h3>Настройка наценки для ламинации!</h3>
-
-@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "StapleBrochure").Markups.OrderBy(x => x.Page))
-{
-	<form class="markup">
-		<div class="t">
-			<div class="t2">
-				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<h3>Добавить интервал!</h3>
-
-<form class="addConsumables">
-	<div class="flexRov">
-		<div class="t2">
-			<p>Листов</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Page" type="number" value="название">
-		</div>
-		<div class="t2">
-			<p>наценка(%)</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
-		</div>
-		<div class="del">
-			<input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
-</form>
-
-
-<hr>
-
-<h3>Настройки брощюровки на пружину</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>доп наценка за каждый лист</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к каждому листу дополнительно.
-						На эту цену действует наценка!!!
-						В эту цену можно включить цену работы
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Эта стоимость добавляется к общей сумме текушего расчета.
-						На него НЕ действует наценка!
-					</span>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetMashines" value="изменить">
-</form>
-
-<h3>Настройка наценки для брощюровки пружиной!</h3>
-
-@foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "SpringBrochure").Markups.OrderBy(x => x.Page))
-{
-	<form class="markup">
-		<div class="t">
-			<div class="t2">
-				<input class="inputNumber" name="Page" type="number" value="@markups.Page">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="MarkupForThisPage" type="number" value="@markups.MarkupForThisPage">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@markups.Id">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/EditMarkup" value="изменить">
-			</div>
-			<div class="t2">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DelMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<h3>Добавить интервал!</h3>
-
-<form class="addConsumables">
-	<div class="flexRov">
-		<div class="t2">
-			<p>Листов</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Page" type="number" value="название">
-		</div>
-		<div class="t2">
-			<p>наценка(%)</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="MarkupForThisPage" type="number" value="название">
-		</div>
-		<div class="del">
-			<input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/AddMarkup" value="добавить">
-</form>
-
-<hr>
-
-<h3>Настройки цены резки</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>цена удара ножа</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-			<div class="t2">
-				<p>листов в одной привертке</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().AdjustmenPrice</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().CountOfPapersInOneAdjustmentCut</p>
-			</div>
-
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().AdjustmenPrice">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="cuting").First().CountOfPapersInOneAdjustmentCut">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="cuting">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						цена одного удара ножом.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Примерное количество листов которое можно резануть однима разом
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
-</form>
-
-<hr>
-<h3>Настройки цены биговки</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>цена удара ножа</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-			<div class="t2">
-				<p>Цена доп удара</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AdjustmenPrice</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AddMoreHit</p>
-			</div>
-
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AdjustmenPrice">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AddMoreHit" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="creasing").First().AddMoreHit">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="creasing">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена биговки одного изделия
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена доп удара на одном и том же изделии
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
-</form>
-
-<hr>
-<h3>Настройки цены сверления</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>цена сверления привертки</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-			<div class="t2">
-				<p>Цена доп дырки</p>
-			</div>
-			<div class="t2">
-				<p>листов в привертке</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AdjustmenPrice</p>
-			</div>
-
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AddMoreHit</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().CountOfPapersInOneAdjustmentCut</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AdjustmenPrice">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AddMoreHit" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().AddMoreHit">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="drilling").First().CountOfPapersInOneAdjustmentCut">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="drilling">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена биговки одной привертки
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена доп дырки на одном и том же изделии
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Примерное количество листов которое можно продырявить одним разом
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
-</form>
-
-<hr>
-<h3>Настройки цены скругления углов</h3>
-
-<form class="addConsumables">
-	<div class="t">
-		<div>
-			<div class="t2">
-				<p>цена скругления одной привертки</p>
-			</div>
-			<div class="t2">
-				<p>Цена приладки</p>
-			</div>
-			<div class="t2">
-				<p>Листов в привертке</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().ConsumableOther</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().AdjustmenPrice</p>
-			</div>
-			<div class="t2">
-				<p>@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().CountOfPapersInOneAdjustmentCut</p>
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().ConsumableOther">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().AdjustmenPrice">
-			</div>
-			<div class="t2">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="@Model.PosMachines.Where(x=>x.NameMachine=="rounding").First().CountOfPapersInOneAdjustmentCut">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="NameMachine" type="text" value="rounding">
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="CountOfPapersInOneAdjustmentCut" type="number" value="1">
-			</div>
-		</div>
-		<div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена скругления 4х углов для одной привертки
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Цена приладки. Эта стоимость добавляется к общей сумме текушего расчета.
-					</span>
-				</div>
-			</div>
-			<div class="t2">
-				<div class="tooltip">
-					<p>?</p>
-					<span class="tooltiptext">
-						Примерное количество листов которое можно резануть однима разом
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<input class="button" type="submit" formmethod="post" formaction="SettingMashines/EdetPosMashines" value="изменить">
-</form>
-
-<hr>
-<div class="t">
-	<div class="t3">
-		<h3>имя</h3>
-	</div>
-
-	<div class="t3">
-		<h3>описание</h3>
-	</div>
-	<div class="t3">
-		<h3>наценка в процентах</h3>
-	</div>
-	<div class="t3">
-		<h3>наценка приладочная</h3>
-	</div>
-</div>
-
-@foreach (CommonToAllMarkup commonToAllMarkup in Model.CommonToAllMarkups)
-{
-	<form class="CommonToAllMarkup">
-		<div class="t">
-			<div class="t3">
-				<p>@commonToAllMarkup.Name</p>
-			</div>
-			<div class="t3">
-				<p>@commonToAllMarkup.Description</p>
-			</div>
-			<div class="t3">
-				<p>@commonToAllMarkup.PercentMarkup</p>
-			</div>
-			<div class="t3">
-				<p>@commonToAllMarkup.Adjustmen</p>
-			</div>
-			<div class="del">
-				<input class="inputNumber" name="Id" type="number" value="@commonToAllMarkup.Id">
-			</div>
-			<div class="t3">
-				<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/DeleteCommonToAllMarkup" value="удалить">
-			</div>
-		</div>
-	</form>
-}
-
-<form class="CommonToAllMarkup">
-	<div class="t">
-		<div class="t2">
-			<p>имя</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Name" type="text" value="">
-		</div>
-		<div class="t2">
-			<p>описание</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Description" type="text" value="">
-		</div>
-		<div class="t2">
-			<p>наценка в процентах</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="PercentMarkup" type="text" value="">
-		</div>
-		<div class="t2">
-			<p>наценка приладочная</p>
-		</div>
-		<div class="t2">
-			<input class="inputNumber" name="Adjustmen" type="text" value="">
-		</div>
-
-		<div class="t2">
-			<input class="buttonMini" type="submit" formmethod="post" formaction="SettingMashines/AddCommonToAllMarkup" value="Добавить">
-		</div>
-	</div>
-</form>
-
-<h1 class="space"></h1>

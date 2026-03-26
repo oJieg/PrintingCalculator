@@ -1,87 +1,88 @@
 ﻿@model ConsumablePrice
 @using printing_calculator.DataBase
 @{
-	Layout = "_Layout";
+    Layout = "_Layout";
 }
 @section Style {
-<link rel="stylesheet" type="text/css" href="/consumables.css">
+    <link rel="stylesheet" type="text/css" href="/consumables.css">
 }
+<div class="main-body">
+    <h1>Настройки расходников принтера</h1>
+    <p style="color: rgb(172, 172, 172);">Для тонера цена расчитывается - сумма 4х туб тонера(cmyk)</p>
+    <p style="color: rgb(172, 172, 172);">Для барабанов цену необходимо указывать отдельно для каждого.</p>
+    <p>текущая цена</p>
+    <table>
+        <tr>
+            <th>
+                <div class="textTableHistory">цена тонера(сумма 4 штук)</div>
+            </th>
+            <th>
+                <div class="textTableHistory">@Model.TonerPrice</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="textTableHistory">Барабан 1</div>
+            </th>
+            <th>
+                <div class="textTableHistory">@Model.DrumPrice1</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="textTableHistory">Барабан 2</div>
+            </th>
+            <th>
+                <div class="textTableHistory">@Model.DrumPrice2</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="textTableHistory">Барабан 4</div>
+            </th>
+            <th>
+                <div class="textTableHistory">@Model.DrumPrice3</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="textTableHistory">Барабан 4</div>
+            </th>
+            <th>
+                <div class="textTableHistory">@Model.DrumPrice4</div>
+            </th>
+        </tr>
 
-<h1>Настройки расходников принтера</h1>
-<p style="color: rgb(172, 172, 172);">Для тонера цена расчитывается - сумма 4х туб тонера(cmyk)</p>
-<p style="color: rgb(172, 172, 172);">Для барабанов цену необходимо указывать отдельно для каждого.</p>
-<p>текущая цена</p>
-<table>
-	<tr>
-		<th>
-			<div class="textTableHistory">цена тонера(сумма 4 штук)</div>
-		</th>
-		<th>
-			<div class="textTableHistory">@Model.TonerPrice</div>
-		</th>
-	</tr>
-	<tr>
-		<th>
-			<div class="textTableHistory">Барабан 1</div>
-		</th>
-		<th>
-			<div class="textTableHistory">@Model.DrumPrice1</div>
-		</th>
-	</tr>
-	<tr>
-		<th>
-			<div class="textTableHistory">Барабан 2</div>
-		</th>
-		<th>
-			<div class="textTableHistory">@Model.DrumPrice2</div>
-		</th>
-	</tr>
-	<tr>
-		<th>
-			<div class="textTableHistory">Барабан 4</div>
-		</th>
-		<th>
-			<div class="textTableHistory">@Model.DrumPrice3</div>
-		</th>
-	</tr>
-	<tr>
-		<th>
-			<div class="textTableHistory">Барабан 4</div>
-		</th>
-		<th>
-			<div class="textTableHistory">@Model.DrumPrice4</div>
-		</th>
-	</tr>
 
+    </table>
 
-</table>
+    <div>
+        <h1>Изменение цены расходников</h1>
+        <form class="addConsumables">
+            <div>
+                <label>цена тонера:</label>
 
-<div>
-	<h1>Изменение цены расходников</h1>
-	<form class="addConsumables">
-		<div>
-			<label>цена тонера:</label>
+                <input class="inputNumber" name="TonerPrice" type="number" value=@Model.TonerPrice>
+                <label>(сумма 4 штук):</label>
+            </div>
+            <div>
+                <label style="margin-right: 14px;">Барабан 1:</label>
+                <input class="inputNumber" name="DrumPrice1" type="number" value=@Model.DrumPrice1>
+            </div>
+            <div>
+                <label style="margin-right: 14px;">Барабан 2:</label>
+                <input class="inputNumber" name="DrumPrice2" type="number" value=@Model.DrumPrice2>
+            </div>
+            <div>
+                <label style="margin-right: 14px;">Барабан 3:</label>
+                <input class="inputNumber" name="DrumPrice3" type="number" value=@Model.DrumPrice3>
+            </div>
+            <div>
+                <label style="margin-right: 14px;">Барабан 4:</label>
+                <input class="inputNumber" name="DrumPrice4" type="number" value=@Model.DrumPrice4>
+            </div>
 
-			<input class="inputNumber" name="TonerPrice" type="number" value=@Model.TonerPrice>
-			<label>(сумма 4 штук):</label>
-		</div>
-		<div>
-			<label style="margin-right: 14px;">Барабан 1:</label>
-			<input class="inputNumber" name="DrumPrice1" type="number" value=@Model.DrumPrice1>
-		</div>
-		<div>
-			<label style="margin-right: 14px;">Барабан 2:</label>
-			<input class="inputNumber" name="DrumPrice2" type="number" value=@Model.DrumPrice2>
-		</div>
-		<div>
-			<label style="margin-right: 14px;">Барабан 3:</label>
-			<input class="inputNumber" name="DrumPrice3" type="number" value=@Model.DrumPrice3>
-		</div>
-		<div>
-			<label style="margin-right: 14px;">Барабан 4:</label>
-			<input class="inputNumber" name="DrumPrice4" type="number" value=@Model.DrumPrice4>
-		</div>
-
-		<input class="button" type="submit" formmethod="post" formaction="/Setting/EditConsumable" value="создать">
-	</form>
+            <input class="button" type="submit" formmethod="post" formaction="/Setting/EditConsumable" value="создать">
+        </form>
+    </div>
 </div>

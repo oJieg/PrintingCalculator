@@ -11,7 +11,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
 				return Task.FromResult((history, result, new StatusCalculation()
 				{
-					Status = StatusType.Cancellation
+					Status = StatusAnswer.Cancellation
 				}));
 			}
 
