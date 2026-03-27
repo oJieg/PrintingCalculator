@@ -3,6 +3,8 @@ using printing_calculator.Clients;
 using printing_calculator.Clients.AnswerModels;
 using printing_calculator.Clients.DTO;
 using printing_calculator.ViewModels;
+using System.Text.Json;
+using printing_calculator.ViewModels.Result;
 
 namespace printing_calculator.controllers.WebApi
 {
@@ -14,15 +16,20 @@ namespace printing_calculator.controllers.WebApi
             _bitrixApi = bitrixApi;
         }
         [HttpPut("api/set-field-crm")]
-        public async Task SetFieldCrm([FromQuery]float price, Input input)
+        public async Task SetFieldCrm([FromQuery]float price, CalculationResult result)
         {
+
             await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
             {
                 entityTypeId = 2,
-                Id = 57,
+                Id = 91,
                 Fields = new FieldsDetailUpdate()
                 {
-                    opportunity = price
+                    opportunity = price,
+                    DynamicFields = new Dictionary<string, object>() 
+                    { 
+                        ["ufCrm_1774610816585"] = JsonSerializer.Serialize(result)
+                    }
                 }
             });
         }
@@ -34,6 +41,22 @@ namespace printing_calculator.controllers.WebApi
            {
                Id = id
            });
+
+            await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
+            {
+                entityTypeId = 2,
+                Id = id,
+                Fields = new FieldsDetailUpdate()
+                {
+                    opportunity = 100500,
+                    DynamicFields = new Dictionary<string, object>()
+                    {
+                        ["ufCrm_1774349835977"] = "test",
+                        ["ufCrm_1774610816585"] = JsonSerializer.Serialize(new ApiResultAnswer())
+                    }
+                }
+            });
+
             return test;
         }
     }

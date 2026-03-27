@@ -14,7 +14,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			_settings = settings;
 		}
 
-		public async Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, CalculationResult result, CancellationToken cancellationToken)
 		{
 			if (history.Input.StapleBrochure == false)
 			{

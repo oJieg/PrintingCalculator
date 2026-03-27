@@ -17,7 +17,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			_applicationContext = applicationContext;
 		}
 
-		public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+		public Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, CalculationResult result, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -93,7 +93,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 			return Task.FromResult((history, result, new StatusCalculation()));
 		}
 
-		private int AddMashineSetting(Result result)
+		private int AddMashineSetting(CalculationResult result)
 		{
 			MachineSetting machineSetting = _settings.Machines.First(x => x.NameMachine == "SpringBrochure");
 			CalculatingMarkup markups = new(machineSetting.Markups);

@@ -45,7 +45,7 @@ namespace printing_calculator.controllers.WebApi
 
 			СalculationHistory? history;
 
-			Result result;
+			CalculationResult result;
 
 			try
 			{
@@ -125,7 +125,7 @@ namespace printing_calculator.controllers.WebApi
 
             СalculationHistory? history;
 
-            Result result;
+            CalculationResult result;
 
             try
             {

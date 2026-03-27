@@ -24,7 +24,7 @@ namespace printing_calculator.controllers.WebApi
         public async Task<ApiResultAnswer> GetResult(int id)
         {
             СalculationHistory? history;
-            Result result;
+            CalculationResult result;
             try
             {
                 (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
@@ -54,7 +54,7 @@ namespace printing_calculator.controllers.WebApi
         public async Task<ApiSimplResultAnswer> GetSimplResult(int id)
         {
             СalculationHistory? history;
-            Result result;
+            CalculationResult result;
             try
             {
                 (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());

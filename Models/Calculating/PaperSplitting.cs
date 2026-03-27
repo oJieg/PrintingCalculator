@@ -12,7 +12,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             _settings = settings;
         }
 
-        public Task<(СalculationHistory, Result, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, Result result, CancellationToken cancellationToken)
+        public Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, CalculationResult result, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

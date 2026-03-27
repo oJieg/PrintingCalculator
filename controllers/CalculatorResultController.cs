@@ -22,7 +22,7 @@ namespace printing_calculator.controllers
 		{
 
 			СalculationHistory? history;
-			Result result;
+			CalculationResult result;
 			try
 			{
 				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);

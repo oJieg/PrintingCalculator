@@ -24,12 +24,12 @@ namespace printing_calculator.Models.Calculating
 		}
 
 
-		public async Task<(СalculationHistory, Result, StatusCalculation)> TryStartCalculation(int id, CancellationToken cancellationToken)
+		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int id, CancellationToken cancellationToken)
 		{
 			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
 			if(history == null)
 			{
-                return (new СalculationHistory(),new Result(), new StatusCalculation()
+                return (new СalculationHistory(),new CalculationResult(), new StatusCalculation()
                 {
                     Status = StatusAnswer.Other,
                     ErrorMassage = "Данное Id не найдено"
@@ -39,14 +39,14 @@ namespace printing_calculator.Models.Calculating
 			return await StartConveyor(history, cancellationToken);
 		}
 
-		public async Task<(СalculationHistory, Result, StatusCalculation)> TryStartCalculation(Input input, CancellationToken cancellationToken)
+		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(Input input, CancellationToken cancellationToken)
 		{
 			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
 
 			return await StartConveyor(history, cancellationToken);
 		}
 
-		public async Task<(СalculationHistory, Result, StatusCalculation)> TryStartCalculation(int historyId, int newAmount, CancellationToken cancellationToken)
+		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int historyId, int newAmount, CancellationToken cancellationToken)
 		{
 			Input input = await _generatorHistory.GetInputFromHistoryId(historyId, newAmount);
 			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
@@ -54,9 +54,9 @@ namespace printing_calculator.Models.Calculating
 			return await StartConveyor(history, cancellationToken);
 		}
 
-		private async Task<(СalculationHistory, Result, StatusCalculation)> StartConveyor(СalculationHistory history, CancellationToken cancellationToken)
+		private async Task<(СalculationHistory, CalculationResult, StatusCalculation)> StartConveyor(СalculationHistory history, CancellationToken cancellationToken)
 		{
-			Result result = new();
+			CalculationResult result = new();
 			if (history == null)
 			{
 				return (new СalculationHistory(), result, new StatusCalculation() { Status = StatusAnswer.Other,

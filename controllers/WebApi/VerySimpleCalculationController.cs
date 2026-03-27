@@ -33,7 +33,7 @@ namespace printing_calculator.controllers.WebApi
         {
             СalculationHistory history;
 
-            Result result;
+            CalculationResult result;
             (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
 
             if (tryAnswer.Status != StatusAnswer.Ok)

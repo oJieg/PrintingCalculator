@@ -192,17 +192,17 @@ async function calk() {
     }
     else {
         await getResult(redultCalc);
-        await setFieldCrm(Input, redultCalc.result.price);
+        await setFieldCrm(redultCalc.result, redultCalc.result.price);
         //window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }
 
-async function setFieldCrm(input, price) {
+async function setFieldCrm(result, price) {
     await fetch('/api/set-field-crm' + '?price=' + price, {
         method: "Put",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify(input)
+        body: JSON.stringify(result)
     });
 }
 

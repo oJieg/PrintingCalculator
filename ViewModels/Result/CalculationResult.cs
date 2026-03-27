@@ -3,7 +3,7 @@ using printing_calculator.DataBase.setting;
 
 namespace printing_calculator.ViewModels.Result
 {
-    public class Result
+    public class CalculationResult
     {
         public int HistoryInputId { get; set; }
         public int Amount { get; set; }
