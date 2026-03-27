@@ -1,0 +1,32 @@
+﻿@{
+	string srcIconCalculator = "/calk2.png";
+	string srcIconHistory = "/history.png";
+
+	string adresCalcularot = "/Calculator";
+	string adresHistoru = "/History";
+	string addresSettingPaper = "/Setting/Paper";
+	string addresSettingLamination = "/Setting/Lamination";
+	string addresSpringBrochureSetting = "/Setting/SpringBrochureSetting";
+	string addresSettingConsumable = "/Setting/Consumable";
+	string addrresSettingMashines = "/SettingMashines";
+}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	@RenderSection("Style",false)
+	<script src="/jquery-3.7.1.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="/menu.css">
+	<title>Калькулятор</title>
+</head>
+
+<body onload="loadPage()">
+	<div class="downBody">
+
+		<div class="main-body">
+			@RenderBody()
+		</div>
+	</div>
+	@RenderSection("JS",false)
+</body>
+</html>

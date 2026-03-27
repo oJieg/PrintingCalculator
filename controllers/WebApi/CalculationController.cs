@@ -29,7 +29,8 @@ namespace printing_calculator.controllers.WebApi
 			_validation = validation;
 		}
 
-		[HttpPost("api/simpl-calculation")]
+
+        [HttpPost("api/simpl-calculation")]
 		public async Task<ApiSimplCalculationAnswer> SimplCalculation(Input input)
 		{
 			if (input.LaminationName == string.Empty)

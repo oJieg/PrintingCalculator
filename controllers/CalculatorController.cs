@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using printing_calculator.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.controllers.WebApi.RequestModels;
+using printing_calculator.ViewModels;
 
 namespace printing_calculator.controllers
 {
@@ -14,7 +15,7 @@ namespace printing_calculator.controllers
             _applicationContext = applicationContext;
         }
 
-        public async Task<ActionResult> Index(int historyId, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index(int historyId, int productId, int orderId, CancellationToken cancellationToken)
         {
             PaperAndHistoryInput PaperAndHistoryInput = new();
             try
@@ -30,6 +31,7 @@ namespace printing_calculator.controllers
                     .ToListAsync(cancellationToken);
                 PaperAndHistoryInput.commonToAllMarkups = await _applicationContext.CommonToAllMarkups
                     .ToListAsync();
+
             }
             catch (OperationCanceledException)
             {

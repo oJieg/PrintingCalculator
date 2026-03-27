@@ -1,8 +1,6 @@
 ﻿async function result(redultCalc){
     $('#detalHistory').empty();
     $('#detalHistory').fadeIn();
-    //let result = await getHistory(redultCalc.idHistory);
-    console.log(redultCalc);
     $('#detalHistory').append(generatorResult(redultCalc.result));
 }
 
@@ -10,20 +8,6 @@ function closeHistory(){
     $('#detalHistory').fadeOut();
 }
 
-async function getHistory(id) {
-    let respone = await fetch('/api/get-result' + id, {
-        method: "Get",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }
-    });
-
-    let awner = await respone.json();
-
-    if (awner.status.status != 0) {
-        alert("не получилось получить SimplHistory222!" + awner.status.errorMassage)
-    }
-
-    return awner.result;
-}
 
 function generatorResult(result) {
     console.log(result);

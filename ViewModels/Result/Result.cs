@@ -16,7 +16,7 @@ namespace printing_calculator.ViewModels.Result
         public int Price { get; set; }
         public bool TryPrice { get; set; }
         public List<CommonToAllMarkup> CommonToAllMarkupName { get; set; }
-		public List<bool> TryCommonToAllMarkup { get; set; }
+		public List<bool>? TryCommonToAllMarkup { get; set; }
 
         public DateTime DateTime { get; set; }
         public string? Comment { get; set; }

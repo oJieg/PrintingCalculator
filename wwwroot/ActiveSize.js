@@ -29,11 +29,12 @@ function loadPage() {
     calkSizeStaple();
 }
 
-async function getResult(redultCalc) {
+async function getResult(resultCalc) {
     $('#vignette').fadeIn();
    // await addHistoryInOrder(historyId);
-    await result(redultCalc);
+    await result(resultCalc);
 }
+
 
 async function addHistoryInOrder(historyId) {
     let respone = await fetch('/api/product/add-history' + $('#ProductId').attr('Name') + '?histiryId=' + historyId, {
@@ -191,10 +192,20 @@ async function calk() {
     }
     else {
         await getResult(redultCalc);
+        await setFieldCrm(Input, redultCalc.result.price);
         //window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }
+
+async function setFieldCrm(input, price) {
+    await fetch('/api/set-field-crm' + '?price=' + price, {
+        method: "Put",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(input)
+    });
+}
+
 const springElem = document.getElementById("spring");
 const stapleElem = document.getElementById("Staple");
 const invizibleFastHover = document.getElementById("invizibleFastHover");

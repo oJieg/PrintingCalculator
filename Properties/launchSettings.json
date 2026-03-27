@@ -1,21 +1,13 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:40114",
-      "sslPort": 44359
-    }
-  },
   "profiles": {
     "printing_calculator": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:40114/api/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-        
       },
-      "applicationUrl": "https://localhost:7181;http://localhost:5181",
+      "applicationUrl": "http://0.0.0.0:40114",
       "dotnetRunMessages": true
     },
     "IIS Express": {
@@ -31,6 +23,14 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
       "useSSL": true
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:40114",
+      "sslPort": 0
     }
   }
 }

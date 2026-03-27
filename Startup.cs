@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using printing_calculator.Clients;
 using printing_calculator.Models;
 using printing_calculator.Models.Calculating;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Refit;
 
 namespace printing_calculator
 {
@@ -26,7 +28,9 @@ namespace printing_calculator
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
 
-
+            services
+                .AddRefitClient<IBitrixApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://b24-j3159k.bitrix24.ru/rest/1/b821b0099i4m2kkg"));
 
             services.AddControllers().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddSwaggerGen();
