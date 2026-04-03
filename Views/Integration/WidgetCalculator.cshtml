@@ -1,4 +1,4 @@
-﻿@model printing_calculator.ViewModels.PaperAndHistoryInput
+﻿@model printing_calculator.ViewModels.SettingsInfoForWigetCalculation
 @using printing_calculator.ViewModels;
 @using printing_calculator.DataBase;
 @{
@@ -267,6 +267,9 @@
             </div>
                     }
 
+
+        <input disabled type="text" id="DealId" value=@Model.DealId />
+        <input disabled type="text" id="Token" value=@Model.Token />
 
         <div class="button">
             <input class="buttonNext" type="button" onclick="calk();" value="Расчитать">

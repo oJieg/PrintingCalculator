@@ -8,15 +8,30 @@ namespace printing_calculator.Clients
 {
     public interface IBitrixApi
     {
+        /// <summary>
+        /// Изменить поля в карточке.
+        /// </summary>
+        /// <param name="crmDealUpdate"></param>
+        /// <returns></returns>
         [Post("/crm.item.update")]
         Task UpdateCrmDetal(CrmDealUpdate crmDealUpdate);
 
         [Post("/crm.item.productrow.add")]
         Task AddProduct(AddProductRequest addProductRequest);
 
+        /// <summary>
+        /// получить все созданые поля для всех карточек(название-тип)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Post("/crm.item.fields")]
         Task<GetFieldsAnswer> GetFields(GetFieldsRequest request);
 
+        /// <summary>
+        /// по номеру сделки получить все поля
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Post("/crm.item.get")]
         Task<GetFieldDealAnswer> GetFielDeal(GetFieldDealRequest request);
     }

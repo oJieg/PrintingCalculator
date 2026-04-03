@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace printing_calculator.DataBase
 {
@@ -17,6 +18,8 @@ namespace printing_calculator.DataBase
         public int DrillingAmount { get; set; }
         public bool RoundingAmount { get; set; }
 		public List<string>? CommonToAllMarkupName { get; set; } = null!;
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public SpringBrochure SpringBrochure { get; set; } = SpringBrochure.None;
         public bool StapleBrochure { get; set; }
 	}

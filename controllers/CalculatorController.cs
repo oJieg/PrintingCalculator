@@ -17,7 +17,7 @@ namespace printing_calculator.controllers
 
         public async Task<ActionResult> Index(int historyId, int productId, int orderId, CancellationToken cancellationToken)
         {
-            PaperAndHistoryInput PaperAndHistoryInput = new();
+            SettingsInfoForCalculation PaperAndHistoryInput = new();
             try
             {
                 PaperAndHistoryInput.Paper = await _applicationContext.PaperCatalogs

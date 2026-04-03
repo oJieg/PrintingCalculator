@@ -179,7 +179,8 @@ async function calk() {
         CommonToAllMarkup: CommonToAllMarkupsValue,
         NoSaveDB: false,
         SpringBrochure: springBrochure(),
-        StapleBrochure: isBrochureStaple
+        StapleBrochure: isBrochureStaple,
+        Price:10
     }
     let respone1 = await fetch('/api/calculation', {
         method: "Post",
@@ -192,17 +193,27 @@ async function calk() {
     }
     else {
         await getResult(redultCalc);
-        await setFieldCrm(redultCalc.result, redultCalc.result.price);
+        Input.Price = redultCalc.result.price;
+        alert(redultCalc.result.price);
+        await setFieldCrm(Input);
         //window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }
 
-async function setFieldCrm(result, price) {
-    await fetch('/api/set-field-crm' + '?price=' + price, {
+async function setFieldCrm(input) {
+    let resultFull = {
+        inputs:[] ,
+        DealId: document.getElementById("DealId").value,
+        Token: document.getElementById("Token").value
+    }
+    resultFull.inputs.push(input);
+    resultFull.inputs.push(input);
+
+    await fetch('/api/set-field-crm', {
         method: "Put",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify(result)
+        body: JSON.stringify(resultFull)
     });
 }
 
@@ -220,8 +231,6 @@ const brochureAmoutStapleId = document.getElementById("BrochureAmoutStaple");
 
 const tooltiptextId = document.getElementById("tooltiptextBroshure");
 
-
-
 function editPolos() {
     if (isBrochureSpring) {
         AmountId.value = brochureAmoutId.value
@@ -232,7 +241,6 @@ function editPolos() {
             KindstId.value = polosId.value;
         }
     }
-
 }
 
 function editPolosStaple() {

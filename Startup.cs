@@ -5,6 +5,10 @@ using printing_calculator.Models.Calculating;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Refit;
+using printing_calculator.Servises.Interface;
+using printing_calculator.Servises;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.Singletones;
 
 namespace printing_calculator
 {
@@ -19,9 +23,14 @@ namespace printing_calculator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ITokenGenerator, SecurityCryptographyTokenGenerator>();
+            services.AddSingleton<ITokenStore, TokensStore>();
+
             services.AddTransient<ConveyorCalculator>();
             services.AddTransient<GeneratorHistory>();
             services.AddTransient<Validation>();
+
+            services.AddScoped<IWigetService, WigetService>();
 
             services.AddMvc();
 
@@ -31,6 +40,9 @@ namespace printing_calculator
             services
                 .AddRefitClient<IBitrixApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://b24-j3159k.bitrix24.ru/rest/1/b821b0099i4m2kkg"));
+            services
+                .AddRefitClient<IBitrixWithAauthApi>()
+                .ConfigureHttpClient(x => x.BaseAddress = new Uri("https://b24-j3159k.bitrix24.ru/rest"));
 
             services.AddControllers().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddSwaggerGen();
@@ -44,6 +56,8 @@ namespace printing_calculator
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.UseStaticFiles();
             app.UseRouting(); // используем систему маршрутизации
 
