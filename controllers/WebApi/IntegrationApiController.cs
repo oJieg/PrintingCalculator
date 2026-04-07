@@ -13,37 +13,48 @@ namespace printing_calculator.controllers.WebApi
     public class IntegrationApiController : ControllerBase
     {
         public IBitrixApi _bitrixApi;
-        private const string PRODUCT_UF = "ufCrm_1774601696653";
+        private const string PRODUCT_UF = "ufCrm_1774601696653"; //TODO вынести в конфиги
         private const string INPUT_UF = "ufCrm_1774865963554";
-        private const string RESULT_UF = "ufCrm_1774865706945";
         public IntegrationApiController(IBitrixApi bitrixApi) {
             _bitrixApi = bitrixApi;
         }
         [HttpPut("api/set-field-crm")]
-        public async Task SetFieldCrm(CalculatorFullResult result)
+        public async Task<InputForWiget[]> SetFieldCrm(CalculatorFullResult result)
         {
-            var fieldsDeal =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
-            {
-                Id = result.DealId,
-            });
+            //var fieldsDeal =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
+            //{
+            //    Id = result.DealId,
+            //});
 
-            var products = (JsonSerializer.Deserialize<object[]>(fieldsDeal.Result.Item[PRODUCT_UF].ToString()));
+            //var products = (JsonSerializer.Deserialize<object[]>(fieldsDeal.Result.Item[PRODUCT_UF].ToString()));
+
+            foreach (InputForWiget input in result.Inputs)
+            {
+                if (input.Name == null) 
+                {
+                    input.Name = $@"{input.Whidth}x{input.Height}, {input.Amount}x{input.Kinds}, {input.Paper}, {input.Price}руб.";
+                } 
+            }
+            
+
+            var fields = new FieldsDetailUpdate()
+            {
+                opportunity = result.Inputs.Sum(x => x.Price),
+                DynamicFields = new Dictionary<string, object>()
+                {
+                    //[RESULT_UF] = new object[] { JsonSerializer.Serialize(result.Result) },
+                    [INPUT_UF] = result.Inputs.Select(x => JsonSerializer.Serialize(x)).ToArray(),
+                    [PRODUCT_UF] = result.Inputs.Select(x => x.Name).ToArray(),
+                }
+            };
 
             await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
             {
                 entityTypeId = 2,
                 Id = result.DealId,
-                Fields = new FieldsDetailUpdate()
-                {
-                    opportunity = result.Inputs.Sum(x=>x.Price),
-                    DynamicFields = new Dictionary<string, object>() 
-                    { 
-                        //[RESULT_UF] = new object[] { JsonSerializer.Serialize(result.Result) },
-                        [INPUT_UF] =  result.Inputs.Select(x=> JsonSerializer.Serialize(x)).ToArray(),
-                        //[PRODUCT_UF] = products.Concat(new object[] { $@"{result.Input.Whidth}x{result.Input.Height}, {result.Input.Amount}x{result.Input.Kinds}, {result.Input.Paper}, {result.Result.Price}руб." })
-                    }
-                }
+                Fields = fields,
             });
+            return result.Inputs;
         }
 
         public class CalculatorFullResult

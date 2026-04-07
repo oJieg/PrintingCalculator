@@ -74,13 +74,18 @@ namespace printing_calculator.Servises
 
                 InputForWiget[] result = jsonStrings.Select(jsonString => JsonSerializer.Deserialize<InputForWiget>(jsonString)).ToArray();
 
+                int counter = 1;
+                foreach (var resultItem in result) {
+                    resultItem.Name = $@"{resultItem.Whidth}x{resultItem.Height}, {resultItem.Amount}x{resultItem.Kinds}, {resultItem.Paper}, {resultItem.Price}руб.";
+                    resultItem.Id = counter;
+                    counter++;
+                }
+
                 settingsInfoForWigetCalculation.Inputs = result;
             }
-            catch { 
-            
+            catch(Exception ex) {
+                _logger.LogWarning($"Ошибка десериалищации поля result {ex.Message}", ex);
             }
-            //var x = JsonSerializer.Deserialize<InputForWiget[]>(historyInput.GetRawText());
-            //тут читаем поля и добавляем в PaperAndHistoryInput(переименовать)
 
             return settingsInfoForWigetCalculation;
         }

@@ -194,28 +194,29 @@ async function calk() {
     else {
         await getResult(redultCalc);
         Input.Price = redultCalc.result.price;
-        alert(redultCalc.result.price);
-        await setFieldCrm(Input);
+        if (typeof setFieldCrm === 'function') {
+            await setFieldCrm(Input);
+        }
         //window.location.href = 'CalculatorResult?id=' + answer.idHistory;
     }
 
 }
 
-async function setFieldCrm(input) {
-    let resultFull = {
-        inputs:[] ,
-        DealId: document.getElementById("DealId").value,
-        Token: document.getElementById("Token").value
-    }
-    resultFull.inputs.push(input);
-    resultFull.inputs.push(input);
+//async function setFieldCrm(input) {
+//    let resultFull = {
+//        inputs:[] ,
+//        DealId: document.getElementById("DealId").value,
+//        Token: document.getElementById("Token").value
+//    }
+//    resultFull.inputs.push(input);
+//    resultFull.inputs.push(input);
 
-    await fetch('/api/set-field-crm', {
-        method: "Put",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify(resultFull)
-    });
-}
+//    await fetch('/api/set-field-crm', {
+//        method: "Put",
+//        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+//        body: JSON.stringify(resultFull)
+//    });
+//}
 
 const springElem = document.getElementById("spring");
 const stapleElem = document.getElementById("Staple");

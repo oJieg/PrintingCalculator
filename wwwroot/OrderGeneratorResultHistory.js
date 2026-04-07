@@ -11,7 +11,7 @@ function closeHistory(){
 
 function generatorResult(result) {
     console.log(result);
-    let size = result.height+'x'+result.whidth;
+    let size = result.height+'x'+result.width;
     let amoutKids = result.amount+'x'+result.kinds;
     let duplex='4+0';
     if(result.paperResult.duplex){

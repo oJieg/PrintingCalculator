@@ -38,10 +38,53 @@
 
 @section JS{
     <script src="/ActiveSize.js" charset="utf-8"></script>
+    <script src="/SetHistoryCalc.js" charset="utf-8"></script>
     <script src="/OrderGeneratorResultHistory.js" charset="utf-8"></script>
     <script src="/Copy.js" charset="utf-8"></script>
+    <script>
+        // Сериализуем Inputs из модели
+        var serverInputs = @Html.Raw(Json.Serialize(Model.Inputs));
+
+        // Преобразуем серверные данные в формат пресетов, понятный клиентскому коду
+        window.presets = serverInputs.map(function(input, idx) {
+        return {
+        id: input.id || (idx + 1),
+        name: input.name || ('Пресет ' + (idx + 1)),
+        // Тип брошюры
+        brochureType: input.stapleBrochure ? 'staple' : (input.springBrochure ? 'spring' : 'none'),
+        // Основные поля
+        height: input.height,
+        whidth: input.whidth,        // внимание: в исходном Input поле называется width
+        paper: input.paper,
+        amount: input.amount,
+        kinds: input.kinds,
+        duplex: input.duplex,
+        laminationName: input.laminationName,
+        creasing: input.creasing,
+        drilling: input.drilling,
+        rounding: input.rounding,
+        commonToAllMarkup: input.commonToAllMarkup || [],
+        // Поля для пружины (если есть)
+        polos: input.polos,
+        brochureAmout: input.amount,
+        springBrochureType: (input.springBrochure === 1 ? 'noCover' : (input.springBrochure === 2 ? 'CoverPlasticAndCardboard' : (input.springBrochure === 3 ? 'CoverTwoPlastics' : null))),
+        // Поля для скрепки (если есть)
+        heightStaple: input.heightStaple,
+        widthStaple: input.widthStaple,
+        polosStaple: input.polosStaple,
+        brochureAmoutStaple: input.brochureAmoutStaple
+        };
+        });
+
+        // (Опционально) Вывести список пресетов в консоль для отладки
+        console.log('Загружено пресетов:', window.presets);
+
+    </script>
 }
 <div class="main-body">
+    <div id="presetButtonsContainer" class="preset-buttons-container">
+    </div>
+
     <form name="my1" class="flex">
         @{
             string selectedSpring = string.Empty;
