@@ -42,7 +42,11 @@ namespace printing_calculator.Singletones
             }
         }
 
-        public DealAutorizationInfo GetDealAutorizationInfo(string token) => _tokens[token];
+        public DealAutorizationInfo? GetDealAutorizationInfo(string token)
+        {
+            return _tokens.GetValueOrDefault(token);
+        }
+
     }
 
     public class DealAutorizationInfo

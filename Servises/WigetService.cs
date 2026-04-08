@@ -30,7 +30,7 @@ namespace printing_calculator.Servises
             ApplicationContext applicationContext,
             ITokenStore tokenStore)
         {
-            _bitrixApi = bitrixApi;
+            _bitrixApi = bitrixApi; //todo поменять на версию с токеном
             _applicationContext = applicationContext;
             _tokenStore = tokenStore;
             _logger = logger;

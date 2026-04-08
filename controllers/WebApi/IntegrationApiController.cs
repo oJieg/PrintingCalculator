@@ -2,9 +2,13 @@
 using printing_calculator.Clients;
 using printing_calculator.Clients.AnswerModels;
 using printing_calculator.Clients.DTO;
+using printing_calculator.Clients.RequestModels;
 using printing_calculator.DataBase;
+using printing_calculator.Exceptions;
+using printing_calculator.Singletones.Interfases;
 using printing_calculator.ViewModels;
 using printing_calculator.ViewModels.Result;
+using System.Net;
 using System.Text.Json;
 
 namespace printing_calculator.controllers.WebApi
@@ -12,21 +16,22 @@ namespace printing_calculator.controllers.WebApi
     [ApiController]
     public class IntegrationApiController : ControllerBase
     {
-        public IBitrixApi _bitrixApi;
+        public IBitrixWithAauthApi _bitrixApi;
         private const string PRODUCT_UF = "ufCrm_1774601696653"; //TODO вынести в конфиги
         private const string INPUT_UF = "ufCrm_1774865963554";
-        public IntegrationApiController(IBitrixApi bitrixApi) {
+        private readonly ITokenStore _tokenStore;
+
+        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore) {
             _bitrixApi = bitrixApi;
+            _tokenStore = tokenStore;
         }
         [HttpPut("api/set-field-crm")]
-        public async Task<InputForWiget[]> SetFieldCrm(CalculatorFullResult result)
+        public async Task<ActionResult<InputForWiget[]>> SetFieldCrm(CalculatorFullResult result)
         {
-            //var fieldsDeal =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
-            //{
-            //    Id = result.DealId,
-            //});
-
-            //var products = (JsonSerializer.Deserialize<object[]>(fieldsDeal.Result.Item[PRODUCT_UF].ToString()));
+            var token = _tokenStore.GetDealAutorizationInfo(result.Token);
+            if (token.DealId != result.DealId) {
+                return Unauthorized();
+            }
 
             foreach (InputForWiget input in result.Inputs)
             {
@@ -42,18 +47,33 @@ namespace printing_calculator.controllers.WebApi
                 opportunity = result.Inputs.Sum(x => x.Price),
                 DynamicFields = new Dictionary<string, object>()
                 {
-                    //[RESULT_UF] = new object[] { JsonSerializer.Serialize(result.Result) },
                     [INPUT_UF] = result.Inputs.Select(x => JsonSerializer.Serialize(x)).ToArray(),
-                    [PRODUCT_UF] = result.Inputs.Select(x => x.Name).ToArray(),
+                    [PRODUCT_UF] =  result.Inputs.Select(x => x.Name).ToArray(),
                 }
             };
-
-            await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
+            try
             {
-                entityTypeId = 2,
-                Id = result.DealId,
-                Fields = fields,
-            });
+                await _bitrixApi.UpdateCrmDetal(new CrmDealUpdateWithAuthRequest()
+                {
+                    entityTypeId = 2,
+                    Id = result.DealId,
+                    Fields = fields,
+                    auth = token.BitrixAuthToken
+                });
+            }
+            catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return Unauthorized("Токен авторизации не корректный");
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(500, "Ошибка crm");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "ошибка соеденения ");
+            }
+
             return result.Inputs;
         }
 
@@ -65,30 +85,31 @@ namespace printing_calculator.controllers.WebApi
             public string Token { get; set; }
         }
 
-        [HttpPost("api/test2")]
-        public async Task<GetFieldDealAnswer> Test2(int id)
-        {
-           var test =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
-           {
-               Id = id
-           });
+        //[HttpPost("api/test2")]
+        //public async Task<GetFieldDealAnswer> Test2(int id)
+        //{
+        //   var test =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
+        //   {
+        //       Id = id
+        //   });
 
-            await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
-            {
-                entityTypeId = 2,
-                Id = id,
-                Fields = new FieldsDetailUpdate()
-                {
-                    opportunity = 100500,
-                    DynamicFields = new Dictionary<string, object>()
-                    {
-                        ["ufCrm_1774349835977"] = "test",
-                        ["ufCrm_1774610816585"] = JsonSerializer.Serialize(new ApiResultAnswer())
-                    }
-                }
-            });
+        //    await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
+        //    {
+        //        entityTypeId = 2,
+        //        Id = id,
+        //        Fields = new FieldsDetailUpdate()
+        //        {
+        //            opportunity = 100500,
+        //            DynamicFields = new Dictionary<string, object>()
+        //            {
+        //                ["ufCrm_1774349835977"] = "test",
+        //                ["ufCrm_1774610816585"] = JsonSerializer.Serialize(new ApiResultAnswer())
+        //            }
+        //        }
+        //    });
 
-            return test;
-        }
+        //    return test;
+        //}
+
     }
 }
