@@ -25,6 +25,7 @@ namespace printing_calculator
         {
             services.AddSingleton<ITokenGenerator, SecurityCryptographyTokenGenerator>();
             services.AddSingleton<ITokenStore, TokensStore>();
+            services.AddSingleton<ISettingStore, SettingStore>();
 
             services.AddTransient<ConveyorCalculator>();
             services.AddTransient<GeneratorHistory>();

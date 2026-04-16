@@ -1,0 +1,159 @@
+{
+  "PrintingsMachines": [
+    {
+      "Id": 1,
+      "NameMachine": "Heidelberg XL 106",
+      "Markups": [
+        {
+          "Id": 1,
+          "Percent": 12.5,
+          "Description": "Стандартная наценка"
+        },
+        {
+          "Id": 2,
+          "Percent": 25.0,
+          "Description": "Срочная печать"
+        }
+      ],
+      "ConsumableOther": 0.35,
+      "AdjustmenPrice": 4500,
+      "WhiteFieldWidth": 12.5,
+      "WhiteFieldHeight": 10.2,
+      "MaximumSizeLength": 700,
+      "MaximumSizeWidth": 500,
+      "FieldForLabels": 8,
+      "Bleed": 3,
+      "ConsumableDye": 12000,
+      "MainConsumableForDrawing": 60000
+    },
+    {
+      "Id": 2,
+      "NameMachine": "Komori Lithrone G40",
+      "Markups": [
+        {
+          "Id": 3,
+          "Percent": 10.0,
+          "Description": "Базовая наценка"
+        }
+      ],
+      "ConsumableOther": 0.28,
+      "AdjustmenPrice": 3800,
+      "WhiteFieldWidth": 10.0,
+      "WhiteFieldHeight": 8.5,
+      "MaximumSizeLength": 640,
+      "MaximumSizeWidth": 450,
+      "FieldForLabels": 6,
+      "Bleed": 2,
+      "ConsumableDye": 10000,
+      "MainConsumableForDrawing": 50000
+    }
+  ],
+  "Machines": [
+    {
+      "Id": 3,
+      "NameMachine": "Guillotine Cutter 115",
+      "Markups": [
+        {
+          "Id": 4,
+          "Percent": 8.0,
+          "Description": "Резка"
+        }
+      ],
+      "ConsumableOther": 0.15,
+      "AdjustmenPrice": 1200
+    },
+    {
+      "Id": 4,
+      "NameMachine": "Stahlfolder KH 82",
+      "Markups": [
+        {
+          "Id": 5,
+          "Percent": 9.5,
+          "Description": "Фальцовка"
+        }
+      ],
+      "ConsumableOther": 0.20,
+      "AdjustmenPrice": 1800
+    },
+    {
+      "Id": 7,
+      "NameMachine": "Perfect Binder",
+      "Markups": [
+        {
+          "Id": 6,
+          "Percent": 15.0,
+          "Description": "Клейка"
+        }
+      ],
+      "ConsumableOther": 0.45,
+      "AdjustmenPrice": 3200
+    }
+  ],
+  "PosMachines": [
+    {
+      "Id": 5,
+      "NameMachine": "Polar D 115",
+      "Markups": [
+        {
+          "Id": 7,
+          "Percent": 7.5,
+          "Description": "Пост-печать"
+        }
+      ],
+      "ConsumableOther": 0.18,
+      "AdjustmenPrice": 950,
+      "CountOfPapersInOneAdjustmentCut": 500,
+      "AddMoreHit": 0.25
+    },
+    {
+      "Id": 6,
+      "NameMachine": "Morgana BM 35",
+      "Markups": [
+        {
+          "Id": 8,
+          "Percent": 11.0,
+          "Description": "Биговка/перфорация"
+        }
+      ],
+      "ConsumableOther": 0.22,
+      "AdjustmenPrice": 1100,
+      "CountOfPapersInOneAdjustmentCut": 300,
+      "AddMoreHit": 0.30
+    },
+    {
+      "Id": 8,
+      "NameMachine": "Duplo DC-645",
+      "Markups": [
+        {
+          "Id": 9,
+          "Percent": 13.0,
+          "Description": "Подрезка"
+        }
+      ],
+      "ConsumableOther": 0.25,
+      "AdjustmenPrice": 1400,
+      "CountOfPapersInOneAdjustmentCut": 400,
+      "AddMoreHit": 0.20
+    }
+  ],
+  "CommonToAllMarkups": [
+    {
+      "Id": 1,
+      "Percent": 18.5,
+      "Description": "Общая наценка на печатные работы",
+      "IsActive": true
+    },
+    {
+      "Id": 2,
+      "Percent": 30.0,
+      "Description": "Наценка за срочность (менее 24ч)",
+      "IsActive": true
+    },
+    {
+      "Id": 3,
+      "Percent": 10.0,
+      "Description": "Наценка за малый тираж",
+      "IsActive": false
+    }
+  ]
+}

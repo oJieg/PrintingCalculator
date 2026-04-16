@@ -5,6 +5,7 @@ using printing_calculator.Clients.DTO;
 using printing_calculator.Clients.RequestModels;
 using printing_calculator.DataBase;
 using printing_calculator.Exceptions;
+using printing_calculator.Models;
 using printing_calculator.Singletones.Interfases;
 using printing_calculator.ViewModels;
 using printing_calculator.ViewModels.Result;
@@ -20,10 +21,13 @@ namespace printing_calculator.controllers.WebApi
         private const string PRODUCT_UF = "ufCrm_1774601696653"; //TODO вынести в конфиги
         private const string INPUT_UF = "ufCrm_1774865963554";
         private readonly ITokenStore _tokenStore;
+        private readonly ISettingStore _settingStore;
 
-        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore) {
+        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore, ISettingStore settingStore = null)
+        {
             _bitrixApi = bitrixApi;
             _tokenStore = tokenStore;
+            _settingStore = settingStore;
         }
         [HttpPut("api/set-field-crm")]
         public async Task<ActionResult<InputForWiget[]>> SetFieldCrm(CalculatorFullResult result)
@@ -85,31 +89,13 @@ namespace printing_calculator.controllers.WebApi
             public string Token { get; set; }
         }
 
-        //[HttpPost("api/test2")]
-        //public async Task<GetFieldDealAnswer> Test2(int id)
-        //{
-        //   var test =  await _bitrixApi.GetFielDeal(new Clients.RequestModels.GetFieldDealRequest()
-        //   {
-        //       Id = id
-        //   });
-
-        //    await _bitrixApi.UpdateCrmDetal(new CrmDealUpdate()
-        //    {
-        //        entityTypeId = 2,
-        //        Id = id,
-        //        Fields = new FieldsDetailUpdate()
-        //        {
-        //            opportunity = 100500,
-        //            DynamicFields = new Dictionary<string, object>()
-        //            {
-        //                ["ufCrm_1774349835977"] = "test",
-        //                ["ufCrm_1774610816585"] = JsonSerializer.Serialize(new ApiResultAnswer())
-        //            }
-        //        }
-        //    });
-
-        //    return test;
-        //}
+        [HttpPost("api/test2")]
+        public async Task Test2()
+        {
+            await _settingStore.SaveSettings( SettingCalculationGenerator.GenerateRandomSettingCalculation());
+            var x = await _settingStore.GetSettings();
+            return;
+        }
 
     }
 }
