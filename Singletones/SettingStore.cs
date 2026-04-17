@@ -16,7 +16,7 @@ namespace printing_calculator.Singletones
         private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settingPrint.json");
 
 
-        public async Task<SettingCalculation> GetSettings(CancellationToken cancellationToken=default)
+        public async Task<ISettingCalculation> GetSettings(CancellationToken cancellationToken=default)
         {
             await _lock.WaitAsync(cancellationToken);
 
@@ -26,7 +26,7 @@ namespace printing_calculator.Singletones
                 {
                     _settingCalculation = await LoadSetting(cancellationToken);
                 }
-                return CloneSetting(_settingCalculation);
+                return _settingCalculation;
             }
             finally { _lock.Release(); }
         }

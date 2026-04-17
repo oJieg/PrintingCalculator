@@ -4,7 +4,7 @@ using printing_calculator.ViewModels;
 
 namespace printing_calculator.Models
 {
-    public class SettingCalculation
+    public class SettingCalculation : ISettingCalculation
     {
         public PaperCatalog[] PaperCatalog { get; set; } 
         public SizePaper[] PaperSizes { get; set; }
