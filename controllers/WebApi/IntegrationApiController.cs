@@ -17,17 +17,19 @@ namespace printing_calculator.controllers.WebApi
     [ApiController]
     public class IntegrationApiController : ControllerBase
     {
-        public IBitrixWithAauthApi _bitrixApi;
+        public readonly IBitrixWithAauthApi _bitrixApi;
+        private readonly ApplicationContext _applicationContext;
         private const string PRODUCT_UF = "ufCrm_1774601696653"; //TODO вынести в конфиги
         private const string INPUT_UF = "ufCrm_1774865963554";
         private readonly ITokenStore _tokenStore;
         private readonly ISettingStore _settingStore;
 
-        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore, ISettingStore settingStore = null)
+        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore, ISettingStore settingStore, ApplicationContext context)
         {
             _bitrixApi = bitrixApi;
             _tokenStore = tokenStore;
             _settingStore = settingStore;
+            _applicationContext = context;
         }
         [HttpPut("api/set-field-crm")]
         public async Task<ActionResult<InputForWiget[]>> SetFieldCrm(CalculatorFullResult result)
@@ -92,8 +94,9 @@ namespace printing_calculator.controllers.WebApi
         [HttpPost("api/test2")]
         public async Task Test2()
         {
+
             await _settingStore.SaveSettings( SettingCalculationGenerator.GenerateRandomSettingCalculation());
-            var x = await _settingStore.GetSettings();
+            ISettingCalculation x = await _settingStore.GetSettings();
             return;
         }
 

@@ -6,7 +6,7 @@ namespace printing_calculator.Singletones
 {
     public class SettingStore : ISettingStore
     {
-        private SettingCalculation _settingCalculation;
+        private SettingCalculation? _settingCalculation;
         private SemaphoreSlim _lock = new(1,1);
         private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
         {
@@ -27,6 +27,21 @@ namespace printing_calculator.Singletones
                     _settingCalculation = await LoadSetting(cancellationToken);
                 }
                 return _settingCalculation;
+            }
+            finally { _lock.Release(); }
+        }
+
+        public async Task<SettingCalculation> GetCloneSetting(CancellationToken cancellationToken = default)
+        {
+            await _lock.WaitAsync(cancellationToken);
+
+            try
+            {
+                if (_settingCalculation == null)
+                {
+                    _settingCalculation = await LoadSetting(cancellationToken);
+                }
+                return CloneSetting(_settingCalculation);
             }
             finally { _lock.Release(); }
         }
