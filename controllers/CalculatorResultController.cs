@@ -17,30 +17,30 @@ namespace printing_calculator.controllers
 			_calculator = conveyorCalculator;
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
-		{
+		//[HttpGet]
+		//public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
+		//{
 
-			СalculationHistory? history;
-			CalculationResult result;
-			try
-			{
-				(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
+		//	СalculationHistory? history;
+		//	CalculationResult result;
+		//	try
+		//	{
+		//		(history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, cancellationToken);
 
-				if (tryAnswer.Status != StatusAnswer.Ok)
-				{
-					_logger.LogError("не удался расчет на конвейере");
-					return View("SettingMashines/Error", result);
-				}
-			}
-			catch (OperationCanceledException)
-			{
-				return new EmptyResult();
-			}
+		//		if (tryAnswer.Status != StatusAnswer.Ok)
+		//		{
+		//			_logger.LogError("не удался расчет на конвейере");
+		//			return View("SettingMashines/Error", result);
+		//		}
+		//	}
+		//	catch (OperationCanceledException)
+		//	{
+		//		return new EmptyResult();
+		//	}
 
-			result.HistoryInputId = id;
+		//	result.HistoryInputId = id;
 
-			return View("CalculatorResult", result);
-		}
+		//	return View("CalculatorResult", result);
+		//}
 	}
 }

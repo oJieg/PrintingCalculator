@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosCreasing : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public PosCreasing(Setting settings)
+        public PosCreasing(ISettingCalculation settings)
         {
             _settings = settings;
         }

@@ -1,5 +1,6 @@
-﻿using printing_calculator.DataBase;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using printing_calculator.DataBase;
+using printing_calculator.Singletones.Interfases;
 using printing_calculator.ViewModels;
 using System.Threading;
 
@@ -8,40 +9,40 @@ namespace printing_calculator.Models.Calculating
 {
     public class GeneratorHistory
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _settingStore;
         private readonly ILogger<GeneratorHistory> _logger;
 
-        public GeneratorHistory(ApplicationContext applicationContext, ILogger<GeneratorHistory> logger)
+        public GeneratorHistory( ILogger<GeneratorHistory> logger, ISettingStore settingStore)
         {
-            _applicationContext = applicationContext;
+            _settingStore = settingStore;
             _logger = logger;
         }
 
-        public async Task<СalculationHistory?> GetFullIncludeHistoryAsync(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                return await _applicationContext.Histories
-                     .AsNoTracking()
-                     .Include(historys => historys.Input)
-                        .ThenInclude(input => input.Paper.Size)
-                     .Include(historys => historys.Input)
-                        .ThenInclude(input => input.Lamination!)
-                     .Include(historys => historys.ConsumablePrice)
-                     .Where(historys => historys.Id == id)
-                     .FirstOrDefaultAsync(cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogInformation("пользователь отменил запрос");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Неудалось получить из базы history по id");
-                return null;
-            }
-        }
+        //public async Task<СalculationHistory?> GetFullIncludeHistoryAsync(int id, CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        return await _applicationContext.Histories
+        //             .AsNoTracking()
+        //             .Include(historys => historys.Input)
+        //                .ThenInclude(input => input.Paper.Size)
+        //             .Include(historys => historys.Input)
+        //                .ThenInclude(input => input.Lamination!)
+        //             .Include(historys => historys.ConsumablePrice)
+        //             .Where(historys => historys.Id == id)
+        //             .FirstOrDefaultAsync(cancellationToken);
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        _logger.LogInformation("пользователь отменил запрос");
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Неудалось получить из базы history по id");
+        //        return null;
+        //    }
+        //}
 
         public async Task<СalculationHistory> GetFullIncludeHistoryAsync(Input input, CancellationToken cancellationToken)
         {
@@ -77,7 +78,7 @@ namespace printing_calculator.Models.Calculating
                 }
 
                 history.PaperPrice = history.Input.Paper.Prices;
-                
+
             }
             catch (Exception ex)
             {
@@ -86,124 +87,114 @@ namespace printing_calculator.Models.Calculating
             return history;
         }
 
-        public async Task<Input> GetInputFromHistoryId(int historyId, int newAmount)
-        {
-            InputHistory inputHistory = await _applicationContext.Histories
-                .AsNoTracking()
-                .Include(historys => historys.Input)
-                    .ThenInclude(input => input.Paper)
-                 .Include(historys => historys.Input)
-                    .ThenInclude(inpyt => inpyt.Lamination)
-                .Where(historys => historys.Id == historyId)
-                .Select(historys => historys.Input)
-                .FirstAsync();
+        //public async Task<Input> GetInputFromHistoryId(int historyId, int newAmount)
+        //{
+        //    InputHistory inputHistory = await _applicationContext.Histories
+        //        .AsNoTracking()
+        //        .Include(historys => historys.Input)
+        //            .ThenInclude(input => input.Paper)
+        //         .Include(historys => historys.Input)
+        //            .ThenInclude(inpyt => inpyt.Lamination)
+        //        .Where(historys => historys.Id == historyId)
+        //        .Select(historys => historys.Input)
+        //        .FirstAsync();
 
-            string? laminationName = null;
-            if (inputHistory.Lamination != null)
-                laminationName = inputHistory.Lamination.Name;
+        //    string? laminationName = null;
+        //    if (inputHistory.Lamination != null)
+        //        laminationName = inputHistory.Lamination.Name;
 
-            return  new()
-            {
-                Amount = newAmount,
-                Height = inputHistory.Height,
-                Whidth = inputHistory.Whidth,
-                Paper = inputHistory.Paper.Name,
-                Kinds = inputHistory.Kinds,
-                Duplex = inputHistory.Duplex,
-                LaminationName = laminationName,
-                Creasing = inputHistory.CreasingAmount,
-                Drilling = inputHistory.DrillingAmount,
-                Rounding = inputHistory.RoundingAmount,
-                StapleBrochure = inputHistory.StapleBrochure,
-                SpringBrochure = inputHistory.SpringBrochure,
-                CommonToAllMarkup = inputHistory.CommonToAllMarkupName,
-                NoSaveDB = false
-            };
-        }
+        //    return new()
+        //    {
+        //        Amount = newAmount,
+        //        Height = inputHistory.Height,
+        //        Whidth = inputHistory.Whidth,
+        //        Paper = inputHistory.Paper.Name,
+        //        Kinds = inputHistory.Kinds,
+        //        Duplex = inputHistory.Duplex,
+        //        LaminationName = laminationName,
+        //        Creasing = inputHistory.CreasingAmount,
+        //        Drilling = inputHistory.DrillingAmount,
+        //        Rounding = inputHistory.RoundingAmount,
+        //        StapleBrochure = inputHistory.StapleBrochure,
+        //        SpringBrochure = inputHistory.SpringBrochure,
+        //        CommonToAllMarkup = inputHistory.CommonToAllMarkupName,
+        //        NoSaveDB = false
+        //    };
+        //}
 
         private async Task<СalculationHistory> GetHistoryAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
-            IQueryable<PaperCatalog> historyInputPaper = _applicationContext.PaperCatalogs
-                    .Include(paperCatalogs => paperCatalogs.Size)
+            var setting = await _settingStore.GetSettings();
+
+            var historyInputPaper = setting.PaperCatalog
                     .Where(paperCatalogs => paperCatalogs.Name == input.Paper);
 
-            IQueryable<ConsumablePrice> historyConsumablePrice = _applicationContext.ConsumablePrices
-                    .OrderByDescending(consumablePrices => consumablePrices.Id);
+            var historyConsumablePrice = setting.PrintingsMachine.ConsumablePrice;
 
-            if (input.NoSaveDB)
-            {
-                historyInputPaper = historyInputPaper.AsNoTracking();
-                historyConsumablePrice = historyConsumablePrice.AsNoTracking();
-            }
-
-            history.Input.Paper = await historyInputPaper.FirstAsync(cancellationToken);
-            history.ConsumablePrice = await historyConsumablePrice.FirstAsync(cancellationToken);
+            history.Input.Paper =  historyInputPaper.First();
+            history.ConsumablePrice =  historyConsumablePrice;
             return history;
         }
 
         private async Task<СalculationHistory> GetHistoryLaminationAsync(СalculationHistory history, Input input, CancellationToken cancellationToken)
         {
-            IQueryable<Lamination> historyInputLamination = _applicationContext.Laminations
+            var setting = await _settingStore.GetSettings();
+            var historyInputLamination = setting.Laminations
                 .Where(laminations => laminations.Name == input.LaminationName);
 
-
-            if (input.NoSaveDB)
-            {
-                historyInputLamination.AsNoTracking();
-            }
-            history.Input.Lamination = await historyInputLamination.FirstAsync(cancellationToken);
+            history.Input.Lamination = historyInputLamination.First();
             return history;
         }
 
-        public async Task<List<СalculationHistory>> GetHistoryListAsync(int skip, int countPage, CancellationToken cancellationToken)
-        {
-			IQueryable<СalculationHistory> queryable = _applicationContext.Histories
-				.AsNoTracking()
-				.Include(historys => historys.Input)
-					.ThenInclude(Input => Input.Paper)
-				.Include(historys => historys.Input)
-					.ThenInclude(Input => Input.Lamination)
-				.OrderByDescending(historys => historys.Id)
-				.Skip(skip)
-				.Take(countPage);
-			return await RequestExecution(queryable, cancellationToken);
-		}
+        //public async Task<List<СalculationHistory>> GetHistoryListAsync(int skip, int countPage, CancellationToken cancellationToken)
+        //{
+        //    IQueryable<СalculationHistory> queryable = _applicationContext.Histories
+        //        .AsNoTracking()
+        //        .Include(historys => historys.Input)
+        //            .ThenInclude(Input => Input.Paper)
+        //        .Include(historys => historys.Input)
+        //            .ThenInclude(Input => Input.Lamination)
+        //        .OrderByDescending(historys => historys.Id)
+        //        .Skip(skip)
+        //        .Take(countPage);
+        //    return await RequestExecution(queryable, cancellationToken);
+        //}
 
-		public async Task<List<СalculationHistory>> GetHistoryListForDataAsync(DateTime date, int skip, int countPage, CancellationToken cancellationToken)
-		{
+        //public async Task<List<СalculationHistory>> GetHistoryListForDataAsync(DateTime date, int skip, int countPage, CancellationToken cancellationToken)
+        //{
 
-				IQueryable<СalculationHistory> queryable =  _applicationContext.Histories
-                    .AsNoTracking()
-                    .Where(x => x.DateTime >= date && x.DateTime <= date.AddDays(1))
-                    .Include(historys => historys.Input)
-                        .ThenInclude(Input => Input.Paper)
-                    .Include(historys => historys.Input)
-                        .ThenInclude(Input => Input.Lamination)
-                    .OrderByDescending(historys => historys.Id)
-                    .Skip(skip)
-                    .Take(countPage);
-            return await RequestExecution(queryable, cancellationToken);
-		}
-        private async Task<List<СalculationHistory>> RequestExecution(IQueryable<СalculationHistory> queryable, CancellationToken cancellationToken)
-        {
-			try
-			{
-				return await queryable.ToListAsync(cancellationToken);
-			}
-			catch (OperationCanceledException)
-			{
-				return new List<СalculationHistory>();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Не вышло получить список истории");
-				return new List<СalculationHistory>();
-			}
-		}
+        //    IQueryable<СalculationHistory> queryable = _applicationContext.Histories
+        //        .AsNoTracking()
+        //        .Where(x => x.DateTime >= date && x.DateTime <= date.AddDays(1))
+        //        .Include(historys => historys.Input)
+        //            .ThenInclude(Input => Input.Paper)
+        //        .Include(historys => historys.Input)
+        //            .ThenInclude(Input => Input.Lamination)
+        //        .OrderByDescending(historys => historys.Id)
+        //        .Skip(skip)
+        //        .Take(countPage);
+        //    return await RequestExecution(queryable, cancellationToken);
+        //}
+        //private async Task<List<СalculationHistory>> RequestExecution(IQueryable<СalculationHistory> queryable, CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        return await queryable.ToListAsync(cancellationToken);
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        return new List<СalculationHistory>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Не вышло получить список истории");
+        //        return new List<СalculationHistory>();
+        //    }
+        //}
 
-		public async Task<int> GetCountHistoryAsunc()
-        {
-            return await _applicationContext.Histories.CountAsync();
-        }
+        //public async Task<int> GetCountHistoryAsunc()
+        //{
+        //    return await _applicationContext.Histories.CountAsync();
+        //}
     }
 }

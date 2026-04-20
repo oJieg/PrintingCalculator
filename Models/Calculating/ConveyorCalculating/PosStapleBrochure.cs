@@ -7,9 +7,9 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 {
 	public class PosStapleBrochure : IConveyor
 	{
-		private readonly Setting _settings;
+		private readonly ISettingCalculation _settings;
 
-		public PosStapleBrochure(Setting settings)
+		public PosStapleBrochure(ISettingCalculation settings)
 		{
 			_settings = settings;
 		}
@@ -24,13 +24,13 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 
 			try
 			{
-				int сostPrice = Convert.ToInt32((_settings.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther));
+				int сostPrice = Convert.ToInt32((_settings.PosMachines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther));
 
-				CalculatingMarkup markups = new(_settings.Machines.First(x => x.NameMachine == "StapleBrochure").Markups);
+				CalculatingMarkup markups = new(_settings.PosMachines.First(x => x.NameMachine == "StapleBrochure").Markups);
 				int markup = markups.GetMarkup(result.Amount);
 				int price;
 
-				result.PosResult.StapleBrochurePrice = Convert.ToInt32((сostPrice * ((markup + 100) / (float)100)) + _settings.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice);
+				result.PosResult.StapleBrochurePrice = Convert.ToInt32((сostPrice * ((markup + 100) / (float)100)) + _settings.PosMachines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice);
 				result.PosResult.StapleBrochurePrice *= history.Input.Amount;
 				result.Price += result.PosResult.StapleBrochurePrice;
 				if (history.StapleBrochurePrice!=null)

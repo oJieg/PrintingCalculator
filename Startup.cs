@@ -36,7 +36,7 @@ namespace printing_calculator
             services.AddMvc();
 
             string ConectionString = _configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
+           // services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
 
             services
                 .AddRefitClient<IBitrixApi>()

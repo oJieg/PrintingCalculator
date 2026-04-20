@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using printing_calculator.ViewModels;
 using printing_calculator.DataBase;
 using printing_calculator.DataBase.setting;
+using printing_calculator.Singletones;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.ViewModels;
 
 namespace printing_calculator.controllers
 {
     public class SettingController : Controller
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _settingStore;
         private readonly ILogger<SettingController> _logger;
 
-        public SettingController(ApplicationContext applicationContext, ILogger<SettingController> logger)
+        public SettingController(ISettingStore settingStore, ILogger<SettingController> logger)
         {
-            _applicationContext = applicationContext;
+            _settingStore = settingStore;
             _logger = logger;
         }
 
@@ -23,15 +25,10 @@ namespace printing_calculator.controllers
 
             try
             {
-                paperAndSize.PaperCatalog = await _applicationContext.PaperCatalogs
-                    .Include(paper => paper.Size)
-                    .OrderBy(paper => paper.Id)
-                    .Where(paper => paper.Status >= 0)
-                    .AsNoTracking()
-                    .ToListAsync();
-                paperAndSize.Size = await _applicationContext.SizePapers
-                    .AsNoTracking()
-                    .ToListAsync();
+                var setting = await _settingStore.GetSettings();
+
+                paperAndSize.PaperCatalog = setting.PaperCatalog.OrderBy(x=>x.Id).Where(x=>x.Status>=0).ToList();
+                paperAndSize.Size = setting.PaperSizes.ToList();
 
             }
             catch (Exception ex)
@@ -52,12 +49,14 @@ namespace printing_calculator.controllers
             newSizePaper.Name += newSizePaper.Height.ToString() + "x" + newSizePaper.Width.ToString(); 
             try
             {
-                if (await _applicationContext.SizePapers.AnyAsync(size => size.Name == newSizePaper.Name))
+                var setting = await _settingStore.GetCloneSetting();
+                if (setting.PaperSizes.Any(size => size.Name == newSizePaper.Name))
                 {
                     return new RedirectResult("/Setting/Paper");
                 }
-                _applicationContext.SizePapers.Add(newSizePaper);
-                await _applicationContext.SaveChangesAsync();
+                setting.PaperSizes = setting.PaperSizes.Concat(new[] { newSizePaper }).ToArray();
+
+                await _settingStore.SaveSettings(setting);
             }
             catch (Exception ex)
             {
@@ -72,10 +71,11 @@ namespace printing_calculator.controllers
             List<Lamination> laminations;
             try
             {
-                 laminations = await _applicationContext.Laminations
+                var setting = await _settingStore.GetSettings();
+                 laminations =  setting.Laminations
                     .Where(l => l.Status >= 0)
                     .OrderBy(l => l.Id)
-                    .ToListAsync();
+                    .ToList();
             }
             catch(Exception ex)
             {
@@ -91,9 +91,9 @@ namespace printing_calculator.controllers
             ConsumablePrice actualPrice;
             try
             {
-                actualPrice = await _applicationContext.ConsumablePrices
-                   .OrderBy(x => x.Id)
-                   .LastAsync();
+                var setting = await _settingStore.GetSettings();
+                actualPrice = setting.PrintingsMachine.ConsumablePrice;
+
                 return View("SettingConsumables", actualPrice);
             }
             catch
@@ -111,8 +111,11 @@ namespace printing_calculator.controllers
             }
             try
             {
-                _applicationContext.ConsumablePrices.Add(newConsumable);
-                await _applicationContext.SaveChangesAsync();
+                var setting = await _settingStore.GetCloneSetting();
+                setting.PrintingsMachine.ConsumablePrice = newConsumable;
+
+                await _settingStore.SaveSettings(setting);
+
                 return RedirectToAction("Consumable");
             }
             catch (Exception ex)
@@ -128,8 +131,8 @@ namespace printing_calculator.controllers
 
 			try
 			{
-                springBrochureSetting = _applicationContext.SpringBrochureSettings
-                    .Include(x=>x.SpringPrice)
+                var setting = await _settingStore.GetSettings();
+                springBrochureSetting = setting.SpringBrochureSettings
                     .First();
 
 			}
@@ -144,14 +147,20 @@ namespace printing_calculator.controllers
 
         public async Task<IActionResult> EditSpringBrochureSetting(SpringBrochureSetting springBrochureSetting)
         {
-            springBrochureSetting.SpringPrice = (await _applicationContext.SpringBrochureSettings
-                .Where(x => x.Id == springBrochureSetting.Id)
-                .Include(x => x.SpringPrice)
-                .AsNoTracking()
-                .FirstAsync()).SpringPrice;
+            var setting = await _settingStore.GetCloneSetting();
+            var springBrochure = setting.SpringBrochureSettings.FirstOrDefault(x => x.Id == springBrochureSetting.Id);
+            if (springBrochure == null)
+            {
+                springBrochureSetting.Id = setting.SpringBrochureSettings.Max(x => x.Id) + 1;
+                setting.SpringBrochureSettings = setting.SpringBrochureSettings.Concat(new[] { springBrochureSetting }).ToArray();
+            }
+            else
+            {
+                springBrochure = springBrochureSetting;
 
-            _applicationContext.Update(springBrochureSetting);
-            await _applicationContext.SaveChangesAsync();
+            }
+
+            await _settingStore.SaveSettings(setting);
             return new RedirectResult("/Setting/SpringBrochureSetting");
 		}
 
@@ -178,9 +187,15 @@ namespace printing_calculator.controllers
 			}
 			try
 			{
-				_applicationContext.Update((Markup)markupaAndName);
-				await _applicationContext.SaveChangesAsync();
-			}
+                var setting = await _settingStore.GetCloneSetting();
+                MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
+                MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
+
+                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
+                markup = markupaAndName;
+
+                await _settingStore.SaveSettings(setting);
+            }
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Ошибка доступа к бд. (EditMarkup)");
@@ -198,9 +213,15 @@ namespace printing_calculator.controllers
 			}
 			try
 			{
-				_applicationContext.Remove((Markup)markupaAndName);
-				await _applicationContext.SaveChangesAsync();
-			}
+                var setting = await _settingStore.GetCloneSetting();
+                MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
+                MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
+
+                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
+
+                mashine.Markups.Remove(markupaAndName);
+                await _settingStore.SaveSettings(setting);
+            }
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "ошибка доступа к бд. DelMarkup");
@@ -218,18 +239,25 @@ namespace printing_calculator.controllers
 
 			try
 			{
-				SpringBrochureSetting machineSetting = await _applicationContext.SpringBrochureSettings
-					.Where(x => x.Id == 1)
-					.Include(x => x.SpringPrice)
-					.FirstAsync();
+                var setting = await _settingStore.GetCloneSetting();
+                SpringBrochureSetting[] mashines = setting.SpringBrochureSettings.ToArray();
+                SpringBrochureSetting mashine = mashines.First();
 
-				machineSetting.SpringPrice.Add(new Markup()
-				{
-					MarkupForThisPage = markupaAndName.MarkupForThisPage,
-					Page = markupaAndName.Page
-				});
+                mashine.SpringPrice.Add(markupaAndName);
 
-				await _applicationContext.SaveChangesAsync();
+                await _settingStore.SaveSettings(setting);
+				//SpringBrochureSetting machineSetting = await _settingStore.SpringBrochureSettings
+				//	.Where(x => x.Id == 1)
+				//	.Include(x => x.SpringPrice)
+				//	.FirstAsync();
+
+				//machineSetting.SpringPrice.Add(new Markup()
+				//{
+				//	MarkupForThisPage = markupaAndName.MarkupForThisPage,
+				//	Page = markupaAndName.Page
+				//});
+
+				//await _settingStore.SaveChangesAsync();
 			}
 			catch (Exception ex)
 			{

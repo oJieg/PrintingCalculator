@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperPriсe : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public PaperPriсe(Setting settings)
+        public PaperPriсe(ISettingCalculation settings)
         {
             _settings = settings;
         }
@@ -27,7 +27,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 int pricePaperWithMarkup = Convert.ToInt32(result.PaperResult.CostConsumablePrise +
                     (result.PaperResult.CostConsumablePrise * (float)result.PaperResult.MarkupPaper / (float)100));
-                int pricePaper = pricePaperWithMarkup + result.PaperResult.CutPrics + _settings.PrintingsMachines[0].AdjustmenPrice;
+                int pricePaper = pricePaperWithMarkup + result.PaperResult.CutPrics + _settings.PrintingsMachine.AdjustmenPrice;
 
                 result.PaperResult.Price = pricePaper;
                 result.Price += pricePaper;

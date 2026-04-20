@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosRounding : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public PosRounding(Setting settings)
+        public PosRounding(ISettingCalculation settings)
         {
             _settings = settings;
         }

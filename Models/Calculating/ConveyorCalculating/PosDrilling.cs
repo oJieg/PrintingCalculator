@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PosDrilling : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public PosDrilling(Setting settings)
+        public PosDrilling(ISettingCalculation settings)
         {
             _settings = settings;
         }

@@ -9,9 +9,9 @@ namespace printing_calculator.Models
         public PaperCatalog[] PaperCatalog { get; set; } 
         public SizePaper[] PaperSizes { get; set; }
         public Lamination[] Laminations { get; set; }
-        public PrintingMachineSetting[] PrintingsMachines { get; set; }
+        public PrintingMachineSetting PrintingsMachine { get; set; }
         public PosMachinesSetting[] PosMachines { get; set; }
         public CommonToAllMarkup[]  CommonToAllMarkups { get; set; }
-
+        public SpringBrochureSetting[] SpringBrochureSettings { get; set; }
     }
 }

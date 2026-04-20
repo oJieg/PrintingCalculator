@@ -7,9 +7,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
 	public class AllPrice : IConveyor
 	{
-		private readonly Setting _settings;
+		private readonly ISettingCalculation _settings;
 
-		public AllPrice(Setting settings)
+		public AllPrice(ISettingCalculation settings)
 		{
 			_settings = settings;
 		}
@@ -51,17 +51,14 @@ namespace printing_calculator.Models.ConveyorCalculating
 
 				if (history.Price == null)
 				{
-					result.TryPrice = true;
 					history.Price = result.Price;
 				}
 
-				result.TryPrice = result.IsActualPaperPrice() &&
-					(result.Price == history.Price);
+
 
 				if (result.Price != history.Price)
 				{
 					result.Price = history.Price.Value;
-					result.TryPrice = false;
 				}
 
 				return Task.FromResult((history, result, new StatusCalculation()));

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using printing_calculator.Models.Calculating;
-using printing_calculator.ViewModels;
-using printing_calculator.DataBase;
-using printing_calculator.ViewModels.Result;
-using printing_calculator.Models;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.DataBase;
+using printing_calculator.Models;
+using printing_calculator.Models.Calculating;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.ViewModels;
+using printing_calculator.ViewModels.Result;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,17 +14,17 @@ namespace printing_calculator.controllers.WebApi
 	[ApiController]
 	public class CalculationController : ControllerBase
 	{
-		private readonly ApplicationContext _applicationContext;
+		private readonly ISettingStore _settingStore;
 		private readonly ILogger<CalculatorResultController> _logger;
 		private readonly ConveyorCalculator _calculator;
 		private readonly Validation _validation;
 
-		public CalculationController(ApplicationContext applicationContext,
+		public CalculationController(ISettingStore settingStore,
 			ILogger<CalculatorResultController> loggerFactory,
 			ConveyorCalculator conveyorCalculator,
 			Validation validation)
 		{
-			_applicationContext = applicationContext;
+			_settingStore = settingStore;
 			_logger = loggerFactory;
 			_calculator = conveyorCalculator;
 			_validation = validation;
@@ -70,10 +71,10 @@ namespace printing_calculator.controllers.WebApi
 			{
 				history.DateTime = DateTime.UtcNow;
 
-				_applicationContext.InputsHistories.Add(history.Input);
-				_applicationContext.Histories.Add(history);
+				//_applicationContext.InputsHistories.Add(history.Input);
+				//_applicationContext.Histories.Add(history);
 
-				await _applicationContext.SaveChangesAsync(new CancellationToken());
+				//await _applicationContext.SaveChangesAsync(new CancellationToken()); //todo сохранение в стор
 				return new ApiSimplCalculationAnswer()
 				{
 					Status = new StatusCalculation() { Status = StatusAnswer.Ok },
@@ -88,27 +89,6 @@ namespace printing_calculator.controllers.WebApi
 			}
 		}
 
-		// PUT api/<CalculationController>/5
-		[HttpPut("api/add-comment")]
-		public async Task<bool> Put(AddComment addComment)
-		{
-			try
-			{
-				СalculationHistory? history = await _applicationContext.Histories
-					.FirstOrDefaultAsync(history => history.Id == addComment.Id);
-
-				history.Comment = addComment.Comment;
-
-				_applicationContext.Update(history);
-				await _applicationContext.SaveChangesAsync(new CancellationToken());
-
-				return true;
-			}
-			catch (Exception ex)
-			{
-				return false;
-			}
-		}
 
         [HttpPost("api/calculation")]
         public async Task<ApiResultAnswer> Calculation(Input input)
@@ -150,10 +130,10 @@ namespace printing_calculator.controllers.WebApi
             {
                 history.DateTime = DateTime.UtcNow;
 
-                _applicationContext.InputsHistories.Add(history.Input);
-                _applicationContext.Histories.Add(history);
+                //_applicationContext.InputsHistories.Add(history.Input);
+                //_applicationContext.Histories.Add(history);
 
-                await _applicationContext.SaveChangesAsync(new CancellationToken());
+                //await _applicationContext.SaveChangesAsync(new CancellationToken()); //
                 return new ApiResultAnswer()
                 {
                     Status = new StatusCalculation() { Status = StatusAnswer.Ok },

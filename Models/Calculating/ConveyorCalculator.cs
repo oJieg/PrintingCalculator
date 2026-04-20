@@ -1,84 +1,88 @@
-﻿using printing_calculator.Models.ConveyorCalculating;
-using printing_calculator.DataBase;
-using printing_calculator.ViewModels.Result;
-using printing_calculator.ViewModels;
-using Microsoft.EntityFrameworkCore;
+﻿using printing_calculator.DataBase;
 using printing_calculator.Models.Calculating.ConveyorCalculating;
+using printing_calculator.Models.ConveyorCalculating;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.ViewModels;
+using printing_calculator.ViewModels.Result;
 
 namespace printing_calculator.Models.Calculating
 {
 	public class ConveyorCalculator
 	{
-		private DataBase.setting.Setting? _settings;
-		private readonly ApplicationContext _applicationContext;
+		private ISettingCalculation? _settings;
+		private readonly ISettingStore _settingStore;
 		private readonly ILogger<ConveyorCalculator> _logger;
 		private readonly GeneratorHistory _generatorHistory;
 
-		public ConveyorCalculator(ApplicationContext applicationContext,
-			ILogger<ConveyorCalculator> logger,
-			GeneratorHistory generatorHistory)
+		public ConveyorCalculator(ISettingStore settingStore,
+			GeneratorHistory generatorHistory,
+			ILogger<ConveyorCalculator> logger)
 		{
-			_applicationContext = applicationContext;
+			_settingStore = settingStore;
 			_logger = logger;
 			_generatorHistory = generatorHistory;
 		}
 
 
-		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int id, CancellationToken cancellationToken)
-		{
-			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
-			if(history == null)
-			{
-                return (new СalculationHistory(),new CalculationResult(), new StatusCalculation()
-                {
-                    Status = StatusAnswer.Other,
-                    ErrorMassage = "Данное Id не найдено"
-                });
-            }
+		//public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int id, CancellationToken cancellationToken)
+		//{
+		//	СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(id, cancellationToken);
+		//	//if(history == null)
+		//	//{
+  //              return (new СalculationHistory(),new CalculationResult(), new StatusCalculation()
+  //              {
+  //                  Status = StatusAnswer.Other,
+  //                  ErrorMassage = "Данное Id не найдено"
+  //              });
+  // //         }
 
-			return await StartConveyor(history, cancellationToken);
-		}
+		//	//return await StartConveyor(history, cancellationToken);
+		//}
 
 		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(Input input, CancellationToken cancellationToken)
 		{
-			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+			СalculationHistory? history = null;
+            history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
 
-			return await StartConveyor(history, cancellationToken);
+            return await StartConveyor(history, cancellationToken);
 		}
 
-		public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int historyId, int newAmount, CancellationToken cancellationToken)
-		{
-			Input input = await _generatorHistory.GetInputFromHistoryId(historyId, newAmount);
-			СalculationHistory? history = await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
+		//public async Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryStartCalculation(int historyId, int newAmount, CancellationToken cancellationToken)
+		//{
+		//	//Input input = await _generatorHistory.GetInputFromHistoryId(historyId, newAmount);
+		//	СalculationHistory? history = null;//await _generatorHistory.GetFullIncludeHistoryAsync(input, cancellationToken);
 
-			return await StartConveyor(history, cancellationToken);
-		}
+		//	return await StartConveyor(history, cancellationToken);
+		//}
 
 		private async Task<(СalculationHistory, CalculationResult, StatusCalculation)> StartConveyor(СalculationHistory history, CancellationToken cancellationToken)
 		{
 			CalculationResult result = new();
-			if (history == null)
-			{
-				return (new СalculationHistory(), result, new StatusCalculation() { Status = StatusAnswer.Other,
-				ErrorMassage = "произошла ошибка при заполении history"
-				});
-			}
-			_settings = _applicationContext.Settings.Where(x => x.Id == 1)
-				.Include(x => x.PosMachines)
-					.ThenInclude(x => x.Markups)
-				.Include(x => x.PrintingsMachines)
-					.ThenInclude(x => x.Markups)
-				.Include(x => x.Machines)
-					.ThenInclude(x => x.Markups)
-				.Include(x => x.CommonToAllMarkups)
-				.FirstOrDefault();
-			if (_settings == null)
-			{
-				return (new СalculationHistory(), result, new StatusCalculation() {
-					Status = StatusAnswer.Other, 
-					ErrorMassage = "Ошибка при загрузке Settings из базы"
-				});
-			}
+			//if (history == null)
+			//{
+			//	return (new СalculationHistory(), result, new StatusCalculation() { Status = StatusAnswer.Other,
+			//	ErrorMassage = "произошла ошибка при заполении history"
+			//	});
+			//}
+            _settings = await _settingStore.GetSettings();
+
+			
+			//_settings = _applicationContext.Settings.Where(x => x.Id == 1)
+			//	.Include(x => x.PosMachines)
+			//		.ThenInclude(x => x.Markups)
+			//	.Include(x => x.PrintingsMachines)
+			//		.ThenInclude(x => x.Markups)
+			//	.Include(x => x.Machines)
+			//		.ThenInclude(x => x.Markups)
+			//	.Include(x => x.CommonToAllMarkups)
+			//	.FirstOrDefault();
+			//if (_settings == null)
+			//{
+			//	return (new СalculationHistory(), result, new StatusCalculation() {
+			//		Status = StatusAnswer.Other, 
+			//		ErrorMassage = "Ошибка при загрузке Settings из базы"
+			//	});
+			//}
 			StatusCalculation tryAnswer = new();
 			foreach (var conveyor in AddConveyor())
 			{
@@ -99,19 +103,19 @@ namespace printing_calculator.Models.Calculating
 				new Info(),
 				new PaperInfo(),
 				new PaperSplitting(_settings),
-				new printing_calculator.Models.ConveyorCalculating.ConsumablePrice(_settings, _applicationContext),
-				new PaperCostPrice(_applicationContext),
+				new printing_calculator.Models.ConveyorCalculating.ConsumablePrice(_settings),
+				new PaperCostPrice(),
 				new PaperMarkup(_settings),
 				new PaperCutPriсe(_settings),
 				new PaperPriсe(_settings),
 				new LamonationInfo(),
 				new LamonationMarkup(_settings),
-				new LamonationCostPriсe(_settings, _applicationContext),
+				new LamonationCostPriсe(_settings),
 				new LamonationPriсe(_settings),
 				new PosCreasing(_settings),
 				new PosDrilling(_settings),
 				new PosRounding(_settings),
-				new PosSpringBrochure(_settings, _applicationContext),
+				new PosSpringBrochure(_settings),
 				new PosStapleBrochure(_settings),
 				new AllPrice(_settings),
 			};

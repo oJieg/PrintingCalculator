@@ -7,10 +7,11 @@ namespace printing_calculator.Singletones
     public class SettingStore : ISettingStore
     {
         private SettingCalculation? _settingCalculation;
-        private SemaphoreSlim _lock = new(1,1);
+        private readonly SemaphoreSlim _lock = new(1,1);
         private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
         {
             WriteIndented = true,
+            PropertyNameCaseInsensitive = true
         };
 
         private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settingPrint.json");
@@ -63,7 +64,8 @@ namespace printing_calculator.Singletones
         private async Task<SettingCalculation> LoadSetting(CancellationToken cancellationToken )
         {
             using FileStream stream = File.OpenRead(_filePath);
-            return await JsonSerializer.DeserializeAsync<SettingCalculation>(stream, _serializerOptions, cancellationToken)?? new SettingCalculation();
+            var x = await JsonSerializer.DeserializeAsync<SettingCalculation>(stream, _serializerOptions, cancellationToken);
+            return x;
         }
 
         private SettingCalculation CloneSetting(SettingCalculation setting)

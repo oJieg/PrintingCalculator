@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationMarkup : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public LamonationMarkup(Setting settings)
+        public LamonationMarkup(ISettingCalculation settings)
         {
             _settings= settings;
         }
@@ -29,7 +29,7 @@ namespace printing_calculator.Models.ConveyorCalculating
                 return Task.FromResult((history, result, new StatusCalculation()));
             }
 
-            CalculatingMarkup markups = new(_settings.Machines[0].Markups);
+            CalculatingMarkup markups = new(_settings.PrintingsMachine.Markups);
             int markup = markups.GetMarkup(result.PaperResult.Sheets);
 
             if (history.LaminationMarkup == null)

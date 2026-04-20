@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperMarkup : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public PaperMarkup(Setting settings)
+        public PaperMarkup(ISettingCalculation settings)
         {
             _settings = settings;
         }
@@ -23,7 +23,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 				}));
 			}
 
-            CalculatingMarkup markup = new(_settings.PrintingsMachines[0].Markups);
+            CalculatingMarkup markup = new(_settings.PrintingsMachine.Markups);
             int markupPaper = markup.GetMarkup(result.PaperResult.Sheets);
 
             if (history.MarkupPaper == null)

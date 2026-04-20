@@ -17,7 +17,7 @@ namespace printing_calculator.Servises
 {
     public class WigetService: IWigetService
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _settingStore;
         private readonly IBitrixWithAauthApi _bitrixApi;
         private readonly ITokenStore _tokenStore;
 
@@ -26,12 +26,12 @@ namespace printing_calculator.Servises
         private readonly ILogger<CalculatorController> _logger;
 
         public WigetService(IBitrixWithAauthApi bitrixApi, 
-            ILogger<CalculatorController> logger, 
-            ApplicationContext applicationContext,
+            ILogger<CalculatorController> logger,
+            ISettingStore settingStore,
             ITokenStore tokenStore)
         {
             _bitrixApi = bitrixApi; //todo поменять на версию с токеном
-            _applicationContext = applicationContext;
+            _settingStore = settingStore;
             _tokenStore = tokenStore;
             _logger = logger;
         }
@@ -94,17 +94,18 @@ namespace printing_calculator.Servises
         {
             try
             {
-                settingsInfoForWigetCalculation.Paper = await _applicationContext.PaperCatalogs
-                    .Include(paper => paper.Size)
+                var setting = await _settingStore.GetSettings();
+
+                settingsInfoForWigetCalculation.Paper = setting.PaperCatalog
                     .Where(paper => paper.Status > 0)
                     .OrderBy(paper => paper.Id)
-                    .ToListAsync();
-                settingsInfoForWigetCalculation.Lamination = await _applicationContext.Laminations
+                    .ToList();
+                settingsInfoForWigetCalculation.Lamination = setting.Laminations
                     .Where(lamination => lamination.Status > 0)
                     .OrderBy(lamunation => lamunation.Id)
-                    .ToListAsync();
-                settingsInfoForWigetCalculation.commonToAllMarkups = await _applicationContext.CommonToAllMarkups
-                    .ToListAsync();
+                    .ToList();
+                settingsInfoForWigetCalculation.commonToAllMarkups = setting.CommonToAllMarkups
+                    .ToList();
             }
             catch (Exception ex)
             {

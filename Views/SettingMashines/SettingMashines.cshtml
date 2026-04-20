@@ -49,67 +49,67 @@
             </div>
             <div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].ConsumableOther</p>
+                    <p>@Model.PrintingsMachines.ConsumableOther</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].AdjustmenPrice</p>
+                    <p>@Model.PrintingsMachines.AdjustmenPrice</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].ConsumableDye</p>
+                    <p>@Model.PrintingsMachines.ConsumableDye</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].MainConsumableForDrawing</p>
+                    <p>@Model.PrintingsMachines.MainConsumableForDrawing</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].MaximumSizeLength</p>
+                    <p>@Model.PrintingsMachines.MaximumSizeLength</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].MaximumSizeWidth</p>
+                    <p>@Model.PrintingsMachines.MaximumSizeWidth</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].WhiteFieldHeight</p>
+                    <p>@Model.PrintingsMachines.WhiteFieldHeight</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].WhiteFieldWidth</p>
+                    <p>@Model.PrintingsMachines.WhiteFieldWidth</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].FieldForLabels</p>
+                    <p>@Model.PrintingsMachines.FieldForLabels</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.PrintingsMachines[0].Bleed</p>
+                    <p>@Model.PrintingsMachines.Bleed</p>
                 </div>
 
             </div>
             <div>
                 <div class="t2">
-                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PrintingsMachines[0].ConsumableOther">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PrintingsMachines.ConsumableOther">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PrintingsMachines[0].AdjustmenPrice">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PrintingsMachines.AdjustmenPrice">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="ConsumableDye" type="number" value="@Model.PrintingsMachines[0].ConsumableDye">
+                    <input class="inputNumber" name="ConsumableDye" type="number" value="@Model.PrintingsMachines.ConsumableDye">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="MainConsumableForDrawing" type="number" value="@Model.PrintingsMachines[0].MainConsumableForDrawing">
+                    <input class="inputNumber" name="MainConsumableForDrawing" type="number" value="@Model.PrintingsMachines.MainConsumableForDrawing">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="MaximumSizeLength" type="number" value="@Model.PrintingsMachines[0].MaximumSizeLength">
+                    <input class="inputNumber" name="MaximumSizeLength" type="number" value="@Model.PrintingsMachines.MaximumSizeLength">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="MaximumSizeWidth" type="number" value="@Model.PrintingsMachines[0].MaximumSizeWidth">
+                    <input class="inputNumber" name="MaximumSizeWidth" type="number" value="@Model.PrintingsMachines.MaximumSizeWidth">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="WhiteFieldHeight" type="number" value="@Model.PrintingsMachines[0].WhiteFieldHeight">
+                    <input class="inputNumber" name="WhiteFieldHeight" type="number" value="@Model.PrintingsMachines.WhiteFieldHeight">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="WhiteFieldWidth" type="number" value="@Model.PrintingsMachines[0].WhiteFieldWidth">
+                    <input class="inputNumber" name="WhiteFieldWidth" type="number" value="@Model.PrintingsMachines.WhiteFieldWidth">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="FieldForLabels" type="number" value="@Model.PrintingsMachines[0].FieldForLabels">
+                    <input class="inputNumber" name="FieldForLabels" type="number" value="@Model.PrintingsMachines.FieldForLabels">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="Bleed" type="number" value="@Model.PrintingsMachines[0].Bleed">
+                    <input class="inputNumber" name="Bleed" type="number" value="@Model.PrintingsMachines.Bleed">
                 </div>
                 <div class="del">
                     <input class="inputNumber" name="NameMachine" type="number" value="180">
@@ -233,7 +233,7 @@
         </div>
     </div>
 
-    @foreach (Markup markups in Model.PrintingsMachines.First(x => x.NameMachine == "180").Markups.OrderBy(x => x.Page))
+    @foreach (Markup markups in Model.PrintingsMachines.Markups.OrderBy(x => x.Page))
     {
         <form class="markup">
             <div class="t">

@@ -13,49 +13,49 @@ namespace printing_calculator.controllers.WebApi
         private readonly ApplicationContext _applicationContext;
         private readonly ILogger<CalculatorResultController> _logger;
         private readonly ConveyorCalculator _calculator;
-        private readonly GeneratorHistory _generatorHistory;
+        //private readonly GeneratorHistory _generatorHistory;
 
         public VerySimpleCalculationController(ApplicationContext applicationContext,
             ILogger<CalculatorResultController> loggerFactory,
             ConveyorCalculator conveyorCalculator,
-            GeneratorHistory generatorHistory,
+            //GeneratorHistory generatorHistory,
             Validation validation)
         {
             _applicationContext = applicationContext;
             _logger = loggerFactory;
             _calculator = conveyorCalculator;
-            _generatorHistory = generatorHistory;
+            //_generatorHistory = generatorHistory;
         }
 
-        [HttpGet]
-        [Route("{historyId}/{newAmount}")]
-        public async Task<ActionResult<int>> Recalculation(int historyId, int newAmount, CancellationToken cancellationToken)
-        {
-            СalculationHistory history;
+    //    [HttpGet]
+    //    [Route("{historyId}/{newAmount}")]
+    //    public async Task<ActionResult<int>> Recalculation(int historyId, int newAmount, CancellationToken cancellationToken)
+    //    {
+    //        СalculationHistory history;
 
-            CalculationResult result;
-            (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
+    //        CalculationResult result;
+    //        (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(historyId, newAmount, cancellationToken);
 
-            if (tryAnswer.Status != StatusAnswer.Ok)
-            {
-                _logger.LogError("не удался расчет для данных из Input");
-                return -1;
-            }
+    //        if (tryAnswer.Status != StatusAnswer.Ok)
+    //        {
+    //            _logger.LogError("не удался расчет для данных из Input");
+    //            return -1;
+    //        }
 
-            try
-            {
-				history.DateTime = DateTime.UtcNow;
-				_applicationContext.InputsHistories.Add(history.Input);
-                _applicationContext.Histories.Add(history);
+    //        try
+    //        {
+				//history.DateTime = DateTime.UtcNow;
+				//_applicationContext.InputsHistories.Add(history.Input);
+    //            _applicationContext.Histories.Add(history);
 
-                await _applicationContext.SaveChangesAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "не удалось сохранить просчет");
-            }
+    //            await _applicationContext.SaveChangesAsync(cancellationToken);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            _logger.LogError(ex, "не удалось сохранить просчет");
+    //        }
 
-            return result.Price;
-        }
+    //        return result.Price;
+    //    }
     }
 }

@@ -13,9 +13,9 @@
         /// </summary>
         public int PiecesPerSheet { get; set; }
         public float ConsumablePrinterPrice { get; set; }
-        public bool ActualConsumablePrice { get; set; }
+        //public bool ActualConsumablePrice { get; set; }
         public int CostConsumablePrise { get; set; }
-        public bool ActualCostPrise { get; set; }
+        //public bool ActualCostPrise { get; set; }
         public int MarkupPaper { get; set; }
         public bool ActualMarkupPaper { get; set; }
         public int CutPrics { get; set; }

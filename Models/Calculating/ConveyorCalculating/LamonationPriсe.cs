@@ -6,9 +6,9 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class LamonationPriсe : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
 
-        public LamonationPriсe(Setting settings)
+        public LamonationPriсe(ISettingCalculation settings)
         {
             _settings = settings; 
         }
@@ -27,7 +27,7 @@ namespace printing_calculator.Models.ConveyorCalculating
             {
                 if (history.Input.Lamination != null)
                 {
-                    int price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _settings.Machines[0].AdjustmenPrice);
+                    int price = Convert.ToInt32((result.LaminationResult.CostPrice * ((result.LaminationResult.Markup + 100) / (float)100)) + _settings.PrintingsMachine.AdjustmenPrice);
                     result.LaminationResult.Price = price;
                     result.Price += price;
                     return Task.FromResult((history, result, new StatusCalculation()

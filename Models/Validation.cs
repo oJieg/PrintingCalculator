@@ -1,23 +1,23 @@
-﻿using printing_calculator.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using printing_calculator.DataBase.setting;
+﻿using printing_calculator.DataBase.setting;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.ViewModels;
 
 namespace printing_calculator.Models
 {
     public class Validation
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _applicationContext;
         private PrintingMachineSetting? _printingMachineSetting;
 
-        public Validation(ApplicationContext applicationContext)
+        public Validation(ISettingStore applicationContext)
         {
             _applicationContext = applicationContext;
         }
 
         public async Task<bool> TryValidateInputAsync(Input input, CancellationToken cancellationToken)
         {
-            _printingMachineSetting = _applicationContext.PrintingMachinesSettings.FirstOrDefault();
+            var setting = await _applicationContext.GetSettings();
+            _printingMachineSetting = setting.PrintingsMachine;
             if (_printingMachineSetting == null)
             {
                 return false;
@@ -26,26 +26,28 @@ namespace printing_calculator.Models
             return input != null &&
                 TryValidationSize(input.Whidth) &&
                 TryValidationSize(input.Height) &&
-                await TryValidationNamePaperAsync(input.Paper, cancellationToken) &&
+                await TryValidationNamePaperAsync(input.Paper) &&
                 IsPositiveNumber(input.Amount) &&
                 IsPositiveNumber(input.Kinds) &&
-                await TryValidationLaminationName(input.LaminationName, cancellationToken) &&
+                await TryValidationLaminationName(input.LaminationName) &&
                 TryValidationPos(input.Creasing) &&
                 TryValidationPos(input.Drilling);
         }
 
         private bool TryValidationSize(int size)
         {
+
             return size > 0 && size < _printingMachineSetting.MaximumSizeLength;
         }
 
-        private async Task<bool> TryValidationNamePaperAsync(string namePaper, CancellationToken cancellationToken)
+        private async Task<bool> TryValidationNamePaperAsync(string namePaper)
         {
             try
             {
-                return await _applicationContext.PaperCatalogs
-                    .AsNoTracking()
-                    .AnyAsync(paperCatalogs => paperCatalogs.Name == namePaper, cancellationToken);
+                var setting = await _applicationContext.GetSettings();
+
+                return setting.PaperCatalog
+                    .Any(paperCatalogs => paperCatalogs.Name == namePaper);
             }
             catch (OperationCanceledException)
             {
@@ -53,15 +55,16 @@ namespace printing_calculator.Models
             }
         }
 
-        private async Task<bool> TryValidationLaminationName(string? nameLamination, CancellationToken cancellationToken)
+        private async Task<bool> TryValidationLaminationName(string? nameLamination)
         {
             if (nameLamination != null && nameLamination != string.Empty)
             {
                 try
                 {
-                    return await _applicationContext.Laminations
-                        .AsNoTracking()
-                        .AnyAsync(laminations => laminations.Name == nameLamination, cancellationToken);
+                    var setting = await _applicationContext.GetSettings();
+
+                    return setting.Laminations
+                        .Any(laminations => laminations.Name == nameLamination);
                 }
                 catch (OperationCanceledException)
                 {

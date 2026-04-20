@@ -6,8 +6,8 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperSplitting : IConveyor
     {
-        private readonly Setting _settings;
-        public PaperSplitting(Setting settings)
+        private readonly ISettingCalculation _settings;
+        public PaperSplitting(ISettingCalculation settings)
         {
             _settings = settings;
         }
@@ -32,8 +32,8 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private int PiecePerSheet(SizePaper sizePaper, float SizeProdyctionHeight, float SizeProdyctionWidth)
         {
-            int SizePaperHeight = sizePaper.Height - (int)_settings.PrintingsMachines[0].WhiteFieldHeight;
-            int SizePaperWidth = sizePaper.Width - (int)_settings.PrintingsMachines[0].WhiteFieldWidth;
+            int SizePaperHeight = sizePaper.Height - (int)_settings.PrintingsMachine.WhiteFieldHeight;
+            int SizePaperWidth = sizePaper.Width - (int)_settings.PrintingsMachine.WhiteFieldWidth;
 
             int HorizontOrientation = Splitting(SizePaperHeight, SizePaperWidth, SizeProdyctionHeight, SizeProdyctionWidth);
             int VerticalOrientation = Splitting(SizePaperWidth, SizePaperHeight, SizeProdyctionHeight, SizeProdyctionWidth);
@@ -50,11 +50,11 @@ namespace printing_calculator.Models.ConveyorCalculating
 
         private int Splitting(int sizePaperHorizontal, int sizePaperHVertical, float sizeProdyctionHeight, float sizeProdyctionWidth)
         {
-            sizeProdyctionHeight += _settings.PrintingsMachines[0].Bleed;
-            sizeProdyctionWidth += _settings.PrintingsMachines[0].Bleed;
+            sizeProdyctionHeight += _settings.PrintingsMachine.Bleed;
+            sizeProdyctionWidth += _settings.PrintingsMachine.Bleed;
 
-            sizePaperHorizontal -= _settings.PrintingsMachines[0].FieldForLabels;
-            sizePaperHVertical -= _settings.PrintingsMachines[0].FieldForLabels;
+            sizePaperHorizontal -= _settings.PrintingsMachine.FieldForLabels;
+            sizePaperHVertical -= _settings.PrintingsMachine.FieldForLabels;
 
             int horizontal = (int)((float)sizePaperHorizontal / sizeProdyctionHeight);
             int vertical = (int)((float)sizePaperHVertical / sizeProdyctionWidth);

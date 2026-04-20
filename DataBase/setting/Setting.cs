@@ -3,9 +3,9 @@
     public class Setting
     {
         public int Id { get; set; }
-        public List<PrintingMachineSetting> PrintingsMachines { get; set; }
-        public List<MachineSetting> Machines { get; set; }
-        public List<PosMachinesSetting> PosMachines { get; set;}
-        public List<CommonToAllMarkup> CommonToAllMarkups { get; set; }
+        public PrintingMachineSetting PrintingsMachines { get; set; }
+        public MachineSetting[] Machines { get; set; }
+        public PosMachinesSetting[] PosMachines { get; set;}
+        public CommonToAllMarkup[] CommonToAllMarkups { get; set; }
     }
 }

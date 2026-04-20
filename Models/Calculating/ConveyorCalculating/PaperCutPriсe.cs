@@ -6,10 +6,10 @@ namespace printing_calculator.Models.ConveyorCalculating
 {
     public class PaperCutPriсe : IConveyor
     {
-        private readonly Setting _settings;
+        private readonly ISettingCalculation _settings;
         private  int? _countOfPapersInOneAdjustmentCut; //количество листов в одной привертке при резке
 
-        public PaperCutPriсe(Setting settings)
+        public PaperCutPriсe(ISettingCalculation settings)
         {
             _settings = settings;
         }

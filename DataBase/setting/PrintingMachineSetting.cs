@@ -42,6 +42,7 @@
         /// </summary>
         public int MainConsumableForDrawing { get; set; } 
 
+        public ConsumablePrice ConsumablePrice { get; set; }
 
     }
 }

@@ -8,13 +8,11 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 {
 	public class PosSpringBrochure : IConveyor
 	{
-		private readonly Setting _settings;
-		private readonly ApplicationContext _applicationContext;
+		private readonly ISettingCalculation _settings;
 
-		public PosSpringBrochure(Setting settings, ApplicationContext applicationContext)
+		public PosSpringBrochure(ISettingCalculation settings)
 		{
 			_settings = settings;
-			_applicationContext = applicationContext;
 		}
 
 		public Task<(СalculationHistory, CalculationResult, StatusCalculation)> TryConveyorStartAsync(СalculationHistory history, CalculationResult result, CancellationToken cancellationToken)
@@ -31,7 +29,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 				return Task.FromResult((history, result, new StatusCalculation()));
 			}
 
-			SpringBrochureSetting springBrochureSetting = _applicationContext.SpringBrochureSettings.Include(x => x.SpringPrice).First();
+			SpringBrochureSetting springBrochureSetting = _settings.SpringBrochureSettings.First();
 			float paperThickness = history.Input.Paper.PaperThickness;
 
 			if (history.Input.Kinds >= ConvertMmToPageCount( springBrochureSetting.SpringPrice.Max(x => x.Page),paperThickness))
@@ -72,7 +70,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 					break;
 			}
 
-			result.SpringBrochure.Price += Convert.ToInt32(_settings.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther * history.Input.Amount);
+			result.SpringBrochure.Price += Convert.ToInt32(_settings.PosMachines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther * history.Input.Amount);
 
 			result.SpringBrochure.SpringBrochure = history.Input.SpringBrochure;
 
@@ -95,7 +93,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 
 		private int AddMashineSetting(CalculationResult result)
 		{
-			MachineSetting machineSetting = _settings.Machines.First(x => x.NameMachine == "SpringBrochure");
+			MachineSetting machineSetting = _settings.PosMachines.First(x => x.NameMachine == "SpringBrochure");
 			CalculatingMarkup markups = new(machineSetting.Markups);
 			int markup = markups.GetMarkup(result.Amount) ;
 			if(markup == 0)

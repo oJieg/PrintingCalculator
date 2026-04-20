@@ -20,64 +20,64 @@ namespace printing_calculator.controllers.WebApi
             _calculator = conveyorCalculator;
         }
 
-        [HttpGet("api/get-result{id}")]
-        public async Task<ApiResultAnswer> GetResult(int id)
-        {
-            СalculationHistory? history;
-            CalculationResult result;
-            try
-            {
-                (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
+        //[HttpGet("api/get-result{id}")]
+        //public async Task<ApiResultAnswer> GetResult(int id)
+        //{
+        //    СalculationHistory? history;
+        //    CalculationResult result;
+        //    try
+        //    {
+        //        (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
 
-                if (tryAnswer.Status != StatusAnswer.Ok)
-                {
-                    _logger.LogError("не удался расчет на конвейере");
-                    return new ApiResultAnswer() { Status = tryAnswer };
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
-            }
+        //        if (tryAnswer.Status != StatusAnswer.Ok)
+        //        {
+        //            _logger.LogError("не удался расчет на конвейере");
+        //            return new ApiResultAnswer() { Status = tryAnswer };
+        //        }
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        return new ApiResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
+        //    }
 
-            result.HistoryInputId = id;
+        //    result.HistoryInputId = id;
 
-            return new ApiResultAnswer()
-            {
-                Status = new StatusCalculation() { Status = StatusAnswer.Ok },
-                Result = result,
-                IdHistory = id
-            };
-        }
+        //    return new ApiResultAnswer()
+        //    {
+        //        Status = new StatusCalculation() { Status = StatusAnswer.Ok },
+        //        Result = result,
+        //        IdHistory = id
+        //    };
+        //}
 
-        [HttpGet("api/get-simpl-result{id}")]
-        public async Task<ApiSimplResultAnswer> GetSimplResult(int id)
-        {
-            СalculationHistory? history;
-            CalculationResult result;
-            try
-            {
-                (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
+        //[HttpGet("api/get-simpl-result{id}")]
+        //public async Task<ApiSimplResultAnswer> GetSimplResult(int id)
+        //{
+        //    СalculationHistory? history;
+        //    CalculationResult result;
+        //    try
+        //    {
+        //        (history, result, StatusCalculation tryAnswer) = await _calculator.TryStartCalculation(id, new CancellationToken());
 
-                if (tryAnswer.Status != StatusAnswer.Ok)
-                {
-                    _logger.LogError("не удался расчет на конвейере");
-                    return new ApiSimplResultAnswer() { Status = tryAnswer };
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                return new ApiSimplResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
-            }
+        //        if (tryAnswer.Status != StatusAnswer.Ok)
+        //        {
+        //            _logger.LogError("не удался расчет на конвейере");
+        //            return new ApiSimplResultAnswer() { Status = tryAnswer };
+        //        }
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        return new ApiSimplResultAnswer() { Status = new StatusCalculation() { Status = StatusAnswer.Cancellation } };
+        //    }
 
-            result.HistoryInputId = id;
+        //    result.HistoryInputId = id;
 
-            return new ApiSimplResultAnswer()
-            {
-                Status = new StatusCalculation() { Status = StatusAnswer.Ok },
-                SimplResult = Converter.HistoryToSimplResult(history),
-                IdHistory = id
-            };
-        }
+        //    return new ApiSimplResultAnswer()
+        //    {
+        //        Status = new StatusCalculation() { Status = StatusAnswer.Ok },
+        //        SimplResult = Converter.HistoryToSimplResult(history),
+        //        IdHistory = id
+        //    };
+        //}
     }
 }

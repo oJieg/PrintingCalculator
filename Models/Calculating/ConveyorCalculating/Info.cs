@@ -15,7 +15,7 @@ namespace printing_calculator.Models.ConveyorCalculating
 				}));
 			}
 
-            result.HistoryInputId = history.Id;
+            //result.HistoryInputId = history.Id;
             result.Amount = history.Input.Amount;
             result.Kinds = history.Input.Kinds;
             result.Height = history.Input.Height;

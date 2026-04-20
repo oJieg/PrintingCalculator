@@ -1,159 +1,553 @@
 {
-  "PrintingsMachines": [
+  "paperCatalog": [
     {
-      "Id": 1,
-      "NameMachine": "Heidelberg XL 106",
-      "Markups": [
+      "id": 2,
+      "name": "DNS 90",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 4.32000017
+    },
+    {
+      "id": 14,
+      "name": "NEVIA (мел.) SILK 300г/м2 (450 x 320)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 12
+    },
+    {
+      "id": 12,
+      "name": "СС 350 г/м2 (450 x 320)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 40
+    },
+    {
+      "id": 13,
+      "name": "DNS 90г/м2 (450 x 320)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 7
+    },
+    {
+      "id": 18,
+      "name": "BURANO (черный)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.109999999,
+      "prices": 80
+    },
+    {
+      "id": 20,
+      "name": "ICE LASER 300г/м2 (белый) \"ЛЁН\"",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 1,
+      "prices": 63
+    },
+    {
+      "id": 1,
+      "name": "Нулевая бумага",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 1,
+      "prices": 0
+    },
+    {
+      "id": 11,
+      "name": "UPM (мел.) 130г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.129999995,
+      "prices": 5.5999999
+    },
+    {
+      "id": 21,
+      "name": "NEVIA (мел.) SILK 350г/м2 (450 x 320)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0,
+      "prices": 15.1999998
+    },
+    {
+      "id": 17,
+      "name": "DNS 90г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.115000002,
+      "prices": 6
+    },
+    {
+      "id": 7,
+      "name": "NEVIA (мел.) 250г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.230000004,
+      "prices": 10.3999996
+    },
+    {
+      "id": 8,
+      "name": "NEVIA (мел.) 200г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.200000003,
+      "prices": 8.39999962
+    },
+    {
+      "id": 15,
+      "name": "NEVIA (мел.) SILK 300г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.280000001,
+      "prices": 13
+    },
+    {
+      "id": 9,
+      "name": "NEVIA (мел.) 170г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.170000002,
+      "prices": 7.19999981
+    },
+    {
+      "id": 22,
+      "name": "А4 80гр/м2",
+      "size": {
+        "id": 2,
+        "name": "A4",
+        "height": 210,
+        "width": 297
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 1
+    },
+    {
+      "id": 3,
+      "name": "CC 400г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.389999986,
+      "prices": 38
+    },
+    {
+      "id": 4,
+      "name": "СС 300 г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.305000007,
+      "prices": 34
+    },
+    {
+      "id": 16,
+      "name": "СС 350 г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.344999999,
+      "prices": 36
+    },
+    {
+      "id": 10,
+      "name": "UPM (мел.) 170г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0.170000002,
+      "prices": 7.19999981
+    },
+    {
+      "id": 23,
+      "name": "COLORLAB 270г/м2 (оранж.))",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": -1,
+      "paperThickness": 0,
+      "prices": 89
+    },
+    {
+      "id": 24,
+      "name": "COLORLAB 270г/м2 (оранж.)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0,
+      "prices": 89
+    },
+    {
+      "id": 5,
+      "name": "DNS 200 г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.200000003,
+      "prices": 17.5
+    },
+    {
+      "id": 19,
+      "name": "MAJESTIC 290г/м2 (белый мрамор)",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 1,
+      "prices": 72
+    },
+    {
+      "id": 6,
+      "name": "DNS  160г/м2",
+      "size": {
+        "id": 1,
+        "name": "SRA3",
+        "height": 320,
+        "width": 450
+      },
+      "status": 1,
+      "paperThickness": 0.200000003,
+      "prices": 12
+    },
+    {
+      "id": 25,
+      "name": "Расчет наклейки",
+      "size": {
+        "id": 3,
+        "name": "271x370",
+        "height": 271,
+        "width": 370
+      },
+      "status": 1,
+      "paperThickness": 0,
+      "prices": 0
+    }
+  ],
+  "paperSizes": [
+    {
+      "id": 1,
+      "name": "SRA3",
+      "height": 320,
+      "width": 450
+    },
+    {
+      "id": 2,
+      "name": "A4",
+      "height": 210,
+      "width": 297
+    },
+    {
+      "id": 3,
+      "name": "271x370",
+      "height": 271,
+      "width": 370
+    }
+  ],
+  "laminations": [
+    {
+      "id": 4,
+      "name": "Матовая (1+1) ULTRABOND",
+      "price": 32,
+      "status": 1
+    },
+    {
+      "id": 3,
+      "name": "SoftTouch (1+1)",
+      "price": 24,
+      "status": 1
+    },
+    {
+      "id": 2,
+      "name": "Глянец (1+1)",
+      "price": 11,
+      "status": 1
+    },
+    {
+      "id": 1,
+      "name": "Матовая (1+1)",
+      "price": 11,
+      "status": 1
+    }
+  ],
+  "printingsMachine": {
+    "ConsumablePrice": {
+      "DrumPrice1": 100,
+      "DrumPrice2": 100,
+      "DrumPrice3": 100,
+      "DrumPrice4": 100,
+      "TonerPrice": 200
+    },
+    "whiteFieldWidth": 5,
+    "whiteFieldHeight": 6,
+    "maximumSizeLength": 2000,
+    "maximumSizeWidth": 320,
+    "fieldForLabels": 4,
+    "bleed": 3,
+    "consumableDye": 9100,
+    "mainConsumableForDrawing": 42900,
+    "id": 6,
+    "nameMachine": "180",
+    "markups": [
+      {
+        "id": 1,
+        "page": 0,
+        "markupForThisPage": 350
+      },
+      {
+        "id": 2,
+        "page": 10,
+        "markupForThisPage": 300
+      },
+      {
+        "id": 3,
+        "page": 50,
+        "markupForThisPage": 200
+      },
+      {
+        "id": 4,
+        "page": 100,
+        "markupForThisPage": 175
+      },
+      {
+        "id": 5,
+        "page": 250,
+        "markupForThisPage": 90
+      },
+      {
+        "id": 13,
+        "page": 20,
+        "markupForThisPage": 270
+      }
+    ],
+    "consumableOther": 3,
+    "adjustmenPrice": 50
+  },
+  "posMachines": [
+    {
+      "countOfPapersInOneAdjustmentCut": 100,
+      "addMoreHit": 0,
+      "id": 2,
+      "nameMachine": "cuting",
+      "markups": [
         {
-          "Id": 1,
-          "Percent": 12.5,
-          "Description": "Стандартная наценка"
+          "id": 9,
+          "page": 0,
+          "markupForThisPage": 0
+        }
+      ],
+      "consumableOther": 5,
+      "adjustmenPrice": 0
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 1,
+      "id": 3,
+      "nameMachine": "creasing",
+      "markups": [
+        {
+          "id": 10,
+          "page": 0,
+          "markupForThisPage": 0
+        }
+      ],
+      "consumableOther": 1,
+      "adjustmenPrice": 250
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 0.600000024,
+      "id": 4,
+      "nameMachine": "drilling",
+      "markups": [
+        {
+          "id": 11,
+          "page": 0,
+          "markupForThisPage": 0
+        }
+      ],
+      "consumableOther": 0.600000024,
+      "adjustmenPrice": 200
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 0,
+      "id": 5,
+      "nameMachine": "rounding",
+      "markups": [
+        {
+          "id": 12,
+          "page": 0,
+          "markupForThisPage": 0
+        }
+      ],
+      "consumableOther": 0.5,
+      "adjustmenPrice": 250
+    }
+  ],
+  "commonToAllMarkups": [
+    {
+      "id": 10,
+      "name": "Срочно",
+      "description": "Изготовление 1 ЧАС",
+      "percentMarkup": 100,
+      "adjustmen": 200
+    },
+    {
+      "id": 11,
+      "name": "3234234",
+      "description": "Изготовление В ТЕЧЕНИИ ДНЯ",
+      "percentMarkup": 50,
+      "adjustmen": 0
+    }
+  ],
+  "springBrochureSettings": [
+    {
+      "id": 1,
+      "springPrice": [
+        {
+          "id": 16,
+          "page": 23,
+          "markupForThisPage": 400
         },
         {
-          "Id": 2,
-          "Percent": 25.0,
-          "Description": "Срочная печать"
-        }
-      ],
-      "ConsumableOther": 0.35,
-      "AdjustmenPrice": 4500,
-      "WhiteFieldWidth": 12.5,
-      "WhiteFieldHeight": 10.2,
-      "MaximumSizeLength": 700,
-      "MaximumSizeWidth": 500,
-      "FieldForLabels": 8,
-      "Bleed": 3,
-      "ConsumableDye": 12000,
-      "MainConsumableForDrawing": 60000
-    },
-    {
-      "Id": 2,
-      "NameMachine": "Komori Lithrone G40",
-      "Markups": [
+          "id": 17,
+          "page": 16,
+          "markupForThisPage": 350
+        },
         {
-          "Id": 3,
-          "Percent": 10.0,
-          "Description": "Базовая наценка"
-        }
-      ],
-      "ConsumableOther": 0.28,
-      "AdjustmenPrice": 3800,
-      "WhiteFieldWidth": 10.0,
-      "WhiteFieldHeight": 8.5,
-      "MaximumSizeLength": 640,
-      "MaximumSizeWidth": 450,
-      "FieldForLabels": 6,
-      "Bleed": 2,
-      "ConsumableDye": 10000,
-      "MainConsumableForDrawing": 50000
-    }
-  ],
-  "Machines": [
-    {
-      "Id": 3,
-      "NameMachine": "Guillotine Cutter 115",
-      "Markups": [
+          "id": 18,
+          "page": 10,
+          "markupForThisPage": 300
+        },
         {
-          "Id": 4,
-          "Percent": 8.0,
-          "Description": "Резка"
-        }
-      ],
-      "ConsumableOther": 0.15,
-      "AdjustmenPrice": 1200
-    },
-    {
-      "Id": 4,
-      "NameMachine": "Stahlfolder KH 82",
-      "Markups": [
+          "id": 19,
+          "page": 6,
+          "markupForThisPage": 250
+        },
         {
-          "Id": 5,
-          "Percent": 9.5,
-          "Description": "Фальцовка"
-        }
-      ],
-      "ConsumableOther": 0.20,
-      "AdjustmenPrice": 1800
-    },
-    {
-      "Id": 7,
-      "NameMachine": "Perfect Binder",
-      "Markups": [
+          "id": 20,
+          "page": 3,
+          "markupForThisPage": 225
+        },
         {
-          "Id": 6,
-          "Percent": 15.0,
-          "Description": "Клейка"
-        }
-      ],
-      "ConsumableOther": 0.45,
-      "AdjustmenPrice": 3200
-    }
-  ],
-  "PosMachines": [
-    {
-      "Id": 5,
-      "NameMachine": "Polar D 115",
-      "Markups": [
+          "id": 21,
+          "page": 2,
+          "markupForThisPage": 200
+        },
         {
-          "Id": 7,
-          "Percent": 7.5,
-          "Description": "Пост-печать"
+          "id": 14,
+          "page": 28,
+          "markupForThisPage": 500
         }
       ],
-      "ConsumableOther": 0.18,
-      "AdjustmenPrice": 950,
-      "CountOfPapersInOneAdjustmentCut": 500,
-      "AddMoreHit": 0.25
-    },
-    {
-      "Id": 6,
-      "NameMachine": "Morgana BM 35",
-      "Markups": [
-        {
-          "Id": 8,
-          "Percent": 11.0,
-          "Description": "Биговка/перфорация"
-        }
-      ],
-      "ConsumableOther": 0.22,
-      "AdjustmenPrice": 1100,
-      "CountOfPapersInOneAdjustmentCut": 300,
-      "AddMoreHit": 0.30
-    },
-    {
-      "Id": 8,
-      "NameMachine": "Duplo DC-645",
-      "Markups": [
-        {
-          "Id": 9,
-          "Percent": 13.0,
-          "Description": "Подрезка"
-        }
-      ],
-      "ConsumableOther": 0.25,
-      "AdjustmenPrice": 1400,
-      "CountOfPapersInOneAdjustmentCut": 400,
-      "AddMoreHit": 0.20
-    }
-  ],
-  "CommonToAllMarkups": [
-    {
-      "Id": 1,
-      "Percent": 18.5,
-      "Description": "Общая наценка на печатные работы",
-      "IsActive": true
-    },
-    {
-      "Id": 2,
-      "Percent": 30.0,
-      "Description": "Наценка за срочность (менее 24ч)",
-      "IsActive": true
-    },
-    {
-      "Id": 3,
-      "Percent": 10.0,
-      "Description": "Наценка за малый тираж",
-      "IsActive": false
+      "coverCardboardA4Price": 50,
+      "coverCardboardA3Price": 70,
+      "coverPlasticA4Price": 25,
+      "coverPlasticA3Price": 50,
+      "priceForA3": 50
     }
   ]
 }
