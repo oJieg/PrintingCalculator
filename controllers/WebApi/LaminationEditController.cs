@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.Singletones.Interfases;
 
 namespace printing_calculator.controllers.WebApi
 {
@@ -9,13 +10,13 @@ namespace printing_calculator.controllers.WebApi
     [ApiController]
     public class LaminationEditController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _settingStore;
         private readonly ILogger<PaperEditController> _logger;
 
-        public LaminationEditController(ApplicationContext applicationContext,
+        public LaminationEditController(ISettingStore settingStore,
             ILogger<PaperEditController> logger)
         {
-            _applicationContext = applicationContext;
+            _settingStore = settingStore;
             _logger = logger;
         }
 
@@ -24,27 +25,21 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-                Lamination lamination;
-                if (_applicationContext.Laminations.Any(x => x.Name == addLamination.Name))
-                {
-                    lamination = await _applicationContext.Laminations
-                        .Where(x => x.Name == addLamination.Name)
-                        .FirstAsync();
-                    lamination.Price = addLamination.Price;
-                    lamination.Status = 1;
+                var setting = await _settingStore.GetCloneSetting();
 
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-
-                lamination = new Lamination()
+                setting.Laminations = setting.Laminations.Concat(new[]
                 {
-                    Name = addLamination.Name,
-                    Price = addLamination.Price,
-                    Status = 1
-                };
-                _applicationContext.Laminations.Add(lamination);
-                await _applicationContext.SaveChangesAsync();
+                    new Lamination
+                    {
+                        Id = setting.Laminations.Max(la => la.Id) + 1,
+                        Name = addLamination.Name,
+                        Price = addLamination.Price,
+                        Status = 1
+                    }
+                }).ToArray();
+
+                await _settingStore.SaveSettings(setting);
+
                 return true;
             }
             catch (Exception ex)
@@ -57,52 +52,22 @@ namespace printing_calculator.controllers.WebApi
         [HttpPut]
         public async Task<bool> Put(EditLamination editLamination)
         {
-            Lamination lamination;
             try
             {
-                lamination = await _applicationContext.Laminations
-                    .Where(la => la.Id == editLamination.id)
-                    .FirstAsync();
+                var setting = await _settingStore.GetCloneSetting();
+                var lamination = setting.Laminations.First(la => la.Id == editLamination.id);
+
+                lamination.Price = editLamination.newPrice;
+                lamination.Status = editLamination.status;
+
+                await _settingStore.SaveSettings(setting);
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "не удалось получить ламинацию для ее изменения");
                 return false;
             }
-
-            if (editLamination.status == -99 && editLamination.newPrice >= 0)
-            {
-                lamination.Price = editLamination.newPrice;
-                try
-                {
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-                catch
-                {
-                    _logger.LogError("не удалось сохранить изменение при попытки изменить ламинацию");
-                    return false;
-                }
-            }
-
-            if (editLamination.status >= 0)
-            {
-                if (lamination.Status == 0)
-                    lamination.Status = 1;
-                else lamination.Status = 0;
-
-                try
-                {
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-                catch
-                {
-                    _logger.LogError("не удалось изменить статус ламинации");
-                    return false;
-                }
-            }
-            return false;
         }
 
         [HttpDelete("{id}")]
@@ -110,11 +75,11 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-                Lamination lamination = await _applicationContext.Laminations
-                    .Where(la => la.Id == id)
-                    .FirstAsync();
+                var setting = await _settingStore.GetCloneSetting();
+                var lamination = setting.Laminations.First(x => x.Id == id);
                 lamination.Status = -1;
-                await _applicationContext.SaveChangesAsync();
+                
+                await _settingStore.SaveSettings(setting);
                 return true;
             }
             catch (Exception ex)
@@ -131,6 +96,7 @@ namespace printing_calculator.controllers.WebApi
         public string Name { get; set; }
         public float Price { get; set; }
     }
+
     public class EditLamination
     {
         public int id { get; set; }

@@ -39,10 +39,12 @@
                 {
                     string none = "";
                     string editStatus = "отключить";
+                    int newStatus = 0;
                     if (lamination.Status == 0)
                     {
                         none = "none";
                         editStatus = "подключить";
+                        newStatus = 1;
                     }
                     <tr id=@(lamination.Id.ToString()+"tr") class=@none>
                         <td>
@@ -66,7 +68,7 @@
                         <td>
                             <div class="textTableHistory">
                                 <form>
-                                    <input class="button" type="button" onclick="editLamination(@lamination.Id , @lamination.Status)" value=@editStatus>
+                                    <input class="button" type="button" onclick="editLamination(@lamination.Id , @newStatus)" value=@editStatus>
                                 </form>
                             </div>
                         </td>

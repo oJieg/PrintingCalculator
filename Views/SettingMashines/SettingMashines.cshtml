@@ -297,18 +297,18 @@
             </div>
             <div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "laminator").ConsumableOther</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "laminator").AdjustmenPrice</p>
                 </div>
             </div>
             <div>
                 <div class="t2">
-                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").ConsumableOther">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "laminator").ConsumableOther">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "laminator").AdjustmenPrice">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "laminator").AdjustmenPrice">
                 </div>
                 <div class="del">
                     <input class="inputNumber" name="NameMachine" type="text" value="laminator">
@@ -342,7 +342,7 @@
 
     <h3>Настройка наценки для ламинации!</h3>
 
-    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "laminator").Markups.OrderBy(x => x.Page))
+    @foreach (Markup markups in Model.PosMachines.First(x => x.NameMachine == "laminator").Markups.OrderBy(x => x.Page))
     {
         <form class="markup">
             <div class="t">
@@ -408,18 +408,18 @@
             </div>
             <div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice</p>
                 </div>
             </div>
             <div>
                 <div class="t2">
-                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "StapleBrochure").ConsumableOther">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "StapleBrochure").AdjustmenPrice">
                 </div>
                 <div class="del">
                     <input class="inputNumber" name="NameMachine" type="text" value="StapleBrochure">
@@ -453,7 +453,7 @@
 
     <h3>Настройка наценки для ламинации!</h3>
 
-    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "StapleBrochure").Markups.OrderBy(x => x.Page))
+    @foreach (Markup markups in Model.PosMachines.First(x => x.NameMachine == "StapleBrochure").Markups.OrderBy(x => x.Page))
     {
         <form class="markup">
             <div class="t">
@@ -519,18 +519,18 @@
             </div>
             <div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther</p>
                 </div>
                 <div class="t2">
-                    <p>@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice</p>
+                    <p>@Model.PosMachines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice</p>
                 </div>
             </div>
             <div>
                 <div class="t2">
-                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther">
+                    <input class="inputNumber" name="ConsumableOther" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "SpringBrochure").ConsumableOther">
                 </div>
                 <div class="t2">
-                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.Machines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice">
+                    <input class="inputNumber" name="AdjustmenPrice" type="number" value="@Model.PosMachines.First(x => x.NameMachine == "SpringBrochure").AdjustmenPrice">
                 </div>
                 <div class="del">
                     <input class="inputNumber" name="NameMachine" type="text" value="SpringBrochure">
@@ -564,7 +564,7 @@
 
     <h3>Настройка наценки для брощюровки пружиной!</h3>
 
-    @foreach (Markup markups in Model.Machines.First(x => x.NameMachine == "SpringBrochure").Markups.OrderBy(x => x.Page))
+    @foreach (Markup markups in Model.PosMachines.First(x => x.NameMachine == "SpringBrochure").Markups.OrderBy(x => x.Page))
     {
         <form class="markup">
             <div class="t">

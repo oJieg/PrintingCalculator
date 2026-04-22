@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using printing_calculator.DataBase;
 using Microsoft.EntityFrameworkCore;
+using printing_calculator.Singletones.Interfases;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,13 +11,13 @@ namespace printing_calculator.controllers.WebApi
     [ApiController]
     public class PaperEditController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly ISettingStore _settingStore;
         private readonly ILogger<PaperEditController> _logger;
 
-        public PaperEditController(ApplicationContext applicationContext,
+        public PaperEditController(ISettingStore settingStore,
             ILogger<PaperEditController> logger)
         {
-            _applicationContext = applicationContext;
+            _settingStore = settingStore;
             _logger = logger;
         }
 
@@ -25,31 +26,34 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-                if (_applicationContext.PaperCatalogs.Any(x => x.Name == paper.Name))
-                {
-                    PaperCatalog editPaper = await _applicationContext.PaperCatalogs
-                        .Where(x => x.Name == paper.Name)
-                        .FirstAsync();
-                    editPaper.Prices = paper.Price;
-                    editPaper.Size = await _applicationContext.SizePapers
-                        .Where(size => size.Name == paper.NameSize)
-                        .FirstAsync();
-                    editPaper.Status = 1;
+                var setting = await _settingStore.GetCloneSetting();
 
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-                PaperCatalog addPaper = new()
+                if (setting.PaperCatalog.Any(x => x.Name == paper.Name))
                 {
-                    Name = paper.Name,
-                    Prices = paper.Price,
-                    Size = await _applicationContext.SizePapers
-                    .Where(size => size.Name == paper.NameSize)
-                    .FirstAsync(),
-                    Status = 1
-                };
-                _applicationContext.PaperCatalogs.Add(addPaper);
-                await _applicationContext.SaveChangesAsync();
+                    var settingPaper = setting.PaperCatalog.First(x => x.Name == paper.Name);
+                    settingPaper.Name = paper.Name;
+                    settingPaper.Prices = paper.Price;
+                    settingPaper.Size = setting.PaperSizes.First(x => x.Name == paper.Name);
+                    settingPaper.Status = 1;
+                }
+                else
+                {
+                    setting.PaperCatalog = setting.PaperCatalog.Concat(new[]
+                    {
+                        new PaperCatalog
+                        {
+                            Id = setting.PaperCatalog.Max(x => x.Id) + 1,
+                            Name = paper.Name,
+                            Size = setting.PaperSizes.First(x => x.Name == paper.NameSize),
+                            Status = 1,
+                            PaperThickness = 0,
+                            Prices = paper.Price
+                        }
+                    }).ToArray();
+                }
+
+                await _settingStore.SaveSettings(setting);
+
                 return true;
             }
             catch (Exception ex)
@@ -65,50 +69,22 @@ namespace printing_calculator.controllers.WebApi
             PaperCatalog paper;
             try
             {
-                paper = await _applicationContext.PaperCatalogs
-                     .Where(paper => paper.Id == editPaper.id)
-                     .FirstAsync();
+                var setting = await _settingStore.GetCloneSetting();
+
+                var settingPaper = setting.PaperCatalog.First(x => x.Id == editPaper.id);
+                settingPaper.Prices = editPaper.newPrice;
+                settingPaper.Status = editPaper.status;
+                settingPaper.PaperThickness = editPaper.PaperThickness;
+
+                await _settingStore.SaveSettings(setting);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "не удалось получить бумагу при попытки изменении");
                 return false;
             }
-
-            if (editPaper.status == -99 && editPaper.newPrice >= 0)
-            {
-                paper.Prices = editPaper.newPrice;
-                paper.PaperThickness = editPaper.PaperThickness;
-                try
-                {
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-                catch
-                {
-                    _logger.LogError("не удалось поменять цену бумаги");
-                    return false;
-                }
-            }
-
-            if (editPaper.status >= 0)
-            {
-                if (paper.Status == 0)
-                    paper.Status = 1;
-                else paper.Status = 0;
-                try
-                {
-                    await _applicationContext.SaveChangesAsync();
-                    return true;
-                }
-                catch
-                {
-                    _logger.LogError("не удалось поменять статус бумаги");
-                    return false;
-                }
-            }
-
-            return false;
+            
+            return true;
         }
 
         [HttpDelete("{id}")]
@@ -116,11 +92,11 @@ namespace printing_calculator.controllers.WebApi
         {
             try
             {
-                PaperCatalog paperDelete = await _applicationContext.PaperCatalogs
-                      .Where(x => x.Id == id)
-                      .FirstAsync();
-                paperDelete.Status = -1;
-                await _applicationContext.SaveChangesAsync();
+                var setting = await _settingStore.GetCloneSetting();
+                var settingPaper = setting.PaperCatalog.First(x => x.Id == id);
+                settingPaper.Status = -1;
+                
+                await _settingStore.SaveSettings(setting);
                 return true;
             }
             catch (Exception ex)
@@ -138,8 +114,8 @@ namespace printing_calculator.controllers.WebApi
         public float newPrice { get; set; }
         public int status { get; set; }
         public float PaperThickness { get; set; }
+    }
 
-	}
     public class AddPaper
     {
         public string Name { get; set; }
