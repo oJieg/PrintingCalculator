@@ -374,11 +374,11 @@
   ],
   "printingsMachine": {
     "ConsumablePrice": {
-      "DrumPrice1": 100,
-      "DrumPrice2": 100,
-      "DrumPrice3": 100,
-      "DrumPrice4": 100,
-      "TonerPrice": 200
+      "DrumPrice1": 28100,
+      "DrumPrice2": 28100,
+      "DrumPrice3": 28100,
+      "DrumPrice4": 28100,
+      "TonerPrice": 55000
     },
     "whiteFieldWidth": 5,
     "whiteFieldHeight": 6,
@@ -485,6 +485,31 @@
       ],
       "consumableOther": 0.5,
       "adjustmenPrice": 250
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 0,
+      "id": 1,
+      "nameMachine": "laminator",
+      "markups": [
+        {
+          "id": 6,
+          "page": 0,
+          "markupForThisPage": 120
+        },
+        {
+          "id": 7,
+          "page": 30,
+          "markupForThisPage": 100
+        },
+        {
+          "id": 8,
+          "page": 150,
+          "markupForThisPage": 40
+        }
+      ],
+      "consumableOther": 30,
+      "adjustmenPrice": 100
     }
   ],
   "commonToAllMarkups": [
