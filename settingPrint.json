@@ -510,6 +510,41 @@
       ],
       "consumableOther": 30,
       "adjustmenPrice": 100
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 0,
+      "id": 7,
+      "nameMachine": "SpringBrochure",
+      "markups": [
+        {
+          "id": 15,
+          "page": 0,
+          "markupForThisPage": 0
+        }
+      ],
+      "consumableOther": 0,
+      "adjustmenPrice": 0
+    },
+    {
+      "countOfPapersInOneAdjustmentCut": 1,
+      "addMoreHit": 0,
+      "id": 8,
+      "nameMachine": "StapleBrochure",
+      "markups": [
+        {
+          "id": 22,
+          "page": 0,
+          "markupForThisPage": 0
+        },
+        {
+          "id": 24,
+          "page": 10,
+          "markupForThisPage": -30
+        }
+      ],
+      "consumableOther": 25,
+      "adjustmenPrice": 150
     }
   ],
   "commonToAllMarkups": [
