@@ -36,13 +36,17 @@ async function editPaper(id, paperStatus) {
         alert("ошибка изменения");
         return;
     }
-    if (paperStatus == -99) {
+    
+    let tr = document.getElementById(id + "tr");
+    if (paperStatus == 1) {
         oldPrice.innerHTML = newPrice + " руб";
         oldThickness.innerHTML = newThickness;
+        if (tr.matches('.none')) {
+            tr.setAttribute("class", "");
+        }
         return;
-    }
 
-    let tr = document.getElementById(id + "tr");
+    }
     if (tr.matches('.none')) {
 
         tr.setAttribute("class", "");

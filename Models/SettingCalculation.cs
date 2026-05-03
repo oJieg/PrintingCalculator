@@ -12,6 +12,6 @@ namespace printing_calculator.Models
         public PrintingMachineSetting PrintingsMachine { get; set; }
         public PosMachinesSetting[] PosMachines { get; set; }
         public CommonToAllMarkup[]  CommonToAllMarkups { get; set; }
-        public SpringBrochureSetting[] SpringBrochureSettings { get; set; }
+        public SpringBrochureSetting SpringBrochureSetting { get; set; }
     }
 }

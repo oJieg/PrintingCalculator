@@ -3,11 +3,11 @@
     "printing_calculator": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:40114/api/index.html",
+      "launchUrl": "http://localhost:4011/api/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://0.0.0.0:40114",
+      "applicationUrl": "http://0.0.0.0:4011",
       "dotnetRunMessages": true
     },
     "IIS Express": {
@@ -29,7 +29,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:40114",
+      "applicationUrl": "http://localhost:4011",
       "sslPort": 0
     }
   }

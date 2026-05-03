@@ -71,7 +71,7 @@
                             <div class="textTableHistory">
                                 <form>
                                     <input class="inputNumber" id=@(paperCatalog.Id.ToString()+"NewPrice") type="number" min="0" value=@paperCatalog.Prices.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
-                                    <input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+                                    <input class="button" type="button" onclick="editPaper(@paperCatalog.Id, 1)" value="изменить">
                                 </form>
                             </div>
                         </td>
@@ -79,7 +79,7 @@
                             <div class="textTableHistory">
                                 <form>
                                     <input class="inputNumber" id=@(paperCatalog.Id.ToString()+"NewThickness") type="number" min="0" value=@paperCatalog.PaperThickness.ToString(CultureInfo.CreateSpecificCulture("en-CA"))>
-                                    <input class="button" type="button" onclick="editPaper(@paperCatalog.Id, -99)" value="изменить">
+                                    <input class="button" type="button" onclick="editPaper(@paperCatalog.Id, 1)" value="изменить">
                                 </form>
                             </div>
                         </td>

@@ -563,8 +563,7 @@
       "adjustmen": 0
     }
   ],
-  "springBrochureSettings": [
-    {
+  "springBrochureSetting": {
       "id": 1,
       "springPrice": [
         {
@@ -609,5 +608,5 @@
       "coverPlasticA3Price": 50,
       "priceForA3": 50
     }
-  ]
+  
 }

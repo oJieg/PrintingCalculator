@@ -16,12 +16,16 @@
         alert("ошибка изменения");
         return;
     }
-    if (paperStatus == -99) {
-        p.innerHTML = newPrice;
+    let tr = document.getElementById(id + "tr");
+    if (paperStatus == 1) {
+        p.innerHTML = newPrice + " руб";
+        if(tr.matches('.none')) {
+            tr.setAttribute("class", "");
+        }
         return;
     }
 
-    let tr = document.getElementById(id + "tr");
+    
     if (tr.matches('.none')) {
 
         tr.setAttribute("class", "");
@@ -32,7 +36,7 @@
 }
 
 async function deleteLamination(id) {
-    if (!confirm("вы уверенны? Стоит удалять только если эту бумагу больше не продается или не планируется ее закупать")) {
+    if (!confirm("вы уверенны? Стоит удалять только если эту пленку больше не продается и не планируется ее закупать")) {
         return;
     }
     const respone = await fetch("/api/LaminationEdit/" + id, {

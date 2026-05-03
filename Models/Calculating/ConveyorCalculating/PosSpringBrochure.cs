@@ -29,7 +29,7 @@ namespace printing_calculator.Models.Calculating.ConveyorCalculating
 				return Task.FromResult((history, result, new StatusCalculation()));
 			}
 
-			SpringBrochureSetting springBrochureSetting = _settings.SpringBrochureSettings.First();
+			SpringBrochureSetting springBrochureSetting = _settings.SpringBrochureSetting;
 			float paperThickness = history.Input.Paper.PaperThickness;
 
 			if (history.Input.Kinds >= ConvertMmToPageCount( springBrochureSetting.SpringPrice.Max(x => x.Page),paperThickness))

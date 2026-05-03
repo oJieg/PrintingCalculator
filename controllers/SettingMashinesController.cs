@@ -76,8 +76,10 @@ namespace printing_calculator.controllers
                 MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
                 MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
 
-                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
-                markup = markupaAndName;
+                Markup markup = mashine.Markups.First(x => x.Id == markupaAndName.Id);
+
+                markup.MarkupForThisPage = markupaAndName.MarkupForThisPage;
+                markup.Page = markupaAndName.Page;
 
                 await _settingStore.SaveSettings(setting);
             }
@@ -102,9 +104,9 @@ namespace printing_calculator.controllers
                 MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
                 MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
 
-                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
+                Markup markup = mashine.Markups.First(x => x.Id == markupaAndName.Id);
 
-                mashine.Markups.Remove(markupaAndName);
+                mashine.Markups.Remove(markup);
                 await _settingStore.SaveSettings(setting);
             }
             catch (Exception ex)
@@ -129,6 +131,7 @@ namespace printing_calculator.controllers
                 MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
                 MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
 
+                markupaAndName.Id = mashine.Markups.Max(x => x.Id) + 1;
                 mashine.Markups.Add(markupaAndName);
 
                 await _settingStore.SaveSettings(setting);
@@ -155,7 +158,8 @@ namespace printing_calculator.controllers
                 MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
                 MachineSetting mashine = mashines.First(x => x.NameMachine == machineSetting.NameMachine);
 
-                mashine = machineSetting;
+                mashine.ConsumableOther = machineSetting.ConsumableOther;
+                mashine.AdjustmenPrice = machineSetting.AdjustmenPrice;
 
                 await _settingStore.SaveSettings(setting);
             }
@@ -167,9 +171,9 @@ namespace printing_calculator.controllers
 
             return new RedirectResult("/SettingMashines");
         }
-        public async Task<IActionResult> EdetPosMashines(PosMachinesSetting posMachinesSetting)
+        public async Task<IActionResult> EdetPosMashines(PosMachinesSetting newSetting)
         {
-            if (String.IsNullOrEmpty(posMachinesSetting.NameMachine))
+            if (String.IsNullOrEmpty(newSetting.NameMachine))
             {
                 return ErroMessageForEmptyName("Не удалось изменить PosMachinesSetting. Нет имени.");
             }
@@ -177,10 +181,12 @@ namespace printing_calculator.controllers
             try
             {
                 var setting = await _settingStore.GetCloneSetting();
-                MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
-                MachineSetting mashine = mashines.First(x => x.NameMachine == posMachinesSetting.NameMachine);
+                PosMachinesSetting mashine = setting.PosMachines.First(x => x.NameMachine == newSetting.NameMachine);
 
-                mashine = posMachinesSetting;
+                mashine.AdjustmenPrice = newSetting.AdjustmenPrice;
+                mashine.ConsumableOther = newSetting.ConsumableOther;
+                mashine.AddMoreHit = newSetting.AddMoreHit;
+                mashine.CountOfPapersInOneAdjustmentCut = mashine.CountOfPapersInOneAdjustmentCut;
 
                 await _settingStore.SaveSettings(setting);
             }

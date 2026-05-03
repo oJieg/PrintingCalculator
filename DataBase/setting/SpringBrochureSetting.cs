@@ -3,7 +3,7 @@
 	public class SpringBrochureSetting
 	{
 		public int Id { get; set; }
-		public List<Markup> SpringPrice { get; set; }
+		public Markup[] SpringPrice { get; set; }
 		public int CoverCardboardA4Price { get; set; }
 		public int CoverCardboardA3Price { get; set; }
 		public int CoverPlasticA4Price { get; set; }

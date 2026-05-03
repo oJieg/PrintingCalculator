@@ -27,9 +27,8 @@ namespace printing_calculator.controllers
             {
                 var setting = await _settingStore.GetSettings();
 
-                paperAndSize.PaperCatalog = setting.PaperCatalog.OrderBy(x=>x.Id).Where(x=>x.Status>=0).ToList();
+                paperAndSize.PaperCatalog = setting.PaperCatalog.OrderBy(x => x.Id).Where(x => x.Status >= 0).ToList();
                 paperAndSize.Size = setting.PaperSizes.ToList();
-
             }
             catch (Exception ex)
             {
@@ -46,7 +45,8 @@ namespace printing_calculator.controllers
             {
                 return BadRequest();
             }
-            newSizePaper.Name += newSizePaper.Height.ToString() + "x" + newSizePaper.Width.ToString(); 
+
+            newSizePaper.Name += newSizePaper.Height.ToString() + "x" + newSizePaper.Width.ToString();
             try
             {
                 var setting = await _settingStore.GetCloneSetting();
@@ -54,6 +54,7 @@ namespace printing_calculator.controllers
                 {
                     return new RedirectResult("/Setting/Paper");
                 }
+
                 setting.PaperSizes = setting.PaperSizes.Concat(new[] { newSizePaper }).ToArray();
 
                 await _settingStore.SaveSettings(setting);
@@ -63,6 +64,7 @@ namespace printing_calculator.controllers
                 _logger.LogError(ex, "неудалось добавить новый размер");
                 return new RedirectResult("/Setting/Paper");
             }
+
             return new RedirectResult("/Setting/Paper");
         }
 
@@ -72,12 +74,12 @@ namespace printing_calculator.controllers
             try
             {
                 var setting = await _settingStore.GetSettings();
-                 laminations =  setting.Laminations
+                laminations = setting.Laminations
                     .Where(l => l.Status >= 0)
                     .OrderBy(l => l.Id)
                     .ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "ошибка чтения списка ламинаций");
                 return NotFound();
@@ -105,10 +107,11 @@ namespace printing_calculator.controllers
 
         public async Task<IActionResult> EditConsumable(ConsumablePrice newConsumable)
         {
-            if(ValidationConsumable(newConsumable))
+            if (ValidationConsumable(newConsumable))
             {
                 return NotFound();
             }
+
             try
             {
                 var setting = await _settingStore.GetCloneSetting();
@@ -127,150 +130,135 @@ namespace printing_calculator.controllers
 
         public async Task<IActionResult> SpringBrochureSetting()
         {
-			SpringBrochureSetting springBrochureSetting = new();
+            SpringBrochureSetting springBrochureSetting = new();
 
-			try
-			{
+            try
+            {
                 var setting = await _settingStore.GetSettings();
-                springBrochureSetting = setting.SpringBrochureSettings
-                    .First();
+                springBrochureSetting = setting.SpringBrochureSetting;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("error db", ex);
+                return NotFound();
+            }
 
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("error db", ex);
-				return NotFound();
-			}
-
-			return View("SpringBrochureSetting", springBrochureSetting);
-		}
+            return View("SpringBrochureSetting", springBrochureSetting);
+        }
 
         public async Task<IActionResult> EditSpringBrochureSetting(SpringBrochureSetting springBrochureSetting)
         {
             var setting = await _settingStore.GetCloneSetting();
-            var springBrochure = setting.SpringBrochureSettings.FirstOrDefault(x => x.Id == springBrochureSetting.Id);
-            if (springBrochure == null)
-            {
-                springBrochureSetting.Id = setting.SpringBrochureSettings.Max(x => x.Id) + 1;
-                setting.SpringBrochureSettings = setting.SpringBrochureSettings.Concat(new[] { springBrochureSetting }).ToArray();
-            }
-            else
-            {
-                springBrochure = springBrochureSetting;
-
-            }
-
+            
+            springBrochureSetting.SpringPrice = setting.SpringBrochureSetting.SpringPrice;
+            setting.SpringBrochureSetting = springBrochureSetting;
+            
             await _settingStore.SaveSettings(setting);
-            return new RedirectResult("/Setting/SpringBrochureSetting");
-		}
 
-		private bool ValidationConsumable(ConsumablePrice newConsumable)
+            return new RedirectResult("/Setting/SpringBrochureSetting");
+        }
+
+        private bool ValidationConsumable(ConsumablePrice newConsumable)
         {
             return newConsumable.DrumPrice1 <= 0
-                && newConsumable.DrumPrice2 <= 0
-                && newConsumable.DrumPrice3 <= 0
-                && newConsumable.DrumPrice4 <= 0
-                && newConsumable.TonerPrice <= 0;
+                   && newConsumable.DrumPrice2 <= 0
+                   && newConsumable.DrumPrice3 <= 0
+                   && newConsumable.DrumPrice4 <= 0
+                   && newConsumable.TonerPrice <= 0;
         }
+
         private bool ValidationSize(SizePaper newSizePaper)
         {
             return newSizePaper.Height <= 100
-            && newSizePaper.Width <= 100;
+                   && newSizePaper.Width <= 100;
         }
 
         //да да, дублирование кода...
-		public async Task<IActionResult> EditMarkup(MarkupAndName markupaAndName)
-		{
-			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
-			{
-				return ErroMessageForEmptyName("Не удалось изменить Markup. Нет имени.");
-			}
-			try
-			{
-                var setting = await _settingStore.GetCloneSetting();
-                MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
-                MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
+        public async Task<IActionResult> EditSpringPrice(MarkupAndName markupaAndName)
+        {
+            if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+            {
+                return ErroMessageForEmptyName("Не удалось изменить Markup. Нет имени.");
+            }
 
-                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
-                markup = markupaAndName;
+            try
+            {
+                var setting = await _settingStore.GetCloneSetting();
+                
+                var springPrice = setting.SpringBrochureSetting.SpringPrice.First(x=>x.Id ==  markupaAndName.Id);
+                springPrice.MarkupForThisPage = markupaAndName.MarkupForThisPage;
+                springPrice.Page = markupaAndName.Page;
 
                 await _settingStore.SaveSettings(setting);
             }
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Ошибка доступа к бд. (EditMarkup)");
-				return View("Error", new string("Ошибка доступа к бд"));
-			}
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка доступа к бд. (EditMarkup)");
+                return View("Error", new string("Ошибка доступа к бд"));
+            }
 
-			return new RedirectResult("/Setting/SpringBrochureSetting");
-		}
+            return new RedirectResult("/Setting/SpringBrochureSetting");
+        }
 
-		public async Task<IActionResult> DelMarkup(MarkupAndName markupaAndName)
-		{
-			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
-			{
-				return ErroMessageForEmptyName("Не удалось удалить Markup. Нет имени.");
-			}
-			try
-			{
+        public async Task<IActionResult> DelEditSpringPrice(MarkupAndName markupaAndName)
+        {
+            if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+            {
+                return ErroMessageForEmptyName("Не удалось удалить Markup. Нет имени.");
+            }
+
+            try
+            {
                 var setting = await _settingStore.GetCloneSetting();
-                MachineSetting[] mashines = new MachineSetting[] { setting.PrintingsMachine }.Concat(setting.PosMachines).ToArray();
-                MachineSetting mashine = mashines.First(x => x.NameMachine == markupaAndName.NameMachine);
+                setting.SpringBrochureSetting.SpringPrice = setting.SpringBrochureSetting.SpringPrice.Where(x => x.Page != markupaAndName.Page).ToArray();
 
-                Markup markup = mashine.Markups.First(x => x.Page == markupaAndName.Page);
-
-                mashine.Markups.Remove(markupaAndName);
                 await _settingStore.SaveSettings(setting);
             }
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "ошибка доступа к бд. DelMarkup");
-				return View("Error", new string("Ошибка доступа к бд"));
-			}
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ошибка доступа к бд. DelMarkup");
+                return View("Error", new string("Ошибка доступа к бд"));
+            }
 
-			return new RedirectResult("/Setting/SpringBrochureSetting");
-		}
-		public async Task<IActionResult> AddMarkup(MarkupAndName markupaAndName)
-		{
-			if (String.IsNullOrEmpty(markupaAndName.NameMachine))
-			{
-				return ErroMessageForEmptyName("Не удалось добавить Markup. Нет имени.");
-			}
+            return new RedirectResult("/Setting/SpringBrochureSetting");
+        }
 
-			try
-			{
+        public async Task<IActionResult> AddSpringPrice(MarkupAndName markupaAndName)
+        {
+            if (String.IsNullOrEmpty(markupaAndName.NameMachine))
+            {
+                return ErroMessageForEmptyName("Не удалось добавить Markup. Нет имени.");
+            }
+
+            try
+            {
                 var setting = await _settingStore.GetCloneSetting();
-                SpringBrochureSetting[] mashines = setting.SpringBrochureSettings.ToArray();
-                SpringBrochureSetting mashine = mashines.First();
 
-                mashine.SpringPrice.Add(markupaAndName);
+                if (setting.SpringBrochureSetting.SpringPrice.Where(x => x.Page == markupaAndName.Page).Count() > 0)
+                {
+                    setting.SpringBrochureSetting.SpringPrice.First(x => x.Page == markupaAndName.Page).MarkupForThisPage = markupaAndName.MarkupForThisPage;
+                }
+                else
+                {
+                    markupaAndName.Id = setting.SpringBrochureSetting.SpringPrice.Max(x => x.Id) + 1;
+                    setting.SpringBrochureSetting.SpringPrice = setting.SpringBrochureSetting.SpringPrice.Concat(new[] { (Markup)markupaAndName }).ToArray();
+                }
 
                 await _settingStore.SaveSettings(setting);
-				//SpringBrochureSetting machineSetting = await _settingStore.SpringBrochureSettings
-				//	.Where(x => x.Id == 1)
-				//	.Include(x => x.SpringPrice)
-				//	.FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ошибка доступа к бд(AddMarkup)");
+                return View("Error", new string("Ошибка доступа к бд"));
+            }
 
-				//machineSetting.SpringPrice.Add(new Markup()
-				//{
-				//	MarkupForThisPage = markupaAndName.MarkupForThisPage,
-				//	Page = markupaAndName.Page
-				//});
+            return new RedirectResult("/Setting/SpringBrochureSetting");
+        }
 
-				//await _settingStore.SaveChangesAsync();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "ошибка доступа к бд(AddMarkup)");
-				return View("Error", new string("Ошибка доступа к бд"));
-			}
-
-			return new RedirectResult("/Setting/SpringBrochureSetting");
-		}
-		private IActionResult ErroMessageForEmptyName(string errorMessageForLog)
-		{
-			_logger.LogError(errorMessageForLog);
-			return View("Error", "не кооретные входящие данные");
-		}
-	}
+        private IActionResult ErroMessageForEmptyName(string errorMessageForLog)
+        {
+            _logger.LogError(errorMessageForLog);
+            return View("Error", "не кооретные входящие данные");
+        }
+    }
 }

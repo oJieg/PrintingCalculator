@@ -1,6 +1,5 @@
 ﻿@model SpringBrochureSetting
 @using printing_calculator.DataBase.setting;
-
 @{
     Layout = "_Layout";
 }
@@ -8,6 +7,7 @@
 @section Style {
     <link rel="stylesheet" type="text/css" href="/SettingMashines.css">
 }
+
 <div class="main-body">
     <h3>Настройки ламинации</h3>
 
@@ -99,10 +99,10 @@
                     <input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
                 </div>
                 <div class="t2">
-                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/EditMarkup" value="изменить">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/EditSpringPrice" value="изменить">
                 </div>
                 <div class="t2">
-                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/DelMarkup" value="удалить">
+                    <input class="buttonMini" type="submit" formmethod="post" formaction="/Setting/DelEditSpringPrice" value="удалить">
                 </div>
             </div>
         </form>
@@ -128,7 +128,7 @@
                 <input class="inputNumber" name="NameMachine" type="text" value="SpringPrice">
             </div>
         </div>
-        <input class="button" type="submit" formmethod="post" formaction="/Setting/AddMarkup" value="добавить">
+        <input class="button" type="submit" formmethod="post" formaction="/Setting/AddSpringPrice" value="добавить">
     </form>
 
 
