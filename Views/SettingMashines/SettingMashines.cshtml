@@ -8,6 +8,23 @@
 @section Style {
     <link rel="stylesheet" type="text/css" href="/SettingMashines.css">
 }
+@section JS {
+    <script>
+        // Сохраняем позицию скролла перед отправкой любой формы
+        document.addEventListener('submit', function() {
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+        });
+
+        // Восстанавливаем позицию после полной загрузки страницы
+        window.addEventListener('load', function() {
+            var savedScroll = sessionStorage.getItem('scrollPosition');
+            if (savedScroll !== null) {
+                window.scrollTo(0, parseInt(savedScroll, 10));
+                sessionStorage.removeItem('scrollPosition');
+            }
+        });
+    </script>
+}
 <div class="main-body">
     <h3>Настройки принтера!</h3>
 

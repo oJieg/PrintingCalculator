@@ -51,6 +51,7 @@ namespace printing_calculator.controllers
             try
             {
                 var setting = await _settingStore.GetCloneSetting();
+                printingMachineSetting.Markups = setting.PrintingsMachine.Markups;
                 setting.PrintingsMachine = printingMachineSetting;
 
                 await _settingStore.SaveSettings(setting);
