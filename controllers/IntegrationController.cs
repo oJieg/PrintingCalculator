@@ -23,8 +23,8 @@ namespace printing_calculator.controllers
             _logger = logger;
         }
 
-        [HttpPost("api/test")]
-        public async Task<IActionResult> DealCalcelatorWiget([FromForm] CrmPlasmentRequest crmPlasmentRequest)
+        [HttpPost("api/deal_calculator_wiget")]
+        public async Task<IActionResult> DealCalculatorWiget([FromForm] CrmPlasmentRequest crmPlasmentRequest)
         {
 
             SettingsInfoForWigetCalculation settigWiget = await _wigetService.GetVievModelForWiget(crmPlasmentRequest);

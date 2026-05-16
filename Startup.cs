@@ -28,7 +28,8 @@ namespace printing_calculator
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SettingAuthorization>(_configuration.GetSection("SettingAuthorization"));
+            services.Configure<AuthorizationSettings>(_configuration.GetSection("AuthorizationSettings"));
+            services.Configure<IntegrationSettings>(_configuration.GetSection("IntegrationSettings"));
 
             services.AddSingleton<ITokenGenerator, SecurityCryptographyTokenGenerator>();
             services.AddSingleton<ITokenStore, TokensStore>();

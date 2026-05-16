@@ -12,9 +12,9 @@ namespace printing_calculator.controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly SettingAuthorization _settingAuthorization;
+        private readonly AuthorizationSettings _settingAuthorization;
 
-        public AccountController(IOptions<SettingAuthorization> settingAuthorization)
+        public AccountController(IOptions<AuthorizationSettings> settingAuthorization)
         {
             _settingAuthorization = settingAuthorization.Value;
         }

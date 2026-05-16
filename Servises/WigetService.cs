@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using printing_calculator.Clients;
-using printing_calculator.controllers;
-using printing_calculator.controllers.WebApi.RequestModels;
-using printing_calculator.Servises.Interface;
-using printing_calculator.ViewModels;
-using System.Text.Json;
 using printing_calculator.Clients.AnswerModels;
 using printing_calculator.Clients.RequestModels;
-using printing_calculator.Singletones.Interfases;
+using printing_calculator.controllers;
+using printing_calculator.controllers.WebApi.RequestModels;
 using printing_calculator.Exceptions;
-using System.Text.Json.Serialization;
+using printing_calculator.Models;
+using printing_calculator.Servises.Interface;
+using printing_calculator.Singletones.Interfases;
+using printing_calculator.ViewModels;
 using System.Text.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace printing_calculator.Servises
 {
@@ -21,18 +23,20 @@ namespace printing_calculator.Servises
         private readonly IBitrixWithAauthApi _bitrixApi;
         private readonly ITokenStore _tokenStore;
 
-        private const string INPUT_UF = "ufCrm_1774865963554"; // todo в конфиги
+        private readonly IntegrationSettings _integrationSettings;
 
         private readonly ILogger<CalculatorController> _logger;
 
         public WigetService(IBitrixWithAauthApi bitrixApi, 
             ILogger<CalculatorController> logger,
             ISettingStore settingStore,
+            IOptions<IntegrationSettings> integrationSettings,
             ITokenStore tokenStore)
         {
             _bitrixApi = bitrixApi; //todo поменять на версию с токеном
             _settingStore = settingStore;
             _tokenStore = tokenStore;
+            _integrationSettings = integrationSettings.Value;
             _logger = logger;
         }
 
@@ -68,7 +72,7 @@ namespace printing_calculator.Servises
 
             try
             {
-                JsonElement historyInput = (JsonElement)fieldDeal.Result.Item[INPUT_UF];
+                JsonElement historyInput = (JsonElement)fieldDeal.Result.Item[_integrationSettings.InpitUf];
 
                 string[]? jsonStrings = JsonSerializer.Deserialize<string[]>(historyInput.GetRawText());
 

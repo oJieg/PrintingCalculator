@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using printing_calculator.Clients;
-using printing_calculator.Clients.AnswerModels;
 using printing_calculator.Clients.DTO;
 using printing_calculator.Clients.RequestModels;
-using printing_calculator.DataBase;
 using printing_calculator.Exceptions;
 using printing_calculator.Models;
 using printing_calculator.Singletones.Interfases;
 using printing_calculator.ViewModels;
-using printing_calculator.ViewModels.Result;
 using System.Net;
 using System.Text.Json;
 
@@ -18,43 +16,45 @@ namespace printing_calculator.controllers.WebApi
     public class IntegrationApiController : ControllerBase
     {
         public readonly IBitrixWithAauthApi _bitrixApi;
-        //private readonly ApplicationContext _applicationContext;
-        private const string PRODUCT_UF = "ufCrm_1774601696653"; //TODO вынести в конфиги
-        private const string INPUT_UF = "ufCrm_1774865963554";
+        private readonly IntegrationSettings _integrationSettings;
         private readonly ITokenStore _tokenStore;
         private readonly ISettingStore _settingStore;
 
-        public IntegrationApiController(IBitrixWithAauthApi bitrixApi, ITokenStore tokenStore, ISettingStore settingStore)
+        public IntegrationApiController(IBitrixWithAauthApi bitrixApi,
+            ITokenStore tokenStore,
+            IOptions<IntegrationSettings> integrationSettings,
+            ISettingStore settingStore)
         {
             _bitrixApi = bitrixApi;
             _tokenStore = tokenStore;
             _settingStore = settingStore;
-            //_applicationContext = context;
+            _integrationSettings = integrationSettings.Value;
         }
         [HttpPut("api/set-field-crm")]
         public async Task<ActionResult<InputForWiget[]>> SetFieldCrm(CalculatorFullResult result)
         {
             var token = _tokenStore.GetDealAutorizationInfo(result.Token);
-            if (token.DealId != result.DealId) {
+            if (token.DealId != result.DealId)
+            {
                 return Unauthorized();
             }
 
             foreach (InputForWiget input in result.Inputs)
             {
-                if (input.Name == null) 
+                if (input.Name == null)
                 {
                     input.Name = $@"{input.Whidth}x{input.Height}, {input.Amount}x{input.Kinds}, {input.Paper}, {input.Price}руб.";
-                } 
+                }
             }
-            
+
 
             var fields = new FieldsDetailUpdate()
             {
                 opportunity = result.Inputs.Sum(x => x.Price),
                 DynamicFields = new Dictionary<string, object>()
                 {
-                    [INPUT_UF] = result.Inputs.Select(x => JsonSerializer.Serialize(x)).ToArray(),
-                    [PRODUCT_UF] =  result.Inputs.Select(x => x.Name).ToArray(),
+                    [_integrationSettings.InpitUf] = result.Inputs.Select(x => JsonSerializer.Serialize(x)).ToArray(),
+                    [_integrationSettings.ProductUf] = result.Inputs.Select(x => x.Name).ToArray(),
                 }
             };
             try
@@ -89,15 +89,5 @@ namespace printing_calculator.controllers.WebApi
             public int DealId { get; set; }
             public string Token { get; set; }
         }
-
-        [HttpPost("api/test2")]
-        public async Task Test2()
-        {
-
-            //await _settingStore.SaveSettings( SettingCalculationGenerator.GenerateRandomSettingCalculation());
-            ISettingCalculation x = await _settingStore.GetSettings();
-            return;
-        }
-
     }
 }
