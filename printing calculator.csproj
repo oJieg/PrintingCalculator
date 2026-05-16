@@ -15,6 +15,9 @@
     <Content Remove="Views\ValuesProcessing\**" />
     <EmbeddedResource Remove="Views\ValuesProcessing\**" />
     <None Remove="Views\ValuesProcessing\**" />
+    <Content Update="settingPrint.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

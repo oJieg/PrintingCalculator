@@ -46,26 +46,6 @@ namespace printing_calculator.controllers
                     "и laminations");
             }
 
-            //if (historyId != 0)
-            //{
-            //    try
-            //    {
-            //        PaperAndHistoryInput.Input = (await _settingStore.Histories
-            //            .Where(historys => historys.Id == historyId)
-            //            .Include(historys => historys.Input)
-            //            .FirstAsync(cancellationToken))
-            //            .Input;
-            //    }
-            //    catch (OperationCanceledException)
-            //    {
-            //        return new EmptyResult();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _logger.LogError(ex, "error add DataBase historyID = {HistoryId}", historyId);
-            //    }
-            //}
-
             return View("Calculator", PaperAndHistoryInput);
         }
     }

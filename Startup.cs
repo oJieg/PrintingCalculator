@@ -1,14 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using printing_calculator.Clients;
 using printing_calculator.Models;
 using printing_calculator.Models.Calculating;
+using printing_calculator.Servises;
+using printing_calculator.Servises.Interface;
+using printing_calculator.Singletones;
+using printing_calculator.Singletones.Interfases;
+using Refit;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Refit;
-using printing_calculator.Servises.Interface;
-using printing_calculator.Servises;
-using printing_calculator.Singletones.Interfases;
-using printing_calculator.Singletones;
 
 namespace printing_calculator
 {
@@ -23,6 +28,8 @@ namespace printing_calculator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SettingAuthorization>(_configuration.GetSection("SettingAuthorization"));
+
             services.AddSingleton<ITokenGenerator, SecurityCryptographyTokenGenerator>();
             services.AddSingleton<ITokenStore, TokensStore>();
             services.AddSingleton<ISettingStore, SettingStore>();
@@ -35,9 +42,6 @@ namespace printing_calculator
 
             services.AddMvc();
 
-            string ConectionString = _configuration.GetConnectionString("DefaultConnection");
-           // services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(ConectionString));
-
             services
                 .AddRefitClient<IBitrixApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://b24-j3159k.bitrix24.ru/rest/1/b821b0099i4m2kkg"));
@@ -45,8 +49,51 @@ namespace printing_calculator
                 .AddRefitClient<IBitrixWithAauthApi>()
                 .ConfigureHttpClient(x => x.BaseAddress = new Uri("https://b24-j3159k.bitrix24.ru/rest"));
 
-            services.AddControllers().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllers()
+                .AddMvcOptions( option =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                    option.Filters.Add(new AuthorizeFilter(policy));
+                })
+                .AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            
             services.AddSwaggerGen();
+
+            bool isProd = _configuration.GetValue<bool>("IsProd");
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Account/Login";
+                    option.Cookie.HttpOnly = true;
+                    option.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    
+                    option.Cookie.SameSite = isProd? SameSiteMode.Lax: SameSiteMode.None;
+                    option.Events.OnRedirectToLogin = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api"))
+                        {
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            return Task.CompletedTask;
+                        }
+                        context.Response.Redirect(context.RedirectUri);
+                        return Task.CompletedTask;
+                    };
+                    option.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api"))
+                        {
+                            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                            return Task.CompletedTask;
+                        }
+                        context.Response.Redirect(context.RedirectUri);
+                        return Task.CompletedTask;
+                    };
+                });
+
+            services.AddAuthorization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -59,8 +106,12 @@ namespace printing_calculator
             }
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+
             app.UseStaticFiles();
             app.UseRouting(); // используем систему маршрутизации
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSwaggerUI(options =>
             {

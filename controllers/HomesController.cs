@@ -15,7 +15,8 @@ namespace printing_calculator.controllers
 
         public async Task<IActionResult> Index()
         {
-            return View("Page");
+            return RedirectToAction("Index", "Calculator");
+
         }
 
         public IActionResult Changelog()

@@ -1,0 +1,201 @@
+﻿/* ----- Стили для страницы входа ----- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.login-card {
+    max-width: 420px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border-left: 6px solid #8fbc8f;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 2rem 2rem 2.5rem;
+    transition: box-shadow 0.3s ease;
+}
+
+    .login-card:hover {
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.login-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #2c3e2c;
+    letter-spacing: -0.3px;
+}
+
+/* Группа полей */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: #3a5e3a;
+    letter-spacing: 0.3px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 10px 12px 20px;
+    background-color: #f4f4f4;
+    border: none;
+    border-left: 7px solid #8fbc8f;
+    border-radius: 0 15px 15px 0;
+    font-size: 1rem;
+    outline: none;
+    transition: border-left-color 0.3s, background-color 0.3s, border-radius 0.2s;
+    box-sizing: border-box;
+}
+
+    .input-field:focus {
+        border-left-color: #92e4e8;
+        background-color: #e3eaee;
+        border-radius: 0 8px 8px 0;
+    }
+
+/* Сообщения об ошибках */
+.validation-error {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: #d9534f;
+}
+
+.validation-summary {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    color: #721c24;
+    font-size: 0.9rem;
+}
+
+    .validation-summary ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+
+/* ----- Новый стиль чекбокса (простой, но приятный) ----- */
+.checkbox-group {
+    margin: 1.2rem 0 1.8rem;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #2c3e2c;
+    user-select: none;
+}
+
+    /* Прячем оригинальный чекбокс, но оставляем доступным для фокуса/клика */
+    .checkbox-label input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* Создаём кастомный блок */
+.checkbox-custom {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-color: #fff;
+    border: 2px solid #adb5bd;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+}
+
+/* Состояние при фокусе или наведении */
+.checkbox-label input:focus + .checkbox-custom {
+    border-color: #8fbc8f;
+    box-shadow: 0 0 0 2px rgba(143, 188, 143, 0.3);
+}
+
+.checkbox-label:hover .checkbox-custom {
+    border-color: #8fbc8f;
+}
+
+/* Состояние checked */
+.checkbox-label input:checked + .checkbox-custom {
+    background-color: #8fbc8f;
+    border-color: #8fbc8f;
+}
+
+    /* Галочка (рисуем с помощью псевдоэлемента) */
+    .checkbox-label input:checked + .checkbox-custom::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 2px;
+        left: 6px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+/* Отключенное состояние (на всякий случай) */
+.checkbox-label input:disabled + .checkbox-custom {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    cursor: not-allowed;
+}
+
+/* Кнопка входа */
+.login-button {
+    background-color: #8fbc8f;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.3s, background-color 0.2s;
+    letter-spacing: 0.5px;
+}
+
+    .login-button:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        background-color: #7dab7d;
+    }
+
+    .login-button:active {
+        background-color: #92e4e8;
+        transform: scale(0.98);
+        transition: transform 0.05s;
+    }
+
+/* Адаптивность */
+@media (max-width: 500px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+
+    .input-field {
+        padding: 10px 10px 10px 15px;
+    }
+}

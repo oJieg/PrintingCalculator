@@ -1,0 +1,36 @@
+﻿@using printing_calculator.ViewModels;
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Вход в систему";
+}
+
+
+    <link rel="stylesheet" type="text/css" href="/login.css">
+
+
+<div class="login-container">
+    <div class="login-card">
+        <h2 class="login-title">@ViewData["Title"]</h2>
+
+        <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+            @Html.AntiForgeryToken()
+
+            @* <div asp-validation-summary="All" class="validation-summary"></div> *@
+
+            <div class="input-group">
+                <label asp-for="Username" class="input-label"></label>
+                <input asp-for="Username" name="Username" class="input-field" placeholder="Имя пользователя" autofocus />
+                <span asp-validation-for="Username" class="validation-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="Password" class="input-label"></label>
+                <input asp-for="Password" name="Password" class=" input-field" placeholder="Пароль" type="password" />
+                <span asp-validation-for="Password" class="validation-error"></span>
+            </div>
+
+
+            <button type="submit" class="login-button">Войти</button>
+        </form>
+    </div>
+</div>
