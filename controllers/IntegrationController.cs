@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using printing_calculator.Clients;
 using printing_calculator.controllers.WebApi.RequestModels;
-using printing_calculator.Servises;
 using printing_calculator.Servises.Interface;
 using printing_calculator.ViewModels;
-using System.Text.Json;
-
 
 namespace printing_calculator.controllers
 {
@@ -24,6 +19,7 @@ namespace printing_calculator.controllers
         }
 
         [HttpPost("api/deal_calculator_wiget")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DealCalculatorWiget([FromForm] CrmPlasmentRequest crmPlasmentRequest)
         {
 

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    image: myapp:latest
+    container_name: myapp
+    restart: unless-stopped
+    networks:
+      - webnet
+    ports:
+      - "8080:80"              
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - AuthorizationSettings__Login=1
+      - AuthorizationSettings__Password=1
+
+  nginx:
+    image: nginx:alpine                   
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    networks:
+      - webnet
+    depends_on:
+      - app
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge

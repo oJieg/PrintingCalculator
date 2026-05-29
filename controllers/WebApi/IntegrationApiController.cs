@@ -30,7 +30,10 @@ namespace printing_calculator.controllers.WebApi
             _settingStore = settingStore;
             _integrationSettings = integrationSettings.Value;
         }
+
         [HttpPut("api/set-field-crm")]
+        [ValidateAntiForgeryToken]
+
         public async Task<ActionResult<InputForWiget[]>> SetFieldCrm(CalculatorFullResult result)
         {
             var token = _tokenStore.GetDealAutorizationInfo(result.Token);

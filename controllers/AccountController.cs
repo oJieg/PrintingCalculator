@@ -50,7 +50,7 @@ namespace printing_calculator.controllers
                 var authProperties = new AuthenticationProperties
                 {
                     IsPersistent = true, // если был чекбокс "Запомнить"
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2)
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
                 };
 
                 await HttpContext.SignInAsync(
